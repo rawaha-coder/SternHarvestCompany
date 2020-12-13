@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<AnchorPane fx:id="fxAddProductUI" xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="harvest.ui.product.AddProductController"
+            prefHeight="700.0" prefWidth="400.0"
+            stylesheets="@../../style.css">
+
+    <children>
+        <VBox prefHeight="600.0" prefWidth="300.0" spacing="15.0" styleClass="test" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <ComboBox fx:id="fxProductName" editable="true" prefHeight="40.0" prefWidth="369.0" promptText="Product Name">
+                    <VBox.margin>
+                        <Insets bottom="10.0" left="5.0" right="5.0" top="15.0" />
+                    </VBox.margin>
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </padding>
+                </ComboBox>
+                <ComboBox fx:id="fxProductType" editable="true" prefHeight="40.0" prefWidth="374.0" promptText="Product Type">
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </VBox.margin>
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </padding>
+                </ComboBox>
+                <TextField fx:id="fxProductCode" layoutX="10.0" layoutY="10.0" minHeight="20.0" minWidth="100.0" prefColumnCount="0" prefHeight="40.0" prefWidth="100.0" promptText="Product Code">
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </padding>
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </VBox.margin>
+                </TextField>
+                <TextField fx:id="fxProductPrice1" prefHeight="40.0" prefWidth="200.0" promptText="Product Price 1">
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </padding>
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </VBox.margin>
+                </TextField>
+                <TextField fx:id="fxProductPrice2" prefHeight="40.0" prefWidth="300.0" promptText="Product Price 2">
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </padding>
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </VBox.margin>
+                </TextField>
+                <AnchorPane prefHeight="98.0" prefWidth="370.0">
+                    <children>
+                        <Button layoutX="258.0" layoutY="40.0" mnemonicParsing="false" onAction="#handleClearFieldsButton" text="Clear Fields" />
+                    </children>
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </VBox.margin>
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </padding>
+                </AnchorPane>
+                <HBox alignment="CENTER" prefHeight="111.0" prefWidth="380.0">
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#handleSaveButton" prefHeight="50.0" prefWidth="260.0" text="Save">
+                            <HBox.margin>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                            </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#handleCancelButton" prefHeight="50.0" prefWidth="260.0" text="Cancel">
+                            <HBox.margin>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                            </HBox.margin>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
+            <padding>
+                <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+            </padding>
+        </VBox>
+    </children>
+
+</AnchorPane>

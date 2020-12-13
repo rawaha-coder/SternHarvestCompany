@@ -1,12 +1,11 @@
 package harvest;
 
-import harvest.util.AlertMaker;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -20,9 +19,12 @@ public class MainController implements Initializable {
 
     @FXML
     private BorderPane mainBorderPane;
+    @FXML
+    private Button fxAddEmployeeButton;
+    @FXML
+    private Button fxAddProductButton;
 
     private final Stage stage = new Stage(StageStyle.DECORATED);
-    private final AlertMaker alert = new AlertMaker();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -30,12 +32,22 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    void loadUIAddEmployee(ActionEvent event) {
-        loadAddWindow("/harvest/ui/employee/add_employee.fxml", "Add New Employee");
+    void loadUIAddEmployee() {
+        loadAddWindow("/harvest/ui/employee/add_employee.fxml", "Add New Employee", fxAddEmployeeButton);
     }
     @FXML
-    void setDisplayEmployee(ActionEvent event) {
+    void setDisplayEmployee() {
         setDisplayView("/harvest/ui/employee/display_employee.fxml");
+    }
+
+    @FXML
+    void loadUIAddProduct() {
+        loadAddWindow("/harvest/ui/product/add_product.fxml", "Add New Product", fxAddProductButton);
+
+    }
+    @FXML
+    void setDisplayProduct(){
+        setDisplayView("/harvest/ui/product/display_product.fxml");
     }
 
     public void setDisplayView(String location){
@@ -49,8 +61,9 @@ public class MainController implements Initializable {
         }
     }
 
-    private void loadAddWindow(String location, String title){
+    private void loadAddWindow(String location, String title, Button fxButton){
         try {
+            fxButton.disableProperty().bind(stage.showingProperty());
             Parent parent = FXMLLoader.load(MainController.class.getResource(location));
             stage.setTitle(title);
             stage.setScene(new Scene(parent));

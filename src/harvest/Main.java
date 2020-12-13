@@ -2,6 +2,7 @@ package harvest;
 
 import harvest.database.DBHandler;
 import harvest.viewmodel.EmployeeDAO;
+import harvest.viewmodel.ProductDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,6 +11,8 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+    DBHandler mDBHandler = DBHandler.getInstance();
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
@@ -17,6 +20,7 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 1400, 900));
         primaryStage.show();
         EmployeeDAO.createEmployeeTable();
+        ProductDAO.createProductTable();
     }
 
 
@@ -27,12 +31,12 @@ public class Main extends Application {
     @Override
     public void init() throws Exception {
         super.init();
-        DBHandler.dbConnect();
+        mDBHandler.dbConnect();
     }
 
     @Override
     public void stop() throws Exception {
         super.stop();
-        DBHandler.dbDisconnect();
+        mDBHandler.dbDisconnect();
     }
 }

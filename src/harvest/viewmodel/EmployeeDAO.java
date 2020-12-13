@@ -216,6 +216,7 @@ public class EmployeeDAO implements IViewModelDAO {
     //*******************************
     //SELECT employee Name and Id
     //*******************************
+
 //    public List<Employee> getEmployeeIdAndName() throws SQLException {
 //        List<Employee> list = new ArrayList<>();
 //        String selectStmt = "SELECT "
@@ -243,25 +244,26 @@ public class EmployeeDAO implements IViewModelDAO {
     //*******************************
     //SELECT selected employees
     //*******************************
-//    public List<String> getSelectedEmployeeName() throws SQLException {
-//        List<String> list = new ArrayList<>();
-//        String selectStmt = "SELECT "
-//                + COLUMN_EMPLOYEE_FIRST_NAME + ", "
-//                + COLUMN_EMPLOYEE_LAST_NAME + " "
-//                + " FROM " + TABLE_EMPLOYEE + " "
-//                + " WHERE " + COLUMN_EMPLOYEE_STATUS + " = " + 1 + " ;";
-//        try {
-//            ResultSet resultSet = DBHandler.dbExecuteQuery(selectStmt);
-//            while (resultSet.next()) {
-//                list.add(Validation.getFullName(resultSet.getString(1), resultSet.getString(2)));
-//            }
-//            System.out.println("getSelectedEmployee() :");
-//            return list;
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            throw e;
-//        }
-//    }
+    /*
+    public List<String> getSelectedEmployeeName() throws SQLException {
+        List<String> list = new ArrayList<>();
+        String selectStmt = "SELECT "
+                + COLUMN_EMPLOYEE_FIRST_NAME + ", "
+                + COLUMN_EMPLOYEE_LAST_NAME + " "
+                + " FROM " + TABLE_EMPLOYEE + " "
+                + " WHERE " + COLUMN_EMPLOYEE_STATUS + " = " + 1 + " ;";
+        try {
+            ResultSet resultSet = DBHandler.dbExecuteQuery(selectStmt);
+            while (resultSet.next()) {
+                list.add(Validation.getFullName(resultSet.getString(1), resultSet.getString(2)));
+            }
+            System.out.println("getSelectedEmployee() :");
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }*/
 
 
 }

@@ -57,7 +57,7 @@ public class DBHandler {
 
 
     //Connect to Database
-    public static void dbConnect() {
+    public void dbConnect() {
         try {
             connection = DriverManager.getConnection(CONNECTION_URL);
             System.out.println("Connect to database :)");
@@ -68,7 +68,7 @@ public class DBHandler {
     }
 
     //Close Database Connection
-    public static void dbDisconnect() {
+    public void dbDisconnect() {
         try {
             if (connection != null) {
                 connection.close();

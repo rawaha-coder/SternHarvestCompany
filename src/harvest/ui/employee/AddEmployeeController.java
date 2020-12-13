@@ -6,6 +6,7 @@ import harvest.util.Validation;
 import harvest.viewmodel.EmployeeDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -22,6 +23,7 @@ public class AddEmployeeController implements Initializable {
     private final Employee mEmployee = new Employee();
     private final AlertMaker alert = new AlertMaker();
     private final EmployeeDAO mEmployeeDAO = new EmployeeDAO();
+    public Button fxSaveButton;
     @FXML
     private TextField fxFirstName;
     @FXML
@@ -35,7 +37,7 @@ public class AddEmployeeController implements Initializable {
     @FXML
     private CheckBox fxEmployeeStatus;
     @FXML
-    private AnchorPane fxAddItemUI;
+    private AnchorPane fxAddEmployeeUI;
     private Boolean isEditStatus = Boolean.FALSE;
 
     @FXML
@@ -118,9 +120,8 @@ public class AddEmployeeController implements Initializable {
 
     @FXML
     private void handleCancelButton() {
-        Stage stage = (Stage) fxAddItemUI.getScene().getWindow();
+        Stage stage = (Stage) fxAddEmployeeUI.getScene().getWindow();
         stage.close();
-        System.out.println("Cancel...");
     }
 
     @FXML
