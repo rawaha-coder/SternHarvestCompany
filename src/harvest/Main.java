@@ -1,6 +1,7 @@
 package harvest;
 
 import harvest.database.DBHandler;
+import harvest.viewmodel.EmployeeDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,6 +16,7 @@ public class Main extends Application {
         primaryStage.setTitle("Stern harvest Company");
         primaryStage.setScene(new Scene(root, 1400, 900));
         primaryStage.show();
+        EmployeeDAO.createEmployeeTable();
     }
 
 

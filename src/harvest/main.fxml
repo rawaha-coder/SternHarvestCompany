@@ -18,7 +18,7 @@
 <StackPane prefHeight="768" prefWidth="1024"
            stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1"
            xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="harvest.Controller">
+           fx:controller="harvest.MainController">
     <children>
         <BorderPane fx:id="mainBorderPane" stylesheets="@style.css">
             <top>
@@ -29,11 +29,6 @@
                                 <Menu mnemonicParsing="false" text="File">
                                     <items>
                                         <MenuItem mnemonicParsing="false" text="Close" />
-                                    </items>
-                                </Menu>
-                                <Menu mnemonicParsing="false" text="Calculation">
-                                    <items>
-                                        <MenuItem fx:id="fxHoursWorkCalculation" mnemonicParsing="false"  text="Hours Work Calculation" />
                                     </items>
                                 </Menu>
                                 <Menu mnemonicParsing="false" text="Add">
@@ -68,8 +63,7 @@
                                 <ToggleButton toggleGroup="$topMenu" fx:id="hoursWorkButton"  prefHeight="30" prefWidth="140" text="Hours Work" />
                                 <ToggleButton fx:id="individualWorkButton"  prefHeight="30" prefWidth="140" text="Individual Work" toggleGroup="$topMenu" />
                                 <ToggleButton fx:id="groupWorkButton"  prefHeight="30" prefWidth="140" text="Group Work" toggleGroup="$topMenu" />
-                                <ToggleButton fx:id="balanceButton"  prefHeight="30" prefWidth="140" text="Balance" toggleGroup="$topMenu" />
-                                <ToggleButton fx:id="employeeButton"  prefHeight="30" prefWidth="120" text="Employees" toggleGroup="$topMenu" />
+                                <ToggleButton fx:id="employeeButton" onAction="#setDisplayEmployee" prefHeight="30" prefWidth="120" text="Employees" toggleGroup="$topMenu" />
                                 <ToggleButton fx:id="productButton"  prefHeight="30" prefWidth="120" text="Products" toggleGroup="$topMenu" />
                                 <ToggleButton fx:id="farmButton"  prefHeight="30" prefWidth="120" text="Farms" toggleGroup="$topMenu" />
                                 <ToggleButton fx:id="supplierButton"  prefHeight="30" prefWidth="140" text="Supplier" toggleGroup="$topMenu" />
@@ -101,8 +95,7 @@
             </right>
             <bottom>
                 <HBox>
-                    <ProgressBar prefWidth="300" prefHeight="10" progress="Infinity">
-                    </ProgressBar>
+                    <ProgressBar prefWidth="300" prefHeight="10" progress="Infinity"/>
                 </HBox>
             </bottom>
         </BorderPane>

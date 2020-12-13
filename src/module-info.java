@@ -5,6 +5,7 @@ module SternHarvestCompany {
     requires java.sql;
 
     opens harvest.ui.employee;
+    opens harvest.model;
 
     opens harvest;
 }
