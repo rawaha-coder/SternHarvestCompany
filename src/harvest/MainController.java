@@ -8,7 +8,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -24,13 +23,17 @@ public class MainController implements Initializable {
     @FXML
     private BorderPane mainBorderPane;
     @FXML
-    private ToggleButton fxEmployeeBtn;
+    private ToggleButton fxEmployeeMenuBtn;
     @FXML
-    private ToggleButton fxProductBtn;
+    private ToggleButton fxProductMenuBtn;
+    @FXML
+    private ToggleButton fxTransportCreditMenuBtn;
     @FXML
     private Button fxAddEmployeeButton;
     @FXML
     private Button fxAddProductButton;
+    @FXML
+    private Button fxAddTransportCreditButton;
     @FXML
     private HBox fxHBoxTopMenu;
 
@@ -42,12 +45,21 @@ public class MainController implements Initializable {
     }
 
     @FXML
+    void loadUIAddCredit() {
+        loadAddWindow("/harvest/ui/credit/add_credit.fxml", "Add Transport / Credit", fxAddTransportCreditButton);
+    }
+    @FXML
+    void setDisplayCredit() {
+        setDisplayView("/harvest/ui/credit/display_credit.fxml", fxTransportCreditMenuBtn);
+    }
+
+    @FXML
     void loadUIAddEmployee() {
         loadAddWindow("/harvest/ui/employee/add_employee.fxml", "Add New Employee", fxAddEmployeeButton);
     }
     @FXML
     void setDisplayEmployee() {
-        setDisplayView("/harvest/ui/employee/display_employee.fxml", fxEmployeeBtn);
+        setDisplayView("/harvest/ui/employee/display_employee.fxml", fxEmployeeMenuBtn);
     }
 
     @FXML
@@ -57,7 +69,7 @@ public class MainController implements Initializable {
     }
     @FXML
     void setDisplayProduct(){
-        setDisplayView("/harvest/ui/product/display_product.fxml", fxProductBtn);
+        setDisplayView("/harvest/ui/product/display_product.fxml", fxProductMenuBtn);
     }
 
     public void setDisplayView(String location, ToggleButton fxButton){

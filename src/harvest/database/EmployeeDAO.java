@@ -145,7 +145,7 @@ public class EmployeeDAO extends DAO implements DAOList<Employee> {
                 + COLUMN_EMPLOYEE_LAST_NAME + ", "
                 + COLUMN_EMPLOYEE_HIRE_DATE + ", "
                 + COLUMN_EMPLOYEE_FIRE_DATE + ", "
-                + COLUMN_EMPLOYEE_PERMISSION_DATE + ") \n"
+                + COLUMN_EMPLOYEE_PERMISSION_DATE + ") "
                 + "VALUES (?,?,?,?,?,?);";
         try {
             preparedStatement = dbGetConnect().prepareStatement(insertStmt);

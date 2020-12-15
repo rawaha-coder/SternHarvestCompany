@@ -14,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.scene.control.Alert.AlertType;
 import java.net.URL;
+import java.sql.Date;
 import java.util.ResourceBundle;
 
 
@@ -54,9 +55,9 @@ public class AddEmployeeController implements Initializable {
             employee.setEmployeeStatus(fxEmployeeStatus.isSelected());
             employee.setEmployeeFirstName(fxFirstName.getText());
             employee.setEmployeeLastName(fxLastName.getText());
-            employee.setEmployeeHireDate(fxHireDate.getValue());
-            employee.setEmployeeFireDate(fxFireDate.getValue());
-            employee.setEmployeePermissionDate(fxPermissionDate.getValue());
+            employee.setEmployeeHireDate(Date.valueOf(fxHireDate.getValue()));
+            employee.setEmployeeFireDate(Date.valueOf(fxFireDate.getValue()));
+            employee.setEmployeePermissionDate(Date.valueOf(fxPermissionDate.getValue()));
             if (mEmployeeDAO.addData(employee))
             {
                 mEmployeeDAO.updateLiveData();
@@ -72,9 +73,9 @@ public class AddEmployeeController implements Initializable {
         employee.setEmployeeStatus(fxEmployeeStatus.isSelected());
         employee.setEmployeeFirstName(fxFirstName.getText());
         employee.setEmployeeLastName(fxLastName.getText());
-        employee.setEmployeeHireDate(fxHireDate.getValue());
-        employee.setEmployeeFireDate(fxFireDate.getValue());
-        employee.setEmployeePermissionDate(fxPermissionDate.getValue());
+        employee.setEmployeeHireDate(Date.valueOf(fxHireDate.getValue()));
+        employee.setEmployeeFireDate(Date.valueOf(fxFireDate.getValue()));
+        employee.setEmployeePermissionDate(Date.valueOf(fxPermissionDate.getValue()));
         if (mEmployeeDAO.editData(employee)) {
             handleClearFieldsButton();
             mEmployeeDAO.updateLiveData();
@@ -105,9 +106,9 @@ public class AddEmployeeController implements Initializable {
     public void inflateUI(Employee employee) {
         fxFirstName.setText(employee.getEmployeeFirstName());
         fxLastName.setText(employee.getEmployeeLastName());
-        fxHireDate.setValue(employee.getHireLocalDate());
-        fxFireDate.setValue(employee.getFireLocalDate());
-        fxPermissionDate.setValue(employee.getPermissionLocalDate());
+        fxHireDate.setValue(employee.getEmployeeHireDate().toLocalDate());
+        fxFireDate.setValue(employee.getEmployeeFireDate().toLocalDate());
+        fxPermissionDate.setValue(employee.getEmployeePermissionDate().toLocalDate());
         fxEmployeeStatus.setSelected(employee.isEmployeeStatus());
         isEditStatus = Boolean.TRUE;
         mEmployee.setEmployeeId(employee.getEmployeeId());

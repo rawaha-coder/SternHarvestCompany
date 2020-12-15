@@ -15,7 +15,8 @@
 <?import javafx.scene.layout.VBox?>
 
 <StackPane prefHeight="768" prefWidth="1024"
-           stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1"
+           stylesheets="@style.css"
+           xmlns="http://javafx.com/javafx/11.0.1"
            xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="harvest.MainController">
     <BorderPane fx:id="mainBorderPane" stylesheets="@style.css">
@@ -54,11 +55,11 @@
                         <ToggleButton toggleGroup="$topMenu" prefHeight="30" prefWidth="140" text="Hours Work"  />
                         <ToggleButton toggleGroup="$topMenu" prefHeight="30" prefWidth="140" text="Individual Work" />
                         <ToggleButton toggleGroup="$topMenu" prefHeight="30" prefWidth="140" text="Group Work" />
-                        <ToggleButton toggleGroup="$topMenu" prefHeight="30" prefWidth="160" text="Transport / Credit" />
-                        <ToggleButton fx:id="fxEmployeeBtn" toggleGroup="$topMenu" onAction="#setDisplayEmployee" prefHeight="30" prefWidth="120" text="Employees" />
+                        <ToggleButton fx:id="fxTransportCreditMenuBtn" onAction="#setDisplayCredit" toggleGroup="$topMenu"  prefHeight="30" prefWidth="160" text="Transport / Credit" />
+                        <ToggleButton fx:id="fxEmployeeMenuBtn" onAction="#setDisplayEmployee" toggleGroup="$topMenu"  prefHeight="30" prefWidth="120" text="Employees" />
                         <ToggleButton toggleGroup="$topMenu" prefHeight="30" prefWidth="140" text="Supplier" />
                         <ToggleButton toggleGroup="$topMenu" prefHeight="30" prefWidth="120" text="Farms" />
-                        <ToggleButton fx:id="fxProductBtn" toggleGroup="$topMenu" onAction="#setDisplayProduct" prefHeight="30" prefWidth="120" text="Products" />
+                        <ToggleButton fx:id="fxProductMenuBtn" onAction="#setDisplayProduct" toggleGroup="$topMenu" prefHeight="30" prefWidth="120" text="Products" />
                     </children>
                     <padding>
                         <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
@@ -71,6 +72,15 @@
         <right>
             <VBox prefHeight="700.0" prefWidth="150.0" BorderPane.alignment="CENTER">
                 <children>
+                    <Button fx:id="fxAddTransportCreditButton" onAction="#loadUIAddCredit" contentDisplay="TOP" mnemonicParsing="false" prefHeight="50.0" prefWidth="146.0" text="Transport / Credit">
+                        <graphic>
+                            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@icon/ic_shortcut_assignment_ind.png"/>
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
                     <Button fx:id="fxAddEmployeeButton" onAction="#loadUIAddEmployee" contentDisplay="TOP" mnemonicParsing="false" prefHeight="50.0" prefWidth="146.0" text="Add Employee">
                         <graphic>
                             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">

@@ -1,6 +1,5 @@
 package harvest.model;
 
-import harvest.util.Validation;
 import javafx.beans.property.*;
 
 import java.time.LocalDate;
@@ -78,10 +77,6 @@ public class Employee {
         this.employeeLastName.set(employeeLastName);
     }
 
-    public String getEmployeeFullName() {
-        return employeeFullName.get();
-    }
-
     public void setEmployeeFullName(String employeeFullName) {
         this.employeeFullName.set(employeeFullName);
     }
@@ -90,64 +85,23 @@ public class Employee {
         return employeeHireDate.get();
     }
 
-    public LocalDate getHireLocalDate() {
-        LocalDate localD = employeeHireDate.get().toLocalDate();
-        return localD;
-    }
-
-    public ObjectProperty<Date> employeeHireDateProperty() {
-        return employeeHireDate;
-    }
-
     public void setEmployeeHireDate(Date employeeHireDate) {
         this.employeeHireDate.set(employeeHireDate);
-    }
-
-    public void setEmployeeHireDate(LocalDate localDate) {
-        Date date = Date.valueOf(localDate);
-        this.employeeHireDate.set(date);
     }
 
     public Date getEmployeeFireDate() {
         return employeeFireDate.get();
     }
 
-    public LocalDate getFireLocalDate() {
-        LocalDate localD = employeeFireDate.get().toLocalDate();
-        return localD;
-    }
-
-    public ObjectProperty<Date> employeeFireDateProperty() {
-        return employeeFireDate;
-    }
-
     public void setEmployeeFireDate(Date employeeFireDate) {
         this.employeeFireDate.set(employeeFireDate);
-    }
-
-    public void setEmployeeFireDate(LocalDate localDate) {
-        Date date = Date.valueOf(localDate);
-        this.employeeFireDate.set(date);
     }
 
     public Date getEmployeePermissionDate() {
         return employeePermissionDate.get();
     }
 
-    public LocalDate getPermissionLocalDate() {
-        LocalDate localD = employeePermissionDate.get().toLocalDate();
-        return localD;
-    }
-
-    public ObjectProperty<Date> employeePermissionDateProperty() {
-        return employeePermissionDate;
-    }
-
     public void setEmployeePermissionDate(Date employeePermissionDate) {
         this.employeePermissionDate.set(employeePermissionDate);
-    }
-    public void setEmployeePermissionDate(LocalDate localDate) {
-        Date date = Date.valueOf(localDate);
-        this.employeePermissionDate.set(date);
     }
 }

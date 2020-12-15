@@ -1,5 +1,6 @@
 package harvest;
 
+import harvest.database.CreditDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,6 +9,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+   // CreditDAO mCreditDAO = CreditDAO.getInstance();
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -15,6 +17,7 @@ public class Main extends Application {
         primaryStage.setTitle("Stern harvest Company");
         primaryStage.setScene(new Scene(root, 1400, 900));
         primaryStage.show();
+        //mCreditDAO.createCreditTable();
         //EmployeeDAO.createEmployeeTable();
         //ProductDAO.createProductTable();
     }

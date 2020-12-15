@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="harvest.ui.credit.DisplayCreditController"
+            fx:id="fxTableUI" stylesheets="@../../style.css"
+            prefHeight="768.0" prefWidth="Infinity">
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+    </padding>
+    <children>
+        <HBox layoutX="20.0" layoutY="20.0" prefHeight="768.0" prefWidth="Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <TableView fx:id="fxCreditTable" editable="true" prefHeight="500.0" prefWidth="900.0">
+                    <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY" /></columnResizePolicy>
+                    <columns>
+                        <TableColumn fx:id="fxCreditDateColumn" minWidth="90.0" prefWidth="100.0" text="Date" />
+                        <TableColumn fx:id="fxCreditEmployeeColumn" minWidth="140.0" prefWidth="200.0" text="Employees" />
+                        <TableColumn fx:id="fxCreditAmountColumn" minWidth="90.0" prefWidth="100.0" text="Credit" />
+                    </columns>
+                    <contextMenu>
+                        <ContextMenu>
+                            <items>
+                                <MenuItem fx:id="fxEditCredit" mnemonicParsing="false" onAction="#editCredit" text="Edit" />
+                                <MenuItem fx:id="fxDeleteCredit" mnemonicParsing="false" onAction="#deleteCredit" text="Delete" />
+                            </items>
+                        </ContextMenu>
+                    </contextMenu>
+                    <HBox.margin>
+                        <Insets right="5.0" />
+                    </HBox.margin>
+                    <padding>
+                        <Insets left="5.0" />
+                    </padding>
+                </TableView>
+                <TableView fx:id="fxTransportTable" editable="true" minWidth="700" prefHeight="500.0" prefWidth="900.0">
+                    <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY" /></columnResizePolicy>
+                    <columns>
+                        <TableColumn fx:id="fxTransportDateColumn" minWidth="90.0" prefWidth="100.0" text="Date" />
+                        <TableColumn fx:id="fxTransportEmployeeColumn" minWidth="140.0" prefWidth="200.0" text="Employee" />
+                        <TableColumn fx:id="fxTransportAmountColumn" minWidth="90.0" prefWidth="100.0" text="Amount" />
+                        <TableColumn fx:id="fxTransportDestinationColumn" minWidth="200.0" prefWidth="300.0" text="Destination" />
+                    </columns>
+                    <contextMenu>
+                        <ContextMenu>
+                            <items><!--
+                                <MenuItem fx:id="fxEditTransport" mnemonicParsing="false" onAction="#editTransport" text="Edit" />
+                                <MenuItem fx:id="fxDeleteTransport" mnemonicParsing="false" onAction="#deleteTransport" text="Delete" />-->
+                            </items>
+                        </ContextMenu>
+                    </contextMenu>
+                </TableView>
+            </children>
+        </HBox>
+    </children>
+</AnchorPane>

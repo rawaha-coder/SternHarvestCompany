@@ -73,8 +73,8 @@ public class AlertMaker {
         }
     }
 
-    public void deleteItem(String item, boolean isUpdated){
-        if (isUpdated){
+    public void deleteItem(String item, boolean isDeleted){
+        if (isDeleted){
             alert.setTitle("Delete Confirmation");
             alert.setHeaderText(item + " deleted");
             alert.setContentText(item + " information success to be deleted");
