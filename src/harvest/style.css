@@ -1,0 +1,280 @@
+/*
+    Dark theme
+*/
+
+* {
+    -fx-bg-color : #2B2B2B;
+    -fx-grey-border : grey;
+    -fx-2-color : #292C30;
+    -fx-3-color : #4A4A4A;
+    -fx-4-color : #5C5C5C;
+	-fx-5-color : #D9D9D9;
+	-fx-6-color : #F5F5F5;
+	-fx-7-color : #FFFFFF;
+	-fx-hover-color : #00B2EE;
+	-fx-selected-color : yellow;
+    -fx-focused-color : #FFFFFF;
+    -fx-white-text : #FFFFFF;
+    -fx-text-black : #000000;
+	-fx-other-text-color : #61a2b1;
+	-fx-linear-gradient-to-top: linear-gradient(to bottom, #93f9b944, #1dbbdd44);
+	-fx-linear-gradient-header-color: linear-gradient(to bottom, #1dbbdd44, #93f9b944);
+}
+
+/*
+=======================================================
+    main.fxml file styling
+=======================================================
+*/
+
+.root {
+	-fx-base: -fx-bg-color;
+    -fx-background-color : -fx-bg-color;
+    -fx-text-fill: -fx-white-text;
+    -fx-font-family: "Times New Roman";
+    -fx-font-size: 1.5em;
+}
+
+
+/* Menu bar styling */
+.menu-bar{
+	-fx-base: transparent;
+	-fx-background-color : transparent;
+	-fx-border-color: -fx-grey-border;
+}
+
+.context-menu{
+	-fx-background-color: -fx-bg-color;
+	-fx-border-color: -fx-selected-color;
+	-fx-border-size : 2px;
+}
+
+/* ToggleButton styling */
+.toggle-button{
+    -fx-text-fill: -fx-white-text;
+    -fx-font-family: "Arial Narrow";
+    -fx-font-weight: bold;
+    -fx-font-size: 1.5em;
+    -fx-cursor:hand;
+    -fx-background-color: transparent;
+    -fx-border-color: -fx-grey-border;
+            -fx-background-radius: 7 7 7 7;
+            -fx-border-radius: 7 7 7 7;
+}
+
+.toggle-button:hover{
+    -fx-background-color: -fx-hover-color;
+
+}
+
+.toggle-button:focused{
+    -fx-background-color: -fx-hover-color;
+
+}
+
+/* Button styling */
+.button {
+    -fx-text-fill: -fx-white-text;
+    -fx-font-family: "Arial Narrow";
+    -fx-font-weight: bold;
+    -fx-font-size: 1.5em;
+    -fx-cursor:hand;
+    -fx-background-color: transparent;
+    -fx-border-color: -fx-grey-border;
+        -fx-background-radius: 7 7 7 7;
+        -fx-border-radius: 7 7 7 7;
+}
+
+.button:hover{
+    -fx-background-color: -fx-hover-color;
+        -fx-background-radius: 7 7 7 7;
+        -fx-border-radius: 7 7 7 7;
+}
+
+.button:focused{
+    -fx-text-fill: -fx-text-black;
+    -fx-background-color: -fx-6-color;
+        -fx-background-radius: 7 7 7 7;
+        -fx-border-radius: 7 7 7 7;
+}
+
+.text-field{
+    -fx-background-color: -fx-other-text-color;
+    -fx-background-radius: 7 7 7 7;
+    -fx-border-radius: 7 7 7 7;
+    -fx-border-color: -fx-grey-border;
+    -fx-text-fill: -fx-white-text;
+    -fx-font-size: 1.3em;
+    -fx-font-weight:bold;
+    -fx-prompt-text-fill: -fx-white-text;
+
+
+}
+
+.text-field:focused{
+    -fx-background-color: -fx-3-color;
+    -fx-background-radius: 7 7 7 7;
+    -fx-border-radius: 7 7 7 7;
+}
+
+/* TableView styling */
+.table-view {
+    -fx-background-color: transparent;
+}
+
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+}
+
+/* Style of each column header in the tableView */
+.table-view .column-header-background{
+    -fx-background-color: -fx-linear-gradient-header-color;
+    -fx-background-radius: 7px 7px 0px 0px;
+    -fx-background-insets: 0 1px 0 1px;
+    -fx-padding: 5px 5px 5px 5px;
+}
+
+ /* Style of each column header's label  in the tableView */
+.table-view .column-header-background .label{
+    -fx-background-color: transparent;
+    -fx-font-weight:bold;
+    -fx-text-fill: white;
+}
+
+ /* Style of each column in the tableView */
+.table-view .table-column{
+    -fx-alignment:center;
+}
+
+ /* Style of each entire row in the table view */
+.table-row-cell{
+    -fx-background-color: #93f9b911;
+    -fx-text-background-color: white;
+    -fx-font-weight: bold;
+    -fx-text-size: 30px;
+    -fx-font-family: "Arial Narrow";
+}
+.table-row-cell:hover {
+    -fx-background-color: orange;
+    -fx-text-background-color: orange;
+}
+
+.table-row-cell: odd{
+    -fx-background-color: #93f9b911;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+}
+.table-row-cell: even{
+    -fx-background-color: #1dbbdd11;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: -fx-linear-gradient-to-top;
+    -fx-text-background-color: orange;
+}
+
+ /* Style of each table cell */
+.table-view .table-cell{
+    -fx-border-color: transparent;
+    -fx-padding: 5px 5px 5px 5px;
+    -fx-font-family: "Verdana";
+    -fx-font-weight:bold;
+    -fx-font-size:15px;
+    -fx-border-color: -fx-3-color;
+}
+
+
+ /* Style of checkbox */
+.check-box .box {
+ -fx-background-color: white;
+ -fx-border-color:-fx-grey-border;
+ -fx-border-radius:3px;
+}
+
+.check-box:selected .mark {
+ -fx-background-color: white;
+}
+
+.check-box:selected .box {
+ -fx-background-color: #28a3f4;
+}
+
+ /* Style of date picker */
+.date-picker > .text-field {
+    -fx-background-color: -fx-other-text-color;
+    -fx-background-insets: 0 0 0 0;
+    -fx-background-radius: 7 0 0 7;
+    -fx-border-radius: 7 0 0 7;
+    -fx-font-weight:bold;
+    -fx-font-size: 1.3em;
+}
+
+.date-picker:focused > .text-field,
+.date-picker > .text-field:focused {
+    -fx-background-color: -fx-3-color;
+    -fx-background-insets: 0 0 0 0;
+    -fx-background-radius: 7 0 0 7;
+    -fx-border-radius: 7 0 0 7;
+}
+
+
+.date-picker-popup > .month-year-pane {
+       -fx-padding: 0.588883em 0.5em 0.666667em 0.5em;
+       -fx-background-color: -fx-other-text-color;
+       -fx-background-insets: 0 0 0 0, 0 0 1 0;
+}
+
+.date-cell {
+       -fx-background-color: -fx-other-text-color;
+       -fx-font-family: "Andalus";
+       -fx-font-size: 16.0;
+       -fx-text-fill: white;
+}
+
+.date-cell:hover {
+       -fx-background-color: -fx-other-text-color;
+       -fx-font-family: "Andalus";
+       -fx-font-size: 16.0;
+       -fx-text-fill: white;
+}
+.date-cell.selected {
+       -fx-background-color: -fx-other-text-color;
+       -fx-font-family: "Andalus";
+       -fx-font-size: 16.0;
+       -fx-text-fill: white;
+}
+
+/* Choice box*/
+.choice-box{
+    -fx-background-color: -fx-other-text-color;
+    -fx-background-radius: 7 7 7 7;
+    -fx-border-radius: 7 7 7 7;
+    -fx-text-fill: -fx-white-text;
+    -fx-font-size: 1.3em;
+    -fx-font-weight:bold;
+    -fx-prompt-text-fill: -fx-white-text;
+}
+
+/*PieChart style*/
+
+.data0.chart-pie{
+    -fx-pie-color: BLUEVIOLET;
+}
+
+.data1.chart-pie{
+    -fx-pie-color: DODGERBLUE;
+}
+
+.chart-pie-label{
+    -fx-pie-color: white;
+    -fx-padding-bottom: 10px;
+}
+
+/*.combo-box*/
+
+.combo-box{
+    -fx-background-color: -fx-other-text-color;
+}
