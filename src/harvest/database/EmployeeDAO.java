@@ -37,24 +37,6 @@ public class EmployeeDAO extends DAO implements DAOList<Employee> {
     public static final String COLUMN_EMPLOYEE_FIRE_DATE = "fire_date";
     public static final String COLUMN_EMPLOYEE_PERMISSION_DATE = "permission_date";
 
-
-//    public void createEmployeeTable() throws SQLException {
-//        try {
-//            Statement statement = dbGetConnect().createStatement();
-//            statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_EMPLOYEE
-//                    + "(" + COLUMN_EMPLOYEE_ID + " INTEGER PRIMARY KEY, "
-//                    + COLUMN_EMPLOYEE_STATUS + " INTEGER NOT NULL, "
-//                    + COLUMN_EMPLOYEE_FIRST_NAME + " TEXT NOT NULL, "
-//                    + COLUMN_EMPLOYEE_LAST_NAME + " TEXT NOT NULL, "
-//                    + COLUMN_EMPLOYEE_HIRE_DATE + " DATE, "
-//                    + COLUMN_EMPLOYEE_FIRE_DATE + " DATE, "
-//                    + COLUMN_EMPLOYEE_PERMISSION_DATE + " DATE)");
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            throw e;
-//        }
-//    }
-
     //*************************************
     //Update Live data
     //*************************************
@@ -239,57 +221,24 @@ public class EmployeeDAO extends DAO implements DAOList<Employee> {
         }
     }
 
-    //*******************************
-    //SELECT employee Name and Id
-    //*******************************
+    /*
 
-//    public List<Employee> getEmployeeIdAndName() throws SQLException {
-//        List<Employee> list = new ArrayList<>();
-//        String selectStmt = "SELECT "
-//                + COLUMN_EMPLOYEE_ID + ", "
-//                + COLUMN_EMPLOYEE_FIRST_NAME + ", "
-//                + COLUMN_EMPLOYEE_LAST_NAME + " "
-//                + " FROM " + TABLE_EMPLOYEE + " ;";
+    //    public void createEmployeeTable() throws SQLException {
 //        try {
-//            ResultSet resultSet = DBHandler.dbExecuteQuery(selectStmt);
-//            while (resultSet.next()) {
-//                Employee employee = new Employee();
-//                employee.setEmployeeId(resultSet.getInt(1));
-//                employee.setEmployeeFirstName(resultSet.getString(2));
-//                employee.setEmployeeLastName(resultSet.getString(3));
-//                employee.setEmployeeFullName(Validation.getFullName(resultSet.getString(2), resultSet.getString(3)));
-//                list.add(employee);
-//            }
-//            return list;
+//            Statement statement = dbGetConnect().createStatement();
+//            statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_EMPLOYEE
+//                    + "(" + COLUMN_EMPLOYEE_ID + " INTEGER PRIMARY KEY, "
+//                    + COLUMN_EMPLOYEE_STATUS + " INTEGER NOT NULL, "
+//                    + COLUMN_EMPLOYEE_FIRST_NAME + " TEXT NOT NULL, "
+//                    + COLUMN_EMPLOYEE_LAST_NAME + " TEXT NOT NULL, "
+//                    + COLUMN_EMPLOYEE_HIRE_DATE + " DATE, "
+//                    + COLUMN_EMPLOYEE_FIRE_DATE + " DATE, "
+//                    + COLUMN_EMPLOYEE_PERMISSION_DATE + " DATE)");
 //        } catch (SQLException e) {
 //            e.printStackTrace();
 //            throw e;
 //        }
 //    }
 
-    //*******************************
-    //SELECT selected employees
-    //*******************************
-    /*
-    public List<String> getSelectedEmployeeName() throws SQLException {
-        List<String> list = new ArrayList<>();
-        String selectStmt = "SELECT "
-                + COLUMN_EMPLOYEE_FIRST_NAME + ", "
-                + COLUMN_EMPLOYEE_LAST_NAME + " "
-                + " FROM " + TABLE_EMPLOYEE + " "
-                + " WHERE " + COLUMN_EMPLOYEE_STATUS + " = " + 1 + " ;";
-        try {
-            ResultSet resultSet = DBHandler.dbExecuteQuery(selectStmt);
-            while (resultSet.next()) {
-                list.add(Validation.getFullName(resultSet.getString(1), resultSet.getString(2)));
-            }
-            System.out.println("getSelectedEmployee() :");
-            return list;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
-        }
-    }*/
-
-
+     */
 }

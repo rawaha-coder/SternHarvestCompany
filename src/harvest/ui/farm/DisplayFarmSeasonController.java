@@ -1,21 +1,25 @@
 package harvest.ui.farm;
 
 import harvest.database.FarmDAO;
-import harvest.database.SeasonDAO;
 import harvest.model.Farm;
 import harvest.model.Season;
 import harvest.util.AlertMaker;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -57,19 +61,18 @@ public class DisplayFarmSeasonController implements Initializable {
         fxSeasonTable.setItems(SEASON_LIST_LIVE_DATA);
         fxSeasonTable.getSelectionModel().selectFirst();
         observeSelectProduct();
-        mFarmDAO.updateSeasonListByFarm(FARM_LIST_LIVE_DATA.get(0));
-
     }
 
     private void observeSelectProduct(){
         fxFarmTable.getSelectionModel().selectedItemProperty().addListener(
                 (ObservableValue<? extends Farm> ov, Farm old_val, Farm new_val) -> {
-                    if (new_val != null)
-                    mFarmDAO.updateSeasonListByFarm(new_val);
+                    if (new_val != null){
+                        mFarmDAO.updateSeasonListByFarm(new_val);
+                        fxSeasonTable.getSelectionModel().selectFirst();
+                    }
                 }
         );
     }
-
 
     //***********************************************************************************
     //Farm operation
@@ -89,40 +92,83 @@ public class DisplayFarmSeasonController implements Initializable {
         assert result.isPresent();
         if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
             if (mFarmDAO.deleteDataById(farm.getFarmId())) {
-                mFarmDAO.updateLiveData();
                 alert.deleteItem("Farm", true);
+                fxFarmTable.getSelectionModel().selectFirst();
+                fxSeasonTable.getSelectionModel().selectFirst();
             } else {
                 alert.deleteItem("Farm", false);
             }
         } else {
             alert.cancelOperation("Delete");
         }
-
-        try {
-            mFarmDAO.deleteDataById(farm.getFarmId());
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
     }
 
     @FXML
-    void editFarm(ActionEvent event) {
-
+    void editFarm() {
+        Farm farm = fxFarmTable.getSelectionModel().getSelectedItem();
+        if (farm == null) {
+            alert.selectEditItem("Farm");
+            return;
+        }
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/ui/farm/add_farm.fxml"));
+            Stage stage = new Stage(StageStyle.DECORATED);
+            Parent parent = loader.load();
+            AddFarmController controller = loader.getController();
+            controller.inflateFarmUI(farm);
+            stage.setTitle("Edit farm");
+            stage.setScene(new Scene(parent));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     //**************************************************************************************
     // Season operations
     //**************************************************************************************
     @FXML
-    void deleteSeason(ActionEvent event) {
+    void deleteSeason() {
+        Season season = fxSeasonTable.getSelectionModel().getSelectedItem();
+        if (season == null) {
+            alert.selectDeleteItem("Season");
+            return;
+        }
 
+        AlertMaker alertDelete = new AlertMaker();
+
+        Optional<ButtonType> result = alertDelete.deleteConfirmation("Season");
+
+        assert result.isPresent();
+        if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
+            if (mFarmDAO.deleteSeasonById(season.getSeasonId())) {
+                alert.deleteItem("Season", true);
+            } else {
+                alert.deleteItem("Farm", false);
+            }
+        } else {
+            alert.cancelOperation("Delete");
+        }
     }
 
     @FXML
-    void editSeason(ActionEvent event) {
-
+    void editSeason() {
+        Season season = fxSeasonTable.getSelectionModel().getSelectedItem();
+        if (season == null) {
+            alert.selectDeleteItem("Season");
+            return;
+        }
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/ui/farm/add_farm.fxml"));
+            Stage stage = new Stage(StageStyle.DECORATED);
+            Parent parent = loader.load();
+            AddFarmController controller = loader.getController();
+            controller.inflateSeasonUI(season);
+            stage.setTitle("Edit Season");
+            stage.setScene(new Scene(parent));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-
-
 }
