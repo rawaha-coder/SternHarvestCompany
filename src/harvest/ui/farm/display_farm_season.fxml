@@ -27,8 +27,8 @@
             <contextMenu>
                 <ContextMenu>
                     <items>
-                        <MenuItem fx:id="fxEditFarm" mnemonicParsing="false" onAction="#editFarm" text="Edit" />
-                        <MenuItem fx:id="fxDeleteFarm" mnemonicParsing="false" onAction="#deleteFarm" text="Delete" />
+                        <MenuItem fx:id="fxEditFarm" mnemonicParsing="false" onAction="#editFarm" text="Edit Farm" />
+                        <MenuItem fx:id="fxDeleteFarm" mnemonicParsing="false" onAction="#deleteFarm" text="Delete Farm" />
                     </items>
                 </ContextMenu>
             </contextMenu>
@@ -44,8 +44,8 @@
             <contextMenu>
                 <ContextMenu>
                     <items>
-                        <MenuItem fx:id="fxEditSeason" mnemonicParsing="false" onAction="#editItem" text="Edit" />
-                        <MenuItem fx:id="fxDeleteSeason" mnemonicParsing="false" onAction="#deleteItem" text="Delete" />
+                        <MenuItem fx:id="fxEditSeason" mnemonicParsing="false" onAction="#editSeason" text="Edit Season" />
+                        <MenuItem fx:id="fxDeleteSeason" mnemonicParsing="false" onAction="#deleteSeason" text="Delete Season" />
                     </items>
                 </ContextMenu>
             </contextMenu>
