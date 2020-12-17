@@ -10,7 +10,6 @@ import java.util.List;
 import static harvest.ui.farm.DisplayFarmSeasonController.FARM_LIST_LIVE_DATA;
 import static harvest.ui.farm.DisplayFarmSeasonController.SEASON_LIST_LIVE_DATA;
 
-
 public class FarmDAO extends DAO implements DAOList<Season> {
 
     private static FarmDAO sFarmDAO = new FarmDAO();
@@ -33,23 +32,7 @@ public class FarmDAO extends DAO implements DAOList<Season> {
     public static final String COLUMN_FARM_NAME = "name";
     public static final String COLUMN_FARM_ADDRESS = "address";
 
-    public void createFarmTable() throws SQLException {
-        try {
-            Statement statement = dbGetConnect().createStatement();
-            statement.execute("CREATE TABLE IF NOT EXISTS "+ TABLE_FARM
-                    +"("+ COLUMN_FARM_ID +" INTEGER PRIMARY KEY, "
-                    + COLUMN_FARM_NAME +" TEXT NOT NULL, "
-                    + COLUMN_FARM_ADDRESS +" TEXT NOT NULL "
-                    + ")");
-        }catch (SQLException e){
-            e.printStackTrace();
-            throw e;
-        }
-    }
-
-    //***********************************************************************
     //SELECT all data from farm and season
-    //***********************************************************************
     public List<Farm> getFarmData() throws Exception {
         //Declare a SELECT statement
         String sqlStmt = "SELECT * FROM " + TABLE_FARM + " ORDER BY " + COLUMN_FARM_ID + " DESC;";
@@ -100,25 +83,27 @@ public class FarmDAO extends DAO implements DAOList<Season> {
         }
     }
 
-    //Delete data from farm
-    public boolean deleteFarmById(int Id) {
-        //Declare a DELETE statement
-        String sqlStmt = "DELETE FROM " + TABLE_FARM + " WHERE " + COLUMN_FARM_ID + " ="+Id+";";
-        //Execute UPDATE operation
+    public boolean editFarmData(Farm farm) {
+        PreparedStatement preparedStatement;
+        String sqlStmt = "UPDATE " + TABLE_FARM + " SET "
+                + COLUMN_FARM_NAME + " =?, "
+                + COLUMN_FARM_ADDRESS + " =? "
+                + " WHERE " + COLUMN_FARM_ID+ " = " + farm.getFarmId() + " ;";
         try {
-            Statement statement = dbGetConnect().createStatement();
-            statement.execute(sqlStmt);
-            statement.close();
+            preparedStatement = dbGetConnect().prepareStatement(sqlStmt);
+            preparedStatement.setString(1, farm.getFarmName());
+            preparedStatement.setString(2, farm.getFarmAddress());
+            preparedStatement.execute();
+            preparedStatement.close();
+            updateFarmListByFarm(farm);
             return true;
-        } catch (SQLException e) {
+        }catch (Exception e){
             e.printStackTrace();
-            System.out.print("Error occurred while DELETE Operation: " + e.getMessage());
             return false;
         }finally {
             dbDisConnect();
         }
     }
-
 
     //***********************************************************************
     //Season Table operations
@@ -128,22 +113,6 @@ public class FarmDAO extends DAO implements DAOList<Season> {
     public static final String COLUMN_SEASON_DATE_PLANTING = "planting";
     public static final String COLUMN_SEASON_DATE_HARVEST = "harvest";
     public static final String COLUMN_SEASON_FARM_ID = "farm_id";
-
-    public void createSeasonTable() throws SQLException {
-        try {
-            Statement statement = dbGetConnect().createStatement();
-            statement.execute("CREATE TABLE IF NOT EXISTS "+ TABLE_SEASON +"("
-                    + COLUMN_SEASON_ID +" INTEGER PRIMARY KEY, "
-                    + COLUMN_SEASON_DATE_PLANTING +" DATE, "
-                    + COLUMN_SEASON_DATE_HARVEST +" DATE, "
-                    + COLUMN_SEASON_FARM_ID + " INTEGER NOT NULL,  "
-                    + "FOREIGN KEY (" + COLUMN_SEASON_FARM_ID + ") REFERENCES " + TABLE_FARM + " (" + COLUMN_FARM_ID + ") "
-                    + ")");
-        }catch (SQLException e){
-            e.printStackTrace();
-            throw e;
-        }
-    }
 
     public boolean addSeasonData(Season season) {
         PreparedStatement preparedStatement;
@@ -168,44 +137,44 @@ public class FarmDAO extends DAO implements DAOList<Season> {
         }
     }
 
-    public void updateSeasonListByFarm(Farm farm) {
-        SEASON_LIST_LIVE_DATA.clear();
+    public boolean editSeasonData(Season season) {
+        PreparedStatement preparedStatement;
+        String sqlStmt = "UPDATE " + TABLE_SEASON + " SET "
+                + COLUMN_SEASON_DATE_PLANTING + " =?, "
+                + COLUMN_SEASON_DATE_HARVEST + " =? "
+                + " WHERE " + COLUMN_SEASON_ID + " = " + season.getSeasonId() + " ;";
         try {
-            SEASON_LIST_LIVE_DATA.setAll(getSeasonByFarm(farm));
-        }catch (Exception  e){
+            preparedStatement = dbGetConnect().prepareStatement(sqlStmt);
+            preparedStatement.setDate(1, season.getFarmPlantingDate());
+            preparedStatement.setDate(2, season.getFarmHarvestDate());
+            preparedStatement.execute();
+            preparedStatement.close();
+            return true;
+        }catch (Exception e){
             e.printStackTrace();
-        }
-    }
-
-
-    public List<Season> getSeasonByFarm(Farm farm) throws Exception {
-        //Declare a SELECT statement
-        String sqlStmt = "SELECT * FROM " + TABLE_SEASON
-                + " WHERE " + COLUMN_SEASON_FARM_ID + " = " + farm.getFarmId() + " "
-                + " ORDER BY " + COLUMN_SEASON_DATE_HARVEST + " DESC;";
-        try {
-            Statement statement = dbGetConnect().createStatement();
-            ResultSet resultSet = statement.executeQuery(sqlStmt);
-            return getSeasonFromResultSet(resultSet);
-        } catch (SQLException e) {
-            System.out.println("SQL select operation has been failed: " + e);
-            throw e;
+            return false;
         }finally {
             dbDisConnect();
         }
     }
 
-    private List<Season> getSeasonFromResultSet(ResultSet resultSet) throws SQLException {
-        List<Season> list = new ArrayList<>();
-        while (resultSet.next()) {
-            Season season = new Season();
-            season.setSeasonId(resultSet.getInt(1));
-            season.setFarmPlantingDate(resultSet.getDate(2));
-            season.setFarmHarvestDate(resultSet.getDate(3));
-            list.add(season);
+    public boolean deleteSeasonById(int id){
+        String sqlStmt = "DELETE FROM " + TABLE_SEASON + " WHERE " + COLUMN_SEASON_ID + " ="+id+";";
+
+        try {
+            Statement statement = dbGetConnect().createStatement();
+            statement.execute(sqlStmt);
+            statement.close();
+            return true;
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            System.out.print("Error occurred while INSERT Operation: " + exception.getMessage());
+            return false;
+        }finally {
+            dbDisConnect();
         }
-        return list;
     }
+
 
     //***********************************************************************
     //Farm table join Season table operations
@@ -293,6 +262,7 @@ public class FarmDAO extends DAO implements DAOList<Season> {
             e.printStackTrace();
             System.out.print("Error occurred while INSERT Operation: " + e.getMessage());
             assert connection != null;
+            assert preparedStatement != null;
             try {
                 connection.rollback();
                 preparedStatement.close();
@@ -326,6 +296,7 @@ public class FarmDAO extends DAO implements DAOList<Season> {
             statement.execute(sqlDeleteSeasonStmt);
             statement.close();
             connection.commit();
+            updateLiveData();
             return true;
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -347,17 +318,125 @@ public class FarmDAO extends DAO implements DAOList<Season> {
 
     @Override
     public boolean editData(Season season) {
-        return false;
+        PreparedStatement preparedStatement;
+        String sqlStmt = "UPDATE " + TABLE_SEASON + " SET "
+                + COLUMN_SEASON_DATE_PLANTING + " =?, "
+                + COLUMN_SEASON_DATE_HARVEST + " =? "
+                + " WHERE " + COLUMN_SEASON_ID + " = " + season.getSeasonId() + " ;";
+        try {
+            preparedStatement = dbGetConnect().prepareStatement(sqlStmt);
+            preparedStatement.setDate(1, season.getFarmPlantingDate());
+            preparedStatement.setDate(2, season.getFarmHarvestDate());
+            preparedStatement.execute();
+            preparedStatement.close();
+            updateFarmListByFarm(season.getSeasonFarm());
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }finally {
+            dbDisConnect();
+        }
     }
 
     @Override
     public void updateLiveData() {
         FARM_LIST_LIVE_DATA.clear();
+        SEASON_LIST_LIVE_DATA.clear();
         try {
             FARM_LIST_LIVE_DATA.setAll(getFarmData());
+            if (FARM_LIST_LIVE_DATA.size() > 0){
+                SEASON_LIST_LIVE_DATA.setAll(getSeasonByFarm(FARM_LIST_LIVE_DATA.get(0)));
+            }
+
         }catch (Exception  e){
             e.printStackTrace();
         }
     }
+
+    public void updateSeasonListByFarm(Farm farm) {
+        SEASON_LIST_LIVE_DATA.clear();
+        try {
+            SEASON_LIST_LIVE_DATA.setAll(getSeasonByFarm(farm));
+        }catch (Exception  e){
+            e.printStackTrace();
+        }
+    }
+
+    public void updateFarmListByFarm(Farm farm) {
+        FARM_LIST_LIVE_DATA.clear();
+        SEASON_LIST_LIVE_DATA.clear();
+        try {
+            FARM_LIST_LIVE_DATA.setAll(getFarmData());
+            SEASON_LIST_LIVE_DATA.setAll(getSeasonByFarm(farm));
+        }catch (Exception  e){
+            e.printStackTrace();
+        }
+    }
+
+
+    public List<Season> getSeasonByFarm(Farm farm) throws Exception {
+        //Declare a SELECT statement
+        String sqlStmt = "SELECT * FROM " + TABLE_SEASON
+                + " WHERE " + COLUMN_SEASON_FARM_ID + " = " + farm.getFarmId() + " "
+                + " ORDER BY " + COLUMN_SEASON_DATE_HARVEST + " DESC;";
+        try {
+            Statement statement = dbGetConnect().createStatement();
+            ResultSet resultSet = statement.executeQuery(sqlStmt);
+            return getSeasonFromResultSet(resultSet, farm);
+        } catch (SQLException e) {
+            System.out.println("SQL select operation has been failed: " + e);
+            throw e;
+        }finally {
+            dbDisConnect();
+        }
+    }
+
+    private List<Season> getSeasonFromResultSet(ResultSet resultSet, Farm farm) throws SQLException {
+        List<Season> list = new ArrayList<>();
+        while (resultSet.next()) {
+            Season season = new Season();
+            season.setSeasonId(resultSet.getInt(1));
+            season.setFarmPlantingDate(resultSet.getDate(2));
+            season.setFarmHarvestDate(resultSet.getDate(3));
+            season.setSeasonFarm(farm);
+            list.add(season);
+        }
+        return list;
+    }
+
+    /*
+    public void createFarmTable() throws SQLException {
+        try {
+            Statement statement = dbGetConnect().createStatement();
+            statement.execute("CREATE TABLE IF NOT EXISTS "+ TABLE_FARM
+                    +"("+ COLUMN_FARM_ID +" INTEGER PRIMARY KEY, "
+                    + COLUMN_FARM_NAME +" TEXT NOT NULL, "
+                    + COLUMN_FARM_ADDRESS +" TEXT NOT NULL "
+                    + ")");
+        }catch (SQLException e){
+            e.printStackTrace();
+            throw e;
+        }
+    }
+     */
+
+    /*
+    public void createSeasonTable() throws SQLException {
+        try {
+            Statement statement = dbGetConnect().createStatement();
+            statement.execute("CREATE TABLE IF NOT EXISTS "+ TABLE_SEASON +"("
+                    + COLUMN_SEASON_ID +" INTEGER PRIMARY KEY, "
+                    + COLUMN_SEASON_DATE_PLANTING +" DATE, "
+                    + COLUMN_SEASON_DATE_HARVEST +" DATE, "
+                    + COLUMN_SEASON_FARM_ID + " INTEGER NOT NULL,  "
+                    + "FOREIGN KEY (" + COLUMN_SEASON_FARM_ID + ") REFERENCES " + TABLE_FARM + " (" + COLUMN_FARM_ID + ") "
+                    + ")");
+        }catch (SQLException e){
+            e.printStackTrace();
+            throw e;
+        }
+    }
+     */
 
 }

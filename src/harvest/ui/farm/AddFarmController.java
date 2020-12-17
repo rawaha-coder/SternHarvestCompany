@@ -9,7 +9,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -26,8 +25,10 @@ public class AddFarmController implements Initializable {
     private final AlertMaker alert = new AlertMaker();
     FarmDAO mFarmDAO = FarmDAO.getInstance();
     Farm mFarm = new Farm();
-    Farm selectedFarm = new Farm();
+    Season mSeason = new Season();
     ObservableList<String> observableFarmList = FXCollections.observableArrayList();
+    private boolean isEditFarm = false;
+    private boolean isEditSeason = false;
 
     @FXML
     private AnchorPane fxUIAddItem;
@@ -78,11 +79,21 @@ public class AddFarmController implements Initializable {
 
     @FXML
     void handleSaveButton() {
-        if (Validation.isEmpty(fxFarmComboBox.getValue(), fxFarmAddress.getText()))
+        if (Validation.isEmpty(fxFarmComboBox.getEditor().getText(), fxFarmAddress.getText()))
         {
             alert.show("Required fields are missing", "Please enter correct data in required fields!", AlertType.INFORMATION);
             return;
         }
+        if (isEditFarm){
+            handleEditFarmOperation(mFarm);
+        }else if (isEditSeason){
+            handleEditSeasonOperation(mSeason);
+        } else{
+            handleAddFarmOperation();
+        }
+    }
+
+    private void handleAddFarmOperation(){
         boolean isAdded = false;
         Farm oldFarm = mFarmMap.get(fxFarmComboBox.getValue());
         Season season = new Season();
@@ -110,6 +121,7 @@ public class AddFarmController implements Initializable {
         }else if(!Validation.isEmpty(fxPlantingDate.getValue().toString(), fxHarvestDate.getValue().toString())){
             season.setFarmPlantingDate(Date.valueOf(fxPlantingDate.getValue()));
             season.setFarmHarvestDate(Date.valueOf(fxHarvestDate.getValue()));
+            assert oldFarm != null;
             season.setSeasonFarm(oldFarm);
             isAdded = mFarmDAO.addSeasonData(season);
         }
@@ -121,7 +133,22 @@ public class AddFarmController implements Initializable {
         } else {
             alert.saveItem("Farm", false);
         }
+    }
 
+    private void handleEditFarmOperation(Farm farm){
+            farm.setFarmName(fxFarmComboBox.getValue());
+            farm.setFarmAddress(fxFarmAddress.getText());
+        alert.updateItem("Farm", mFarmDAO.editFarmData(farm));
+        isEditFarm = false;
+        handleCancelButton();
+    }
+
+    private void handleEditSeasonOperation(Season season){
+        season.setFarmPlantingDate(Date.valueOf(fxPlantingDate.getValue()));
+        season.setFarmHarvestDate(Date.valueOf(fxHarvestDate.getValue()));
+        alert.updateItem("Season", mFarmDAO.editData(season));
+        isEditSeason = false;
+        handleCancelButton();
     }
 
     @FXML
@@ -140,4 +167,24 @@ public class AddFarmController implements Initializable {
 
     }
 
+    public void inflateFarmUI(Farm farm) {
+        fxFarmComboBox.getEditor().setText(farm.getFarmName());
+        fxFarmAddress.setText(farm.getFarmAddress());
+        fxPlantingDate.setDisable(true);
+        fxHarvestDate.setDisable(true);
+        isEditFarm = true;
+        mFarm.setFarmId(farm.getFarmId());
+    }
+
+    public void inflateSeasonUI(Season season) {
+        fxFarmComboBox.getEditor().setText(season.getSeasonFarm().getFarmName());
+        fxFarmAddress.setText(season.getSeasonFarm().getFarmAddress());
+        fxPlantingDate.setValue(season.getFarmPlantingDate().toLocalDate());
+        fxHarvestDate.setValue(season.getFarmHarvestDate().toLocalDate());
+        isEditSeason = true;
+        fxFarmComboBox.setDisable(true);
+        fxFarmAddress.setDisable(true);
+        mSeason.setSeasonId(season.getSeasonId());
+        mSeason.setSeasonFarm(season.getSeasonFarm());
+    }
 }

@@ -1,7 +1,5 @@
 package harvest;
 
-import harvest.database.FarmDAO;
-import harvest.database.SeasonDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
