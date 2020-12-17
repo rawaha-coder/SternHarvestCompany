@@ -8,30 +8,20 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="fxUIAddItem" prefHeight="613.0" prefWidth="476.0"
-            stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/11.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="harvest.ui.farm.AddFarmController">
+<AnchorPane fx:id="fxUIAddItem" prefHeight="613.0" prefWidth="489.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.ui.farm.AddFarmController">
 
     <Label layoutX="134.0" layoutY="29.0" prefHeight="40.0" prefWidth="215.0" text="Add New Farm">
         <font>
-        <Font name="Arial Black" size="26.0"/>
+        <Font name="Arial Black" size="26.0" />
         </font>
     </Label>
 
-    <ComboBox fx:id="fxFarmList" layoutX="91.0" layoutY="93.0" prefHeight="40.0" prefWidth="300.0"/>
-    <TextField fx:id="fxFarmName" layoutX="91.0" layoutY="148.0" prefHeight="40.0" prefWidth="300.0" promptText="Farm"/>
-    <TextField fx:id="fxFarmAddress" layoutX="91.0" layoutY="207.0" prefHeight="40.0" prefWidth="300.0"
-               promptText="Farm Address"/>
-    <DatePicker fx:id="fxPlantingDate" layoutX="91.0" layoutY="267.0" prefHeight="40.0" prefWidth="300.0"
-                promptText="Planting Date"/>
-    <DatePicker fx:id="fxHarvestDate" layoutX="91.0" layoutY="323.0" prefHeight="40.0" prefWidth="300.0"
-                promptText="Harvest Date"/>
-    <Button fx:id="fxClearFarmButton" onAction="#handleClearButton" layoutX="261.0" layoutY="432.0" mnemonicParsing="false" prefHeight="30.0"
-            prefWidth="120.0" text="Clear Fields"/>
-    <Button fx:id="fxSaveFarmButton" onAction="#handleSaveButton" layoutX="80.0" layoutY="523.0" mnemonicParsing="false" prefHeight="40.0"
-            prefWidth="140.0" text="Save"/>
-    <Button fx:id="fxCancelFarmButton" onAction="#handleCancelButton" layoutX="251.0" layoutY="523.0" mnemonicParsing="false" prefHeight="40.0"
-            prefWidth="140.0" text="Cancel"/>
+    <ComboBox fx:id="fxFarmComboBox" editable="true" layoutX="91.0" layoutY="99.0" prefHeight="40.0" prefWidth="300.0" promptText="Farm Name" />
+    <TextField fx:id="fxFarmAddress" layoutX="91.0" layoutY="167.0" prefHeight="40.0" prefWidth="300.0" promptText="Farm Address" />
+    <DatePicker fx:id="fxPlantingDate" layoutX="91.0" layoutY="232.0" prefHeight="40.0" prefWidth="300.0" promptText="Planting Date" />
+    <DatePicker fx:id="fxHarvestDate" layoutX="91.0" layoutY="297.0" prefHeight="40.0" prefWidth="300.0" promptText="Harvest Date" />
+    <Button fx:id="fxClearFarmButton" layoutX="252.0" layoutY="417.0" mnemonicParsing="false" onAction="#handleClearButton" prefHeight="30.0" prefWidth="120.0" text="Clear Fields" />
+    <Button fx:id="fxSaveFarmButton" layoutX="80.0" layoutY="523.0" mnemonicParsing="false" onAction="#handleSaveButton" prefHeight="40.0" prefWidth="140.0" text="Save" />
+    <Button fx:id="fxCancelFarmButton" layoutX="251.0" layoutY="523.0" mnemonicParsing="false" onAction="#handleCancelButton" prefHeight="40.0" prefWidth="140.0" text="Cancel" />
 
 </AnchorPane>
