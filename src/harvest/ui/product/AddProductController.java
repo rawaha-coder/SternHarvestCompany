@@ -114,7 +114,6 @@ public class AddProductController implements Initializable {
 
     public void inflateUI(Product product){
         fxProductName.getSelectionModel().select(product.getProductName());
-        //fxProductName.setVisible(false);
         fxProductType.getSelectionModel().select(product.getProductType());
         fxProductCode.setText(product.getProductCode());
         fxProductPrice1.setText(String.valueOf(product.getProductFirstPrice()));

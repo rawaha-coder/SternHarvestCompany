@@ -1,6 +1,7 @@
 package harvest;
 
-import harvest.database.CreditDAO;
+import harvest.database.FarmDAO;
+import harvest.database.SeasonDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,6 +11,8 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
    // CreditDAO mCreditDAO = CreditDAO.getInstance();
+    //FarmDAO mFarmDAO = FarmDAO.getInstance();
+    //SeasonDAO mSeasonDAO = SeasonDAO.getInstance();
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -20,6 +23,9 @@ public class Main extends Application {
         //mCreditDAO.createCreditTable();
         //EmployeeDAO.createEmployeeTable();
         //ProductDAO.createProductTable();
+        //mFarmDAO.createFarmTable();
+        //mSeasonDAO.createSeasonTable();
+
     }
 
     public static void main(String[] args) {

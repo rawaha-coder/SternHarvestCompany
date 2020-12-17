@@ -7,6 +7,7 @@ module SternHarvestCompany {
     opens harvest.ui.employee;
     opens harvest.ui.product;
     opens harvest.ui.credit;
+    opens harvest.ui.farm;
     opens harvest.model;
 
     opens harvest;

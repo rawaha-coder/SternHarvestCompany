@@ -77,6 +77,10 @@ public class Employee {
         this.employeeLastName.set(employeeLastName);
     }
 
+    public String getEmployeeFullName() {
+        return employeeFullName.get();
+    }
+
     public void setEmployeeFullName(String employeeFullName) {
         this.employeeFullName.set(employeeFullName);
     }

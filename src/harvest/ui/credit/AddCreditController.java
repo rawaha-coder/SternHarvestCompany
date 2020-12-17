@@ -17,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.scene.control.Alert.AlertType;
 import java.net.URL;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -41,6 +42,7 @@ public class AddCreditController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         fxCreditDate.setValue(LocalDate.now());
+        fxCreditDate.setEditable(false);
         getEmployeeList();
     }
 
@@ -79,7 +81,7 @@ public class AddCreditController implements Initializable {
             handleEditOperation(mCredit);
         }else {
             Credit credit = new Credit();
-            credit.setCreditDate(fxCreditDate.getValue());
+            credit.setCreditDate(Date.valueOf(fxCreditDate.getValue()));
             credit.setCreditAmount(Double.parseDouble(fxCreditAmount.getText()));
             credit.setEmployeeId(employeeNameId.get(fxEmployeeList.getValue()));
             if (mCreditDAO.addData(credit)) {
@@ -93,7 +95,7 @@ public class AddCreditController implements Initializable {
     }
 
     private void handleEditOperation(Credit credit) {
-        credit.setCreditDate(fxCreditDate.getValue());
+        credit.setCreditDate(Date.valueOf(fxCreditDate.getValue()));
         credit.setCreditAmount(Double.parseDouble(fxCreditAmount.getText()));
         if (mCreditDAO.editData(credit)) {
             mCreditDAO.updateLiveData();

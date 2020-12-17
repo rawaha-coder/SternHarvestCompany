@@ -24,14 +24,17 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class DisplayCreditController implements Initializable {
+
     public static ObservableList<Credit> CREDIT_LIST_LIVE_DATA = FXCollections.observableArrayList();
 
     private final AlertMaker alert = new AlertMaker();
     private final CreditDAO mCreditDAO = CreditDAO.getInstance();
     private final TransportDAO mTransportDAO = new TransportDAO();
+
     public AnchorPane fxTableUI;
     public MenuItem fxEditTransport;
     public MenuItem fxDeleteTransport;
+
     @FXML
     private TableView<Credit> fxCreditTable;
     @FXML
@@ -76,7 +79,7 @@ public class DisplayCreditController implements Initializable {
             return;
         }
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/sample/ui/credit/add_credit.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/ui/credit/add_credit.fxml"));
             Stage stage = new Stage(StageStyle.DECORATED);
             Parent parent = loader.load();
             AddCreditController controller = loader.getController();
