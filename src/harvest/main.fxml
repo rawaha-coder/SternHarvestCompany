@@ -58,7 +58,7 @@
                         <ToggleButton fx:id="fxTransportCreditMenuBtn" onAction="#setDisplayCredit" toggleGroup="$topMenu"  prefHeight="30" prefWidth="160" text="Transport / Credit" />
                         <ToggleButton fx:id="fxEmployeeMenuBtn" onAction="#setDisplayEmployee" toggleGroup="$topMenu"  prefHeight="30" prefWidth="120" text="Employees" />
                         <ToggleButton toggleGroup="$topMenu" prefHeight="30" prefWidth="140" text="Supplier" />
-                        <ToggleButton toggleGroup="$topMenu" prefHeight="30" prefWidth="120" text="Farms" />
+                        <ToggleButton fx:id="fxFarmSeasonMenuBtn" onAction="#setDisplayFarm" toggleGroup="$topMenu" prefHeight="30" prefWidth="120" text="Farm / Season" />
                         <ToggleButton fx:id="fxProductMenuBtn" onAction="#setDisplayProduct" toggleGroup="$topMenu" prefHeight="30" prefWidth="120" text="Products" />
                     </children>
                     <padding>
@@ -72,6 +72,15 @@
         <right>
             <VBox prefHeight="700.0" prefWidth="150.0" BorderPane.alignment="CENTER">
                 <children>
+                    <Button fx:id="fxAddFarmSeasonButton" onAction="#loadUIAddFarmSeason" contentDisplay="TOP" mnemonicParsing="false" prefHeight="50.0" prefWidth="146.0" text="Farm / Season">
+                        <graphic>
+                            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@icon/ic_shortcut_assignment_ind.png"/>
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
                     <Button fx:id="fxAddTransportCreditButton" onAction="#loadUIAddCredit" contentDisplay="TOP" mnemonicParsing="false" prefHeight="50.0" prefWidth="146.0" text="Transport / Credit">
                         <graphic>
                             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">

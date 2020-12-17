@@ -2,11 +2,8 @@ package harvest.database;
 
 import harvest.model.Credit;
 import harvest.util.Validation;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 import java.sql.PreparedStatement;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -94,6 +91,9 @@ public class CreditDAO extends DAO implements DAOList<Credit> {
         return creditList;
     }
 
+    //*************************************************************
+    //Add new Credit Data
+    //*************************************************************
     @Override
     public boolean addData(Credit credit) {
         PreparedStatement preparedStatement;
@@ -118,11 +118,37 @@ public class CreditDAO extends DAO implements DAOList<Credit> {
         }
     }
 
+    //*************************************************************
+    //Update Credit Data
+    //*************************************************************
     @Override
     public boolean editData(Credit credit) {
-        return false;
+        PreparedStatement preparedStatement;
+        //Declare a UPDATE statement
+        String sqlStmt = "UPDATE " + CREDITS_TABLE + " SET " +
+                "" + COLUMN_CREDIT_DATE + " =?," +
+                "" + COLUMN_CREDIT_AMOUNT + " =? " +
+                " WHERE " + COLUMN_CREDIT_ID + " = " + credit.getCreditId() + " ;";
+        //Execute UPDATE operation
+        try {
+            preparedStatement = dbGetConnect().prepareStatement(sqlStmt);
+            preparedStatement.setDate(1, credit.getCreditDate());
+            preparedStatement.setDouble(2, credit.getCreditAmount());
+            preparedStatement.execute();
+            preparedStatement.close();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error occurred while UPDATE Operation: " + e.getMessage());
+            return false;
+        }finally {
+            dbDisConnect();
+        }
     }
 
+    //*************************************************************
+    //Delete Credit Data
+    //*************************************************************
     @Override
     public boolean deleteDataById(int Id) {
         //Declare a DELETE statement
@@ -141,6 +167,9 @@ public class CreditDAO extends DAO implements DAOList<Credit> {
         }
     }
 
+    //*************************************************************
+    //Observe Credit Data
+    //*************************************************************
     @Override
     public void updateLiveData() {
         CREDIT_LIST_LIVE_DATA.clear();

@@ -45,9 +45,9 @@ public class Credit {
         this.creditDate.set(creditDate);
     }
 
-    public void setCreditDate(LocalDate localDate) {
-        this.creditDate.set(Date.valueOf(localDate));
-    }
+//    public void setCreditDate(LocalDate localDate) {
+//        this.creditDate.set(Date.valueOf(localDate));
+//    }
 
     public double getCreditAmount() {
         return creditAmount.get();
