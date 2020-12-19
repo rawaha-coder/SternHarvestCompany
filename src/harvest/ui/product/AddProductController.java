@@ -19,6 +19,8 @@ import javafx.scene.control.Alert.AlertType;
 import java.net.URL;
 import java.util.*;
 
+import static harvest.ui.product.DisplayProductController.PRODUCT_NAME_LIVE_DATA;
+
 public class AddProductController implements Initializable {
 
     ObservableList<String> observableProductList = FXCollections.observableArrayList();
@@ -38,9 +40,10 @@ public class AddProductController implements Initializable {
     @FXML
     private AnchorPane fxAddProductUI;
 
-
-    private boolean isEditStatus = false;
+    private boolean isEditProduct = false;
+    private boolean isEditDetail = false;
     private final ProductDetail mProductDetail = new ProductDetail();
+    private final Product mProduct = new Product();
     private final ProductDAO mProductDAO = ProductDAO.getInstance();
     private final ProductDetailDAO mProductDetailDAO = ProductDetailDAO.getInstance();
     private final AlertMaker alert = new AlertMaker();
@@ -103,7 +106,16 @@ public class AddProductController implements Initializable {
 
     @FXML
     private void handleSaveButton() {
+        if (isEditDetail){
+            EditProductDetail(mProductDetail);
+        }else if (isEditProduct){
+            EditProduct(mProduct);
+        }else {
+            handleAddProductOperation();
+        }
+    }
 
+    private void handleAddProductOperation() {
         if (Validation.isEmpty(fxProductNameComboBox.getEditor().getText(),
                 fxProductTypeComboBox.getEditor().getText(),
                 fxProductCode.getText(),
@@ -116,29 +128,16 @@ public class AddProductController implements Initializable {
             alert.show("Required fields are missing", "Please enter correct data in required fields!", AlertType.INFORMATION);
             return;
         }
-        if (isEditStatus){
-            handleEditOperation(mProductDetail);
-        }else {
-            handleAddProductOperation();
-        }
-    }
-
-    private void handleAddProductOperation() {
-        Product oldProduct = mProductMap.get(fxProductNameComboBox.getValue());
-        if (oldProduct != null){
+        Product product = mProductMap.get(fxProductNameComboBox.getValue());
+        if (product != null){
             ProductDetail oldProductDetail = new ProductDetail();
             oldProductDetail.setProductType(fxProductTypeComboBox.getValue());
             oldProductDetail.setProductCode(fxProductCode.getText());
             oldProductDetail.setProductFirstPrice(Double.parseDouble(fxProductPrice1.getText().trim()));
             oldProductDetail.setProductSecondPrice(Double.parseDouble(fxProductPrice2.getText().trim()));
-            oldProductDetail.setProduct(oldProduct);
-            if (mProductDetailDAO.addProductDetail(oldProductDetail)){
-                handleClearFieldsButton();
-                getProductList();
-                alert.saveItem("Product", true);
-            }else {
-                alert.saveItem("product", false);
-            }
+            oldProductDetail.setProduct(product);
+            alert.saveItem("Product", mProductDetailDAO.addProductDetail(oldProductDetail));
+
         }else{
             ProductDetail newProductDetail = new ProductDetail();
             newProductDetail.setProductType(fxProductTypeComboBox.getValue());
@@ -146,30 +145,35 @@ public class AddProductController implements Initializable {
             newProductDetail.setProductFirstPrice(Double.parseDouble(fxProductPrice1.getText().trim()));
             newProductDetail.setProductSecondPrice(Double.parseDouble(fxProductPrice2.getText().trim()));
             newProductDetail.setProduct(new Product(fxProductNameComboBox.getValue()));
-            if (mProductDetailDAO.addData(newProductDetail)){
-                handleClearFieldsButton();
-                getProductList();
-                alert.saveItem("Product", true);
-            }else {
-                alert.saveItem("product", false);
-            }
+            alert.saveItem("Product", mProductDetailDAO.addNewProductData(newProductDetail));
         }
+        handleClearFieldsButton();
+        mProductDAO.updateLiveData();
+        if (PRODUCT_NAME_LIVE_DATA.size() > 0){
+            mProductDetailDAO.updateLiveData(PRODUCT_NAME_LIVE_DATA.get(PRODUCT_NAME_LIVE_DATA.size()-1));
+        }
+        getProductList();
     }
 
 
-    private void handleEditOperation(ProductDetail productDetail) {
+    private void EditProductDetail(ProductDetail productDetail) {
         productDetail.setProductType(fxProductTypeComboBox.getSelectionModel().getSelectedItem());
         productDetail.setProductCode(fxProductCode.getText());
         productDetail.setProductFirstPrice(Double.parseDouble(fxProductPrice1.getText().trim()));
         productDetail.setProductSecondPrice(Double.parseDouble(fxProductPrice2.getText().trim()));
-        productDetail.setProduct(new Product(fxProductNameComboBox.getSelectionModel().getSelectedItem()));
-        if (mProductDetailDAO.addData(productDetail)){
-            handleClearFieldsButton();
-            alert.updateItem("Product", true);
-        }else {
-            alert.updateItem("Product", false);
-        }
-        isEditStatus = false;
+        alert.updateItem("Product", mProductDetailDAO.editData(productDetail));
+        isEditProduct = false;
+        handleClearFieldsButton();
+        mProductDetailDAO.updateLiveData(productDetail.getProduct());
+        handleCancelButton();
+    }
+
+    private void EditProduct(Product product) {
+        product.setProductName(fxProductNameComboBox.getSelectionModel().getSelectedItem());
+        alert.updateItem("Product", mProductDAO.editData(product));
+        isEditDetail = false;
+        mProductDAO.updateLiveData();
+        handleClearFieldsButton();
         handleCancelButton();
     }
 
@@ -185,7 +189,19 @@ public class AddProductController implements Initializable {
         fxProductCode.setText(productDetail.getProductCode());
         fxProductPrice1.setText(String.valueOf(productDetail.getProductFirstPrice()));
         fxProductPrice2.setText(String.valueOf(productDetail.getProductSecondPrice()));
-        isEditStatus = true;
+        isEditDetail = true;
+        fxProductNameComboBox.setDisable(true);
         mProductDetail.setProductDetailId(productDetail.getProductDetailId());
+        mProductDetail.setProduct(new Product(productDetail.getProduct().getProductId(), productDetail.getProduct().getProductName()));
+    }
+
+    public void inflateProductUI(Product product){
+        fxProductNameComboBox.getSelectionModel().select(product.getProductName());
+        isEditProduct = true;
+        fxProductTypeComboBox.setDisable(true);
+        fxProductCode.setDisable(true);
+        fxProductPrice1.setDisable(true);
+        fxProductPrice2.setDisable(true);
+        mProduct.setProductId(product.getProductId());
     }
 }

@@ -9,7 +9,6 @@ import java.util.List;
 
 import static harvest.database.ProductDAO.*;
 import static harvest.ui.product.DisplayProductController.PRODUCT_DETAIL_LIVE_DATA;
-import static harvest.ui.product.DisplayProductController.PRODUCT_NAME_LIVE_DATA;
 
 public class ProductDetailDAO extends DAO{
 
@@ -36,6 +35,7 @@ public class ProductDetailDAO extends DAO{
     public static final String COLUMN_PRODUCT_PRICE_2 = "price_2";
     public static final String COLUMN_FOREIGN_KEY_PRODUCT_ID = "product_id";
 
+/* **
     public void createProductDetailTable() throws SQLException {
         try {
             Statement statement = dbGetConnect().createStatement();
@@ -53,51 +53,12 @@ public class ProductDetailDAO extends DAO{
             throw e;
         }
     }
+*/
 
-    //@Override
-    public List<ProductDetail> getData() throws Exception {
-        List<ProductDetail> list = new ArrayList<>();
-        Statement statement;
-        String sqlStmt = "SELECT "
-                + TABLE_PRODUCT_DETAIL +"." + COLUMN_PRODUCT_DETAIL_ID + ", "
-                + TABLE_PRODUCT_DETAIL +"." + COLUMN_PRODUCT_TYPE + ", "
-                + TABLE_PRODUCT_DETAIL +"." + COLUMN_PRODUCT_CODE + ", "
-                + TABLE_PRODUCT_DETAIL +"." + COLUMN_PRODUCT_PRICE_1 + ", "
-                + TABLE_PRODUCT_DETAIL +"." + COLUMN_PRODUCT_PRICE_2 + ", "
-                + TABLE_PRODUCT + "." + COLUMN_PRODUCT_ID + ", "
-                + TABLE_PRODUCT + "." + COLUMN_PRODUCT_NAME + " "
-                + " FROM " + TABLE_PRODUCT_DETAIL
-                + " LEFT JOIN " + TABLE_PRODUCT
-                + " On " + TABLE_PRODUCT + "." + COLUMN_PRODUCT_ID + " = " + TABLE_PRODUCT_DETAIL + "." + COLUMN_FOREIGN_KEY_PRODUCT_ID
-                + " ORDER BY " + COLUMN_PRODUCT_DETAIL_ID + " DESC;";
-        //Execute SELECT statement
-        try {
-            statement = dbGetConnect().createStatement();
-            ResultSet resultSet = statement.executeQuery(sqlStmt);
-            while (resultSet.next()) {
-                ProductDetail productDetail = new ProductDetail();
-                productDetail.setProductDetailId(resultSet.getInt(1));
-                productDetail.setProductType(resultSet.getString(2));
-                productDetail.setProductCode(resultSet.getString(3));
-                productDetail.setProductFirstPrice(resultSet.getDouble(4));
-                productDetail.setProductSecondPrice(resultSet.getDouble(5));
-                productDetail.setProduct(new Product(resultSet.getInt(6), resultSet.getString(7)));
-                list.add(productDetail);
-            }
-            return list;
-        } catch (SQLException e) {
-            System.out.println("SQL select operation has been failed: " + e);
-            //Return exception
-            throw e;
-        }finally {
-            dbDisConnect();
-        }
-    }
-
-    //@Override
-    public boolean addData(ProductDetail productDetail) {
+    // Add new product and product detail
+    public boolean addNewProductData(ProductDetail productDetail) {
         Connection connection = null;
-        PreparedStatement preparedStatement = null;
+        PreparedStatement preparedStatement;
         //Declare a INSERT statement
         String insertProduct = "INSERT INTO " + TABLE_PRODUCT + " (" + COLUMN_PRODUCT_NAME+ ") VALUES (?);";
 
@@ -146,71 +107,7 @@ public class ProductDetailDAO extends DAO{
         }
     }
 
-    //@Override
-    public boolean editData(ProductDetail productDetail) {
-        PreparedStatement preparedStatement;
-        String updateStmt = "UPDATE " + TABLE_PRODUCT_DETAIL + " SET ("
-                + COLUMN_PRODUCT_TYPE + ", "
-                + COLUMN_PRODUCT_CODE + ", "
-                + COLUMN_PRODUCT_PRICE_1 + ", "
-                + COLUMN_PRODUCT_PRICE_2 + ") "
-                + " VALUES (?,?,?,?)"
-                + " WHERE " + COLUMN_PRODUCT_DETAIL_ID + " = " + productDetail.getProductDetailId() + " ;";
-        try {
-            preparedStatement = dbGetConnect().prepareStatement(updateStmt);
-            preparedStatement.setString(1, productDetail.getProductType());
-            preparedStatement.setString(2, productDetail.getProductCode());
-            preparedStatement.setDouble(3, productDetail.getProductFirstPrice());
-            preparedStatement.setDouble(4, productDetail.getProductSecondPrice());
-            preparedStatement.execute();
-            preparedStatement.close();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Error occurred while UPDATE Operation: " + e.getMessage());
-            return false;
-        }finally {
-            dbDisConnect();
-        }
-    }
-
-    //@Override
-    public boolean deleteDataById(int id) {
-        String sqlStmt = "DELETE FROM " + TABLE_PRODUCT_DETAIL + " WHERE " + COLUMN_PRODUCT_DETAIL_ID + " = " + id +" ;";
-        try {
-            Statement statement = dbGetConnect().createStatement();
-            statement.execute(sqlStmt);
-            updateLiveData();
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }finally {
-            dbDisConnect();
-        }
-    }
-
-    //@Override
-    public void updateLiveData() {
-        PRODUCT_DETAIL_LIVE_DATA.clear();
-        if (PRODUCT_NAME_LIVE_DATA.size() > 0){
-            try {
-                PRODUCT_DETAIL_LIVE_DATA.setAll(getProductDetail(PRODUCT_NAME_LIVE_DATA.get(0)));
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public void updateLiveData(Product product) {
-        PRODUCT_DETAIL_LIVE_DATA.clear();
-        try {
-                PRODUCT_DETAIL_LIVE_DATA.setAll(getProductDetail(product));
-        }catch (Exception e){
-                e.printStackTrace();
-        }
-    }
-
+    //Get product detail by product
     public List<ProductDetail> getProductDetail(Product product) throws Exception {
         List<ProductDetail> list = new ArrayList<>();
         Statement statement;
@@ -241,6 +138,7 @@ public class ProductDetailDAO extends DAO{
         }
     }
 
+    //Add product detail
     public boolean addProductDetail(ProductDetail productDetail) {
         String insertProductDetail = "INSERT INTO " + TABLE_PRODUCT_DETAIL + " ("
                 + COLUMN_PRODUCT_TYPE + ", "
@@ -265,6 +163,57 @@ public class ProductDetailDAO extends DAO{
             return false;
         }finally {
             dbDisConnect();
+        }
+    }
+
+    // Edit product detail
+    public boolean editData(ProductDetail productDetail) {
+        PreparedStatement preparedStatement;
+        String updateProductDetail = "UPDATE " + TABLE_PRODUCT_DETAIL + " SET "
+                + COLUMN_PRODUCT_TYPE + "=?, "
+                + COLUMN_PRODUCT_CODE + "=?, "
+                + COLUMN_PRODUCT_PRICE_1 + "=?, "
+                + COLUMN_PRODUCT_PRICE_2 + "=? "
+                + " WHERE " + COLUMN_PRODUCT_DETAIL_ID + " = " + productDetail.getProductDetailId() + " ;";
+        try {
+            preparedStatement = dbGetConnect().prepareStatement(updateProductDetail);
+            preparedStatement.setString(1, productDetail.getProductType());
+            preparedStatement.setString(2, productDetail.getProductCode());
+            preparedStatement.setDouble(3, productDetail.getProductFirstPrice());
+            preparedStatement.setDouble(4, productDetail.getProductSecondPrice());
+            preparedStatement.execute();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error occurred while UPDATE Operation: " + e.getMessage());
+            return false;
+        }finally {
+            dbDisConnect();
+        }
+    }
+
+    //Delete product detail
+    public boolean deleteDataById(int id) {
+        String sqlStmt = "DELETE FROM " + TABLE_PRODUCT_DETAIL + " WHERE " + COLUMN_PRODUCT_DETAIL_ID + " = " + id +" ;";
+        try {
+            Statement statement = dbGetConnect().createStatement();
+            statement.execute(sqlStmt);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }finally {
+            dbDisConnect();
+        }
+    }
+
+    //Update product detail live data
+    public void updateLiveData(Product product) {
+        PRODUCT_DETAIL_LIVE_DATA.clear();
+        try {
+            PRODUCT_DETAIL_LIVE_DATA.setAll(getProductDetail(product));
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 }

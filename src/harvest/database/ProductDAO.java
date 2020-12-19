@@ -30,7 +30,8 @@ public class ProductDAO extends DAO{
     public static final String COLUMN_PRODUCT_ID = "id";
     public static final String COLUMN_PRODUCT_NAME = "name";
 
-    public void createProductTable() throws SQLException{
+/* create table
+public void createProductTable() throws SQLException{
         try {
             Statement statement = dbGetConnect().createStatement();
             statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_PRODUCT
@@ -41,6 +42,7 @@ public class ProductDAO extends DAO{
             throw e;
         }
     }
+*/
 
     //@Override
     public List<Product> getData() throws Exception {
@@ -67,10 +69,9 @@ public class ProductDAO extends DAO{
         }
     }
 
-
-    //@Override
+    /* **
     public boolean addData(Product product) {
-        PreparedStatement preparedStatement = null;
+        PreparedStatement preparedStatement;
         String sqlStmt = "INSERT INTO " + TABLE_PRODUCT +  " (" + COLUMN_PRODUCT_NAME + ") VALUES(?);";
         try {
             preparedStatement = dbGetConnect().prepareStatement(sqlStmt);
@@ -86,8 +87,9 @@ public class ProductDAO extends DAO{
         }
 
     }
+    */
 
-    //@Override
+    //Edit product
     public boolean editData(Product product) {
         PreparedStatement preparedStatement;
         String updateStmt = "UPDATE " + TABLE_PRODUCT + " SET " + COLUMN_PRODUCT_NAME + " =? " +
@@ -110,7 +112,7 @@ public class ProductDAO extends DAO{
     //@Override
     public boolean deleteDataById(int Id) {
         Connection connection = null;
-        Statement statement = null;
+        Statement statement;
         //Declare a INSERT statement
         String sqlDeleteFarmStmt = "DELETE FROM " + TABLE_PRODUCT + " WHERE " + COLUMN_PRODUCT_ID + " = " + Id + " ;";
 
@@ -153,5 +155,4 @@ public class ProductDAO extends DAO{
             e.printStackTrace();
         }
     }
-
 }
