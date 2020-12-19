@@ -7,7 +7,7 @@ import java.util.List;
 import static harvest.database.EmployeeDAO.COLUMN_EMPLOYEE_ID;
 import static harvest.database.EmployeeDAO.TABLE_EMPLOYEE;
 
-public class TransportDAO extends DAO implements DAOList{
+public class TransportDAO extends DAO{
 
 //
 //    public static final String TABLE_TRANSPORT = "transport";
@@ -36,27 +36,27 @@ public class TransportDAO extends DAO implements DAOList{
 //    }
 //
 
-    @Override
+    //@Override
     public List getData() throws Exception {
         return null;
     }
 
-    @Override
+    //@Override
     public boolean addData(Object o) {
         return false;
     }
 
-    @Override
+    //@Override
     public boolean editData(Object o) {
         return false;
     }
 
-    @Override
+    //@Override
     public boolean deleteDataById(int Id) {
         return false;
     }
 
-    @Override
+    //@Override
     public void updateLiveData() {
 
     }

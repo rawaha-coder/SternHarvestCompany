@@ -13,7 +13,7 @@ import java.util.List;
 import static harvest.database.EmployeeDAO.*;
 import static harvest.ui.credit.DisplayCreditController.CREDIT_LIST_LIVE_DATA;
 
-public class CreditDAO extends DAO implements DAOList<Credit> {
+public class CreditDAO extends DAO{
 
     private static CreditDAO sCreditDAO = new CreditDAO();
 
@@ -53,7 +53,7 @@ public class CreditDAO extends DAO implements DAOList<Credit> {
     //*************************************************************
     //SELECT all Credit Data from CREDITS_TABLE and TABLE_EMPLOYEE
     //*************************************************************
-    @Override
+    //@Override
     public List<Credit> getData() throws Exception {
         //Declare a SELECT statement
         String sqlStmt = "SELECT "
@@ -94,7 +94,7 @@ public class CreditDAO extends DAO implements DAOList<Credit> {
     //*************************************************************
     //Add new Credit Data
     //*************************************************************
-    @Override
+    //@Override
     public boolean addData(Credit credit) {
         PreparedStatement preparedStatement;
         String sqlStmt = "INSERT INTO " + CREDITS_TABLE + " ("
@@ -121,7 +121,7 @@ public class CreditDAO extends DAO implements DAOList<Credit> {
     //*************************************************************
     //Update Credit Data
     //*************************************************************
-    @Override
+    //@Override
     public boolean editData(Credit credit) {
         PreparedStatement preparedStatement;
         //Declare a UPDATE statement
@@ -149,7 +149,7 @@ public class CreditDAO extends DAO implements DAOList<Credit> {
     //*************************************************************
     //Delete Credit Data
     //*************************************************************
-    @Override
+    //@Override
     public boolean deleteDataById(int Id) {
         //Declare a DELETE statement
         String sqlStmt = "DELETE FROM " + CREDITS_TABLE + " WHERE " + COLUMN_CREDIT_ID + " =" + Id + ";";
@@ -170,7 +170,7 @@ public class CreditDAO extends DAO implements DAOList<Credit> {
     //*************************************************************
     //Observe Credit Data
     //*************************************************************
-    @Override
+    //@Override
     public void updateLiveData() {
         CREDIT_LIST_LIVE_DATA.clear();
         try {

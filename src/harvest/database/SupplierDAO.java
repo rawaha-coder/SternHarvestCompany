@@ -11,7 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SupplierDAO extends DAO implements DAOList<Supplier>{
+public class SupplierDAO extends DAO{
     public static final String TABLE_SUPPLIERS = "suppliers";
     public static final String COLUMN_SUPPLIER_ID = "id";
     public static final String COLUMN_SUPPLIER_NAME = "name";
@@ -31,27 +31,27 @@ public class SupplierDAO extends DAO implements DAOList<Supplier>{
         }
     }
 
-    @Override
+    //@Override
     public List<Supplier> getData() throws Exception {
         return null;
     }
 
-    @Override
+    //@Override
     public boolean addData(Supplier supplier) {
         return false;
     }
 
-    @Override
+    //@Override
     public boolean editData(Supplier supplier) {
         return false;
     }
 
-    @Override
+    //@Override
     public boolean deleteDataById(int Id) {
         return false;
     }
 
-    @Override
+    //@Override
     public void updateLiveData() {
 
     }

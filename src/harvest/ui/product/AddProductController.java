@@ -24,7 +24,6 @@ public class AddProductController implements Initializable {
     ObservableList<String> observableProductList = FXCollections.observableArrayList();
     private final Map<String, Product> mProductMap = new LinkedHashMap<>();
     ObservableList<String> observableProductTypeList = FXCollections.observableArrayList();
-    private final Map<String, ProductDetail> mProductDetailMap = new LinkedHashMap<>();
 
     @FXML
     private ComboBox<String> fxProductNameComboBox;
@@ -41,8 +40,6 @@ public class AddProductController implements Initializable {
 
 
     private boolean isEditStatus = false;
-    private boolean isOldProduct = false;
-    private final Product mProduct = new Product();
     private final ProductDetail mProductDetail = new ProductDetail();
     private final ProductDAO mProductDAO = ProductDAO.getInstance();
     private final ProductDetailDAO mProductDetailDAO = ProductDetailDAO.getInstance();
@@ -76,7 +73,6 @@ public class AddProductController implements Initializable {
                 (ObservableValue<? extends String> ov, String old_val, String new_val) -> {
                     if(mProductMap.get(new_val) != null){
                         getProductTypeList(mProductMap.get(new_val));
-                        isOldProduct = true;
                     }
                 }
         );
@@ -89,7 +85,6 @@ public class AddProductController implements Initializable {
             if (productDetails.size() > 0) {
                 for (ProductDetail productDetail: productDetails) {
                     observableProductTypeList.add(productDetail.getProductType());
-                    mProductDetailMap.put(productDetail.getProductType(), productDetail);
                 }
             }
         } catch (Exception e) {

@@ -2,11 +2,13 @@ package harvest.ui.product;
 
 
 import harvest.database.ProductDAO;
+import harvest.database.ProductDetailDAO;
 import harvest.model.Product;
 import harvest.model.ProductDetail;
 import harvest.util.AlertMaker;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -28,15 +30,15 @@ import java.util.ResourceBundle;
 
 public class DisplayProductController implements Initializable {
 
+    public static ObservableList<Product> PRODUCT_NAME_LIVE_DATA = FXCollections.observableArrayList();
+    public static ObservableList<ProductDetail> PRODUCT_DETAIL_LIVE_DATA = FXCollections.observableArrayList();
 
     @FXML
     private TableView<harvest.model.Product> fxProductTable;
     @FXML
     private TableColumn<harvest.model.Product, String> fxProductNameColumn;
-
     @FXML
     private TableView<ProductDetail> fxProductDetailTable;
-
     @FXML
     private TableColumn<ProductDetail, String> fxProductTypeColumn;
     @FXML
@@ -48,13 +50,16 @@ public class DisplayProductController implements Initializable {
 
     private final AlertMaker alert = new AlertMaker();
     private final ProductDAO mProductDAO = ProductDAO.getInstance();
+    private final ProductDetailDAO mProductDetailDAO = ProductDetailDAO.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        mProductDAO.updateLiveData();
         initColumns();
+        mProductDAO.updateLiveData();
+        mProductDetailDAO.updateLiveData();
+        fxProductTable.setItems(PRODUCT_NAME_LIVE_DATA);
+        fxProductDetailTable.setItems(PRODUCT_DETAIL_LIVE_DATA);
         observeSelectProduct();
-
     }
 
     public void initColumns() {
@@ -69,13 +74,19 @@ public class DisplayProductController implements Initializable {
     private void observeSelectProduct(){
         fxProductTable.getSelectionModel().selectedItemProperty().addListener(
                 (ObservableValue<? extends Product> ov, Product old_val, Product new_val) -> {
-                    mProductDAO.updateProductDetail(new_val);
-                    fxProductDetailTable.getSelectionModel().selectFirst();
+                    if (new_val != null){
+                        try{
+                            mProductDetailDAO.updateLiveData(new_val);
+                            fxProductDetailTable.getSelectionModel().selectFirst();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
                 });
     }
 
     @FXML
-    void editItem(ActionEvent event) {
+    void editProduct() {
         ProductDetail productDetail = fxProductDetailTable.getSelectionModel().getSelectedItem();
         if (productDetail == null) {
             alert.show("Required selected product code", "Please select a product code", AlertType.INFORMATION);
@@ -96,9 +107,40 @@ public class DisplayProductController implements Initializable {
     }
 
     @FXML
-    void deleteItem(ActionEvent event) {
+    void deleteProduct() {
         Product product = fxProductTable.getSelectionModel().getSelectedItem();
         if (product == null) {
+            alert.show("Required selected product", "Please select a product from the second table", AlertType.INFORMATION);
+            return;
+        }
+        AlertMaker alertDelete = new AlertMaker();
+
+        Optional<ButtonType> result = alertDelete.deleteConfirmation("Product");
+        assert result.isPresent();
+        if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
+            if(mProductDAO.deleteDataById(product.getProductId())){
+                alert.deleteItem("Product", true);
+            }else {
+                alert.deleteItem("Product", false);
+            }
+        } else {
+            alert.cancelOperation("Delete");
+        }
+        mProductDAO.updateLiveData();
+        fxProductTable.getSelectionModel().selectFirst();
+        fxProductDetailTable.getSelectionModel().selectFirst();
+        System.out.println("Delete product...");
+    }
+
+    @FXML
+    void editProductDetail(){
+
+    }
+
+    @FXML
+    void deleteProductDetail(){
+        ProductDetail productDetail = fxProductDetailTable.getSelectionModel().getSelectedItem();
+        if (productDetail== null) {
             alert.show("Required selected product", "Please select a product from the second table", AlertType.INFORMATION);
             return;
         }
@@ -109,14 +151,13 @@ public class DisplayProductController implements Initializable {
 
         Optional<ButtonType> result = deleteConfirmation.showAndWait();
         if (result.get() == ButtonType.OK) {
-
-                mProductDAO.deleteDataById(product.getProductId());
-
+            mProductDetailDAO.deleteDataById(productDetail.getProductDetailId());
         } else {
             alert.show("Deletion cancelled", "Deletion process cancelled", AlertType.INFORMATION);
         }
         mProductDAO.updateLiveData();
         fxProductTable.getSelectionModel().selectFirst();
+        mProductDetailDAO.updateLiveData();
         fxProductDetailTable.getSelectionModel().selectFirst();
         System.out.println("Delete product...");
     }

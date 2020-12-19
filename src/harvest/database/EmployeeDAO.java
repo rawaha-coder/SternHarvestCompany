@@ -13,7 +13,7 @@ import java.util.List;
 import static harvest.ui.employee.DisplayEmployeeController.EMPLOYEE_GRAPH_LIVE_DATA;
 import static harvest.ui.employee.DisplayEmployeeController.EMPLOYEE_LIST_LIVE_DATA;
 
-public class EmployeeDAO extends DAO implements DAOList<Employee> {
+public class EmployeeDAO extends DAO{
 
     private static EmployeeDAO sEmployeeDAO = new EmployeeDAO();
 
@@ -40,7 +40,7 @@ public class EmployeeDAO extends DAO implements DAOList<Employee> {
     //*************************************
     //Update Live data
     //*************************************
-    @Override
+    //@Override
     public void updateLiveData() {
         EMPLOYEE_LIST_LIVE_DATA.clear();
         EMPLOYEE_GRAPH_LIVE_DATA.clear();
@@ -83,7 +83,7 @@ public class EmployeeDAO extends DAO implements DAOList<Employee> {
     //*******************************
     //Get all employees data
     //*******************************
-    @Override
+    //@Override
     public List<Employee> getData() throws Exception {
         //Declare a SELECT statement
         String sqlStmt = "SELECT * FROM " + TABLE_EMPLOYEE + " ORDER BY " + COLUMN_EMPLOYEE_ID + " DESC;";
@@ -117,7 +117,7 @@ public class EmployeeDAO extends DAO implements DAOList<Employee> {
         return employeeList;
     }
 
-    @Override
+    //@Override
     public boolean addData(Employee employee) {
         PreparedStatement preparedStatement;
         //Declare a INSERT statement
@@ -149,7 +149,7 @@ public class EmployeeDAO extends DAO implements DAOList<Employee> {
         }
     }
 
-    @Override
+    //@Override
     public boolean editData(Employee employee) {
         PreparedStatement preparedStatement;
         String updateStmt = "UPDATE " + TABLE_EMPLOYEE + " SET " +
@@ -180,7 +180,7 @@ public class EmployeeDAO extends DAO implements DAOList<Employee> {
         }
     }
 
-    @Override
+    //@Override
     public boolean deleteDataById(int Id) {
         String sqlStmt = "DELETE FROM " + TABLE_EMPLOYEE + " WHERE " + COLUMN_EMPLOYEE_ID + " =" + Id + ";";
         //Execute UPDATE operation

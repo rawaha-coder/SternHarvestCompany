@@ -8,8 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static harvest.database.ProductDAO.*;
+import static harvest.ui.product.DisplayProductController.PRODUCT_DETAIL_LIVE_DATA;
+import static harvest.ui.product.DisplayProductController.PRODUCT_NAME_LIVE_DATA;
 
-public class ProductDetailDAO extends DAO implements DAOList<ProductDetail>{
+public class ProductDetailDAO extends DAO{
 
     private static ProductDetailDAO sProductDetail = new ProductDetailDAO();
 
@@ -52,7 +54,7 @@ public class ProductDetailDAO extends DAO implements DAOList<ProductDetail>{
         }
     }
 
-    @Override
+    //@Override
     public List<ProductDetail> getData() throws Exception {
         List<ProductDetail> list = new ArrayList<>();
         Statement statement;
@@ -92,7 +94,7 @@ public class ProductDetailDAO extends DAO implements DAOList<ProductDetail>{
         }
     }
 
-    @Override
+    //@Override
     public boolean addData(ProductDetail productDetail) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -144,7 +146,7 @@ public class ProductDetailDAO extends DAO implements DAOList<ProductDetail>{
         }
     }
 
-    @Override
+    //@Override
     public boolean editData(ProductDetail productDetail) {
         PreparedStatement preparedStatement;
         String updateStmt = "UPDATE " + TABLE_PRODUCT_DETAIL + " SET ("
@@ -172,46 +174,41 @@ public class ProductDetailDAO extends DAO implements DAOList<ProductDetail>{
         }
     }
 
-    @Override
-    public boolean deleteDataById(int Id) {
-        Connection connection = null;
-        Statement statement = null;
-        //Declare a INSERT statement
-        String sqlDeleteFarmStmt = "DELETE FROM " + TABLE_PRODUCT + " WHERE " + COLUMN_PRODUCT_ID + " = " + Id + " ;";
-
-        String sqlDeleteSeasonStmt = "DELETE FROM " + TABLE_PRODUCT_DETAIL + " WHERE " + COLUMN_FOREIGN_KEY_PRODUCT_ID + " = " + Id +" ;";
-
+    //@Override
+    public boolean deleteDataById(int id) {
+        String sqlStmt = "DELETE FROM " + TABLE_PRODUCT_DETAIL + " WHERE " + COLUMN_PRODUCT_DETAIL_ID + " = " + id +" ;";
         try {
-            connection = dbGetConnect();
-            connection.setAutoCommit(false);
-
-            statement = connection.createStatement();
-            statement.execute(sqlDeleteFarmStmt);
-
-            statement = connection.createStatement();
-            statement.execute(sqlDeleteSeasonStmt);
-            connection.commit();
+            Statement statement = dbGetConnect().createStatement();
+            statement.execute(sqlStmt);
             updateLiveData();
             return true;
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            assert connection != null;
-            try {
-                connection.rollback();
-            }catch (SQLException sqlException){
-                sqlException.printStackTrace();
-                System.out.print("Error occurred while rollback Operation: " + sqlException.getMessage());
-            }
-            System.out.print("Error occurred while INSERT Operation: " + exception.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }finally {
             dbDisConnect();
         }
     }
 
-    @Override
+    //@Override
     public void updateLiveData() {
+        PRODUCT_DETAIL_LIVE_DATA.clear();
+        if (PRODUCT_NAME_LIVE_DATA.size() > 0){
+            try {
+                PRODUCT_DETAIL_LIVE_DATA.setAll(getProductDetail(PRODUCT_NAME_LIVE_DATA.get(0)));
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
 
+    public void updateLiveData(Product product) {
+        PRODUCT_DETAIL_LIVE_DATA.clear();
+        try {
+                PRODUCT_DETAIL_LIVE_DATA.setAll(getProductDetail(product));
+        }catch (Exception e){
+                e.printStackTrace();
+        }
     }
 
     public List<ProductDetail> getProductDetail(Product product) throws Exception {
