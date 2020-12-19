@@ -19,7 +19,7 @@
     </padding>
     <HBox AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
         <children>
-            <TableView fx:id="fxProductNameTable" prefHeight="600.0" prefWidth="300.0">
+            <TableView fx:id="fxProductTable" prefHeight="600.0" prefWidth="300.0">
                 <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
                 <columns>
                     <TableColumn fx:id="fxProductNameColumn" minWidth="-Infinity" prefWidth="300.0" text="Product Name"/>
@@ -28,7 +28,7 @@
                     <Insets />
                 </HBox.margin>
             </TableView>
-            <TableView fx:id="fxProductTypeTable" prefHeight="600.0" prefWidth="900.0">
+            <TableView fx:id="fxProductDetailTable" prefHeight="600.0" prefWidth="900.0">
                 <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
                 <columns>
                     <TableColumn fx:id="fxProductTypeColumn" prefWidth="300.0" text="Type Product"/>

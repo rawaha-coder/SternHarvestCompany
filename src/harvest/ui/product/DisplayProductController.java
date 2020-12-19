@@ -3,11 +3,9 @@ package harvest.ui.product;
 
 import harvest.database.ProductDAO;
 import harvest.model.Product;
+import harvest.model.ProductDetail;
 import harvest.util.AlertMaker;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,28 +26,25 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import static harvest.ui.product.AddProductController.PRODUCT_NAME_LIVE_DATA;
-
 public class DisplayProductController implements Initializable {
 
-    public static ObservableList<Product> PRODUCT_LIST_LIVE_DATA = FXCollections.observableArrayList();
 
     @FXML
-    private TableView<String> fxProductNameTable;
+    private TableView<harvest.model.Product> fxProductTable;
     @FXML
-    private TableColumn<String, String> fxProductNameColumn;
+    private TableColumn<harvest.model.Product, String> fxProductNameColumn;
 
     @FXML
-    private TableView<harvest.model.Product> fxProductTypeTable;
+    private TableView<ProductDetail> fxProductDetailTable;
 
     @FXML
-    private TableColumn<harvest.model.Product, String> fxProductTypeColumn;
+    private TableColumn<ProductDetail, String> fxProductTypeColumn;
     @FXML
-    private TableColumn<harvest.model.Product, String> fxProductCodeColumn;
+    private TableColumn<ProductDetail, String> fxProductCodeColumn;
     @FXML
-    private TableColumn<harvest.model.Product, Double> fxProductSecondPriceColumn;
+    private TableColumn<ProductDetail, Double> fxProductSecondPriceColumn;
     @FXML
-    private TableColumn<harvest.model.Product, Double> fxProductFirstPriceColumn;
+    private TableColumn<ProductDetail, Double> fxProductFirstPriceColumn;
 
     private final AlertMaker alert = new AlertMaker();
     private final ProductDAO mProductDAO = ProductDAO.getInstance();
@@ -63,29 +58,26 @@ public class DisplayProductController implements Initializable {
     }
 
     public void initColumns() {
-        fxProductNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue()));
+        fxProductNameColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
         fxProductTypeColumn.setCellValueFactory(new PropertyValueFactory<>("productType"));
         fxProductCodeColumn.setCellValueFactory(new PropertyValueFactory<>("productCode"));
         fxProductFirstPriceColumn.setCellValueFactory(new PropertyValueFactory<>("productFirstPrice"));
         fxProductSecondPriceColumn.setCellValueFactory(new PropertyValueFactory<>("productSecondPrice"));
-        fxProductNameTable.setItems(PRODUCT_NAME_LIVE_DATA);
-        fxProductNameTable.getSelectionModel().selectFirst();
-        fxProductTypeTable.setItems(PRODUCT_LIST_LIVE_DATA);
-        fxProductTypeTable.getSelectionModel().selectFirst();
+
     }
 
     private void observeSelectProduct(){
-        fxProductNameTable.getSelectionModel().selectedItemProperty().addListener(
-                (ObservableValue<? extends String> ov, String old_val, String new_val) -> {
-                    mProductDAO.updateProductListByName(new_val);
-                    fxProductTypeTable.getSelectionModel().selectFirst();
+        fxProductTable.getSelectionModel().selectedItemProperty().addListener(
+                (ObservableValue<? extends Product> ov, Product old_val, Product new_val) -> {
+                    mProductDAO.updateProductDetail(new_val);
+                    fxProductDetailTable.getSelectionModel().selectFirst();
                 });
     }
 
     @FXML
     void editItem(ActionEvent event) {
-        Product product = fxProductTypeTable.getSelectionModel().getSelectedItem();
-        if (product == null) {
+        ProductDetail productDetail = fxProductDetailTable.getSelectionModel().getSelectedItem();
+        if (productDetail == null) {
             alert.show("Required selected product code", "Please select a product code", AlertType.INFORMATION);
             return;
         }
@@ -94,11 +86,10 @@ public class DisplayProductController implements Initializable {
             Stage stage = new Stage(StageStyle.DECORATED);
             Parent parent = loader.load();
             AddProductController controller = loader.getController();
-            controller.inflateUI(product);
+            controller.inflateProductDetailUI(productDetail);
             stage.setTitle("Edition");
             stage.setScene(new Scene(parent));
             stage.show();
-            mProductDAO.updateProductListByName(product.getProductName());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -106,7 +97,7 @@ public class DisplayProductController implements Initializable {
 
     @FXML
     void deleteItem(ActionEvent event) {
-        Product product = fxProductTypeTable.getSelectionModel().getSelectedItem();
+        Product product = fxProductTable.getSelectionModel().getSelectedItem();
         if (product == null) {
             alert.show("Required selected product", "Please select a product from the second table", AlertType.INFORMATION);
             return;
@@ -125,8 +116,8 @@ public class DisplayProductController implements Initializable {
             alert.show("Deletion cancelled", "Deletion process cancelled", AlertType.INFORMATION);
         }
         mProductDAO.updateLiveData();
-        fxProductNameTable.getSelectionModel().selectFirst();
-        fxProductTypeTable.getSelectionModel().selectFirst();
+        fxProductTable.getSelectionModel().selectFirst();
+        fxProductDetailTable.getSelectionModel().selectFirst();
         System.out.println("Delete product...");
     }
 }

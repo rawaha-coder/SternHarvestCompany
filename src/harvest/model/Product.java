@@ -5,24 +5,31 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Product {
+
     private final SimpleIntegerProperty productId;
     private final SimpleStringProperty productName;
-    private final SimpleStringProperty productCode;
-    private final SimpleStringProperty productType;
-    private final SimpleDoubleProperty productFirstPrice;
-    private final SimpleDoubleProperty productSecondPrice;
 
     public Product() {
-        this.productId = new SimpleIntegerProperty(0);
-        this.productName = new SimpleStringProperty("");;
-        this.productCode = new SimpleStringProperty("");;
-        this.productType = new SimpleStringProperty("");;
-        this.productFirstPrice = new SimpleDoubleProperty(0.0);;
-        this.productSecondPrice = new SimpleDoubleProperty(0.0);;
+        this.productId = new SimpleIntegerProperty();
+        this.productName = new SimpleStringProperty();
+    }
+
+    public Product(int productId, String productName) {
+        this.productId = new SimpleIntegerProperty(productId);;
+        this.productName = new SimpleStringProperty(productName);
+    }
+
+    public Product(String productName) {
+        this.productId = new SimpleIntegerProperty();;
+        this.productName = new SimpleStringProperty(productName);
     }
 
     public int getProductId() {
         return productId.get();
+    }
+
+    public SimpleIntegerProperty productIdProperty() {
+        return productId;
     }
 
     public void setProductId(int productId) {
@@ -33,39 +40,11 @@ public class Product {
         return productName.get();
     }
 
+    public SimpleStringProperty productNameProperty() {
+        return productName;
+    }
+
     public void setProductName(String productName) {
         this.productName.set(productName);
-    }
-
-    public String getProductCode() {
-        return productCode.get();
-    }
-
-    public void setProductCode(String productCode) {
-        this.productCode.set(productCode);
-    }
-
-    public String getProductType() {
-        return productType.get();
-    }
-
-    public void setProductType(String productType) {
-        this.productType.set(productType);
-    }
-
-    public double getProductFirstPrice() {
-        return productFirstPrice.get();
-    }
-
-    public void setProductFirstPrice(double productFirstPrice) {
-        this.productFirstPrice.set(productFirstPrice);
-    }
-
-    public double getProductSecondPrice() {
-        return productSecondPrice.get();
-    }
-
-    public void setProductSecondPrice(double productSecondPrice) {
-        this.productSecondPrice.set(productSecondPrice);
     }
 }
