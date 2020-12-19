@@ -10,7 +10,7 @@ import java.util.List;
 import static harvest.ui.farm.DisplayFarmSeasonController.FARM_LIST_LIVE_DATA;
 import static harvest.ui.farm.DisplayFarmSeasonController.SEASON_LIST_LIVE_DATA;
 
-public class FarmDAO extends DAO implements DAOList<Season> {
+public class FarmDAO extends DAO{
 
     private static FarmDAO sFarmDAO = new FarmDAO();
 
@@ -181,7 +181,7 @@ public class FarmDAO extends DAO implements DAOList<Season> {
     //***********************************************************************
 
     //SELECT all data from farm and season
-    @Override
+    //@Override
     public List<Season> getData() throws Exception {
         //Declare a SELECT statement
         String sqlStmt = "SELECT "
@@ -221,7 +221,7 @@ public class FarmDAO extends DAO implements DAOList<Season> {
     }
 
     //Add data to farm and season
-    @Override
+    //@Override
     public boolean addData(Season season){
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -276,7 +276,7 @@ public class FarmDAO extends DAO implements DAOList<Season> {
     }
 
     //Delete data from farm and season
-    @Override
+    //@Override
     public boolean deleteDataById(int id){
         Connection connection = null;
         Statement statement = null;
@@ -316,7 +316,7 @@ public class FarmDAO extends DAO implements DAOList<Season> {
         }
     }
 
-    @Override
+    //@Override
     public boolean editData(Season season) {
         PreparedStatement preparedStatement;
         String sqlStmt = "UPDATE " + TABLE_SEASON + " SET "
@@ -339,7 +339,7 @@ public class FarmDAO extends DAO implements DAOList<Season> {
         }
     }
 
-    @Override
+    //@Override
     public void updateLiveData() {
         FARM_LIST_LIVE_DATA.clear();
         SEASON_LIST_LIVE_DATA.clear();

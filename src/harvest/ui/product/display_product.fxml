@@ -24,9 +24,14 @@
                 <columns>
                     <TableColumn fx:id="fxProductNameColumn" minWidth="-Infinity" prefWidth="300.0" text="Product Name"/>
                 </columns>
-                <HBox.margin>
-                    <Insets />
-                </HBox.margin>
+                <contextMenu>
+                    <ContextMenu>
+                        <items>
+                            <MenuItem fx:id="fxEditProduct" mnemonicParsing="false" onAction="#editProduct" text="Edit product" />
+                            <MenuItem fx:id="fxDeleteProduct" mnemonicParsing="false" onAction="#deleteProduct" text="Delete product" />
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
             </TableView>
             <TableView fx:id="fxProductDetailTable" prefHeight="600.0" prefWidth="900.0">
                 <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
@@ -39,8 +44,8 @@
                 <contextMenu>
                     <ContextMenu>
                         <items>
-                            <MenuItem fx:id="fxEditProduct" mnemonicParsing="false" onAction="#editItem" text="Edit" />
-                            <MenuItem fx:id="fxDeleteProduct" mnemonicParsing="false" onAction="#deleteItem" text="Delete" />
+                            <MenuItem fx:id="fxEditProductDetail" mnemonicParsing="false" onAction="#editProductDetail" text="Edit product detail" />
+                            <MenuItem fx:id="fxDeleteProductDetail" mnemonicParsing="false" onAction="#deleteProductDetail" text="Delete product detail" />
                         </items>
                     </ContextMenu>
                 </contextMenu>

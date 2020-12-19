@@ -141,10 +141,10 @@ public class DisplayFarmSeasonController implements Initializable {
 
         assert result.isPresent();
         if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
-            if (mFarmDAO.deleteSeasonById(season.getSeasonId())) {
+            if(mFarmDAO.deleteSeasonById(season.getSeasonId())) {
                 alert.deleteItem("Season", true);
             } else {
-                alert.deleteItem("Farm", false);
+                alert.deleteItem("Season", false);
             }
         } else {
             alert.cancelOperation("Delete");
