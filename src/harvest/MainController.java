@@ -25,6 +25,8 @@ public class MainController implements Initializable {
     @FXML
     private ToggleButton fxEmployeeMenuBtn;
     @FXML
+    private ToggleButton fxSupplierMenuBtn;
+    @FXML
     private ToggleButton fxProductMenuBtn;
     @FXML
     private ToggleButton fxTransportCreditMenuBtn;
@@ -37,6 +39,9 @@ public class MainController implements Initializable {
     private Button fxAddProductButton;
     @FXML
     private Button fxAddTransportCreditButton;
+    @FXML
+    private Button fxAddSupplierButton;
+
     @FXML
     private HBox fxHBoxTopMenu;
 
@@ -75,6 +80,15 @@ public class MainController implements Initializable {
     }
 
     @FXML
+    void loadUIAddSupplier() {
+        loadAddWindow("/harvest/ui/supplier/add_supplier.fxml", "Add supplier", fxAddSupplierButton);
+    }
+    @FXML
+    void setDisplaySupplier(){
+        setDisplayView("/harvest/ui/supplier/display_supplier.fxml", fxSupplierMenuBtn);
+    }
+
+    @FXML
     void loadUIAddProduct() {
         loadAddWindow("/harvest/ui/product/add_product.fxml", "Add New Product", fxAddProductButton);
 
@@ -83,6 +97,7 @@ public class MainController implements Initializable {
     void setDisplayProduct(){
         setDisplayView("/harvest/ui/product/display_product.fxml", fxProductMenuBtn);
     }
+
 
     public void setDisplayView(String location, ToggleButton fxButton){
         try {
