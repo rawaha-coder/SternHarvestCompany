@@ -92,7 +92,7 @@ public class DisplayProductController implements Initializable {
     void editProduct() {
         Product product = fxProductTable.getSelectionModel().getSelectedItem();
         if (product == null) {
-            alert.show("Required selected product code", "Please select a product code", AlertType.INFORMATION);
+            alert.selectEditItem("Product");
             return;
         }
         try {
@@ -113,7 +113,7 @@ public class DisplayProductController implements Initializable {
     void deleteProduct() {
         Product product = fxProductTable.getSelectionModel().getSelectedItem();
         if (product == null) {
-            alert.show("Required selected product", "Please select a product from the second table", AlertType.INFORMATION);
+            alert.selectDeleteItem("Product");
             return;
         }
         AlertMaker alertDelete = new AlertMaker();
@@ -135,7 +135,7 @@ public class DisplayProductController implements Initializable {
     void editProductDetail(){
         ProductDetail productDetail = fxProductDetailTable.getSelectionModel().getSelectedItem();
         if (productDetail == null) {
-            alert.show("Required selected product code", "Please select a product code", AlertType.INFORMATION);
+            alert.selectEditItem("Product Detail");
             return;
         }
         try {
@@ -156,7 +156,7 @@ public class DisplayProductController implements Initializable {
     void deleteProductDetail(){
         ProductDetail productDetail = fxProductDetailTable.getSelectionModel().getSelectedItem();
         if (productDetail== null) {
-            alert.show("Required selected product", "Please select a product from the second table", AlertType.INFORMATION);
+            alert.selectDeleteItem("Product detail");
             return;
         }
         AlertMaker alertDelete = new AlertMaker();
@@ -164,11 +164,15 @@ public class DisplayProductController implements Initializable {
         Optional<ButtonType> result = alertDelete.deleteConfirmation("Product Detail");
         assert result.isPresent();
         if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
-            mProductDetailDAO.deleteDataById(productDetail.getProductDetailId());
+            if (mProductDetailDAO.deleteDataById(productDetail.getProductDetailId())){
+                updateLiveData();
+                alert.deleteItem("Product detail", true);
+            }else {
+                alert.deleteItem("Product detail", false);
+            }
         } else {
-            alert.show("Deletion cancelled", "Deletion process cancelled", AlertType.INFORMATION);
+            alert.cancelOperation("Delete");
         }
-        updateLiveData();
         System.out.println("Delete product...");
     }
 }

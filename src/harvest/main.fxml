@@ -57,7 +57,7 @@
                         <ToggleButton toggleGroup="$topMenu" prefHeight="30" prefWidth="140" text="Group Work" />
                         <ToggleButton fx:id="fxTransportCreditMenuBtn" onAction="#setDisplayCredit" toggleGroup="$topMenu"  prefHeight="30" prefWidth="160" text="Transport / Credit" />
                         <ToggleButton fx:id="fxEmployeeMenuBtn" onAction="#setDisplayEmployee" toggleGroup="$topMenu"  prefHeight="30" prefWidth="120" text="Employees" />
-                        <ToggleButton toggleGroup="$topMenu" prefHeight="30" prefWidth="140" text="Supplier" />
+                        <ToggleButton fx:id="fxSupplierMenuBtn" onAction="#setDisplaySupplier" toggleGroup="$topMenu" prefHeight="30" prefWidth="140" text="Supplier" />
                         <ToggleButton fx:id="fxFarmSeasonMenuBtn" onAction="#setDisplayFarm" toggleGroup="$topMenu" prefHeight="30" prefWidth="120" text="Farm / Season" />
                         <ToggleButton fx:id="fxProductMenuBtn" onAction="#setDisplayProduct" toggleGroup="$topMenu" prefHeight="30" prefWidth="120" text="Products" />
                     </children>
@@ -91,6 +91,15 @@
                         </graphic>
                     </Button>
                     <Button fx:id="fxAddEmployeeButton" onAction="#loadUIAddEmployee" contentDisplay="TOP" mnemonicParsing="false" prefHeight="50.0" prefWidth="146.0" text="Add Employee">
+                        <graphic>
+                            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@icon/ic_shortcut_assignment_ind.png"/>
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                    <Button fx:id="fxAddSupplierButton" onAction="#loadUIAddSupplier" contentDisplay="TOP" mnemonicParsing="false" prefHeight="50.0" prefWidth="146.0" text="Add Supplier">
                         <graphic>
                             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                 <image>

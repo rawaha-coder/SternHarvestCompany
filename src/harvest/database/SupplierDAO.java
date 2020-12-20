@@ -1,15 +1,13 @@
 package harvest.database;
 
 import harvest.model.Supplier;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
+
+import static harvest.database.ProductDAO.COLUMN_PRODUCT_ID;
+import static harvest.database.ProductDAO.TABLE_PRODUCT;
 
 public class SupplierDAO extends DAO{
     public static final String TABLE_SUPPLIERS = "suppliers";
@@ -17,13 +15,19 @@ public class SupplierDAO extends DAO{
     public static final String COLUMN_SUPPLIER_NAME = "name";
     public static final String COLUMN_SUPPLIER_FIRSTNAME = "firstname";
     public static final String COLUMN_SUPPLIER_LASTNAME = "lastname";
-    public static final String COLUMN_PRODUCT_NAME = "product_id";
+    public static final String COLUMN_SUPPLIER_FRGN_KEY_PRODUCT_ID = "product_id";
 
     public boolean createSupplierTable() throws SQLException{
         try {
             Statement statement = dbGetConnect().createStatement();
-            statement.execute("CREATE TABLE IF NOT EXISTs "+TABLE_SUPPLIERS+"("+COLUMN_SUPPLIER_ID+" INTEGER PRIMARY KEY, " +COLUMN_SUPPLIER_NAME+" TEXT UNIQUE, "+COLUMN_SUPPLIER_FIRSTNAME+" TEXT NOT NULL, "
-                    +COLUMN_SUPPLIER_LASTNAME+" TEXT NOT NULL, "+COLUMN_PRODUCT_NAME+" TEXT NOT NULL)");
+            statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_SUPPLIERS + "("
+                    + COLUMN_SUPPLIER_ID + " INTEGER PRIMARY KEY, "
+                    + COLUMN_SUPPLIER_NAME + " TEXT UNIQUE, "
+                    + COLUMN_SUPPLIER_FIRSTNAME + " TEXT NOT NULL, "
+                    + COLUMN_SUPPLIER_LASTNAME + " TEXT NOT NULL, "
+                    + COLUMN_SUPPLIER_FRGN_KEY_PRODUCT_ID +" TEXT NOT NULL"
+                    + "FOREIGN KEY (" + COLUMN_SUPPLIER_FRGN_KEY_PRODUCT_ID + ") REFERENCES " + TABLE_PRODUCT + " (" + COLUMN_PRODUCT_ID + ") "
+                    + ")");
             return true;
         }catch (SQLException e){
             e.printStackTrace();
@@ -31,22 +35,22 @@ public class SupplierDAO extends DAO{
         }
     }
 
-    //@Override
+
     public List<Supplier> getData() throws Exception {
         return null;
     }
 
-    //@Override
+
     public boolean addData(Supplier supplier) {
         return false;
     }
 
-    //@Override
+
     public boolean editData(Supplier supplier) {
         return false;
     }
 
-    //@Override
+
     public boolean deleteDataById(int Id) {
         return false;
     }

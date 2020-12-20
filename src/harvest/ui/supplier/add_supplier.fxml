@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="harvest.ui.supplier.AddSupplierController"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane fx:id="fxAddItemUI" prefHeight="564.0" prefWidth="484.0"
+            stylesheets="@../../style.css"
+            xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="harvest.ui.supplier.AddSupplierController">
+
+    <children>
+        <TextField fx:id="fxSupplierName" layoutX="84.0" layoutY="47.0" prefHeight="40.0" prefWidth="300.0" promptText="Supplier" />
+        <TextField fx:id="fxSupplierFirstname" layoutX="84.0" layoutY="115.0" prefHeight="40.0" prefWidth="300.0" promptText="Firstname" />
+        <TextField fx:id="fxSupplierLastname" layoutX="84.0" layoutY="183.0" prefHeight="40.0" prefWidth="300.0" promptText="Lastname" />
+        <ChoiceBox fx:id="fxChoiceSupplierProduct" layoutX="84.0" layoutY="251.0" prefHeight="40.0" prefWidth="300.0" />
+        <Button layoutX="255.0" layoutY="367.0" mnemonicParsing="false" onAction="#handleClearButton" prefHeight="31.0" prefWidth="110.0" text="Clear Fields" />
+        <Button layoutX="70.0" layoutY="471.0" mnemonicParsing="false" onAction="#handleSaveButton" prefHeight="40.0" prefWidth="140.0" text="Save" />
+        <Button layoutX="255.0" layoutY="471.0" mnemonicParsing="false" onAction="#handleCancelButton" prefHeight="40.0" prefWidth="140.0" text="Cancel" />
+    </children>
 
 </AnchorPane>
