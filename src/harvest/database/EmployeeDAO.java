@@ -83,11 +83,8 @@ public class EmployeeDAO extends DAO{
     //*******************************
     //Get all employees data
     //*******************************
-    //@Override
     public List<Employee> getData() throws Exception {
-        //Declare a SELECT statement
         String sqlStmt = "SELECT * FROM " + TABLE_EMPLOYEE + " ORDER BY " + COLUMN_EMPLOYEE_ID + " DESC;";
-        //Execute SELECT statement
         try {
             Statement statement = dbGetConnect().createStatement();
             ResultSet resultSet = statement.executeQuery(sqlStmt);
@@ -105,7 +102,7 @@ public class EmployeeDAO extends DAO{
         while (resultSet.next()) {
             Employee employee = new Employee();
             employee.setEmployeeId(resultSet.getInt(1));
-            employee.setEmployeeStatusInt(resultSet.getInt(2));
+            employee.setEmployeeStatus(resultSet.getBoolean(2));
             employee.setEmployeeFirstName(resultSet.getString(3));
             employee.setEmployeeLastName(resultSet.getString(4));
             employee.setEmployeeFullName(Validation.getFullName(resultSet.getString(3), resultSet.getString(4)));
@@ -117,10 +114,9 @@ public class EmployeeDAO extends DAO{
         return employeeList;
     }
 
-    //@Override
+    //Add Employee
     public boolean addData(Employee employee) {
         PreparedStatement preparedStatement;
-        //Declare a INSERT statement
         String insertStmt = "INSERT INTO " + TABLE_EMPLOYEE + " ("
                 + COLUMN_EMPLOYEE_STATUS + ", "
                 + COLUMN_EMPLOYEE_FIRST_NAME + ", "
@@ -131,7 +127,7 @@ public class EmployeeDAO extends DAO{
                 + "VALUES (?,?,?,?,?,?);";
         try {
             preparedStatement = dbGetConnect().prepareStatement(insertStmt);
-            preparedStatement.setInt(1, employee.getEmployeeStatusInt());
+            preparedStatement.setBoolean(1, employee.isEmployeeStatus());
             preparedStatement.setString(2, employee.getEmployeeFirstName());
             preparedStatement.setString(3, employee.getEmployeeLastName());
             preparedStatement.setDate(4, employee.getEmployeeHireDate());
@@ -149,7 +145,7 @@ public class EmployeeDAO extends DAO{
         }
     }
 
-    //@Override
+    //Edit Employee
     public boolean editData(Employee employee) {
         PreparedStatement preparedStatement;
         String updateStmt = "UPDATE " + TABLE_EMPLOYEE + " SET " +
@@ -162,7 +158,7 @@ public class EmployeeDAO extends DAO{
                 " WHERE " + COLUMN_EMPLOYEE_ID + " = " + employee.getEmployeeId() + " ;";
         try {
             preparedStatement = dbGetConnect().prepareStatement(updateStmt);
-            preparedStatement.setInt(1, employee.getEmployeeStatusInt());
+            preparedStatement.setBoolean(1, employee.isEmployeeStatus());
             preparedStatement.setString(2, employee.getEmployeeFirstName());
             preparedStatement.setString(3, employee.getEmployeeLastName());
             preparedStatement.setDate(4, employee.getEmployeeHireDate());
@@ -180,7 +176,7 @@ public class EmployeeDAO extends DAO{
         }
     }
 
-    //@Override
+    //Delete Employee by Id
     public boolean deleteDataById(int Id) {
         String sqlStmt = "DELETE FROM " + TABLE_EMPLOYEE + " WHERE " + COLUMN_EMPLOYEE_ID + " =" + Id + ";";
         //Execute UPDATE operation
@@ -201,14 +197,11 @@ public class EmployeeDAO extends DAO{
     //UPDATE Employee status in database
     //*************************************
     public boolean updateEmployeeStatusById(int employeeId, boolean employeeStatus) {
-        int status = 0;
-        if (employeeStatus) status = 1;
-
         PreparedStatement preparedStatement;
         String updateStmt = "UPDATE " + TABLE_EMPLOYEE + " SET " + COLUMN_EMPLOYEE_STATUS + " =?  WHERE " + COLUMN_EMPLOYEE_ID + " = " + employeeId + " ;";
         try {
             preparedStatement = dbGetConnect().prepareStatement(updateStmt);
-            preparedStatement.setInt(1, status);
+            preparedStatement.setBoolean(1, employeeStatus);
             preparedStatement.execute();
             preparedStatement.close();
             return true;
@@ -221,24 +214,24 @@ public class EmployeeDAO extends DAO{
         }
     }
 
-    /*
 
-    //    public void createEmployeeTable() throws SQLException {
-//        try {
-//            Statement statement = dbGetConnect().createStatement();
-//            statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_EMPLOYEE
-//                    + "(" + COLUMN_EMPLOYEE_ID + " INTEGER PRIMARY KEY, "
-//                    + COLUMN_EMPLOYEE_STATUS + " INTEGER NOT NULL, "
-//                    + COLUMN_EMPLOYEE_FIRST_NAME + " TEXT NOT NULL, "
-//                    + COLUMN_EMPLOYEE_LAST_NAME + " TEXT NOT NULL, "
-//                    + COLUMN_EMPLOYEE_HIRE_DATE + " DATE, "
-//                    + COLUMN_EMPLOYEE_FIRE_DATE + " DATE, "
-//                    + COLUMN_EMPLOYEE_PERMISSION_DATE + " DATE)");
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            throw e;
-//        }
-//    }
+/* **
+        public void createEmployeeTable() throws SQLException {
+        try {
+            Statement statement = dbGetConnect().createStatement();
+            statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_EMPLOYEE
+                    + "(" + COLUMN_EMPLOYEE_ID + " INTEGER PRIMARY KEY, "
+                    + COLUMN_EMPLOYEE_STATUS + " BOOLEAN NOT NULL, "
+                    + COLUMN_EMPLOYEE_FIRST_NAME + " VARCHAR(16) NOT NULL, "
+                    + COLUMN_EMPLOYEE_LAST_NAME + " VARCHAR(16) NOT NULL, "
+                    + COLUMN_EMPLOYEE_HIRE_DATE + " DATE, "
+                    + COLUMN_EMPLOYEE_FIRE_DATE + " DATE, "
+                    + COLUMN_EMPLOYEE_PERMISSION_DATE + " DATE)");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+*/
 
-     */
 }

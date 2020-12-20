@@ -125,7 +125,7 @@ public class AddProductController implements Initializable {
                 || !Validation.isDouble(fxProductPrice2.getText())
         )
         {
-            alert.show("Required fields are missing", "Please enter correct data in required fields!", AlertType.INFORMATION);
+            alert.show("Product");
             return;
         }
         Product product = mProductMap.get(fxProductNameComboBox.getValue());

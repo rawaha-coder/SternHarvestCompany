@@ -27,18 +27,18 @@ public class Employee {
     }
 
     //Employee check box status help function
-    public int getEmployeeStatusInt() {
-        if (this.employeeStatus.get()){
-            return 1;
-        }else {
-            return 0;
-        }
-    }
+//    public int getEmployeeStatusInt() {
+//        if (this.employeeStatus.get()){
+//            return 1;
+//        }else {
+//            return 0;
+//        }
+//    }
 
-    public void setEmployeeStatusInt(int intValue) {
-        boolean status = intValue == 1;
-        this.employeeStatus.set(status);
-    }
+//    public void setEmployeeStatusInt(int intValue) {
+//        boolean status = intValue == 1;
+//        this.employeeStatus.set(status);
+//    }
 
     //Setters and getters
     public int getEmployeeId() {

@@ -44,7 +44,7 @@ public void createProductTable() throws SQLException{
     }
 */
 
-    //@Override
+    //Get all data product
     public List<Product> getData() throws Exception {
         List<Product> list = new ArrayList<>();
         Statement statement;
@@ -68,6 +68,8 @@ public void createProductTable() throws SQLException{
             dbDisConnect();
         }
     }
+
+    //Get product by Id
 
     /* **
     public boolean addData(Product product) {
