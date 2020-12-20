@@ -38,7 +38,7 @@ public class AddEmployeeController implements Initializable {
     private CheckBox fxEmployeeStatus;
     @FXML
     private AnchorPane fxAddEmployeeUI;
-    private Boolean isEditStatus = Boolean.FALSE;
+    private boolean isEditStatus = false;
 
     @FXML
     void handleSaveButton() {
@@ -110,7 +110,7 @@ public class AddEmployeeController implements Initializable {
         fxFireDate.setValue(employee.getEmployeeFireDate().toLocalDate());
         fxPermissionDate.setValue(employee.getEmployeePermissionDate().toLocalDate());
         fxEmployeeStatus.setSelected(employee.isEmployeeStatus());
-        isEditStatus = Boolean.TRUE;
+        isEditStatus = true;
         mEmployee.setEmployeeId(employee.getEmployeeId());
     }
 

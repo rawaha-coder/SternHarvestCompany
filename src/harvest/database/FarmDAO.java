@@ -187,7 +187,7 @@ public class FarmDAO extends DAO{
         String sqlStmt = "SELECT "
                 + TABLE_SEASON + "." + COLUMN_SEASON_ID + ", "
                 + TABLE_SEASON + "." + COLUMN_SEASON_DATE_PLANTING + ", "
-                + TABLE_SEASON + "." + COLUMN_SEASON_DATE_HARVEST + " "
+                + TABLE_SEASON + "." + COLUMN_SEASON_DATE_HARVEST + ", "
                 + TABLE_FARM + "." + COLUMN_FARM_ID + ", "
                 + TABLE_FARM + "." + COLUMN_FARM_NAME + ", "
                 + TABLE_FARM + "." + COLUMN_FARM_ADDRESS + ", "

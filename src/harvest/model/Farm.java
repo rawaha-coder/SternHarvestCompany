@@ -15,6 +15,14 @@ public class Farm {
         this.farmAddress = new SimpleStringProperty();
     }
 
+    public Farm(int farmId, String farmName) {
+        this.farmId = new SimpleIntegerProperty();
+        this.farmName = new SimpleStringProperty();
+        this.farmAddress = new SimpleStringProperty();
+        this.farmId.set(farmId);
+        this.farmName.set(farmName);
+    }
+
     public Farm(int farmId, String farmName, String farmAddress) {
         this.farmId = new SimpleIntegerProperty();
         this.farmName = new SimpleStringProperty();

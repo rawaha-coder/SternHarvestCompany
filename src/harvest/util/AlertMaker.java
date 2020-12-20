@@ -17,6 +17,14 @@ public class AlertMaker {
         alert.showAndWait();
     }
 
+    public void show(String title){
+        alert.setTitle(title + " info missing");
+        alert.setHeaderText("Required fields are missing");
+        alert.setContentText("Please enter correct data in required fields!");
+        alert.setAlertType(AlertType.INFORMATION);
+        alert.showAndWait();
+    }
+
     public Optional<ButtonType> deleteConfirmation(String item){
         alert.setTitle(item + " Delete Confirmation");
         alert.setHeaderText("This will erase ALL " + item + " information from \nthe database, NOT JUST from this table");

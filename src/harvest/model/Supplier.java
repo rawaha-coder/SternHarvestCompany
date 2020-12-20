@@ -8,6 +8,7 @@ public class Supplier {
     private final SimpleStringProperty supplierName;
     private final SimpleStringProperty supplierFirstname;
     private final SimpleStringProperty supplierLastname;
+    private final Farm supplierFarm;
     private final Product supplierProduct;
 
     public Supplier() {
@@ -15,6 +16,7 @@ public class Supplier {
         this.supplierName = new SimpleStringProperty();
         this.supplierFirstname = new SimpleStringProperty();
         this.supplierLastname = new SimpleStringProperty();
+        this.supplierFarm = new Farm();
         this.supplierProduct = new Product();
     }
 
@@ -64,6 +66,17 @@ public class Supplier {
 
     public void setSupplierLastname(String supplierLastname) {
         this.supplierLastname.set(supplierLastname);
+    }
+
+    public Farm getSupplierFarm() {
+        return supplierFarm;
+    }
+
+    public void setSupplierFarm(Farm farm){
+        this.supplierFarm.setFarmId(farm.getFarmId());
+        this.supplierFarm.setFarmName(farm.getFarmName());
+        this.supplierFarm.setFarmAddress(farm.getFarmAddress());
+
     }
 
     public Product getSupplierProduct() {
