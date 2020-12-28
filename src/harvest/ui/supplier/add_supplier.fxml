@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
@@ -14,9 +15,12 @@
         <Button layoutX="244.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleClearSupplierButton" prefHeight="40.0" prefWidth="140.0" text="Clear Fields" />
         <Button layoutX="84.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleSaveSupplierButton" prefHeight="40.0" prefWidth="140.0" text="Save" />
 
-        <ChoiceBox fx:id="fxChoiceSupplier" layoutX="575.0" layoutY="47.0" prefHeight="40.0" prefWidth="300.0" />
-        <ChoiceBox fx:id="fxChoiceSupplierFarm" layoutX="575.0" layoutY="127.0" prefHeight="40.0" prefWidth="300.0" />
-        <ChoiceBox fx:id="fxChoiceSupplierProduct" layoutX="575.0" layoutY="210.0" prefHeight="40.0" prefWidth="300.0" />
+        <Label layoutX="576.0" layoutY="49.0" prefHeight="20.0" prefWidth="101.0" text="Supplier" />
+        <ChoiceBox fx:id="fxChoiceSupplier" layoutX="575.0" layoutY="74.0" prefHeight="40.0" prefWidth="300.0" />
+        <Label layoutX="576.0" layoutY="146.0" prefHeight="20.0" prefWidth="101.0" text="Farm" />
+        <ChoiceBox fx:id="fxChoiceSupplierFarm" layoutX="575.0" layoutY="167.0" prefHeight="40.0" prefWidth="300.0" />
+        <Label layoutX="576.0" layoutY="241.0" prefHeight="20.0" prefWidth="101.0" text="Product" />
+        <ChoiceBox fx:id="fxChoiceSupplierProduct" layoutX="575.0" layoutY="262.0" prefHeight="40.0" prefWidth="300.0" />
         <Button layoutX="735.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleClearSupplyButton" prefHeight="40.0" prefWidth="140.0" text="Clear Fields" />
         <Button layoutX="575.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleSaveSupplyButton" prefHeight="40.0" prefWidth="140.0" text="Save" />
 

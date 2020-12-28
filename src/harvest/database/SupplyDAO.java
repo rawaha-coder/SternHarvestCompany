@@ -167,6 +167,17 @@ public class SupplyDAO extends DAO{
         }
     }
 
+    public void updateLiveData() {
+        SUPPLY_LIST_LIVE_DATA.clear();
+        if (SUPPLIER_LIST_LIVE_DATA.size() > 0){
+            try {
+                SUPPLY_LIST_LIVE_DATA.setAll(getSupplyDataBySupplier(SUPPLIER_LIST_LIVE_DATA.get(0)));
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
     public void updateLiveData(Supplier supplier) {
         SUPPLY_LIST_LIVE_DATA.clear();
         try {

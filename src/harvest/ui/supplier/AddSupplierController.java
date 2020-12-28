@@ -1,5 +1,6 @@
 package harvest.ui.supplier;
 
+import harvest.MainController;
 import harvest.database.FarmDAO;
 import harvest.database.ProductDAO;
 import harvest.database.SupplierDAO;
@@ -8,17 +9,21 @@ import harvest.model.Farm;
 import harvest.model.Product;
 import harvest.model.Supplier;
 import harvest.model.Supply;
+import harvest.ui.product.AddProductController;
 import harvest.util.AlertMaker;
 import harvest.util.Validation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.net.URL;
 import java.util.*;
@@ -140,7 +145,18 @@ public class AddSupplierController implements Initializable {
             supplier.setSupplierFirstname(fxSupplierFirstname.getText());
             supplier.setSupplierLastname(fxSupplierLastname.getText());
             if (mSupplierDAO.addData(supplier)){
+                mSupplierDAO.updateLiveData();
+                //mSupplyDAO.updateLiveData(supplier);
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/ui/supplier/display_supplier.fxml"));
+                    Parent parent = loader.load();
+                    DisplaySupplierController mDisplaySupplierController =  loader.getController();
+                    mDisplaySupplierController.selectItem(supplier);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 alert.saveItem("Supplier", true);
+                getSupplierList();
                 handleClearSupplierButton();
             }else{
                 alert.saveItem("Supplier", false);
@@ -181,12 +197,13 @@ public class AddSupplierController implements Initializable {
         mSupplier.setSupplierId(supplier.getSupplierId());
     }
 
+    @FXML
     public void handleClearSupplyButton() {
         getSupplierList();
         getFarmList();
         getProductList();
     }
-
+    @FXML
     public void handleSaveSupplyButton(ActionEvent actionEvent) {
         if (isEditStatus){
             handleEditSupplyOperation(mSupply);
@@ -203,12 +220,35 @@ public class AddSupplierController implements Initializable {
             supply.setSupplier(mSupplierMap.get(fxChoiceSupplier.getValue()));
             supply.setFarm(mFarmMap.get(fxChoiceSupplierFarm.getValue()));
             supply.setProduct(mProductMap.get(fxChoiceSupplierProduct.getValue()));
-            alert.saveItem("Supplier", mSupplyDAO.addData(supply));
-            handleClearSupplyButton();
+            if (mSupplyDAO.addData(supply)){
+                alert.saveItem("Supplier", true );
+                mSupplierDAO.updateLiveData();
+                //mSupplyDAO.updateLiveData();
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/ui/supplier/display_supplier.fxml"));
+                    Parent parent = loader.load();
+                    DisplaySupplierController mDisplaySupplierController =  loader.getController();
+                    mDisplaySupplierController.selectItem(mSupplierMap.get(fxChoiceSupplier.getValue()));
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                handleClearSupplyButton();
+            }else {
+                alert.saveItem("Supplier", false);
+            }
         }
     }
 
     public void handleEditSupplyOperation(Supply supply){
+
+    }
+
+    public void inflateSupplyUI(Supply supply) {
+
+        getSupplierList();
+        getFarmList();
+        getProductList();
+        isEditStatus = true;
 
     }
 
