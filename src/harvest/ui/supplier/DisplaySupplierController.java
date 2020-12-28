@@ -2,15 +2,15 @@ package harvest.ui.supplier;
 
 import harvest.database.SupplierDAO;
 import harvest.database.SupplyDAO;
-import harvest.model.Farm;
-import harvest.model.Product;
+import harvest.model.Employee;
 import harvest.model.Supplier;
 import harvest.model.Supply;
 import harvest.util.AlertMaker;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,8 +19,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -31,12 +32,11 @@ import java.util.ResourceBundle;
 public class DisplaySupplierController implements Initializable {
 
 
+    ///public static ObservableList<Farm> SUPPLIER_FARM_LIST_LIVE_DATA = FXCollections.observableArrayList();
+    //public static ObservableList<Product> SUPPLIER_PRODUCT_LIST_LIVE_DATA = FXCollections.observableArrayList();
     public static ObservableList<Supplier> SUPPLIER_LIST_LIVE_DATA = FXCollections.observableArrayList();
-    public static ObservableList<Farm> SUPPLIER_FARM_LIST_LIVE_DATA = FXCollections.observableArrayList();
-    public static ObservableList<Product> SUPPLIER_PRODUCT_LIST_LIVE_DATA = FXCollections.observableArrayList();
     public static ObservableList<Supply> SUPPLY_LIST_LIVE_DATA = FXCollections.observableArrayList();
-    @FXML
-    private AnchorPane fxTableUI;
+
     @FXML
     private TableView<Supplier> fxSupplierTable;
     @FXML
@@ -97,17 +97,7 @@ public class DisplaySupplierController implements Initializable {
     }
 
     @FXML
-    void deleteFarm() {
-
-    }
-
-    @FXML
-    void deleteProduct() {
-
-    }
-
-    @FXML
-    void editSupplier(ActionEvent event) {
+    void editSupplier() {
         Supplier supplier = fxSupplierTable.getSelectionModel().getSelectedItem();
         if (supplier == null) {
             alert.selectEditItem("Supplier");
@@ -119,7 +109,7 @@ public class DisplaySupplierController implements Initializable {
             Parent parent = loader.load();
             AddSupplierController controller = loader.getController();
             controller.inflateSupplierUI(supplier);
-            stage.setTitle("Edition");
+            stage.setTitle("Supplier Edition");
             stage.setScene(new Scene(parent));
             stage.show();
         } catch (IOException e) {
@@ -132,37 +122,28 @@ public class DisplaySupplierController implements Initializable {
         Supplier supplier = fxSupplierTable.getSelectionModel().getSelectedItem();
         if (supplier == null) {
             alert.selectDeleteItem("Supplier");
+            return;
         }
         AlertMaker alertDelete = new AlertMaker();
 
         Optional<ButtonType> result = alertDelete.deleteConfirmation("Supplier");
         assert result.isPresent();
         if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
-            assert supplier != null;
             if (mSupplierDAO.deleteDataById(supplier.getSupplierId())){
                 mSupplierDAO.updateLiveData();
                 mSupplyDAO.updateLiveData();
-                alert.deleteItem("Product detail", true);
+                alert.deleteItem("Supplier", true);
             }else {
-                alert.deleteItem("Product detail", false);
+                alert.deleteItem("Supplier", false);
             }
         } else {
             alert.cancelOperation("Delete");
         }
-        System.out.println("Delete product...");
+        System.out.println("Delete Supplier...");
     }
 
     @FXML
-    void editFarm(ActionEvent event) {
-
-    }
-
-    @FXML
-    void editProduct(ActionEvent event) {
-
-    }
-
-    public void editSupply(ActionEvent actionEvent) {
+    public void editSupply() {
         Supply supply = fxSupplyTable.getSelectionModel().getSelectedItem();
         if (supply == null) {
             alert.selectEditItem("Supply");
@@ -174,7 +155,7 @@ public class DisplaySupplierController implements Initializable {
             Parent parent = loader.load();
             AddSupplierController controller = loader.getController();
             controller.inflateSupplyUI(supply);
-            stage.setTitle("Edition");
+            stage.setTitle("Supply Edition");
             stage.setScene(new Scene(parent));
             stage.show();
         } catch (IOException e) {
@@ -182,6 +163,28 @@ public class DisplaySupplierController implements Initializable {
         }
     }
 
-    public void deleteSupply(ActionEvent actionEvent) {
+    @FXML
+    public void deleteSupply() {
+        Supply supply = fxSupplyTable.getSelectionModel().getSelectedItem();
+        if (supply == null) {
+            alert.selectDeleteItem("Supply");
+            return;
+        }
+        AlertMaker alertDelete = new AlertMaker();
+
+        Optional<ButtonType> result = alertDelete.deleteConfirmation("Supply");
+        assert result.isPresent();
+        if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
+            if (mSupplyDAO.deleteDataById(supply.getSupplyId())){
+                mSupplierDAO.updateLiveData();
+                mSupplyDAO.updateLiveData();
+                alert.deleteItem("Supply", true);
+            }else {
+                alert.deleteItem("Supply", false);
+            }
+        } else {
+            alert.cancelOperation("Delete");
+        }
+        System.out.println("Delete supply...");
     }
 }

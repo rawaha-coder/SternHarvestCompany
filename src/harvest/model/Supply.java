@@ -51,6 +51,8 @@ public class Supply {
     public void setSupplier(Supplier supplier){
         this.mSupplier.setSupplierId(supplier.getSupplierId());
         this.mSupplier.setSupplierName(supplier.getSupplierName());
+        this.mSupplier.setSupplierFirstname(supplier.getSupplierFirstname());
+        this.mSupplier.setSupplierLastname(supplier.getSupplierLastname());
         this.supplierName = new SimpleStringProperty(supplier.getSupplierName());
     }
 
@@ -61,6 +63,7 @@ public class Supply {
     public void setFarm(Farm farm){
         this.mFarm.setFarmId(farm.getFarmId());
         this.mFarm.setFarmName(farm.getFarmName());
+        this.mFarm.setFarmAddress(farm.getFarmAddress());
         this.farmName = new SimpleStringProperty(farm.getFarmName());
     }
 

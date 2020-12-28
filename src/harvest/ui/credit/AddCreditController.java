@@ -71,7 +71,10 @@ public class AddCreditController implements Initializable {
     @FXML
     void handleSaveButton() {
         if (
-                Validation.isEmpty(fxCreditDate.getValue().toString(), fxCreditAmount.getText(), employeeNameId.get(fxEmployeeList.getValue()).toString(), fxEmployeeList.getValue())
+                Validation.isEmpty(fxCreditDate.getValue().toString()
+                        , fxCreditAmount.getText()
+                        , employeeNameId.get(fxEmployeeList.getValue()).toString()
+                        , fxEmployeeList.getValue())
                 || !Validation.isDouble(fxCreditAmount.getText())
         ){
             alert.show("Required fields are missing", "Please enter correct data in required fields!", AlertType.INFORMATION);

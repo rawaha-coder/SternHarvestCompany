@@ -121,7 +121,6 @@ public class CreditDAO extends DAO{
     //*************************************************************
     //Update Credit Data
     //*************************************************************
-    //@Override
     public boolean editData(Credit credit) {
         PreparedStatement preparedStatement;
         //Declare a UPDATE statement
