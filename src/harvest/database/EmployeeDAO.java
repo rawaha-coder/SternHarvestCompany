@@ -10,6 +10,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static harvest.database.CreditDAO.COLUMN_CREDIT_EMPLOYEE_ID;
+import static harvest.database.CreditDAO.CREDITS_TABLE;
 import static harvest.ui.employee.DisplayEmployeeController.EMPLOYEE_GRAPH_LIVE_DATA;
 import static harvest.ui.employee.DisplayEmployeeController.EMPLOYEE_LIST_LIVE_DATA;
 
@@ -178,14 +180,30 @@ public class EmployeeDAO extends DAO{
 
     //Delete Employee by Id
     public boolean deleteDataById(int Id) {
-        String sqlStmt = "DELETE FROM " + TABLE_EMPLOYEE + " WHERE " + COLUMN_EMPLOYEE_ID + " =" + Id + ";";
-        //Execute UPDATE operation
+        Connection connection = null;
+        Statement statement;
+        String deleteEmployee = "DELETE FROM " + TABLE_EMPLOYEE + " WHERE " + COLUMN_EMPLOYEE_ID + " =" + Id + ";";
+        String deleteCredit = "DELETE FROM " + CREDITS_TABLE + " WHERE " + COLUMN_CREDIT_EMPLOYEE_ID + " =" + Id + ";";
         try {
-            Statement statement = dbGetConnect().createStatement();
-            statement.execute(sqlStmt);
+            connection = dbGetConnect();
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            statement.execute(deleteEmployee);
+            statement = connection.createStatement();
+            statement.execute(deleteCredit);
+            connection.commit();
             statement.close();
+            updateLiveData();
             return true;
         } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                assert connection != null;
+                connection.close();
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+                System.out.print("Error occurred while rollback Operation: " + sqlException.getMessage());
+            }
             System.out.print("Error occurred while DELETE Operation: " + e.getMessage());
             return false;
         }finally {

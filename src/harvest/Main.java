@@ -1,9 +1,6 @@
 package harvest;
 
-import harvest.database.EmployeeDAO;
-import harvest.database.ProductDAO;
-import harvest.database.ProductDetailDAO;
-import harvest.database.SupplierDAO;
+import harvest.database.*;
 import harvest.model.Employee;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +17,7 @@ public class Main extends Application {
     //ProductDAO mProductDAO = ProductDAO.getInstance();
     //ProductDetailDAO mProductDetailDAO = ProductDetailDAO.getInstance();
     //SupplierDAO mSupplierDAO = SupplierDAO.getInstance();
+    //SupplyDAO mSupplyDAO = SupplyDAO.getInstance();
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -34,6 +32,7 @@ public class Main extends Application {
         //mFarmDAO.createFarmTable();
         //mSeasonDAO.createSeasonTable();
         //mSupplierDAO.createSupplierTable();
+        //mSupplyDAO.createSupplyTable();
 
     }
 
