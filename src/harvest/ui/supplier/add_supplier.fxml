@@ -5,17 +5,22 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="fxAddItemUI" prefHeight="625.0" prefWidth="484.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.ui.supplier.AddSupplierController">
+<AnchorPane fx:id="fxAddItemUI" prefHeight="578.0" prefWidth="963.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.ui.supplier.AddSupplierController">
 
     <children>
         <TextField fx:id="fxSupplierName" layoutX="84.0" layoutY="47.0" prefHeight="40.0" prefWidth="300.0" promptText="Supplier" />
-        <TextField fx:id="fxSupplierFirstname" layoutX="84.0" layoutY="113.0" prefHeight="40.0" prefWidth="300.0" promptText="Firstname" />
-        <TextField fx:id="fxSupplierLastname" layoutX="84.0" layoutY="178.0" prefHeight="40.0" prefWidth="300.0" promptText="Lastname" />
-        <ChoiceBox fx:id="fxChoiceSupplierFarm" layoutX="84.0" layoutY="242.0" prefHeight="40.0" prefWidth="300.0" />
-        <ChoiceBox fx:id="fxChoiceSupplierProduct" layoutX="84.0" layoutY="306.0" prefHeight="40.0" prefWidth="300.0" />
-        <Button layoutX="271.0" layoutY="411.0" mnemonicParsing="false" onAction="#handleClearButton" prefHeight="31.0" prefWidth="110.0" text="Clear Fields" />
-        <Button layoutX="70.0" layoutY="527.0" mnemonicParsing="false" onAction="#handleSaveButton" prefHeight="40.0" prefWidth="140.0" text="Save" />
-        <Button layoutX="256.0" layoutY="527.0" mnemonicParsing="false" onAction="#handleCancelButton" prefHeight="40.0" prefWidth="140.0" text="Cancel" />
+        <TextField fx:id="fxSupplierFirstname" layoutX="84.0" layoutY="127.0" prefHeight="40.0" prefWidth="300.0" promptText="Firstname" />
+        <TextField fx:id="fxSupplierLastname" layoutX="84.0" layoutY="210.0" prefHeight="40.0" prefWidth="300.0" promptText="Lastname" />
+        <Button layoutX="244.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleClearSupplierButton" prefHeight="40.0" prefWidth="140.0" text="Clear Fields" />
+        <Button layoutX="84.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleSaveSupplierButton" prefHeight="40.0" prefWidth="140.0" text="Save" />
+
+        <ChoiceBox fx:id="fxChoiceSupplier" layoutX="575.0" layoutY="47.0" prefHeight="40.0" prefWidth="300.0" />
+        <ChoiceBox fx:id="fxChoiceSupplierFarm" layoutX="575.0" layoutY="127.0" prefHeight="40.0" prefWidth="300.0" />
+        <ChoiceBox fx:id="fxChoiceSupplierProduct" layoutX="575.0" layoutY="210.0" prefHeight="40.0" prefWidth="300.0" />
+        <Button layoutX="735.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleClearSupplyButton" prefHeight="40.0" prefWidth="140.0" text="Clear Fields" />
+        <Button layoutX="575.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleSaveSupplyButton" prefHeight="40.0" prefWidth="140.0" text="Save" />
+
+        <Button layoutX="794.0" layoutY="512.0" mnemonicParsing="false" onAction="#handleCloseButton" prefHeight="40.0" prefWidth="140.0" text="Close" />
     </children>
 
 </AnchorPane>

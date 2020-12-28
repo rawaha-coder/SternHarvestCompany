@@ -15,12 +15,16 @@ public class Farm {
         this.farmAddress = new SimpleStringProperty();
     }
 
-    public Farm(int farmId, String farmName) {
-        this.farmId = new SimpleIntegerProperty();
+    public Farm(int i) {
+        this.farmId = new SimpleIntegerProperty(i);
         this.farmName = new SimpleStringProperty();
         this.farmAddress = new SimpleStringProperty();
-        this.farmId.set(farmId);
-        this.farmName.set(farmName);
+    }
+
+    public Farm(int i, String s) {
+        this.farmId = new SimpleIntegerProperty(i);
+        this.farmName = new SimpleStringProperty(s);
+        this.farmAddress = new SimpleStringProperty();
     }
 
     public Farm(int farmId, String farmName, String farmAddress) {
@@ -43,10 +47,6 @@ public class Farm {
         return 0;
     }
 
-    public SimpleIntegerProperty farmIdProperty() {
-        return farmId;
-    }
-
     public void setFarmId(int farmId) {
         this.farmId.set(farmId);
     }
@@ -55,20 +55,12 @@ public class Farm {
         return farmName.get();
     }
 
-    public SimpleStringProperty farmNameProperty() {
-        return farmName;
-    }
-
     public void setFarmName(String farmName) {
         this.farmName.set(farmName);
     }
 
     public String getFarmAddress() {
         return farmAddress.get();
-    }
-
-    public SimpleStringProperty farmAddressProperty() {
-        return farmAddress;
     }
 
     public void setFarmAddress(String farmAddress) {

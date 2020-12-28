@@ -280,22 +280,17 @@ public class FarmDAO extends DAO{
     public boolean deleteDataById(int id){
         Connection connection = null;
         Statement statement = null;
-        //Declare a INSERT statement
         String sqlDeleteFarmStmt = "DELETE FROM " + TABLE_FARM + " WHERE " + COLUMN_FARM_ID + " ="+id+";";
-
         String sqlDeleteSeasonStmt = "DELETE FROM " + TABLE_SEASON + " WHERE " + COLUMN_SEASON_FARM_ID + " ="+id+";";
-
         try {
             connection = dbGetConnect();
             connection.setAutoCommit(false);
-
             statement = connection.createStatement();
             statement.execute(sqlDeleteFarmStmt);
-
             statement = connection.createStatement();
             statement.execute(sqlDeleteSeasonStmt);
-            statement.close();
             connection.commit();
+            statement.close();
             updateLiveData();
             return true;
         } catch (Exception exception) {
@@ -307,7 +302,7 @@ public class FarmDAO extends DAO{
                 sqlException.printStackTrace();
                 System.out.print("Error occurred while rollback Operation: " + sqlException.getMessage());
             }
-            System.out.print("Error occurred while INSERT Operation: " + exception.getMessage());
+            System.out.print("Error occurred while Delete Operation: " + exception.getMessage());
             return false;
         }finally {
             assert statement != null;

@@ -14,55 +14,54 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane prefHeight="768" prefWidth="1024"
-           stylesheets="@style.css"
-           xmlns="http://javafx.com/javafx/11.0.1"
-           xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="harvest.MainController">
+<StackPane prefHeight="768" prefWidth="1024" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.MainController">
     <BorderPane fx:id="mainBorderPane" stylesheets="@style.css">
         <top>
             <VBox prefHeight="120.0">
                 <MenuBar prefHeight="40.0" stylesheets="@style.css" BorderPane.alignment="CENTER">
                     <BorderPane.margin>
-                        <Insets/>
+                        <Insets />
                     </BorderPane.margin>
                     <padding>
-                        <Insets bottom="10.0" left="20.0" right="10.0" top="20.0"/>
+                        <Insets bottom="10.0" left="20.0" right="10.0" top="20.0" />
                     </padding>
                     <VBox.margin>
-                        <Insets/>
+                        <Insets />
                     </VBox.margin>
                     <Menu mnemonicParsing="false" text="File">
-                        <MenuItem mnemonicParsing="false" text="Close"/>
+                        <MenuItem mnemonicParsing="false" text="Close" />
                     </Menu>
                     <Menu mnemonicParsing="false" text="Add">
-                        <MenuItem mnemonicParsing="false" text="Add Product"/>
-                        <MenuItem mnemonicParsing="false" text="Add Employee"/>
-                        <MenuItem mnemonicParsing="false" text="Add Farm"/>
-                        <MenuItem mnemonicParsing="false" text="Add Supplier"/>
+                        <MenuItem mnemonicParsing="false" text="Add Product" />
+                        <MenuItem mnemonicParsing="false" text="Add Employee" />
+                        <MenuItem mnemonicParsing="false" text="Add Farm" />
+                        <MenuItem mnemonicParsing="false" text="Add Supplier" />
                     </Menu>
                     <Menu mnemonicParsing="false" text="Search">
                         <items>
-                            <MenuItem mnemonicParsing="false" text="About"/>
+                            <MenuItem mnemonicParsing="false" text="About" />
                         </items>
                     </Menu>
                 </MenuBar>
                 <HBox fx:id="fxHBoxTopMenu" alignment="CENTER" fillHeight="true" prefHeight="40.0" prefWidth="800.0" spacing="5.0">
                     <fx:define>
-                        <ToggleGroup fx:id="topMenu"/>
+                        <ToggleGroup fx:id="topMenu" />
                     </fx:define>
                     <children>
-                        <ToggleButton toggleGroup="$topMenu" prefHeight="30" prefWidth="140" text="Hours Work"  />
-                        <ToggleButton toggleGroup="$topMenu" prefHeight="30" prefWidth="140" text="Individual Work" />
-                        <ToggleButton toggleGroup="$topMenu" prefHeight="30" prefWidth="140" text="Group Work" />
-                        <ToggleButton fx:id="fxTransportCreditMenuBtn" onAction="#setDisplayCredit" toggleGroup="$topMenu"  prefHeight="30" prefWidth="160" text="Transport / Credit" />
-                        <ToggleButton fx:id="fxEmployeeMenuBtn" onAction="#setDisplayEmployee" toggleGroup="$topMenu"  prefHeight="30" prefWidth="120" text="Employees" />
-                        <ToggleButton fx:id="fxSupplierMenuBtn" onAction="#setDisplaySupplier" toggleGroup="$topMenu" prefHeight="30" prefWidth="140" text="Supplier" />
-                        <ToggleButton fx:id="fxFarmSeasonMenuBtn" onAction="#setDisplayFarm" toggleGroup="$topMenu" prefHeight="30" prefWidth="120" text="Farm / Season" />
-                        <ToggleButton fx:id="fxProductMenuBtn" onAction="#setDisplayProduct" toggleGroup="$topMenu" prefHeight="30" prefWidth="120" text="Products" />
+                        <ToggleButton prefHeight="30" prefWidth="140" text="Hours Work">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="topMenu" />
+                     </toggleGroup></ToggleButton>
+                        <ToggleButton prefHeight="30" prefWidth="140" text="Individual Work" toggleGroup="$topMenu" />
+                        <ToggleButton prefHeight="30" prefWidth="140" text="Group Work" toggleGroup="$topMenu" />
+                        <ToggleButton fx:id="fxTransportCreditMenuBtn" onAction="#setDisplayCredit" prefHeight="30" prefWidth="160" text="Transport / Credit" toggleGroup="$topMenu" />
+                        <ToggleButton fx:id="fxEmployeeMenuBtn" onAction="#setDisplayEmployee" prefHeight="30" prefWidth="120" text="Employees" toggleGroup="$topMenu" />
+                        <ToggleButton fx:id="fxSupplierMenuBtn" onAction="#setDisplaySupplier" prefHeight="30" prefWidth="140" text="Supplier" toggleGroup="$topMenu" />
+                        <ToggleButton fx:id="fxFarmSeasonMenuBtn" onAction="#setDisplayFarm" prefHeight="30" prefWidth="120" text="Farm / Season" toggleGroup="$topMenu" />
+                        <ToggleButton fx:id="fxProductMenuBtn" onAction="#setDisplayProduct" prefHeight="30" prefWidth="120" text="Products" toggleGroup="$topMenu" />
                     </children>
                     <padding>
-                        <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+                        <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                     </padding>
                 </HBox>
             </VBox>
@@ -72,47 +71,47 @@
         <right>
             <VBox prefHeight="700.0" prefWidth="150.0" BorderPane.alignment="CENTER">
                 <children>
-                    <Button fx:id="fxAddFarmSeasonButton" onAction="#loadUIAddFarmSeason" contentDisplay="TOP" mnemonicParsing="false" prefHeight="50.0" prefWidth="146.0" text="Farm / Season">
+                    <Button fx:id="fxAddFarmSeasonButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#loadUIAddFarmSeason" prefHeight="50.0" prefWidth="146.0" text="Farm / Season">
                         <graphic>
                             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
-                                    <Image url="@icon/ic_shortcut_assignment_ind.png"/>
+                                    <Image url="@icon/ic_shortcut_nature.png" />
                                 </image>
                             </ImageView>
                         </graphic>
                     </Button>
-                    <Button fx:id="fxAddTransportCreditButton" onAction="#loadUIAddCredit" contentDisplay="TOP" mnemonicParsing="false" prefHeight="50.0" prefWidth="146.0" text="Transport / Credit">
+                    <Button fx:id="fxAddTransportCreditButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#loadUIAddCredit" prefHeight="50.0" prefWidth="146.0" text="Transport / Credit">
                         <graphic>
                             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
-                                    <Image url="@icon/ic_shortcut_assignment_ind.png"/>
+                                    <Image url="@icon/ic_shortcut_euro_symbol.png" />
                                 </image>
                             </ImageView>
                         </graphic>
                     </Button>
-                    <Button fx:id="fxAddEmployeeButton" onAction="#loadUIAddEmployee" contentDisplay="TOP" mnemonicParsing="false" prefHeight="50.0" prefWidth="146.0" text="Add Employee">
+                    <Button fx:id="fxAddEmployeeButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#loadUIAddEmployee" prefHeight="50.0" prefWidth="146.0" text="Add Employee">
                         <graphic>
                             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
-                                    <Image url="@icon/ic_shortcut_assignment_ind.png"/>
+                                    <Image url="@icon/ic_shortcut_group_add.png" />
                                 </image>
                             </ImageView>
                         </graphic>
                     </Button>
-                    <Button fx:id="fxAddSupplierButton" onAction="#loadUIAddSupplier" contentDisplay="TOP" mnemonicParsing="false" prefHeight="50.0" prefWidth="146.0" text="Add Supplier">
+                    <Button fx:id="fxAddSupplierButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#loadUIAddSupplier" prefHeight="50.0" prefWidth="146.0" text="Add Supplier">
                         <graphic>
                             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
-                                    <Image url="@icon/ic_shortcut_assignment_ind.png"/>
+                                    <Image url="@icon/ic_shortcut_assignment_ind.png" />
                                 </image>
                             </ImageView>
                         </graphic>
                     </Button>
-                    <Button fx:id="fxAddProductButton" onAction="#loadUIAddProduct" contentDisplay="TOP" mnemonicParsing="false" prefHeight="50.0" prefWidth="146.0" text="Add Product">
+                    <Button fx:id="fxAddProductButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#loadUIAddProduct" prefHeight="50.0" prefWidth="146.0" text="Add Product">
                         <graphic>
                             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
-                                    <Image url="@icon/ic_shortcut_assignment_ind.png"/>
+                                    <Image url="@icon/ic_shortcut_shopping_basket.png" />
                                 </image>
                             </ImageView>
                         </graphic>
