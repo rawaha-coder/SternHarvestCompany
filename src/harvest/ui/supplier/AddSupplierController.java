@@ -1,21 +1,19 @@
 package harvest.ui.supplier;
 
-import harvest.database.FarmDAO;
-import harvest.database.ProductDAO;
-import harvest.database.SupplierDAO;
-import harvest.database.SupplyDAO;
+import harvest.database.*;
 import harvest.model.Farm;
 import harvest.model.Product;
 import harvest.model.Supplier;
 import harvest.model.Supply;
 import harvest.util.AlertMaker;
 import harvest.util.Validation;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -32,32 +30,30 @@ public class AddSupplierController implements Initializable {
     private final Map<String, Farm> mFarmMap = new LinkedHashMap<>();
     private final Map<String, Product> mProductMap = new LinkedHashMap<>();
 
-    private boolean isEditStatus = false;
+    private int operation = 0;
     private final AlertMaker alert = new AlertMaker();
     private final SupplierDAO mSupplierDAO = SupplierDAO.getInstance();
     private final SupplyDAO mSupplyDAO = SupplyDAO.getInstance();
     private final FarmDAO mFarmDAO = FarmDAO.getInstance();
     private final ProductDAO mProductDAO = ProductDAO.getInstance();
+    private final CommonDAO mCommonDAO = CommonDAO.getInstance();
     private final Supplier mSupplier = new Supplier();
     private final Supply mSupply = new Supply();
-    private final Farm mFarm = new Farm();
-    private final Product mProduct = new Product();
+
 
 
     @FXML
     private AnchorPane fxAddItemUI;
     @FXML
-    private TextField fxSupplierName;
-    @FXML
     private TextField fxSupplierFirstname;
     @FXML
     private TextField fxSupplierLastname;
     @FXML
-    private ChoiceBox<String> fxChoiceSupplier;
+    private ComboBox<String> fxChoiceSupplier;
     @FXML
-    private ChoiceBox<String> fxChoiceSupplierFarm;
+    private ChoiceBox<String> fxChoiceFarm;
     @FXML
-    private ChoiceBox<String> fxChoiceSupplierProduct;
+    private ChoiceBox<String> fxChoiceProduct;
 
 
     @Override
@@ -65,6 +61,16 @@ public class AddSupplierController implements Initializable {
         getSupplierList();
         getFarmList();
         getProductList();
+        observeChoiceSupplier();
+    }
+
+    private void observeChoiceSupplier(){
+        fxChoiceSupplier.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
+            if (mSupplierMap.get(new_val) != null){
+                fxSupplierFirstname.setText(mSupplierMap.get(new_val).getSupplierFirstname());
+                fxSupplierLastname.setText(mSupplierMap.get(new_val).getSupplierLastname());
+            }
+        });
     }
 
     //fill the ChoiceBox by employee list
@@ -98,7 +104,7 @@ public class AddSupplierController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        fxChoiceSupplierFarm.setItems(observableFarmList);
+        fxChoiceFarm.setItems(observableFarmList);
     }
 
     //fill the ChoiceBox by employee list
@@ -115,48 +121,132 @@ public class AddSupplierController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        fxChoiceSupplierProduct.setItems(observableProductList);
+        fxChoiceProduct.setItems(observableProductList);
     }
 
 
     @FXML
-    void handleSaveSupplierButton() {
-        if (isEditStatus){
-            handleEditSupplierOperation(mSupplier);
-        }else{
-            handleAddSupplierOperation();
-        }
+    void handleSaveButton() {
+            switch (operation){
+                case 1:
+                    handleEditSupplierOperation(mSupplier);
+                    break;
+                case 2:
+                    handleEditSupplyOperation(mSupply);
+                    break;
+                default:
+                    handleAddSupplierOperation();
+            }
     }
 
     private void handleAddSupplierOperation(){
-        if (Validation.isEmpty(fxSupplierName.getText()
+        if (Validation.isEmpty(fxChoiceSupplier.getValue()
                 , fxSupplierFirstname.getText()
-                , fxSupplierLastname.getText())
-        ){
+                , fxSupplierLastname.getText()
+                , fxChoiceFarm.getValue()
+                , fxChoiceProduct.getValue()))
+        {
             alert.show("Supplier");
-        }else {
+            return;
+        }
+        boolean isAdded;
+        if (mSupplierMap.get(fxChoiceSupplier.getValue()) == null){
             Supplier supplier = new Supplier();
-            supplier.setSupplierName(fxSupplierName.getText());
+            supplier.setSupplierName(fxChoiceSupplier.getValue());
             supplier.setSupplierFirstname(fxSupplierFirstname.getText());
             supplier.setSupplierLastname(fxSupplierLastname.getText());
-            if (mSupplierDAO.addData(supplier)){
-                alert.saveItem("Supplier", true);
-                handleClearSupplierButton();
-            }else{
-                alert.saveItem("Supplier", false);
-            }
+            Supply supply = new Supply();
+            supply.setSupplier(supplier);
+            supply.setFarm(mFarmMap.get(fxChoiceFarm.getValue()));
+            System.out.println(" *********** " + mFarmMap.get(fxChoiceFarm.getValue()).getFarmId());
+            supply.setProduct(mProductMap.get(fxChoiceProduct.getValue()));
+            System.out.println(" *********** " + mProductMap.get(fxChoiceProduct.getValue()).getProductId());
+            isAdded = mCommonDAO.addSupplierSupplyData(supply);
+        }else{
+            Supply supply = new Supply();
+            supply.setSupplier(mSupplierMap.get(fxChoiceSupplier.getValue()));
+            supply.setFarm(mFarmMap.get(fxChoiceFarm.getValue()));
+            supply.setProduct(mProductMap.get(fxChoiceProduct.getValue()));
+            isAdded = mSupplyDAO.addData(supply);
+        }
+
+        if (isAdded) {
+            mSupplierDAO.updateLiveData();
+            mSupplyDAO.updateLiveData();
+            handleClearButton();
+            getSupplierList();
+            getFarmList();
+            getProductList();
+            alert.saveItem("Supplier", true);
+        } else {
+            alert.saveItem("Supplier", false);
         }
     }
 
     private void handleEditSupplierOperation(Supplier supplier){
-        mSupplier.setSupplierName(fxSupplierName.getText());
-        mSupplier.setSupplierFirstname(fxSupplierFirstname.getText());
-        mSupplier.setSupplierLastname(fxSupplierLastname.getText());
-        alert.updateItem("Supplier", mSupplierDAO.editData(supplier));
-        isEditStatus = false;
+        supplier.setSupplierName(fxChoiceSupplier.getValue());
+        supplier.setSupplierFirstname(fxSupplierFirstname.getText());
+        supplier.setSupplierLastname(fxSupplierLastname.getText());
+        if (mSupplierDAO.editData(supplier)){
+            alert.updateItem("Supplier", true);
+            mSupplierDAO.updateLiveData();
+        }else {
+            alert.updateItem("Supplier", false);
+        }
+        operation = 0;
         handleCloseButton();
     }
 
+    public void handleEditSupplyOperation(Supply supply){
+        supply.setSupplier(mSupplierMap.get(fxChoiceSupplier.getValue()));
+        supply.setFarm(mFarmMap.get(fxChoiceFarm.getValue()));
+        supply.setProduct(mProductMap.get(fxChoiceProduct.getValue()));
+        if (mSupplyDAO.editData(supply)){
+            mSupplierDAO.updateLiveData();
+            mSupplyDAO.updateLiveData(mSupplierMap.get(fxChoiceSupplier.getValue()));
+            alert.saveItem("Supply", true );
+        }else {
+            alert.saveItem("Supply", false);
+        }
+        operation = 0;
+        handleCloseButton();
+    }
+
+    public void inflateSupplierUI(Supplier supplier) {
+        getSupplierList();
+        fxChoiceSupplier.setValue(supplier.getSupplierName());
+        fxSupplierFirstname.setText(supplier.getSupplierFirstname());
+        fxSupplierLastname.setText(supplier.getSupplierLastname());
+        fxChoiceFarm.setDisable(true);
+        fxChoiceProduct.setDisable(true);
+        getProductList();
+        operation = 1;
+        mSupplier.setSupplierId(supplier.getSupplierId());
+    }
+
+    public void inflateSupplyUI(Supply supply) {
+        getSupplierList();
+        getFarmList();
+        getProductList();
+        fxChoiceSupplier.setValue(supply.getSupplierName());
+        fxChoiceSupplier.setDisable(true);
+        fxSupplierFirstname.setDisable(true);
+        fxSupplierLastname.setDisable(true);
+        fxChoiceFarm.setValue(supply.getFarmName());
+        fxChoiceProduct.setValue(supply.getProductName());
+        operation = 2;
+        mSupply.setSupplyId(supply.getSupplyId());
+
+    }
+
+    @FXML
+    void handleClearButton() {
+        fxSupplierFirstname.setText("");
+        fxSupplierLastname.setText("");
+        getSupplierList();
+        getFarmList();
+        getProductList();
+    }
 
     @FXML
     void handleCloseButton() {
@@ -164,52 +254,4 @@ public class AddSupplierController implements Initializable {
         stage.close();
         System.out.println("Cancel...");
     }
-
-    @FXML
-    void handleClearSupplierButton() {
-        fxSupplierName.setText("");
-        fxSupplierFirstname.setText("");
-        fxSupplierLastname.setText("");
-    }
-
-    public void inflateSupplierUI(Supplier supplier) {
-        fxSupplierName.setText(supplier.getSupplierName());
-        fxSupplierFirstname.setText(supplier.getSupplierFirstname());
-        fxSupplierLastname.setText(supplier.getSupplierLastname());
-        getProductList();
-        isEditStatus = true;
-        mSupplier.setSupplierId(supplier.getSupplierId());
-    }
-
-    public void handleClearSupplyButton() {
-        getSupplierList();
-        getFarmList();
-        getProductList();
-    }
-
-    public void handleSaveSupplyButton(ActionEvent actionEvent) {
-        if (isEditStatus){
-            handleEditSupplyOperation(mSupply);
-        }else{
-            handleAddSupplyOperation();
-        }
-    }
-
-    public void  handleAddSupplyOperation(){
-        if (Validation.isEmpty(fxChoiceSupplier.getValue(), fxChoiceSupplierFarm.getValue(), fxChoiceSupplierProduct.getValue())){
-            alert.show("Supplier");
-        }else {
-            Supply supply = new Supply();
-            supply.setSupplier(mSupplierMap.get(fxChoiceSupplier.getValue()));
-            supply.setFarm(mFarmMap.get(fxChoiceSupplierFarm.getValue()));
-            supply.setProduct(mProductMap.get(fxChoiceSupplierProduct.getValue()));
-            alert.saveItem("Supplier", mSupplyDAO.addData(supply));
-            handleClearSupplyButton();
-        }
-    }
-
-    public void handleEditSupplyOperation(Supply supply){
-
-    }
-
 }

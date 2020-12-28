@@ -2,13 +2,12 @@ package harvest.database;
 
 import harvest.model.Supplier;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static harvest.database.SupplyDAO.COLUMN_SUPPLY_FRGN_KEY_SUPPLIER_ID;
+import static harvest.database.SupplyDAO.TABLE_SUPPLY;
 import static harvest.ui.supplier.DisplaySupplierController.*;
 
 public class SupplierDAO extends DAO{
@@ -114,18 +113,38 @@ public class SupplierDAO extends DAO{
 
 
     public boolean deleteDataById(int Id) {
-        String sqlStmt = "DELETE FROM " + TABLE_SUPPLIER + " WHERE " + COLUMN_SUPPLIER_ID + " = " + Id + " ;";
+        Connection connection = null;
+        Statement statement;
+        String deleteSupplier = "DELETE FROM " + TABLE_SUPPLIER + " WHERE " + COLUMN_SUPPLIER_ID + " = " + Id + " ;";
+        String deleteSupply = "DELETE FROM " +  TABLE_SUPPLY + " WHERE " + COLUMN_SUPPLY_FRGN_KEY_SUPPLIER_ID + " = " + Id + " ;";
         try {
-            Statement statement = dbGetConnect().createStatement();
-            statement.execute(sqlStmt);
+            connection = dbGetConnect();
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            statement.execute(deleteSupplier);
+            statement = connection.createStatement();
+            statement.execute(deleteSupply);
+            connection.commit();
             statement.close();
-            updateLiveData();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                assert connection != null;
+                connection.rollback();
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+                System.out.print("Error occurred while rollback Operation: " + sqlException.getMessage());
+            }
             System.out.print("Error occurred while DELETE Operation: " + e.getMessage());
             return false;
         }finally {
+            try {
+                assert connection != null;
+                connection.close();
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
             dbDisConnect();
         }
     }

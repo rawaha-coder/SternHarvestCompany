@@ -306,7 +306,11 @@ public class FarmDAO extends DAO{
             return false;
         }finally {
             assert statement != null;
-
+            try {
+                connection.close();
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
             dbDisConnect();
         }
     }

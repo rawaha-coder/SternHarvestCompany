@@ -5,10 +5,7 @@ import harvest.model.Product;
 import harvest.model.Supplier;
 import harvest.model.Supply;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -164,6 +161,58 @@ public class SupplyDAO extends DAO{
             throw e;
         }finally {
             dbDisConnect();
+        }
+    }
+
+    public boolean editData(Supply supply) {
+        PreparedStatement preparedStatement;
+        String updateStmt = "UPDATE " + TABLE_SUPPLY + " SET "
+                + COLUMN_SUPPLY_FRGN_KEY_SUPPLIER_ID + " =?, "
+                + COLUMN_SUPPLY_FRGN_KEY_FARM_ID + " =?, "
+                + COLUMN_SUPPLY_FRGN_KEY_PRODUCT_ID+ " =? "
+                + " WHERE " + COLUMN_SUPPLY_ID + " = " + supply.getSupplyId() + " ;";
+        try {
+            preparedStatement = dbGetConnect().prepareStatement(updateStmt);
+            preparedStatement.setInt(1, supply.getSupplier().getSupplierId());
+            preparedStatement.setInt(2, supply.getFarm().getFarmId());
+            preparedStatement.setInt(3, supply.getProduct().getProductId());
+            preparedStatement.execute();
+            preparedStatement.close();
+            updateLiveData();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error occurred while UPDATE Operation: " + e.getMessage());
+            return false;
+        }finally {
+            dbDisConnect();
+        }
+    }
+
+    public boolean deleteDataById(int Id) {
+        String deleteSupply = "DELETE FROM " + TABLE_SUPPLY + " WHERE " + COLUMN_SUPPLY_ID + " = " + Id + " ;";
+        try {
+            Statement statement = dbGetConnect().createStatement();
+            statement.execute(deleteSupply);
+            statement.close();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.print("Error occurred while DELETE Operation: " + e.getMessage());
+            return false;
+        }finally {
+            dbDisConnect();
+        }
+    }
+
+    public void updateLiveData() {
+        SUPPLY_LIST_LIVE_DATA.clear();
+        if (SUPPLIER_LIST_LIVE_DATA.size() > 0){
+            try {
+                SUPPLY_LIST_LIVE_DATA.setAll(getSupplyDataBySupplier(SUPPLIER_LIST_LIVE_DATA.get(0)));
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
