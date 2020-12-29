@@ -2,7 +2,6 @@ package harvest.ui.credit;
 
 import harvest.database.EmployeeDAO;
 import harvest.database.FarmDAO;
-import harvest.database.SeasonDAO;
 import harvest.database.TransportDAO;
 import harvest.model.Employee;
 import harvest.model.Farm;
@@ -110,11 +109,31 @@ public class AddTransportController implements Initializable {
         }
         Transport transport = new Transport();
         transport.setTransportDate(Date.valueOf(fxTransportDate.getValue()));
-        transport.setAmount(Double.parseDouble(fxTransportAmount.getText()));
+        transport.setTransportAmount(Double.parseDouble(fxTransportAmount.getText()));
         transport.setEmployee(employeeMap.get(fxEmployeeList.getValue()));
         transport.setFarm(farmMap.get(fxFarmList.getValue()));
-        alert.saveItem("Transport", mTransportDAO.addData(transport));
+        if (mTransportDAO.addData(transport)){
+            mTransportDAO.updateLiveData();
+            alert.saveItem("Transport", true);
+        }else {
+            alert.saveItem("Transport", false);
+        }
         handleClearButton();
+    }
+
+    public void handleEditOperation(Transport transport) {
+        transport.setTransportDate(Date.valueOf(fxTransportDate.getValue()));
+        transport.setEmployee(employeeMap.get(fxEmployeeList.getValue()));
+        transport.setFarm(farmMap.get(fxFarmList.getValue()));
+        transport.setTransportAmount(Double.parseDouble(fxTransportAmount.getText()));
+        if (mTransportDAO.editData(transport)){
+            mTransportDAO.updateLiveData();
+            alert.updateItem("Transport", true);
+        }else {
+            alert.updateItem("Transport", false);
+        }
+        isEditStatus = false;
+        handleCloseButton();
     }
 
     @FXML
@@ -132,12 +151,14 @@ public class AddTransportController implements Initializable {
         System.out.println("Cancel...");
     }
 
-    private void handleEditOperation(Transport transport) {
-
-    }
-
     public void inflateUI(Transport transport) {
+        fxTransportDate.setValue(transport.getTransportDate().toLocalDate());
+        employeeList();
+        fxEmployeeList.setValue(transport.getEmployeeName());
+        fxTransportAmount.setText(String.valueOf(transport.getTransportAmount()));
+        farmList();
+        fxFarmList.setValue(transport.getFarm().getFarmAddress());
         isEditStatus = true;
-
+        mTransport.setTransportId(transport.getTransportId());
     }
 }

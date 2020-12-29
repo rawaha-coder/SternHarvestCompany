@@ -26,9 +26,6 @@ import java.util.ResourceBundle;
 
 public class DisplaySupplierController implements Initializable {
 
-
-    ///public static ObservableList<Farm> SUPPLIER_FARM_LIST_LIVE_DATA = FXCollections.observableArrayList();
-    //public static ObservableList<Product> SUPPLIER_PRODUCT_LIST_LIVE_DATA = FXCollections.observableArrayList();
     public static ObservableList<Supplier> SUPPLIER_LIST_LIVE_DATA = FXCollections.observableArrayList();
     public static ObservableList<Supply> SUPPLY_LIST_LIVE_DATA = FXCollections.observableArrayList();
 
@@ -128,7 +125,6 @@ public class DisplaySupplierController implements Initializable {
         } else {
             alert.cancelOperation("Delete");
         }
-        System.out.println("Delete Supplier...");
     }
 
     @FXML
@@ -174,6 +170,5 @@ public class DisplaySupplierController implements Initializable {
         } else {
             alert.cancelOperation("Delete");
         }
-        System.out.println("Delete supply...");
     }
 }
