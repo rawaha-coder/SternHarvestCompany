@@ -40,6 +40,8 @@ public class MainController implements Initializable {
     @FXML
     private Button fxAddTransportCreditButton;
     @FXML
+    private Button fxAddTransportButton;
+    @FXML
     private Button fxAddSupplierButton;
 
     @FXML
@@ -63,11 +65,16 @@ public class MainController implements Initializable {
 
     @FXML
     void loadUIAddCredit() {
-        loadAddWindow("/harvest/ui/credit/add_credit.fxml", "Add Transport / Credit", fxAddTransportCreditButton);
+        loadAddWindow("/harvest/ui/credit/add_credit.fxml", "Add Credit", fxAddTransportCreditButton);
     }
     @FXML
     void setDisplayCredit() {
         setDisplayView("/harvest/ui/credit/display_credit.fxml", fxTransportCreditMenuBtn);
+    }
+
+    @FXML
+    void loadUIAddTransport() {
+        loadAddWindow("/harvest/ui/credit/add_transport.fxml", "Add Transport", fxAddTransportButton);
     }
 
     @FXML

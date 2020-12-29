@@ -44,9 +44,6 @@
                     </Menu>
                 </MenuBar>
                 <HBox fx:id="fxHBoxTopMenu" alignment="CENTER" fillHeight="true" prefHeight="40.0" prefWidth="800.0" spacing="5.0">
-                    <fx:define>
-                        <ToggleGroup fx:id="topMenu" />
-                    </fx:define>
                     <children>
                         <ToggleButton prefHeight="30" prefWidth="140" text="Hours Work">
                      <toggleGroup>
@@ -80,11 +77,20 @@
                             </ImageView>
                         </graphic>
                     </Button>
-                    <Button fx:id="fxAddTransportCreditButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#loadUIAddCredit" prefHeight="50.0" prefWidth="146.0" text="Transport / Credit">
+                    <Button fx:id="fxAddTransportCreditButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#loadUIAddCredit" prefHeight="50.0" prefWidth="146.0" text="Credit">
                         <graphic>
                             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
                                     <Image url="@icon/ic_shortcut_euro_symbol.png" />
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                    <Button fx:id="fxAddTransportButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#loadUIAddTransport" prefHeight="50.0" prefWidth="146.0" text="Transport">
+                        <graphic>
+                            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@icon/ic_shortcut_directions_bus.png" />
                                 </image>
                             </ImageView>
                         </graphic>

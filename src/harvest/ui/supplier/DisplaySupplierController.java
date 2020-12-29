@@ -2,15 +2,12 @@ package harvest.ui.supplier;
 
 import harvest.database.SupplierDAO;
 import harvest.database.SupplyDAO;
-import harvest.model.Employee;
 import harvest.model.Supplier;
 import harvest.model.Supply;
 import harvest.util.AlertMaker;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,9 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -88,12 +83,6 @@ public class DisplaySupplierController implements Initializable {
                         }
                     }
                 });
-    }
-
-    public void selectItem(Supplier supplier){
-        fxSupplierTable.getSelectionModel().select(supplier); // no effect
-        mSupplyDAO.updateLiveData(supplier);
-        fxSupplyTable.getSelectionModel().selectFirst(); // no effect
     }
 
     @FXML

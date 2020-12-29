@@ -29,7 +29,7 @@ public class DisplayCreditController implements Initializable {
 
     private final AlertMaker alert = new AlertMaker();
     private final CreditDAO mCreditDAO = CreditDAO.getInstance();
-    private final TransportDAO mTransportDAO = new TransportDAO();
+    private final TransportDAO mTransportDAO = TransportDAO.getInstance();
 
     public AnchorPane fxTableUI;
     public MenuItem fxEditTransport;

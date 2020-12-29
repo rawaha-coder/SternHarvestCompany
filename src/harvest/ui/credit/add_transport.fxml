@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="harvest.ui.credit.AddTransportController"
-            fx:id="fxAddItemUI" prefHeight="538.0" prefWidth="372.0"
-            stylesheets="@../../style.css">
-<!--
+<AnchorPane fx:id="fxAddItemUI" prefHeight="684.0" prefWidth="465.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.ui.credit.AddTransportController">
+
     <children>
-        <DatePicker fx:id="fxTransportDate" layoutX="69.0" layoutY="43.0" prefHeight="40.0" prefWidth="240.0" promptText="MM/dd/yyyy" />
-        <ChoiceBox fx:id="fxEmployeeList" layoutX="69.0" layoutY="107.0" prefHeight="40.0" prefWidth="240.0" />
-        <TextField fx:id="fxTransportAmount" layoutX="69.0" layoutY="171.0" prefHeight="40.0" prefWidth="240.0" promptText="Amount" />
-        <ChoiceBox fx:id="fxFarmList" layoutX="69.0" layoutY="239.0" prefHeight="40.0" prefWidth="240.0" />
-        <Button layoutX="197.0" layoutY="323.0" mnemonicParsing="false" onAction="#handleClearFieldsButton" prefHeight="31.0" prefWidth="114.0" text="Clear Fields" />
-        <Button layoutX="26.0" layoutY="448.0" mnemonicParsing="false" onAction="#handleSaveButton" prefHeight="40.0" prefWidth="140.0" text="Save" />
-        <Button layoutX="200.0" layoutY="448.0" mnemonicParsing="false" onAction="#handleCancelButton" prefHeight="40.0" prefWidth="140.0" text="Cancel" />
+      <Label layoutX="78.0" layoutY="43.0" prefHeight="20.0" prefWidth="240.0" text="Date" />
+        <DatePicker fx:id="fxTransportDate" layoutX="78.0" layoutY="63.0" prefHeight="40.0" prefWidth="300.0" />
+      <Label layoutX="78.0" layoutY="137.0" prefHeight="20.0" prefWidth="240.0" text="Employee" />
+        <ChoiceBox fx:id="fxEmployeeList" layoutX="78.0" layoutY="157.0" prefHeight="40.0" prefWidth="300.0" />
+      <Label layoutX="78.0" layoutY="235.0" prefHeight="20.0" prefWidth="240.0" text="Amount" />
+        <TextField fx:id="fxTransportAmount" layoutX="78.0" layoutY="255.0" prefHeight="40.0" prefWidth="300.0" promptText="Amount" />
+        <ChoiceBox fx:id="fxFarmList" layoutX="78.0" layoutY="357.0" prefHeight="40.0" prefWidth="300.0" />
+        <Button layoutX="239.0" layoutY="499.0" mnemonicParsing="false" onAction="#handleClearButton" prefHeight="40.0" prefWidth="140.0" text="Clear" />
+        <Button layoutX="78.0" layoutY="499.0" mnemonicParsing="false" onAction="#handleSaveButton" prefHeight="40.0" prefWidth="140.0" text="Save" />
+        <Button layoutX="78.0" layoutY="594.0" mnemonicParsing="false" onAction="#handleCloseButton" prefHeight="40.0" prefWidth="300.0" text="Close" />
+      <Label layoutX="78.0" layoutY="337.0" prefHeight="20.0" prefWidth="240.0" text="Farm" />
     </children>
--->
+
 </AnchorPane>
