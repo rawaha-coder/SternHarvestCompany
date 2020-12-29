@@ -75,13 +75,14 @@ public class SupplierDAO extends DAO{
             preparedStatement.setString(2, supplier.getSupplierFirstname());
             preparedStatement.setString(3, supplier.getSupplierLastname());
             preparedStatement.execute();
-            preparedStatement.close();
             updateLiveData();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.print("Error occurred while INSERT Operation: " + e.getMessage());
             return false;
+        }finally {
+            dbDisConnect();
         }
     }
 

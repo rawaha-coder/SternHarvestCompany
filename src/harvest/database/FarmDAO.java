@@ -338,7 +338,7 @@ public class FarmDAO extends DAO{
         }
     }
 
-    //@Override
+
     public void updateLiveData() {
         FARM_LIST_LIVE_DATA.clear();
         SEASON_LIST_LIVE_DATA.clear();
@@ -404,7 +404,7 @@ public class FarmDAO extends DAO{
         return list;
     }
 
-    /*
+    /* *
     public void createFarmTable() throws SQLException {
         try {
             Statement statement = dbGetConnect().createStatement();
@@ -412,24 +412,6 @@ public class FarmDAO extends DAO{
                     +"("+ COLUMN_FARM_ID +" INTEGER PRIMARY KEY, "
                     + COLUMN_FARM_NAME +" TEXT NOT NULL, "
                     + COLUMN_FARM_ADDRESS +" TEXT NOT NULL "
-                    + ")");
-        }catch (SQLException e){
-            e.printStackTrace();
-            throw e;
-        }
-    }
-     */
-
-    /*
-    public void createSeasonTable() throws SQLException {
-        try {
-            Statement statement = dbGetConnect().createStatement();
-            statement.execute("CREATE TABLE IF NOT EXISTS "+ TABLE_SEASON +"("
-                    + COLUMN_SEASON_ID +" INTEGER PRIMARY KEY, "
-                    + COLUMN_SEASON_DATE_PLANTING +" DATE, "
-                    + COLUMN_SEASON_DATE_HARVEST +" DATE, "
-                    + COLUMN_SEASON_FARM_ID + " INTEGER NOT NULL,  "
-                    + "FOREIGN KEY (" + COLUMN_SEASON_FARM_ID + ") REFERENCES " + TABLE_FARM + " (" + COLUMN_FARM_ID + ") "
                     + ")");
         }catch (SQLException e){
             e.printStackTrace();
