@@ -9,7 +9,7 @@
 <?import javafx.geometry.Insets?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="harvest.ui.credit.DisplayCreditController"
+            fx:controller="harvest.ui.credit.DisplayCrdTrsController"
             fx:id="fxTableUI" stylesheets="@../../style.css"
             prefHeight="768.0" prefWidth="Infinity">
     <padding>
@@ -46,13 +46,13 @@
                         <TableColumn fx:id="fxTransportDateColumn" minWidth="90.0" prefWidth="100.0" text="Date" />
                         <TableColumn fx:id="fxTransportEmployeeColumn" minWidth="140.0" prefWidth="200.0" text="Employee" />
                         <TableColumn fx:id="fxTransportAmountColumn" minWidth="90.0" prefWidth="100.0" text="Amount" />
-                        <TableColumn fx:id="fxTransportDestinationColumn" minWidth="200.0" prefWidth="300.0" text="Destination" />
+                        <TableColumn fx:id="fxTransportFarmColumn" minWidth="200.0" prefWidth="300.0" text="Destination" />
                     </columns>
                     <contextMenu>
                         <ContextMenu>
-                            <items><!--
+                            <items>
                                 <MenuItem fx:id="fxEditTransport" mnemonicParsing="false" onAction="#editTransport" text="Edit" />
-                                <MenuItem fx:id="fxDeleteTransport" mnemonicParsing="false" onAction="#deleteTransport" text="Delete" />-->
+                                <MenuItem fx:id="fxDeleteTransport" mnemonicParsing="false" onAction="#deleteTransport" text="Delete" />
                             </items>
                         </ContextMenu>
                     </contextMenu>

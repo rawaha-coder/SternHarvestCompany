@@ -18,7 +18,7 @@ public class Main extends Application {
     //ProductDetailDAO mProductDetailDAO = ProductDetailDAO.getInstance();
     //SupplierDAO mSupplierDAO = SupplierDAO.getInstance();
     //SupplyDAO mSupplyDAO = SupplyDAO.getInstance();
-    TransportDAO mTransportDAO = TransportDAO.getInstance();
+    //TransportDAO mTransportDAO = TransportDAO.getInstance();
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -34,7 +34,7 @@ public class Main extends Application {
         //mSeasonDAO.createSeasonTable();
         //mSupplierDAO.createSupplierTable();
         //mSupplyDAO.createSupplyTable();
-        mTransportDAO.createTransportTable();
+        //mTransportDAO.createTransportTable();
 
     }
 

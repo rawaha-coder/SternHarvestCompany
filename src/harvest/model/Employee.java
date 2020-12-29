@@ -1,5 +1,6 @@
 package harvest.model;
 
+import harvest.util.Validation;
 import javafx.beans.property.*;
 
 import java.time.LocalDate;
@@ -21,6 +22,17 @@ public class Employee {
         this.employeeFirstName = new SimpleStringProperty();
         this.employeeFullName = new SimpleStringProperty();
         this.employeeLastName = new SimpleStringProperty();
+        this.employeeHireDate = new SimpleObjectProperty<>();
+        this.employeeFireDate = new SimpleObjectProperty<>();
+        this.employeePermissionDate = new SimpleObjectProperty<>();
+    }
+
+    public Employee(int id, String fn, String ln) {
+        this.employeeId = new SimpleIntegerProperty(id);
+        this.employeeFirstName = new SimpleStringProperty(fn);
+        this.employeeLastName = new SimpleStringProperty(ln);
+        this.employeeFullName = new SimpleStringProperty(Validation.getFullName(fn, ln));
+        this.employeeStatus = new SimpleBooleanProperty();
         this.employeeHireDate = new SimpleObjectProperty<>();
         this.employeeFireDate = new SimpleObjectProperty<>();
         this.employeePermissionDate = new SimpleObjectProperty<>();

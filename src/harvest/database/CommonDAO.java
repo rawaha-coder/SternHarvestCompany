@@ -5,9 +5,12 @@ import harvest.model.Supply;
 
 import java.sql.*;
 
+import static harvest.database.CreditDAO.*;
+import static harvest.database.EmployeeDAO.*;
 import static harvest.database.FarmDAO.*;
 import static harvest.database.SupplierDAO.*;
 import static harvest.database.SupplyDAO.*;
+import static harvest.database.TransportDAO.*;
 
 public class CommonDAO extends DAO{
 
@@ -212,6 +215,54 @@ public class CommonDAO extends DAO{
                 connection.close();
             } catch (SQLException sqlException) {
                 sqlException.printStackTrace();
+            }
+            dbDisConnect();
+        }
+    }
+
+    //Delete Employee data from all tables
+    public boolean deleteEmployeeDataById(int id){
+        Connection connection = null;
+        Statement statement = null;
+        String deleteFromEmployee = "DELETE FROM " + TABLE_EMPLOYEE  + " WHERE " + COLUMN_EMPLOYEE_ID + " ="+id+" ;";
+        String deleteFromCredit = "DELETE FROM " + CREDITS_TABLE + " WHERE " + COLUMN_CREDIT_EMPLOYEE_ID + " ="+id+" ;";
+        String deleteFromTransport = "DELETE FROM " + TABLE_TRANSPORT  + " WHERE " + COLUMN_TRANSPORT_EMPLOYEE_ID + " ="+id+" ;";
+
+        try {
+            connection = dbGetConnect();
+            connection.setAutoCommit(false);
+
+            statement = connection.createStatement();
+            statement.execute(deleteFromEmployee);
+
+            statement = connection.createStatement();
+            statement.execute(deleteFromCredit);
+
+            statement = connection.createStatement();
+            statement.execute(deleteFromTransport);
+
+            connection.commit();
+            return true;
+        } catch (SQLException ex1) {
+            assert connection != null;
+            try {
+                connection.rollback();
+            }catch (SQLException ex2){
+                ex2.printStackTrace();
+                System.out.print("Error occurred while rollback Operation: " + ex2.getMessage());
+            }
+            ex1.printStackTrace();
+            return false;
+        }finally {
+            if (statement != null){
+                try {
+                    statement.close();
+                }catch (SQLException e){/**/}
+            }
+            if (connection != null){
+                try {
+                    connection.close();
+                }catch (SQLException e){/**/}
             }
             dbDisConnect();
         }

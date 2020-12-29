@@ -23,9 +23,10 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class DisplayCreditController implements Initializable {
+public class DisplayCrdTrsController implements Initializable {
 
     public static ObservableList<Credit> CREDIT_LIST_LIVE_DATA = FXCollections.observableArrayList();
+    public static ObservableList<Transport> TRANSPORT_LIST_LIVE_DATA = FXCollections.observableArrayList();
 
     private final AlertMaker alert = new AlertMaker();
     private final CreditDAO mCreditDAO = CreditDAO.getInstance();
@@ -52,12 +53,12 @@ public class DisplayCreditController implements Initializable {
     @FXML
     private TableColumn<Transport, Double> fxTransportAmountColumn;
     @FXML
-    private TableColumn<Transport, String> fxTransportDestinationColumn;
+    private TableColumn<Transport, String> fxTransportFarmColumn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initCreditColumns();
-        //initTransportColumns();
+        initTransportColumns();
     }
 
     //*********************************************************************************************
@@ -75,7 +76,7 @@ public class DisplayCreditController implements Initializable {
     void editCredit() {
         Credit credit = fxCreditTable.getSelectionModel().getSelectedItem();
         if (credit == null) {
-            alert.show("Required selected credit", "Please select an transport_credit", AlertType.INFORMATION);
+            alert.show("Credit");
             return;
         }
         try {
@@ -113,20 +114,19 @@ public class DisplayCreditController implements Initializable {
                 alert.deleteItem("Credit", false);
             }
         } else {
-            alert.show("Deletion cancelled", "Deletion process cancelled", AlertType.INFORMATION);
+            alert.cancelOperation("Delete");
         }
-
     }
-/*
+
     //*********************************************************************************************
     //Transport View model section
     //*********************************************************************************************
     private void initTransportColumns() {
         fxTransportDateColumn.setCellValueFactory(new PropertyValueFactory<>("transportDate"));
-        fxTransportEmployeeColumn.setCellValueFactory(new PropertyValueFactory<>("transportEmployee"));
+        fxTransportEmployeeColumn.setCellValueFactory(new PropertyValueFactory<>("employeeName"));
         fxTransportAmountColumn.setCellValueFactory(new PropertyValueFactory<>("transportAmount"));
-        fxTransportDestinationColumn.setCellValueFactory(new PropertyValueFactory<>("transportDestination"));
-        mTransportDAO.observeLivedata();
+        fxTransportFarmColumn.setCellValueFactory(new PropertyValueFactory<>("farmName"));
+        mTransportDAO.updateLiveData();
         fxTransportTable.setItems(TRANSPORT_LIST_LIVE_DATA);
     }
 
@@ -138,7 +138,7 @@ public class DisplayCreditController implements Initializable {
             return;
         }
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/sample/ui/add/transport/add_transport.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/ui/credit/add_transport.fxml"));
             Stage stage = new Stage();
             Parent parent = loader.load();
             AddTransportController controller = loader.getController();
@@ -149,36 +149,29 @@ public class DisplayCreditController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        mTransportDAO.observeLivedata();
+        mTransportDAO.updateLiveData();
     }
 
     @FXML
     void deleteTransport() {
         Transport transport = fxTransportTable.getSelectionModel().getSelectedItem();
         if (transport == null) {
-            alert.show("Required selected transport", "Please select a transport from the table for deletion", AlertType.INFORMATION);
+            alert.show("Transport");
             return;
         }
 
-        Alert deleteConfirmation = new Alert(Alert.AlertType.CONFIRMATION);
-        deleteConfirmation.setTitle("Deletion");
-        deleteConfirmation.setHeaderText("Delete Port Confirmation");
-        deleteConfirmation.setContentText("Press OK to delete this Port!");
-
-        Optional<ButtonType> result = deleteConfirmation.showAndWait();
-        if (result.get() == ButtonType.OK) {
-            try {
-                mTransportDAO.deleteTransportWithId(transport.getTransportId());
-            } catch (SQLException e) {
-                alert.show("Error", "Failed to delete the Port", AlertType.ERROR);
-                e.printStackTrace();
+        AlertMaker alertDelete = new AlertMaker();
+        Optional<ButtonType> result = alertDelete.deleteConfirmation("Transport");
+        assert result.isPresent();
+        if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
+            if (mTransportDAO.deleteDataById(transport.getTransportId())){
+                mTransportDAO.updateLiveData();
+                alert.deleteItem("Transport",  true);
+            }else {
+                alert.deleteItem("Transport",  false);
             }
-        } else {
-            alert.show("Deletion cancelled", "Deletion process cancelled", AlertType.INFORMATION);
+        }else {
+            alert.cancelOperation("Delete");
         }
-        mTransportDAO.observeLivedata();
-        System.out.println("Delete Port...");
     }
-
- */
 }

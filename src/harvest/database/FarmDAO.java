@@ -34,7 +34,6 @@ public class FarmDAO extends DAO{
 
     //SELECT all data from farm and season
     public List<Farm> getFarmData() throws Exception {
-        //Declare a SELECT statement
         String sqlStmt = "SELECT * FROM " + TABLE_FARM + " ORDER BY " + COLUMN_FARM_ID + " DESC;";
         try {
             Statement statement = dbGetConnect().createStatement();
@@ -192,7 +191,7 @@ public class FarmDAO extends DAO{
                 + TABLE_FARM + "." + COLUMN_FARM_NAME + ", "
                 + TABLE_FARM + "." + COLUMN_FARM_ADDRESS + ", "
                 + " FROM " + TABLE_SEASON + " "
-                + "LEFT JOIN " + TABLE_FARM + " "
+                + " LEFT JOIN " + TABLE_FARM + " "
                 + " ON " + TABLE_FARM + "." + COLUMN_FARM_ID  + " = " + TABLE_SEASON + "." + COLUMN_SEASON_FARM_ID + " "
                 + " ORDER BY " + COLUMN_SEASON_DATE_HARVEST + " DESC;";
         try {

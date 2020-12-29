@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static harvest.database.EmployeeDAO.*;
-import static harvest.ui.credit.DisplayCreditController.CREDIT_LIST_LIVE_DATA;
+import static harvest.ui.credit.DisplayCrdTrsController.CREDIT_LIST_LIVE_DATA;
 
 public class CreditDAO extends DAO{
 
