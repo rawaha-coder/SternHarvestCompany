@@ -7,10 +7,17 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static harvest.database.ProductDAO.*;
 import static harvest.ui.product.DisplayProductController.PRODUCT_DETAIL_LIVE_DATA;
 
 public class ProductDetailDAO extends DAO{
+
+    public static final String TABLE_PRODUCT_DETAIL = "product_detail";
+    public static final String COLUMN_PRODUCT_DETAIL_ID = "id";
+    public static final String COLUMN_PRODUCT_TYPE = "type";
+    public static final String COLUMN_PRODUCT_CODE = "code";
+    public static final String COLUMN_PRODUCT_PRICE_1 = "price_1";
+    public static final String COLUMN_PRODUCT_PRICE_2 = "price_2";
+    public static final String COLUMN_FOREIGN_KEY_PRODUCT_ID = "product_id";
 
     private static ProductDetailDAO sProductDetail = new ProductDetailDAO();
 
@@ -25,86 +32,6 @@ public class ProductDetailDAO extends DAO{
             return sProductDetail;
         }
         return sProductDetail;
-    }
-
-    public static final String TABLE_PRODUCT_DETAIL = "product_detail";
-    public static final String COLUMN_PRODUCT_DETAIL_ID = "id";
-    public static final String COLUMN_PRODUCT_TYPE = "type";
-    public static final String COLUMN_PRODUCT_CODE = "code";
-    public static final String COLUMN_PRODUCT_PRICE_1 = "price_1";
-    public static final String COLUMN_PRODUCT_PRICE_2 = "price_2";
-    public static final String COLUMN_FOREIGN_KEY_PRODUCT_ID = "product_id";
-
-/* **
-    public void createProductDetailTable() throws SQLException {
-        try {
-            Statement statement = dbGetConnect().createStatement();
-            statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_PRODUCT_DETAIL
-                    + "(" + COLUMN_PRODUCT_DETAIL_ID + " INTEGER PRIMARY KEY, "
-                    + COLUMN_PRODUCT_TYPE + " TEXT NOT NULL, "
-                    + COLUMN_PRODUCT_CODE + " TEXT UNIQUE, "
-                    + COLUMN_PRODUCT_PRICE_1 + " REAL NOT NULL, "
-                    + COLUMN_PRODUCT_PRICE_2 + " REAL, "
-                    + COLUMN_FOREIGN_KEY_PRODUCT_ID + " INTEGER NOT NULL, "
-                    + "FOREIGN KEY (" + COLUMN_FOREIGN_KEY_PRODUCT_ID + ") REFERENCES " + TABLE_PRODUCT + " (" + COLUMN_PRODUCT_ID + ") "
-                    + ")");
-        }catch (SQLException e){
-            e.printStackTrace();
-            throw e;
-        }
-    }
-*/
-
-    // Add new product and product detail
-    public boolean addNewProductData(ProductDetail productDetail) {
-        Connection connection = null;
-        PreparedStatement preparedStatement;
-        //Declare a INSERT statement
-        String insertProduct = "INSERT INTO " + TABLE_PRODUCT + " (" + COLUMN_PRODUCT_NAME+ ") VALUES (?);";
-
-        String getProductId = "SELECT last_insert_rowid() FROM " + TABLE_PRODUCT + " ;";
-
-        String insertProductDetail = "INSERT INTO " + TABLE_PRODUCT_DETAIL + " ("
-                + COLUMN_PRODUCT_TYPE + ", "
-                + COLUMN_PRODUCT_CODE + ", "
-                + COLUMN_PRODUCT_PRICE_1 + ", "
-                + COLUMN_PRODUCT_PRICE_2 + ", "
-                + COLUMN_FOREIGN_KEY_PRODUCT_ID + ") "
-                + "VALUES (?,?,?,?,?);";
-
-        try {
-            connection = dbGetConnect();
-            connection.setAutoCommit(false);
-            preparedStatement = connection.prepareStatement(insertProduct);
-            preparedStatement.setString(1, productDetail.getProduct().getProductName());
-            preparedStatement.execute();
-
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(getProductId);
-            int id = resultSet.getInt(1);
-
-            preparedStatement = connection.prepareStatement(insertProductDetail);
-            preparedStatement.setString(1, productDetail.getProductType());
-            preparedStatement.setString(2, productDetail.getProductCode());
-            preparedStatement.setDouble(3, productDetail.getProductFirstPrice());
-            preparedStatement.setDouble(4, productDetail.getProductSecondPrice());
-            preparedStatement.setInt(5, id);
-            preparedStatement.execute();
-            connection.commit();
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.print("Error occurred while INSERT Operation: " + e.getMessage());
-            try {
-                assert connection != null;
-                connection.rollback();
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
-            return false;
-        }finally {
-            dbDisConnect();
-        }
     }
 
     //Get product detail by product
@@ -216,4 +143,24 @@ public class ProductDetailDAO extends DAO{
             e.printStackTrace();
         }
     }
+
+    /* **
+    public void createProductDetailTable() throws SQLException {
+        try {
+            Statement statement = dbGetConnect().createStatement();
+            statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_PRODUCT_DETAIL
+                    + "(" + COLUMN_PRODUCT_DETAIL_ID + " INTEGER PRIMARY KEY, "
+                    + COLUMN_PRODUCT_TYPE + " TEXT NOT NULL, "
+                    + COLUMN_PRODUCT_CODE + " TEXT UNIQUE, "
+                    + COLUMN_PRODUCT_PRICE_1 + " REAL NOT NULL, "
+                    + COLUMN_PRODUCT_PRICE_2 + " REAL, "
+                    + COLUMN_FOREIGN_KEY_PRODUCT_ID + " INTEGER NOT NULL, "
+                    + "FOREIGN KEY (" + COLUMN_FOREIGN_KEY_PRODUCT_ID + ") REFERENCES " + TABLE_PRODUCT + " (" + COLUMN_PRODUCT_ID + ") "
+                    + ")");
+        }catch (SQLException e){
+            e.printStackTrace();
+            throw e;
+        }
+    }
+*/
 }

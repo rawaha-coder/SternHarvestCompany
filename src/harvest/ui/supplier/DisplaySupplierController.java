@@ -1,5 +1,6 @@
 package harvest.ui.supplier;
 
+import harvest.database.CommonDAO;
 import harvest.database.SupplierDAO;
 import harvest.database.SupplyDAO;
 import harvest.model.Supplier;
@@ -110,12 +111,12 @@ public class DisplaySupplierController implements Initializable {
             alert.selectDeleteItem("Supplier");
             return;
         }
+        CommonDAO commonDAO = CommonDAO.getInstance();
         AlertMaker alertDelete = new AlertMaker();
-
         Optional<ButtonType> result = alertDelete.deleteConfirmation("Supplier");
         assert result.isPresent();
         if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
-            if (mSupplierDAO.deleteDataById(supplier.getSupplierId())){
+            if (commonDAO.deleteAllEmployeeDataById(supplier.getSupplierId())){
                 mSupplierDAO.updateLiveData();
                 mSupplyDAO.updateLiveData();
                 alert.deleteItem("Supplier", true);

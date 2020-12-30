@@ -1,6 +1,8 @@
 package harvest.ui.farm;
 
+import harvest.database.CommonDAO;
 import harvest.database.FarmDAO;
+import harvest.database.SeasonDAO;
 import harvest.model.Farm;
 import harvest.model.Season;
 import harvest.util.AlertMaker;
@@ -88,10 +90,11 @@ public class DisplayFarmSeasonController implements Initializable {
         AlertMaker alertDelete = new AlertMaker();
 
         Optional<ButtonType> result = alertDelete.deleteConfirmation("Farm");
-
+        CommonDAO commonDAO =CommonDAO.getInstance();
         assert result.isPresent();
         if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
-            if (mFarmDAO.deleteDataById(farm.getFarmId())) {
+            if (commonDAO.deleteAllFarmDataById(farm.getFarmId())) {
+                mFarmDAO.updateLiveData();
                 alert.deleteItem("Farm", true);
                 fxFarmTable.getSelectionModel().selectFirst();
                 fxSeasonTable.getSelectionModel().selectFirst();
@@ -141,7 +144,8 @@ public class DisplayFarmSeasonController implements Initializable {
 
         assert result.isPresent();
         if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
-            if(mFarmDAO.deleteSeasonById(season.getSeasonId())) {
+            SeasonDAO seasonDAO = SeasonDAO.getInstance();
+            if(seasonDAO.deleteSeasonById(season.getSeasonId())) {
                 mFarmDAO.updateLiveData();
                 alert.deleteItem("Season", true);
             } else {

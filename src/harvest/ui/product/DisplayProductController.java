@@ -1,6 +1,7 @@
 package harvest.ui.product;
 
 
+import harvest.database.CommonDAO;
 import harvest.database.ProductDAO;
 import harvest.database.ProductDetailDAO;
 import harvest.model.Product;
@@ -14,7 +15,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -117,18 +117,17 @@ public class DisplayProductController implements Initializable {
             return;
         }
         AlertMaker alertDelete = new AlertMaker();
-
         Optional<ButtonType> result = alertDelete.deleteConfirmation("Product");
         assert result.isPresent();
         if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
-            alert.deleteItem("Product", mProductDAO.deleteDataById(product.getProductId()));
+            CommonDAO commonDAO = CommonDAO.getInstance();
+            alert.deleteItem("Product", commonDAO.deleteProductDataById(product.getProductId()));
         } else {
             alert.cancelOperation("Delete");
         }
         mProductDAO.updateLiveData();
         fxProductTable.getSelectionModel().selectFirst();
         fxProductDetailTable.getSelectionModel().selectFirst();
-        System.out.println("Delete product...");
     }
 
     @FXML
@@ -160,19 +159,14 @@ public class DisplayProductController implements Initializable {
             return;
         }
         AlertMaker alertDelete = new AlertMaker();
-
         Optional<ButtonType> result = alertDelete.deleteConfirmation("Product Detail");
         assert result.isPresent();
         if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
-            if (mProductDetailDAO.deleteDataById(productDetail.getProductDetailId())){
-                updateLiveData();
-                alert.deleteItem("Product detail", true);
-            }else {
-                alert.deleteItem("Product detail", false);
-            }
+            alert.deleteItem("Product detail", mProductDetailDAO.deleteDataById(productDetail.getProductDetailId()));
         } else {
             alert.cancelOperation("Delete");
         }
-        System.out.println("Delete product...");
+        mProductDAO.updateLiveData();
+        mProductDetailDAO.updateLiveData(PRODUCT_NAME_LIVE_DATA.get(0));
     }
 }

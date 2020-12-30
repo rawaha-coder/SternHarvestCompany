@@ -37,23 +37,7 @@ public class TransportDAO extends DAO{
     public static final String COLUMN_TRANSPORT_EMPLOYEE_ID = "employee_id";
     public static final String COLUMN_TRANSPORT_FARM_ID = "farm_id";
 
-    public void createTransportTable() throws SQLException {
-        try {
-            Statement statement = dbGetConnect().createStatement();
-            statement.execute("CREATE TABLE IF NOT EXISTS "+ TABLE_TRANSPORT
-                    +"("+ COLUMN_TRANSPORT_ID + " INTEGER PRIMARY KEY, "
-                    + COLUMN_TRANSPORT_DATE + " DATE NOT NULL, "
-                    + COLUMN_TRANSPORT_AMOUNT + " REAL NOT NULL, "
-                    + COLUMN_TRANSPORT_EMPLOYEE_ID + " INTEGER NOT NULL, "
-                    + COLUMN_TRANSPORT_FARM_ID + " INTEGER NOT NULL, "
-                    + "FOREIGN KEY (" + COLUMN_TRANSPORT_EMPLOYEE_ID + ") REFERENCES " + TABLE_EMPLOYEE +" (" + COLUMN_EMPLOYEE_ID + "), "
-                    + "FOREIGN KEY (" + COLUMN_TRANSPORT_FARM_ID + ") REFERENCES " + TABLE_FARM +" (" + COLUMN_FARM_ID + ") )"
-            );
-        }catch (SQLException e){
-            e.printStackTrace();
-            throw e;
-        }
-    }
+
 
     public List<Transport> getData() throws SQLException {
         List<Transport> list = new ArrayList<>();
@@ -74,7 +58,7 @@ public class TransportDAO extends DAO{
                 + " ON " + TABLE_FARM + "." + COLUMN_FARM_ID + " = " + TABLE_TRANSPORT + "." + COLUMN_TRANSPORT_FARM_ID
                 + " ORDER BY " + COLUMN_TRANSPORT_DATE + " DESC ;";
         try(Statement statement = dbGetConnect().createStatement()) {
-            try (ResultSet resultSet = statement.executeQuery(selectStmt);){
+            try (ResultSet resultSet = statement.executeQuery(selectStmt)){
                 while (resultSet.next()){
                     Transport transport = new Transport();
                     transport.setTransportId(resultSet.getInt(1));
@@ -160,5 +144,23 @@ public class TransportDAO extends DAO{
             e.printStackTrace();
         }
     }
+
+//  /  public void createTransportTable() throws SQLException {
+//        try {
+//            Statement statement = dbGetConnect().createStatement();
+//            statement.execute("CREATE TABLE IF NOT EXISTS "+ TABLE_TRANSPORT
+//                    +"("+ COLUMN_TRANSPORT_ID + " INTEGER PRIMARY KEY, "
+//                    + COLUMN_TRANSPORT_DATE + " DATE NOT NULL, "
+//                    + COLUMN_TRANSPORT_AMOUNT + " REAL NOT NULL, "
+//                    + COLUMN_TRANSPORT_EMPLOYEE_ID + " INTEGER NOT NULL, "
+//                    + COLUMN_TRANSPORT_FARM_ID + " INTEGER NOT NULL, "
+//                    + "FOREIGN KEY (" + COLUMN_TRANSPORT_EMPLOYEE_ID + ") REFERENCES " + TABLE_EMPLOYEE +" (" + COLUMN_EMPLOYEE_ID + "), "
+//                    + "FOREIGN KEY (" + COLUMN_TRANSPORT_FARM_ID + ") REFERENCES " + TABLE_FARM +" (" + COLUMN_FARM_ID + ") )"
+//            );
+//        }catch (SQLException e){
+//            e.printStackTrace();
+//            throw e;
+//        }
+//    }
 
 }

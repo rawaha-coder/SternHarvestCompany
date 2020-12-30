@@ -1,6 +1,8 @@
 package harvest.ui.farm;
 
+import harvest.database.CommonDAO;
 import harvest.database.FarmDAO;
+import harvest.database.SeasonDAO;
 import harvest.model.*;
 import harvest.util.AlertMaker;
 import harvest.util.Validation;
@@ -14,7 +16,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.scene.control.Alert.AlertType;
 import java.net.URL;
 import java.sql.Date;
 import java.util.*;
@@ -79,11 +80,6 @@ public class AddFarmController implements Initializable {
 
     @FXML
     void handleSaveButton() {
-        if (Validation.isEmpty(fxFarmComboBox.getEditor().getText(), fxFarmAddress.getText()))
-        {
-            alert.show("Required fields are missing", "Please enter correct data in required fields!", AlertType.INFORMATION);
-            return;
-        }
         if (isEditFarm){
             handleEditFarmOperation(mFarm);
         }else if (isEditSeason){
@@ -94,6 +90,11 @@ public class AddFarmController implements Initializable {
     }
 
     private void handleAddFarmOperation(){
+        if (Validation.isEmpty(fxFarmComboBox.getEditor().getText(), fxFarmAddress.getText()))
+        {
+            alert.show("Farm");
+            return;
+        }
         boolean isAdded = false;
         Farm oldFarm = mFarmMap.get(fxFarmComboBox.getValue());
         Season season = new Season();
@@ -104,8 +105,9 @@ public class AddFarmController implements Initializable {
             season.setFarmPlantingDate(Date.valueOf(fxPlantingDate.getValue()));
             season.setFarmHarvestDate(Date.valueOf(fxHarvestDate.getValue()));
             season.setSeasonFarm(newFarm);
+            CommonDAO commonDAO = CommonDAO.getInstance();
             try {
-                isAdded = mFarmDAO.addData(season);
+                isAdded = commonDAO.addFarmSeasonData(season);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -123,7 +125,8 @@ public class AddFarmController implements Initializable {
             season.setFarmHarvestDate(Date.valueOf(fxHarvestDate.getValue()));
             assert oldFarm != null;
             season.setSeasonFarm(oldFarm);
-            isAdded = mFarmDAO.addSeasonData(season);
+            SeasonDAO seasonDAO = SeasonDAO.getInstance();
+            isAdded = seasonDAO.addSeasonData(season);
         }
         if (isAdded) {
             mFarmDAO.updateLiveData();
@@ -146,7 +149,13 @@ public class AddFarmController implements Initializable {
     private void handleEditSeasonOperation(Season season){
         season.setFarmPlantingDate(Date.valueOf(fxPlantingDate.getValue()));
         season.setFarmHarvestDate(Date.valueOf(fxHarvestDate.getValue()));
-        alert.updateItem("Season", mFarmDAO.editData(season));
+        SeasonDAO seasonDAO = SeasonDAO.getInstance();
+        if (seasonDAO.editSeasonData(season)) {
+            seasonDAO.updateSeasonListByFarm(season.getSeasonFarm());
+            alert.updateItem("Season", true);
+        }else {
+            alert.updateItem("Season", false);
+        }
         isEditSeason = false;
         handleCancelButton();
     }
