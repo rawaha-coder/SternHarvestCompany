@@ -15,6 +15,12 @@ import static harvest.ui.credit.DisplayCrdTrsController.CREDIT_LIST_LIVE_DATA;
 
 public class CreditDAO extends DAO{
 
+    public static final String CREDITS_TABLE = "credit";
+    public static final String COLUMN_CREDIT_ID = "id";
+    public static final String COLUMN_CREDIT_DATE = "date";
+    public static final String COLUMN_CREDIT_AMOUNT = "amount";
+    public static final String COLUMN_CREDIT_EMPLOYEE_ID = "employee_id";
+
     private static CreditDAO sCreditDAO = new CreditDAO();
 
     //private Constructor
@@ -28,34 +34,10 @@ public class CreditDAO extends DAO{
         return sCreditDAO;
     }
 
-    public static final String CREDITS_TABLE = "credit";
-    public static final String COLUMN_CREDIT_ID = "id";
-    public static final String COLUMN_CREDIT_DATE = "date";
-    public static final String COLUMN_CREDIT_AMOUNT = "amount";
-    public static final String COLUMN_CREDIT_EMPLOYEE_ID = "employee_id";
-/*
-//    public void createCreditTable() throws SQLException {
-//        try {
-//            Statement statement = dbGetConnect().createStatement();
-//            statement.execute("CREATE TABLE IF NOT EXISTS " + CREDITS_TABLE + "("
-//                    + COLUMN_CREDIT_ID + " INTEGER PRIMARY KEY, "
-//                    + COLUMN_CREDIT_DATE + " DATE NOT NULL, "
-//                    + COLUMN_CREDIT_AMOUNT + " REAL NOT NULL, "
-//                    + COLUMN_CREDIT_EMPLOYEE_ID + " INTEGER NOT NULL, "
-//                    + "FOREIGN KEY (" + COLUMN_CREDIT_EMPLOYEE_ID + ") REFERENCES " + TABLE_EMPLOYEE + " (" + COLUMN_EMPLOYEE_ID + ") "
-//                    + ")");
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            throw e;
-//        }
-//    }
-*/
     //*************************************************************
-    //SELECT all Credit Data from CREDITS_TABLE and TABLE_EMPLOYEE
+    //Get Credit Data
     //*************************************************************
-    //@Override
     public List<Credit> getData() throws Exception {
-        //Declare a SELECT statement
         String sqlStmt = "SELECT "
                 + CREDITS_TABLE + "." + COLUMN_CREDIT_ID + ", "
                 + CREDITS_TABLE + "." + COLUMN_CREDIT_DATE + ", "
@@ -94,7 +76,6 @@ public class CreditDAO extends DAO{
     //*************************************************************
     //Add new Credit Data
     //*************************************************************
-    //@Override
     public boolean addData(Credit credit) {
         PreparedStatement preparedStatement;
         String sqlStmt = "INSERT INTO " + CREDITS_TABLE + " ("
@@ -178,4 +159,22 @@ public class CreditDAO extends DAO{
             e.printStackTrace();
         }
     }
+
+    /*
+//    public void createCreditTable() throws SQLException {
+//        try {
+//            Statement statement = dbGetConnect().createStatement();
+//            statement.execute("CREATE TABLE IF NOT EXISTS " + CREDITS_TABLE + "("
+//                    + COLUMN_CREDIT_ID + " INTEGER PRIMARY KEY, "
+//                    + COLUMN_CREDIT_DATE + " DATE NOT NULL, "
+//                    + COLUMN_CREDIT_AMOUNT + " REAL NOT NULL, "
+//                    + COLUMN_CREDIT_EMPLOYEE_ID + " INTEGER NOT NULL, "
+//                    + "FOREIGN KEY (" + COLUMN_CREDIT_EMPLOYEE_ID + ") REFERENCES " + TABLE_EMPLOYEE + " (" + COLUMN_EMPLOYEE_ID + ") "
+//                    + ")");
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            throw e;
+//        }
+//    }
+*/
 }

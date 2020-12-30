@@ -143,7 +143,7 @@ public class DisplayEmployeeController implements Initializable {
 
         assert result.isPresent();
         if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
-            if (mCommonDAO.deleteEmployeeDataById(employee.getEmployeeId())) {
+            if (mCommonDAO.deleteAllEmployeeDataById(employee.getEmployeeId())) {
                 mEmployeeDAO.updateLiveData();
                 alert.deleteItem("Employee", true);
             } else {

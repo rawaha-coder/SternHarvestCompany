@@ -1,5 +1,6 @@
 package harvest.ui.product;
 
+import harvest.database.CommonDAO;
 import harvest.database.ProductDetailDAO;
 import harvest.model.Product;
 import harvest.model.ProductDetail;
@@ -15,7 +16,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.scene.control.Alert.AlertType;
 import java.net.URL;
 import java.util.*;
 
@@ -139,13 +139,14 @@ public class AddProductController implements Initializable {
             alert.saveItem("Product", mProductDetailDAO.addProductDetail(oldProductDetail));
 
         }else{
+            CommonDAO commonDAO = CommonDAO.getInstance();
             ProductDetail newProductDetail = new ProductDetail();
             newProductDetail.setProductType(fxProductTypeComboBox.getValue());
             newProductDetail.setProductCode(fxProductCode.getText());
             newProductDetail.setProductFirstPrice(Double.parseDouble(fxProductPrice1.getText().trim()));
             newProductDetail.setProductSecondPrice(Double.parseDouble(fxProductPrice2.getText().trim()));
             newProductDetail.setProduct(new Product(fxProductNameComboBox.getValue()));
-            alert.saveItem("Product", mProductDetailDAO.addNewProductData(newProductDetail));
+            alert.saveItem("Product", commonDAO.addNewProductData(newProductDetail));
         }
         handleClearFieldsButton();
         mProductDAO.updateLiveData();
