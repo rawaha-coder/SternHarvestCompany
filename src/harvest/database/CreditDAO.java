@@ -15,7 +15,7 @@ import static harvest.ui.credit.DisplayCrdTrsController.CREDIT_LIST_LIVE_DATA;
 
 public class CreditDAO extends DAO{
 
-    public static final String CREDITS_TABLE = "credit";
+    public static final String TABLE_CREDIT = "credit";
     public static final String COLUMN_CREDIT_ID = "id";
     public static final String COLUMN_CREDIT_DATE = "date";
     public static final String COLUMN_CREDIT_AMOUNT = "amount";
@@ -39,15 +39,15 @@ public class CreditDAO extends DAO{
     //*************************************************************
     public List<Credit> getData() throws Exception {
         String sqlStmt = "SELECT "
-                + CREDITS_TABLE + "." + COLUMN_CREDIT_ID + ", "
-                + CREDITS_TABLE + "." + COLUMN_CREDIT_DATE + ", "
-                + CREDITS_TABLE + "." + COLUMN_CREDIT_AMOUNT + ", "
+                + TABLE_CREDIT + "." + COLUMN_CREDIT_ID + ", "
+                + TABLE_CREDIT + "." + COLUMN_CREDIT_DATE + ", "
+                + TABLE_CREDIT + "." + COLUMN_CREDIT_AMOUNT + ", "
                 + TABLE_EMPLOYEE + "." + COLUMN_EMPLOYEE_ID + ", "
                 + TABLE_EMPLOYEE + "." + COLUMN_EMPLOYEE_FIRST_NAME + ", "
                 + TABLE_EMPLOYEE + "." + COLUMN_EMPLOYEE_LAST_NAME + " "
-                + " FROM " + CREDITS_TABLE + " "
+                + " FROM " + TABLE_CREDIT + " "
                 + "LEFT JOIN " + TABLE_EMPLOYEE + " "
-                + " ON " + TABLE_EMPLOYEE + "." + COLUMN_EMPLOYEE_ID + " = " + CREDITS_TABLE + "." + COLUMN_CREDIT_EMPLOYEE_ID + " "
+                + " ON " + TABLE_EMPLOYEE + "." + COLUMN_EMPLOYEE_ID + " = " + TABLE_CREDIT + "." + COLUMN_CREDIT_EMPLOYEE_ID + " "
                 + " ORDER BY " + COLUMN_CREDIT_DATE + " DESC;";
         try {
             Statement statement = dbGetConnect().createStatement();
@@ -77,19 +77,16 @@ public class CreditDAO extends DAO{
     //Add new Credit Data
     //*************************************************************
     public boolean addData(Credit credit) {
-        PreparedStatement preparedStatement;
-        String sqlStmt = "INSERT INTO " + CREDITS_TABLE + " ("
+        String sqlStmt = "INSERT INTO " + TABLE_CREDIT + " ("
                 + COLUMN_CREDIT_DATE + ", "
                 + COLUMN_CREDIT_AMOUNT + ", "
                 + COLUMN_CREDIT_EMPLOYEE_ID + ") "
                 + "VALUES (?,?,?);";
-        try {
-            preparedStatement = dbGetConnect().prepareStatement(sqlStmt);
+        try (PreparedStatement preparedStatement = dbGetConnect().prepareStatement(sqlStmt)){
             preparedStatement.setDate(1, credit.getCreditDate());
             preparedStatement.setDouble(2, credit.getCreditAmount());
             preparedStatement.setInt(3, credit.getEmployeeId());
             preparedStatement.execute();
-            preparedStatement.close();
             return true;
         }catch (SQLException e){
             e.printStackTrace();
@@ -105,7 +102,7 @@ public class CreditDAO extends DAO{
     public boolean editData(Credit credit) {
         PreparedStatement preparedStatement;
         //Declare a UPDATE statement
-        String sqlStmt = "UPDATE " + CREDITS_TABLE + " SET " +
+        String sqlStmt = "UPDATE " + TABLE_CREDIT + " SET " +
                 "" + COLUMN_CREDIT_DATE + " =?," +
                 "" + COLUMN_CREDIT_AMOUNT + " =? " +
                 " WHERE " + COLUMN_CREDIT_ID + " = " + credit.getCreditId() + " ;";
@@ -132,7 +129,7 @@ public class CreditDAO extends DAO{
     //@Override
     public boolean deleteDataById(int Id) {
         //Declare a DELETE statement
-        String sqlStmt = "DELETE FROM " + CREDITS_TABLE + " WHERE " + COLUMN_CREDIT_ID + " =" + Id + ";";
+        String sqlStmt = "DELETE FROM " + TABLE_CREDIT + " WHERE " + COLUMN_CREDIT_ID + " =" + Id + ";";
         //Execute UPDATE operation
         try {
             Statement statement = dbGetConnect().createStatement();

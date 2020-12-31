@@ -378,7 +378,7 @@ public class CommonDAO extends DAO{
         Connection connection = null;
         Statement statement = null;
         String deleteFromEmployee = "DELETE FROM " + TABLE_EMPLOYEE  + " WHERE " + COLUMN_EMPLOYEE_ID + " ="+id+" ;";
-        String deleteFromCredit = "DELETE FROM " + CREDITS_TABLE + " WHERE " + COLUMN_CREDIT_EMPLOYEE_ID + " ="+id+" ;";
+        String deleteFromCredit = "DELETE FROM " + TABLE_CREDIT + " WHERE " + COLUMN_CREDIT_EMPLOYEE_ID + " ="+id+" ;";
         String deleteFromTransport = "DELETE FROM " + TABLE_TRANSPORT  + " WHERE " + COLUMN_TRANSPORT_EMPLOYEE_ID + " ="+id+" ;";
 
         try {
