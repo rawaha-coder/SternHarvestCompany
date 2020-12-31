@@ -20,6 +20,7 @@ import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
 
+
     @FXML
     private BorderPane mainBorderPane;
     @FXML
@@ -43,6 +44,10 @@ public class MainController implements Initializable {
     private Button fxAddTransportButton;
     @FXML
     private Button fxAddSupplierButton;
+    @FXML
+    private Button  fxAddFarmSeasonButton;
+    @FXML
+    public Button fxAddHarvestButton;
 
     @FXML
     private HBox fxHBoxTopMenu;
@@ -55,8 +60,13 @@ public class MainController implements Initializable {
     }
 
     @FXML
+    void loadUIAddHarvest() {
+        loadAddWindow("/harvest/ui/harvest/add_harvest.fxml", "Add Harvest", fxAddHarvestButton);
+    }
+
+    @FXML
     void loadUIAddFarmSeason() {
-        loadAddWindow("/harvest/ui/farm/add_farm.fxml", "Add Farm / Season / Credit", fxAddTransportCreditButton);
+        loadAddWindow("/harvest/ui/farm/add_farm.fxml", "Add Farm / Season", fxAddFarmSeasonButton);
     }
     @FXML
     void setDisplayFarm(){
