@@ -45,7 +45,7 @@ public class AddEmployeeController implements Initializable {
         Employee employee = new Employee();
         if (Validation.isEmpty(fxFirstName.getText(), fxLastName.getText(), fxHireDate.getEditor().getText(), fxFireDate.getEditor().getText(), fxPermissionDate.getEditor().getText()))
         {
-            alert.show("Required fields are missing", "Please enter correct data in required fields!", AlertType.INFORMATION);
+            alert.missingInfo("Employee");
             return;
         }
 

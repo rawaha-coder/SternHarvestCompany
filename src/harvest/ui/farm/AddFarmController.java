@@ -92,7 +92,7 @@ public class AddFarmController implements Initializable {
     private void handleAddFarmOperation(){
         if (Validation.isEmpty(fxFarmComboBox.getEditor().getText(), fxFarmAddress.getText()))
         {
-            alert.show("Farm");
+            alert.missingInfo("Farm");
             return;
         }
         boolean isAdded = false;

@@ -3,6 +3,7 @@ module SternHarvestCompany {
     requires javafx.graphics;
     requires javafx.fxml;
     requires java.sql;
+    requires com.jfoenix;
 
     opens harvest.ui.employee;
     opens harvest.ui.product;

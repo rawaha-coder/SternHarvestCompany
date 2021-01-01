@@ -146,7 +146,7 @@ public class AddSupplierController implements Initializable {
                 , fxChoiceFarm.getValue()
                 , fxChoiceProduct.getValue()))
         {
-            alert.show("Supplier");
+            alert.missingInfo("Supplier");
             return;
         }
         boolean isAdded;

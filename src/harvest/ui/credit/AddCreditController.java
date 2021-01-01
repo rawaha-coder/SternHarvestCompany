@@ -70,14 +70,13 @@ public class AddCreditController implements Initializable {
 
     @FXML
     void handleSaveButton() {
-        if (
-                Validation.isEmpty(fxCreditDate.getValue().toString()
-                        , fxCreditAmount.getText()
-                        , employeeNameId.get(fxEmployeeList.getValue()).toString()
-                        , fxEmployeeList.getValue())
+        if (fxCreditDate.getValue() == null
+                || fxCreditAmount.getText().isEmpty()
+                || fxEmployeeList.getValue() == null
+                || fxEmployeeList.getValue() == null
                 || !Validation.isDouble(fxCreditAmount.getText())
         ){
-            alert.show("Required fields are missing", "Please enter correct data in required fields!", AlertType.INFORMATION);
+            alert.missingInfo("Credit");
             return;
         }
         if (isEditStatus) {
@@ -116,7 +115,6 @@ public class AddCreditController implements Initializable {
     void handleCancelButton() {
         Stage stage = (Stage) fxAddItemUI.getScene().getWindow();
         stage.close();
-        System.out.println("Cancel...");
     }
 
     public void inflateUI(Credit credit) {

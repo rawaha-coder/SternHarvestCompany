@@ -125,7 +125,7 @@ public class AddProductController implements Initializable {
                 || !Validation.isDouble(fxProductPrice2.getText())
         )
         {
-            alert.show("Product");
+            alert.missingInfo("Product");
             return;
         }
         Product product = mProductMap.get(fxProductNameComboBox.getValue());
