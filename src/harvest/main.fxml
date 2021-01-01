@@ -77,6 +77,15 @@
                             </ImageView>
                         </graphic>
                     </Button>
+                    <Button fx:id="fxAddHarvestHoursButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#loadUIAddHarvestHours" prefHeight="50.0" prefWidth="146.0" text="Add Harvest Hours">
+                        <graphic>
+                            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@icon/ic_shortcut_nature.png" />
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
                     <Button fx:id="fxAddFarmSeasonButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#loadUIAddFarmSeason" prefHeight="50.0" prefWidth="146.0" text="Add Farm / Season">
                         <graphic>
                             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">

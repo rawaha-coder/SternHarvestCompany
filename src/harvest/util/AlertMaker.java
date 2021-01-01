@@ -17,7 +17,7 @@ public class AlertMaker {
         alert.showAndWait();
     }
 
-    public void show(String title){
+    public void missingInfo(String title){
         alert.setTitle(title + " info missing");
         alert.setHeaderText("Required fields are missing");
         alert.setContentText("Please enter correct data in required fields!");

@@ -3,121 +3,162 @@ package harvest.model;
 import javafx.beans.property.*;
 
 import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 
 public class Harvest {
 
-    private final IntegerProperty harvestingID;
-    private final ObjectProperty<Date> harvestingDate;
+    private final IntegerProperty harvestID;
+    private final ObjectProperty<Date> harvestDate;
     private final Supplier mSupplier;
-    private final StringProperty SupplierName;
+    private final StringProperty supplierName;
     private final Farm mFarm;
-    private final StringProperty FarmName;
+    private final StringProperty farmName;
     private final Product mProduct;
-    private final StringProperty ProductName;
+    private final StringProperty productName;
     private final ProductDetail mProductDetail;
-    private final StringProperty ProductCode;
+    private final StringProperty productCode;
 
 
     public Harvest() {
-        this.harvestingID = new SimpleIntegerProperty();
-        this.harvestingDate = new SimpleObjectProperty<>();
+        this.harvestID = new SimpleIntegerProperty();
+        this.harvestDate = new SimpleObjectProperty<>();
         mSupplier = new Supplier();
-        SupplierName = new SimpleStringProperty(mSupplier.getSupplierName());
+        supplierName = new SimpleStringProperty(mSupplier.getSupplierName());
         mFarm = new Farm();
-        FarmName = new SimpleStringProperty(mFarm.getFarmName());
+        farmName = new SimpleStringProperty(mFarm.getFarmName());
         mProduct = new Product();
-        ProductName = new SimpleStringProperty(mProduct.getProductName());
+        productName = new SimpleStringProperty(mProduct.getProductName());
         mProductDetail = new ProductDetail();
-        ProductCode = new SimpleStringProperty(mProductDetail.getProductCode());
+        productCode = new SimpleStringProperty(mProductDetail.getProductCode());
     }
 
-    public int getHarvestingID() {
-        return harvestingID.get();
+    public Harvest(Harvest harvest) {
+        this.harvestID = new SimpleIntegerProperty(harvest.getHarvestID());
+        this.harvestDate = new SimpleObjectProperty<>(harvest.getHarvestDate());
+        mSupplier = harvest.getSupplier();
+        this.supplierName = new SimpleStringProperty(harvest.getSupplierName());
+        mFarm = harvest.getFarm();
+        farmName = new SimpleStringProperty(harvest.getFarmName());
+        mProduct = harvest.getProduct();
+        productName = new SimpleStringProperty(harvest.getProductName());
+        mProductDetail = harvest.getProductDetail();
+        productCode = new SimpleStringProperty(harvest.getProductCode());
     }
 
-    public IntegerProperty harvestingIDProperty() {
-        return harvestingID;
+    public int getHarvestID() {
+        return harvestID.get();
     }
 
-    public void setHarvestingID(int harvestingID) {
-        this.harvestingID.set(harvestingID);
+    public IntegerProperty harvestIDProperty() {
+        return harvestID;
     }
 
-    public Date getHarvestingDate() {
-        return harvestingDate.get();
+    public void setHarvestID(int harvestID) {
+        this.harvestID.set(harvestID);
     }
 
-    public ObjectProperty<Date> harvestingDateProperty() {
-        return harvestingDate;
+    public Date getHarvestDate() {
+        return harvestDate.get();
     }
 
-    public void setHarvestingDate(Date harvestingDate) {
-        this.harvestingDate.set(harvestingDate);
+    public ObjectProperty<Date> harvestDateProperty() {
+        return harvestDate;
+    }
+
+    public void setHarvestDate(Date harvestDate) {
+        this.harvestDate.set(harvestDate);
     }
 
     public Supplier getSupplier() {
         return mSupplier;
     }
 
+    public void setSupplier(Supplier supplier){
+        mSupplier.setSupplierId(supplier.getSupplierId());
+        mSupplier.setSupplierName(supplier.getSupplierName());
+        mSupplier.setSupplierFirstname(supplier.getSupplierFirstname());
+        mSupplier.setSupplierLastname(supplier.getSupplierLastname());
+        supplierName.set(mSupplier.getSupplierName());
+    }
+
     public String getSupplierName() {
-        return SupplierName.get();
+        return supplierName.get();
     }
 
     public StringProperty supplierNameProperty() {
-        return SupplierName;
+        return supplierName;
     }
 
     public void setSupplierName(String supplierName) {
-        this.SupplierName.set(supplierName);
+        this.supplierName.set(supplierName);
     }
 
     public Farm getFarm() {
         return mFarm;
     }
 
+    public void setFarm(Farm farm){
+        mFarm.setFarmId(farm.getFarmId());
+        mFarm.setFarmName(farm.getFarmName());
+        mFarm.setFarmAddress(farm.getFarmAddress());
+        farmName.set(mFarm.getFarmName());
+    }
+
     public String getFarmName() {
-        return FarmName.get();
+        return farmName.get();
     }
 
     public StringProperty farmNameProperty() {
-        return FarmName;
+        return farmName;
     }
 
     public void setFarmName(String farmName) {
-        this.FarmName.set(farmName);
+        this.farmName.set(farmName);
     }
 
     public Product getProduct() {
         return mProduct;
     }
 
+    public void setProduct(Product product){
+        mProduct.setProductId(product.getProductId());
+        mProduct.setProductName(product.getProductName());
+        productName.set(mProduct.getProductName());
+    }
+
     public String getProductName() {
-        return ProductName.get();
+        return productName.get();
     }
 
     public StringProperty productNameProperty() {
-        return ProductName;
+        return productName;
     }
 
     public void setProductName(String productName) {
-        this.ProductName.set(productName);
+        this.productName.set(productName);
     }
 
     public ProductDetail getProductDetail() {
         return mProductDetail;
     }
 
+    public void setProductDetail(ProductDetail productDetail){
+        mProductDetail.setProductDetailId(productDetail.getProductDetailId());
+        mProductDetail.setProductType(productDetail.getProductType());
+        mProductDetail.setProductCode(productDetail.getProductCode());
+        mProductDetail.setProductFirstPrice(productDetail.getProductFirstPrice());
+        mProductDetail.setProductSecondPrice(productDetail.getProductSecondPrice());
+        mProductDetail.setProduct(productDetail.getProduct());
+    }
+
     public String getProductCode() {
-        return ProductCode.get();
+        return productCode.get();
     }
 
     public StringProperty productCodeProperty() {
-        return ProductCode;
+        return productCode;
     }
 
     public void setProductCode(String productCode) {
-        this.ProductCode.set(productCode);
+        this.productCode.set(productCode);
     }
 }

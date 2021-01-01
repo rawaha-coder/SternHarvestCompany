@@ -66,7 +66,7 @@ public class HarvestDAO extends DAO{
                 + COLUMN_HARVEST_PRODUCT_DETAIL_ID + ") "
                 + " VALUES(?,?,?,?,?) ";
         try(PreparedStatement preparedStatement = dbGetConnect().prepareStatement(insertHarvest)) {
-            preparedStatement.setDate(1, harvest.getHarvestingDate());
+            preparedStatement.setDate(1, harvest.getHarvestDate());
             preparedStatement.setInt(2, harvest.getSupplier().getSupplierId());
             preparedStatement.setInt(3, harvest.getFarm().getFarmId());
             preparedStatement.setInt(4, harvest.getProduct().getProductId());

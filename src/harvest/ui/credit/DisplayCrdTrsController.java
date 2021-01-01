@@ -76,7 +76,7 @@ public class DisplayCrdTrsController implements Initializable {
     void editCredit() {
         Credit credit = fxCreditTable.getSelectionModel().getSelectedItem();
         if (credit == null) {
-            alert.show("Credit");
+            alert.missingInfo("Credit");
             return;
         }
         try {
@@ -156,7 +156,7 @@ public class DisplayCrdTrsController implements Initializable {
     void deleteTransport() {
         Transport transport = fxTransportTable.getSelectionModel().getSelectedItem();
         if (transport == null) {
-            alert.show("Transport");
+            alert.missingInfo("Transport");
             return;
         }
 

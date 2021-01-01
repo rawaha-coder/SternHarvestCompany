@@ -104,7 +104,7 @@ public class AddTransportController implements Initializable {
                 , fxTransportAmount.getText()
                 , fxFarmList.getValue()
         )){
-            alert.show("Transport");
+            alert.missingInfo("Transport");
             return;
         }
         Transport transport = new Transport();
