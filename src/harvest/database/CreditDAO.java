@@ -67,7 +67,7 @@ public class CreditDAO extends DAO{
             credit.setCreditDate(resultSet.getDate(2));
             credit.setCreditAmount(resultSet.getDouble(3));
             credit.setEmployeeId(resultSet.getInt(4));
-            credit.setCreditEmployee(Validation.getFullName(resultSet.getString(5), resultSet.getString(6)));
+            credit.setCreditEmployee(resultSet.getString(5) + " " + resultSet.getString(6));
             creditList.add(credit);
         }
         return creditList;

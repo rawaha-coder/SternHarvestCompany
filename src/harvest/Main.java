@@ -20,6 +20,7 @@ public class Main extends Application {
     //SupplyDAO mSupplyDAO = SupplyDAO.getInstance();
     //TransportDAO mTransportDAO = TransportDAO.getInstance();
     //HarvestDAO mHarvestDAO = HarvestDAO.getInstance();
+    HarvestHoursDAO mHarvestHoursDAO = HarvestHoursDAO.getInstance();
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -37,6 +38,7 @@ public class Main extends Application {
         //mSupplyDAO.createSupplyTable();
         //mTransportDAO.createTransportTable();
         //mHarvestDAO.createHarvestTable();
+        mHarvestHoursDAO.createHarvestTable();
 
     }
 

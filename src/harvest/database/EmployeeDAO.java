@@ -93,7 +93,7 @@ public class EmployeeDAO extends DAO{
                 employee.setEmployeeStatus(resultSet.getBoolean(2));
                 employee.setEmployeeFirstName(resultSet.getString(3));
                 employee.setEmployeeLastName(resultSet.getString(4));
-                employee.setEmployeeFullName(Validation.getFullName(resultSet.getString(3), resultSet.getString(4)));
+                employee.setEmployeeFullName();
                 employee.setEmployeeHireDate(resultSet.getDate(5));
                 employee.setEmployeeFireDate(resultSet.getDate(6));
                 employee.setEmployeePermissionDate(resultSet.getDate(7));
@@ -107,6 +107,7 @@ public class EmployeeDAO extends DAO{
             dbDisConnect();
         }
     }
+
 
     //Add Employee
     public boolean addData(Employee employee) {
@@ -169,8 +170,10 @@ public class EmployeeDAO extends DAO{
     //UPDATE Employee status in database
     //*************************************
     public boolean updateEmployeeStatusById(int employeeId, boolean employeeStatus) {
+        System.out.println(employeeId + " " + employeeStatus);
         String updateStmt = "UPDATE " + TABLE_EMPLOYEE + " SET " + COLUMN_EMPLOYEE_STATUS + " =?  WHERE " + COLUMN_EMPLOYEE_ID + " = " + employeeId + " ;";
         try( PreparedStatement preparedStatement = dbGetConnect().prepareStatement(updateStmt)) {
+            System.out.println(employeeId + " " + employeeStatus);
             preparedStatement.setBoolean(1, employeeStatus);
             preparedStatement.execute();
             preparedStatement.close();

@@ -1,9 +1,7 @@
 package harvest.database;
 
-import harvest.model.Farm;
-import harvest.model.ProductDetail;
-import harvest.model.Season;
-import harvest.model.Supply;
+import harvest.model.*;
+import harvest.util.Validation;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -32,6 +30,30 @@ public class CommonDAO extends DAO{
             return sCommonDAO;
         }
         return sCommonDAO;
+    }
+
+    //*******************************
+    //Get all employees data
+    //*******************************
+    public List<AddHarvestHours> getHarvestHoursData() throws Exception {
+        List<AddHarvestHours> addHarvestHoursList = new ArrayList<>();
+        String sqlStmt = "SELECT * FROM " + TABLE_EMPLOYEE + " ORDER BY " + COLUMN_EMPLOYEE_ID + " DESC;";
+
+        try(Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(sqlStmt)) {
+            while (resultSet.next()) {
+                AddHarvestHours addHarvestHours = new AddHarvestHours();
+                addHarvestHours.setEmployeeId(resultSet.getInt(1));
+                addHarvestHours.setEmployeeStatus(resultSet.getBoolean(2));
+                addHarvestHours.setEmployeeFullName(resultSet.getString(3) + " " + resultSet.getString(4));
+                addHarvestHoursList.add(addHarvestHours);
+            }
+            return addHarvestHoursList;
+        } catch (SQLException e) {
+            System.out.println("SQL select operation has been failed: " + e);
+            throw e;
+        }finally {
+            dbDisConnect();
+        }
     }
 
     //*************************************************************

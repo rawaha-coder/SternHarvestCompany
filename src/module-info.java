@@ -12,6 +12,7 @@ module SternHarvestCompany {
     opens harvest.ui.supplier;
     opens harvest.model;
     opens harvest.ui.harvest;
+    opens harvest.util;
 
     opens harvest;
 }

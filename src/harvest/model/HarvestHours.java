@@ -3,46 +3,112 @@ package harvest.model;
 import javafx.beans.property.*;
 
 import java.sql.Time;
+import java.time.Duration;
 
 public class HarvestHours {
     private final IntegerProperty harvestHoursID;
-    private Harvest mHarvest;
-    private final Employee mEmployee;
     private final ObjectProperty<Time> startMorning;
     private final ObjectProperty<Time> endMorning;
     private final ObjectProperty<Time> startNoon;
-    private final ObjectProperty<Time> EndNoon;
-    private final DoubleProperty totalHoursWork;
+    private final ObjectProperty<Time> endNoon;
+    private LongProperty totalHours;
+    private final StringProperty harvestRemarque;
+    private final IntegerProperty employeeType;
+
+    private Harvest mHarvest;
+    private Employee mEmployee;
+    private final SimpleIntegerProperty employeeId;
+    private final SimpleBooleanProperty employeeStatus;
+    private final StringProperty employeeFullName;
     private Credit mCredit;
-    private final Transport mTransport;
-    private final DoubleProperty workingDayAdvance;
-    private final StringProperty workingDayRemarque;
+    private Transport mTransport;
+
 
     public HarvestHours() {
         this.harvestHoursID = new SimpleIntegerProperty();
-        mHarvest = new Harvest();
-        mEmployee = new Employee();
         this.startMorning = new SimpleObjectProperty<>();
         this.endMorning = new SimpleObjectProperty<>();
         this.startNoon = new SimpleObjectProperty<>();
-        this.EndNoon = new SimpleObjectProperty<>();
-        this.totalHoursWork = new SimpleDoubleProperty();
+        this.endNoon = new SimpleObjectProperty<>();
+        this.totalHours = new SimpleLongProperty();
+        this.employeeType = new SimpleIntegerProperty();
+        this.harvestRemarque = new SimpleStringProperty();
+        mHarvest = new Harvest();
+        mEmployee = new Employee();
+        this.employeeId = new SimpleIntegerProperty();
+        this.employeeFullName = new SimpleStringProperty();
+        this.employeeStatus = new SimpleBooleanProperty();
         mCredit = new Credit();
         mTransport = new Transport();
-        this.workingDayAdvance = new SimpleDoubleProperty();
-        this.workingDayRemarque = new SimpleStringProperty();
     }
 
     public int getHarvestHoursID() {
         return harvestHoursID.get();
     }
 
-    public IntegerProperty harvestHoursIDProperty() {
-        return harvestHoursID;
-    }
-
     public void setHarvestHoursID(int harvestHoursID) {
         this.harvestHoursID.set(harvestHoursID);
+    }
+
+    public Time getStartMorning() {
+        return startMorning.get();
+    }
+
+    public void setStartMorning(Time startMorning) {
+        this.startMorning.set(startMorning);
+    }
+
+    public Time getEndMorning() {
+        return endMorning.get();
+    }
+
+    public void setEndMorning(Time endMorning) {
+        this.endMorning.set(endMorning);
+    }
+
+    public Time getStartNoon() {
+        return startNoon.get();
+    }
+
+    public void setStartNoon(Time startNoon) {
+        this.startNoon.set(startNoon);
+    }
+
+    public Time getEndNoon() {
+        return endNoon.get();
+    }
+
+    public void setEndNoon(Time endNoon) {
+        this.endNoon.set(endNoon);
+    }
+
+    public long getTotalHours() {
+        Duration morningDuration = Duration.between(startMorning.get().toLocalTime(), endMorning.get().toLocalTime());
+        Duration noonDuration = Duration.between(startNoon.get().toLocalTime(), endNoon.get().toLocalTime());
+        this.totalHours = new SimpleLongProperty((Duration.ofSeconds(morningDuration.getSeconds() + noonDuration.getSeconds())).getSeconds());
+        return totalHours.get();
+    }
+
+//    public void setTotalHours() {
+//        Duration morningDuration = Duration.between(startMorning.get().toLocalTime(), endMorning.get().toLocalTime());
+//        Duration noonDuration = Duration.between(startNoon.get().toLocalTime(), endNoon.get().toLocalTime());
+//        this.totalHours = new SimpleLongProperty((Duration.ofSeconds(morningDuration.getSeconds() + noonDuration.getSeconds())).getSeconds());
+//    }
+
+    public String getHarvestRemarque() {
+        return harvestRemarque.get();
+    }
+
+    public void setHarvestRemarque(String harvestRemarque) {
+        this.harvestRemarque.set(harvestRemarque);
+    }
+
+    public int getEmployeeType() {
+        return employeeType.get();
+    }
+
+    public void setEmployeeType(int employeeType) {
+        this.employeeType.set(employeeType);
     }
 
     public Harvest getHarvest() {
@@ -57,91 +123,59 @@ public class HarvestHours {
         return mEmployee;
     }
 
-    public Time getStartMorning() {
-        return startMorning.get();
+    public void setEmployee(Employee employee){
+        this.mEmployee = employee;
     }
 
-    public ObjectProperty<Time> startMorningProperty() {
-        return startMorning;
+    public int getEmployeeId() {
+        return employeeId.get();
     }
 
-    public void setStartMorning(Time startMorning) {
-        this.startMorning.set(startMorning);
+    public SimpleIntegerProperty employeeIdProperty() {
+        return employeeId;
     }
 
-    public Time getEndMorning() {
-        return endMorning.get();
+    public void setEmployeeId(int employeeId) {
+        this.employeeId.set(employeeId);
     }
 
-    public ObjectProperty<Time> endMorningProperty() {
-        return endMorning;
+    public boolean isEmployeeStatus() {
+        return employeeStatus.get();
     }
 
-    public void setEndMorning(Time endMorning) {
-        this.endMorning.set(endMorning);
+    public SimpleBooleanProperty employeeStatusProperty() {
+        return employeeStatus;
     }
 
-    public Time getStartNoon() {
-        return startNoon.get();
+    public void setEmployeeStatus(boolean employeeStatus) {
+        this.employeeStatus.set(employeeStatus);
     }
 
-    public ObjectProperty<Time> startNoonProperty() {
-        return startNoon;
+    public String getEmployeeFullName() {
+        this.employeeFullName.set(this.mEmployee.getEmployeeFullName());
+        return employeeFullName.get();
     }
 
-    public void setStartNoon(Time startNoon) {
-        this.startNoon.set(startNoon);
+    public StringProperty employeeFullNameProperty() {
+        this.employeeFullName.set(this.mEmployee.getEmployeeFullName());
+        return employeeFullName;
     }
 
-    public Time getEndNoon() {
-        return EndNoon.get();
+    public Credit getCredit() {
+        return mCredit;
     }
 
-    public ObjectProperty<Time> endNoonProperty() {
-        return EndNoon;
-    }
-
-    public void setEndNoon(Time endNoon) {
-        this.EndNoon.set(endNoon);
-    }
-
-    public double getTotalHoursWork() {
-        return totalHoursWork.get();
-    }
-
-    public DoubleProperty totalHoursWorkProperty() {
-        return totalHoursWork;
-    }
-
-    public void setTotalHoursWork(double totalHoursWork) {
-        this.totalHoursWork.set(totalHoursWork);
+    public void setCredit(Credit credit) {
+        mCredit = credit;
     }
 
     public Transport getTransport() {
         return mTransport;
     }
 
-    public double getWorkingDayAdvance() {
-        return workingDayAdvance.get();
+    public void setTransport(Transport transport) {
+        mTransport = transport;
     }
 
-    public DoubleProperty workingDayAdvanceProperty() {
-        return workingDayAdvance;
-    }
 
-    public void setWorkingDayAdvance(double workingDayAdvance) {
-        this.workingDayAdvance.set(workingDayAdvance);
-    }
-
-    public String getWorkingDayRemarque() {
-        return workingDayRemarque.get();
-    }
-
-    public StringProperty workingDayRemarqueProperty() {
-        return workingDayRemarque;
-    }
-
-    public void setWorkingDayRemarque(String workingDayRemarque) {
-        this.workingDayRemarque.set(workingDayRemarque);
-    }
 }

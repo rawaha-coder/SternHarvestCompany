@@ -52,8 +52,8 @@ public class AddCreditController implements Initializable {
         try {
             List<Employee> mList = new ArrayList<>(mEmployeeDAO.getData());
             for (Employee employee : mList) {
-                stringObservableList.add(Validation.getFullName(employee.getEmployeeFirstName(), employee.getEmployeeLastName()));
-                employeeNameId.put(Validation.getFullName(employee.getEmployeeFirstName(), employee.getEmployeeLastName()), employee.getEmployeeId());
+                stringObservableList.add(employee.getEmployeeFullName());
+                employeeNameId.put(employee.getEmployeeFullName(), employee.getEmployeeId());
             }
         } catch (Exception e) {
             e.printStackTrace();
