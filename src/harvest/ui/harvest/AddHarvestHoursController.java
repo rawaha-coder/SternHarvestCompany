@@ -3,8 +3,8 @@ package harvest.ui.harvest;
 import harvest.database.*;
 import harvest.model.*;
 import harvest.util.AlertMaker;
+import harvest.util.TimeTextField;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -17,17 +17,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.sql.Date;
+import java.sql.Time;
+import java.time.Duration;
 import java.util.*;
-
-import static harvest.ui.employee.DisplayEmployeeController.EMPLOYEE_LIST_LIVE_DATA;
 
 public class AddHarvestHoursController implements Initializable {
 
-    public static ObservableList<Employee> HARVEST_HOURS_LIST = FXCollections.observableArrayList();
+    public static ObservableList<AddHarvestHours> HARVEST_HOURS_LIST_LIVE_DATA = FXCollections.observableArrayList();
 
     private final Map<String, Supplier> mSupplierMap = new LinkedHashMap<>();
     private final Map<String, Farm> mFarmMap = new LinkedHashMap<>();
@@ -40,7 +38,7 @@ public class AddHarvestHoursController implements Initializable {
     private final ProductDAO mProductDAO = ProductDAO.getInstance();
     private final ProductDetailDAO mProductDetailDAO = ProductDetailDAO.getInstance();
     private final HarvestDAO mHarvestDAO = HarvestDAO.getInstance();
-
+    private final CommonDAO commonDAO = CommonDAO.getInstance();
     ObservableList<String> observableSupplierList = FXCollections.observableArrayList();
     ObservableList<String> observableFarmList = FXCollections.observableArrayList();
     ObservableList<String> observableProductList = FXCollections.observableArrayList();
@@ -64,16 +62,16 @@ public class AddHarvestHoursController implements Initializable {
     private ChoiceBox<String> fxProductCodeList;
 
     @FXML
-    private TextField fxStartMorningTime;
+    private TimeTextField fxStartMorningTime;
 
     @FXML
-    private TextField fxEndMorningTime;
+    private TimeTextField fxEndMorningTime;
 
     @FXML
-    private TextField fxStartNoonTime;
+    private TimeTextField fxStartNoonTime;
 
     @FXML
-    private TextField fxEndNoonTime;
+    private TimeTextField fxEndNoonTime;
 
     @FXML
     private RadioButton fxHarvester;
@@ -88,16 +86,19 @@ public class AddHarvestHoursController implements Initializable {
     private Button fxClearButton;
 
     @FXML
-    private TableView<Employee> fxAddHarvestHoursTable;
+    private TableView<AddHarvestHours> fxAddHarvestHoursTable;
 
     @FXML
-    private TableColumn<Employee, Boolean> fxEmployeeSelectColumn;
+    private TableColumn<AddHarvestHours, Boolean> fxEmployeeSelectColumn;
 
     @FXML
-    private TableColumn<Employee, String> fxEmployeeFullNameColumn;
+    private TableColumn<AddHarvestHours, String> fxEmployeeFullNameColumn;
 
     @FXML
-    private TableColumn<String, String> fxRemarqueColumn;
+    private TableColumn<AddHarvestHours, Boolean> fxTransportSelectColumn;
+
+    @FXML
+    private TableColumn<AddHarvestHours, String> fxRemarqueColumn;
 
     @FXML
     private TextField fxTotalHours;
@@ -124,25 +125,39 @@ public class AddHarvestHoursController implements Initializable {
         getProductList();
         observeChoiceProduct();
         mEmployeeDAO.updateLiveData();
-        initHarvestHoursTable();
+        initTable();
         fxRemarqueColumn.setEditable(true);
-        observeRemarqueColumn();
+        //observeRemarqueColumn();
+        observeRemarqueColumnChange();
+        fxHarvester.setSelected(true);
     }
 
     //Initialization employee table Columns
-    private void initHarvestHoursTable() {
-        fxAddHarvestHoursTable.setItems(EMPLOYEE_LIST_LIVE_DATA);
+    public void initTable(){
+        updateLiveData();
+        fxAddHarvestHoursTable.setItems(HARVEST_HOURS_LIST_LIVE_DATA);
         fxEmployeeSelectColumn.setCellValueFactory(new PropertyValueFactory<>("employeeStatus"));
         fxEmployeeFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("employeeFullName"));
+        fxTransportSelectColumn.setCellValueFactory(new PropertyValueFactory<>("transportStatus"));
+        fxRemarqueColumn.setCellValueFactory(new PropertyValueFactory<>("harvestRemarque"));
         observeEmployeeSelectColumn();
+        observeTransportSelectColumn();
+    }
 
+    public void updateLiveData(){
+        HARVEST_HOURS_LIST_LIVE_DATA.clear();
+        try {
+            HARVEST_HOURS_LIST_LIVE_DATA.setAll(commonDAO.getHarvestHoursData());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     //Add CheckBox To EmployeeSelectColumn and observe the change
     private void observeRemarqueColumn() {
         fxRemarqueColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         fxRemarqueColumn.setOnEditCommit(
-                (TableColumn.CellEditEvent<String, String> t) ->
+                (TableColumn.CellEditEvent<AddHarvestHours, String> t) ->
                         System.out.println(t.getNewValue())
         );
     }
@@ -151,11 +166,11 @@ public class AddHarvestHoursController implements Initializable {
     private void observeEmployeeSelectColumn() {
         fxEmployeeSelectColumn.setCellFactory(column -> new CheckBoxTableCell<>());
         fxEmployeeSelectColumn.setCellValueFactory(cellData -> {
-            Employee employee = cellData.getValue();
-            BooleanProperty booleanProperty = employee.employeeStatusProperty();
+            AddHarvestHours harvestHours = cellData.getValue();
+            BooleanProperty booleanProperty = harvestHours.employeeStatusProperty();
             booleanProperty.addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
-                if (mEmployeeDAO.updateEmployeeStatusById(employee.getEmployeeId(), employee.isEmployeeStatus())) {
-                    mEmployeeDAO.updateLiveData();
+                if (mEmployeeDAO.updateEmployeeStatusById(harvestHours.getEmployeeId(), harvestHours.isEmployeeStatus())) {
+                    updateLiveData();
                 } else {
                     alert.show("Error", "something wrong happened", Alert.AlertType.ERROR);
                 }
@@ -163,6 +178,104 @@ public class AddHarvestHoursController implements Initializable {
             return booleanProperty;
         });
     }
+
+    //Add CheckBox To EmployeeSelectColumn and observe the change
+    private void observeTransportSelectColumn() {
+        fxTransportSelectColumn.setCellFactory(column -> new CheckBoxTableCell<>());
+        fxTransportSelectColumn.setCellValueFactory(cellData -> {
+            AddHarvestHours harvestHours = cellData.getValue();
+            BooleanProperty booleanProperty = harvestHours.transportStatusProperty();
+            booleanProperty.addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
+                harvestHours.setTransportStatus(newValue);
+                System.out.println(harvestHours.isTransportStatus());
+                System.out.println(harvestHours.getEmployeeFullName());
+            });
+            return booleanProperty;
+        });
+    }
+
+    //Add CheckBox To EmployeeSelectColumn and observe the change
+    private void observeRemarqueColumnChange() {
+        fxRemarqueColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        fxRemarqueColumn.setCellValueFactory(cellData -> {
+            AddHarvestHours harvestHours = cellData.getValue();
+            StringProperty stringProperty = harvestHours.harvestRemarqueProperty();
+            fxRemarqueColumn.setOnEditCommit(
+                    (TableColumn.CellEditEvent<AddHarvestHours, String> t) ->
+                            harvestHours.setHarvestRemarque(t.getNewValue())
+            );
+            System.out.println(harvestHours.getHarvestRemarque());
+            return stringProperty;
+        });
+
+    }
+
+    @FXML
+    void handleSaveButton() {
+        if (fxHarvestDate.getValue() == null
+                || fxSupplierList.getValue() == null
+                || fxFarmList.getValue() == null
+                || fxProductList.getValue() == null
+                || fxProductCodeList.getValue() == null)
+        {
+            alert.missingInfo("Harvest");
+            return;
+        }
+
+        HarvestHoursDAO harvestHoursDAO = HarvestHoursDAO.getInstance();
+        HarvestHours harvestHours = new HarvestHours();
+        Harvest harvest = new Harvest();
+        AddHarvestHours addHarvestHours = new AddHarvestHours();
+
+        harvest.setHarvestDate(Date.valueOf(fxHarvestDate.getValue()));
+        harvest.setSupplier(mSupplierMap.get(fxSupplierList.getValue()));
+        harvest.setFarm(mFarmMap.get(fxFarmList.getValue()));
+        harvest.setProduct(mProductMap.get(fxProductList.getValue()));
+        harvest.setProductDetail(mProductDetailMap.get(fxProductCodeList.getValue()));
+
+        addHarvestHours.setStartMorning(Time.valueOf(fxStartMorningTime.getText()));
+        addHarvestHours.setEndMorning(Time.valueOf(fxEndMorningTime.getText()));
+        addHarvestHours.setStartNoon(Time.valueOf(fxStartNoonTime.getText()));
+        addHarvestHours.setEndNoon(Time.valueOf(fxEndNoonTime.getText()));
+        List<AddHarvestHours> list = new ArrayList<>();
+        for (AddHarvestHours item : HARVEST_HOURS_LIST_LIVE_DATA){
+            if (item.isEmployeeStatus()){
+                item.setStartMorning(Time.valueOf(fxStartMorningTime.getText()));
+                item.setEndMorning(Time.valueOf(fxEndMorningTime.getText()));
+                item.setStartNoon(Time.valueOf(fxStartNoonTime.getText()));
+                item.setEndNoon(Time.valueOf(fxEndNoonTime.getText()));
+                item.setEmployeeType(getEmployeeType());
+                System.out.println(item.getEmployeeFullName() + " " + item.getHarvestRemarque() + " " + item.getEmployeeId());
+                //list.add(item);
+                harvestHoursDAO.addHarvestHours(item , harvest);
+            }
+        }
+
+        harvestHours.setEmployeeType(getEmployeeType());
+
+        //alert.saveItem("Harvester", harvestHoursDAO.addHarvesters(list , harvest));
+
+        //alert.saveItem("Harvest", harvestHoursDAO.addHarvestHours(harvestHours, harvest));
+    }
+
+    @FXML
+    void handleClearButton() {
+        getSupplierList();
+        getFarmList();
+        getProductList();
+        fxHarvestDate.getEditor().setText("");
+    }
+
+    @FXML
+    void handleCloseButton() {
+        Stage stage = (Stage) addHarvestHoursUI.getScene().getWindow();
+        stage.close();
+    }
+
+
+
+
+
 
     private void getSupplierList() {
         observableSupplierList.clear();
@@ -240,39 +353,12 @@ public class AddHarvestHoursController implements Initializable {
         fxProductCodeList.setItems(observableProductCode);
     }
 
-    @FXML
-    void handleSaveButton() {
-        if (fxHarvestDate.getValue() == null
-                || fxSupplierList.getValue() == null
-                || fxFarmList.getValue() == null
-                || fxProductList.getValue() == null
-                || fxProductCodeList.getValue() == null)
-        {
-            alert.missingInfo("Harvest");
-            return;
+    private int getEmployeeType(){
+        if(fxController.isSelected()){
+            return 1;
+        }else {
+            return 0;
         }
-        Harvest harvest = new Harvest();
-        harvest.setHarvestDate(Date.valueOf(fxHarvestDate.getValue()));
-        harvest.setSupplier(mSupplierMap.get(fxSupplierList.getValue()));
-        harvest.setFarm(mFarmMap.get(fxFarmList.getValue()));
-        harvest.setProduct(mProductMap.get(fxProductList.getValue()));
-        harvest.setProductDetail(mProductDetailMap.get(fxProductCodeList.getValue()));
-        alert.saveItem("Harvest", mHarvestDAO.addHarvestDate(harvest));
     }
-
-    @FXML
-    void handleClearButton() {
-        getSupplierList();
-        getFarmList();
-        getProductList();
-        fxHarvestDate.getEditor().setText("");
-    }
-
-    @FXML
-    void handleCloseButton() {
-        Stage stage = (Stage) addHarvestHoursUI.getScene().getWindow();
-        stage.close();
-    }
-
 
 }

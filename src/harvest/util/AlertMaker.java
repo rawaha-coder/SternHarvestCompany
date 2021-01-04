@@ -19,7 +19,7 @@ public class AlertMaker {
 
     public void missingInfo(String title){
         alert.setTitle(title + " info missing");
-        alert.setHeaderText("Required fields are missing");
+        alert.setHeaderText(title + " fields are missing");
         alert.setContentText("Please enter correct data in required fields!");
         alert.setAlertType(AlertType.INFORMATION);
         alert.showAndWait();

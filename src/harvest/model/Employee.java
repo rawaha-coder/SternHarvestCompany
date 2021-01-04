@@ -31,7 +31,7 @@ public class Employee {
         this.employeeId = new SimpleIntegerProperty(id);
         this.employeeFirstName = new SimpleStringProperty(fn);
         this.employeeLastName = new SimpleStringProperty(ln);
-        this.employeeFullName = new SimpleStringProperty(Validation.getFullName(fn, ln));
+        this.employeeFullName = new SimpleStringProperty(fn + " " + ln);
         this.employeeStatus = new SimpleBooleanProperty();
         this.employeeHireDate = new SimpleObjectProperty<>();
         this.employeeFireDate = new SimpleObjectProperty<>();
@@ -76,12 +76,27 @@ public class Employee {
     }
 
     public String getEmployeeFullName() {
+        this.employeeFullName.set(getEmployeeFirstName() + " " + getEmployeeLastName());
         return employeeFullName.get();
     }
 
-    public void setEmployeeFullName(String employeeFullName) {
-        this.employeeFullName.set(employeeFullName);
+    public SimpleStringProperty employeeFullNameProperty() {
+        this.employeeFullName.set(getEmployeeFirstName() + " " + getEmployeeLastName());
+        return employeeFullName;
     }
+
+    public void setEmployeeFullName() {
+        this.employeeFullName.set(getEmployeeFirstName() + " " + getEmployeeLastName());
+    }
+
+    public void setEmployeeFullName(String fn, String ln) {
+        this.employeeFullName.set(fn.trim() + " " + ln.trim());
+    }
+
+    //    public void setEmployeeFullName(String employeeFullName) {
+//
+//        this.employeeFullName.set(employeeFullName);
+//    }
 
     public Date getEmployeeHireDate() {
         return employeeHireDate.get();

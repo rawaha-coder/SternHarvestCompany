@@ -8,7 +8,7 @@ public class Transport {
 
     private final SimpleIntegerProperty transportId;
     private final ObjectProperty<Date> transportDate;
-    private final Employee employee;
+    private Employee employee;
     private final StringProperty employeeName;
     private final SimpleDoubleProperty transportAmount;
     private final Farm farm;
@@ -78,14 +78,15 @@ public class Transport {
 
 
     public void setEmployee(Employee employee){
-        this.employee.setEmployeeId(employee.getEmployeeId());
-        this.employee.setEmployeeFirstName(employee.getEmployeeFirstName());
-        this.employee.setEmployeeLastName(employee.getEmployeeLastName());
-        this.employee.setEmployeeFullName(employee.getEmployeeFullName());
-        this.employee.setEmployeeHireDate(employee.getEmployeeHireDate());
-        this.employee.setEmployeeFireDate(employee.getEmployeeFireDate());
-        this.employee.setEmployeeStatus(employee.isEmployeeStatus());
-        this.employeeName.set(employee.getEmployeeFullName());
+        this.employee = employee;
+//        this.employee.setEmployeeId(employee.getEmployeeId());
+//        this.employee.setEmployeeFirstName(employee.getEmployeeFirstName());
+//        this.employee.setEmployeeLastName(employee.getEmployeeLastName());
+//        this.employee.setEmployeeFullName(employee.getEmployeeFullName());
+//        this.employee.setEmployeeHireDate(employee.getEmployeeHireDate());
+//        this.employee.setEmployeeFireDate(employee.getEmployeeFireDate());
+//        this.employee.setEmployeeStatus(employee.isEmployeeStatus());
+//        this.employeeName.set(employee.getEmployeeFullName());
     }
 
     public Farm getFarm() {
