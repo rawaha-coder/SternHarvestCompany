@@ -170,6 +170,11 @@ public class AddHarvestController implements Initializable {
         harvest.setFarm(mFarmMap.get(fxFarmList.getValue()));
         harvest.setProduct(mProductMap.get(fxProductList.getValue()));
         harvest.setProductDetail(mProductDetailMap.get(fxProductCodeList.getValue()));
-        alert.saveItem("Harvest", mHarvestDAO.addHarvestDate(harvest));
+
+        if (mHarvestDAO.isExists(harvest) == 0){
+            alert.saveItem("Harvest", mHarvestDAO.addHarvestDate(harvest));
+        }else{
+            System.out.println(mHarvestDAO.getHarvestId(harvest));
+        }
     }
 }

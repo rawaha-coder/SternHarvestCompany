@@ -3,6 +3,7 @@ package harvest.database;
 import harvest.model.Harvest;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -57,6 +58,49 @@ public class HarvestDAO extends DAO{
         }
     }
 
+    public int isExists(Harvest harvest){
+        int value = -1;
+        String stmt = "SELECT EXISTS (SELECT " + COLUMN_HARVEST_ID + " FROM "+ TABLE_HARVEST + " WHERE  "
+                + COLUMN_HARVEST_DATE + " = " + harvest.getHarvestDate().getTime() + " AND "
+                + COLUMN_HARVEST_SUPPLIER_ID + " = " + harvest.getSupplier().getSupplierId() + " AND "
+                + COLUMN_HARVEST_FARM_ID + " = " + harvest.getFarm().getFarmId() + " AND "
+                + COLUMN_HARVEST_PRODUCT_ID + " = " + harvest.getProduct().getProductId() + " AND "
+                + COLUMN_HARVEST_PRODUCT_DETAIL_ID + " = " + harvest.getProductDetail().getProductDetailId()
+                + " )";
+
+        try(Statement statement = dbGetConnect().createStatement();) {
+            ResultSet resultSet = statement.executeQuery(stmt);
+            value = resultSet.getInt(1);
+            System.out.println(value);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            dbDisConnect();
+        }
+        return value;
+    }
+
+    public int getHarvestId(Harvest harvest){
+        int value = -1;
+        String stmt = "SELECT " + COLUMN_HARVEST_ID + " FROM "+ TABLE_HARVEST + " WHERE  "
+                + COLUMN_HARVEST_DATE + " = " + harvest.getHarvestDate().getTime() + " AND "
+                + COLUMN_HARVEST_SUPPLIER_ID + " = " + harvest.getSupplier().getSupplierId() + " AND "
+                + COLUMN_HARVEST_FARM_ID + " = " + harvest.getFarm().getFarmId() + " AND "
+                + COLUMN_HARVEST_PRODUCT_ID + " = " + harvest.getProduct().getProductId() + " AND "
+                + COLUMN_HARVEST_PRODUCT_DETAIL_ID + " = " + harvest.getProductDetail().getProductDetailId()
+                + " ;";
+        try(Statement statement = dbGetConnect().createStatement()) {
+            ResultSet resultSet = statement.executeQuery(stmt);
+            value = resultSet.getInt(1);
+            System.out.println(value);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            dbDisConnect();
+        }
+        return value;
+    }
+
     public boolean addHarvestDate(Harvest harvest){
         String insertHarvest = "INSERT INTO " + TABLE_HARVEST + " ("
                 + COLUMN_HARVEST_DATE + ", "
@@ -72,6 +116,7 @@ public class HarvestDAO extends DAO{
             preparedStatement.setInt(4, harvest.getProduct().getProductId());
             preparedStatement.setInt(5, harvest.getProductDetail().getProductDetailId());
             preparedStatement.execute();
+            preparedStatement.close();
             return true;
         }catch (SQLException e){
             e.printStackTrace();
