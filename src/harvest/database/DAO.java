@@ -24,7 +24,7 @@ public class DAO {
         try {
             if (connection != null) {
                 connection.close();
-                System.out.println("Closes database connection.");
+                System.out.println("\nCloses database connection.");
             }
         } catch (SQLException e) {
             e.printStackTrace();

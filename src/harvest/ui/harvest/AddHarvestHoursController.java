@@ -18,7 +18,9 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import java.net.URL;
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.sql.Time;
 import java.time.Duration;
 import java.util.*;
@@ -202,9 +204,11 @@ public class AddHarvestHoursController implements Initializable {
             StringProperty stringProperty = harvestHours.harvestRemarqueProperty();
             fxRemarqueColumn.setOnEditCommit(
                     (TableColumn.CellEditEvent<AddHarvestHours, String> t) ->
-                            harvestHours.setHarvestRemarque(t.getNewValue())
+                    {
+                        harvestHours.setHarvestRemarque(t.getNewValue());
+                        System.out.println(harvestHours.getHarvestRemarque());
+                    }
             );
-            System.out.println(harvestHours.getHarvestRemarque());
             return stringProperty;
         });
 
@@ -233,29 +237,35 @@ public class AddHarvestHoursController implements Initializable {
         harvest.setProduct(mProductMap.get(fxProductList.getValue()));
         harvest.setProductDetail(mProductDetailMap.get(fxProductCodeList.getValue()));
 
-        addHarvestHours.setStartMorning(Time.valueOf(fxStartMorningTime.getText()));
-        addHarvestHours.setEndMorning(Time.valueOf(fxEndMorningTime.getText()));
-        addHarvestHours.setStartNoon(Time.valueOf(fxStartNoonTime.getText()));
-        addHarvestHours.setEndNoon(Time.valueOf(fxEndNoonTime.getText()));
-        List<AddHarvestHours> list = new ArrayList<>();
-        for (AddHarvestHours item : HARVEST_HOURS_LIST_LIVE_DATA){
-            if (item.isEmployeeStatus()){
-                item.setStartMorning(Time.valueOf(fxStartMorningTime.getText()));
-                item.setEndMorning(Time.valueOf(fxEndMorningTime.getText()));
-                item.setStartNoon(Time.valueOf(fxStartNoonTime.getText()));
-                item.setEndNoon(Time.valueOf(fxEndNoonTime.getText()));
-                item.setEmployeeType(getEmployeeType());
-                System.out.println(item.getEmployeeFullName() + " " + item.getHarvestRemarque() + " " + item.getEmployeeId());
-                //list.add(item);
-                harvestHoursDAO.addHarvestHours(item , harvest);
+        int id = 0;
+        if (mHarvestDAO.isExists(harvest) == 0){
+            if (mHarvestDAO.addHarvestDate(harvest)){
+                id = mHarvestDAO.getHarvestId(harvest);
+            }
+        }else{
+            id = mHarvestDAO.getHarvestId(harvest);
+        }
+
+        int count = 0;
+        if (id != 0){
+            for (AddHarvestHours item : HARVEST_HOURS_LIST_LIVE_DATA){
+                if (item.isEmployeeStatus()){
+                    item.setStartMorning(Time.valueOf(fxStartMorningTime.getText()));
+                    item.setEndMorning(Time.valueOf(fxEndMorningTime.getText()));
+                    item.setStartNoon(Time.valueOf(fxStartNoonTime.getText()));
+                    item.setEndNoon(Time.valueOf(fxEndNoonTime.getText()));
+                    item.setEmployeeType(getEmployeeType());
+                    item.setHarvestID(id);
+                    item.setHarvestDate(harvest.getHarvestDate());
+                    if (harvestHoursDAO.addHarvesters(item)){
+                        count ++;
+                    }
+                }
+                break;
             }
         }
 
-        harvestHours.setEmployeeType(getEmployeeType());
-
-        //alert.saveItem("Harvester", harvestHoursDAO.addHarvesters(list , harvest));
-
-        //alert.saveItem("Harvest", harvestHoursDAO.addHarvestHours(harvestHours, harvest));
+        System.out.println("Employee added: " + count);
     }
 
     @FXML
