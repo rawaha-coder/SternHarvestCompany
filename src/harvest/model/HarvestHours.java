@@ -89,12 +89,6 @@ public class HarvestHours {
         return totalHours.get();
     }
 
-//    public void setTotalHours() {
-//        Duration morningDuration = Duration.between(startMorning.get().toLocalTime(), endMorning.get().toLocalTime());
-//        Duration noonDuration = Duration.between(startNoon.get().toLocalTime(), endNoon.get().toLocalTime());
-//        this.totalHours = new SimpleLongProperty((Duration.ofSeconds(morningDuration.getSeconds() + noonDuration.getSeconds())).getSeconds());
-//    }
-
     public String getHarvestRemarque() {
         return harvestRemarque.get();
     }
