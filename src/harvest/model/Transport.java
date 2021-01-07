@@ -8,10 +8,10 @@ public class Transport {
 
     private final SimpleIntegerProperty transportId;
     private final ObjectProperty<Date> transportDate;
+    private final SimpleDoubleProperty transportAmount;
     private Employee employee;
     private final StringProperty employeeName;
-    private final SimpleDoubleProperty transportAmount;
-    private final Farm farm;
+    private Farm farm;
     private final StringProperty farmName;
 
     public Transport() {
@@ -48,30 +48,6 @@ public class Transport {
         this.transportAmount.set(transportAmount);
     }
 
-    public String getEmployeeName() {
-        return employeeName.get();
-    }
-
-    public StringProperty employeeNameProperty() {
-        return employeeName;
-    }
-
-    public void setEmployeeName(String employeeName) {
-        this.employeeName.set(employeeName);
-    }
-
-    public String getFarmName() {
-        return farmName.get();
-    }
-
-    public StringProperty farmNameProperty() {
-        return farmName;
-    }
-
-    public void setFarmName(String farmName) {
-        this.farmName.set(farmName);
-    }
-
     public Employee getEmployee() {
         return employee;
     }
@@ -79,14 +55,11 @@ public class Transport {
 
     public void setEmployee(Employee employee){
         this.employee = employee;
-//        this.employee.setEmployeeId(employee.getEmployeeId());
-//        this.employee.setEmployeeFirstName(employee.getEmployeeFirstName());
-//        this.employee.setEmployeeLastName(employee.getEmployeeLastName());
-//        this.employee.setEmployeeFullName(employee.getEmployeeFullName());
-//        this.employee.setEmployeeHireDate(employee.getEmployeeHireDate());
-//        this.employee.setEmployeeFireDate(employee.getEmployeeFireDate());
-//        this.employee.setEmployeeStatus(employee.isEmployeeStatus());
-//        this.employeeName.set(employee.getEmployeeFullName());
+    }
+
+    public String getEmployeeName() {
+        employeeName.set(employee.getEmployeeFullName());
+        return employeeName.get();
     }
 
     public Farm getFarm() {
@@ -94,9 +67,11 @@ public class Transport {
     }
 
     public void setFarm(Farm farm){
-        this.farm.setFarmId(farm.getFarmId());
-        this.farm.setFarmName(farm.getFarmName());
-        this.farm.setFarmAddress(farm.getFarmAddress());
+        this.farm = farm;
+    }
+
+    public String getFarmName() {
         this.farmName.set(farm.getFarmName());
+        return farmName.get();
     }
 }

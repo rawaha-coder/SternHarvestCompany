@@ -16,7 +16,6 @@ public class AddHarvestHours {
     private final IntegerProperty employeeType;
     private final StringProperty harvestRemarque;
 
-
     private final IntegerProperty harvestID;
     private final ObjectProperty<Date> harvestDate;
 
@@ -25,11 +24,11 @@ public class AddHarvestHours {
     private final StringProperty employeeFullName;
 
     private final SimpleIntegerProperty creditId;
-    private final ObjectProperty<Date> creditDate;
     private final SimpleDoubleProperty creditAmount;
 
+    private final SimpleIntegerProperty farmId;
+
     private final SimpleIntegerProperty transportId;
-    private final ObjectProperty<Date> transportDate;
     private final SimpleDoubleProperty transportAmount;
 
     public AddHarvestHours() {
@@ -50,21 +49,17 @@ public class AddHarvestHours {
         this.employeeFullName = new SimpleStringProperty();
         this.employeeStatus = new SimpleBooleanProperty();
 
+        this.farmId = new SimpleIntegerProperty();
+
         this.creditId = new SimpleIntegerProperty();
-        this.creditDate = new SimpleObjectProperty<>();
         this.creditAmount = new SimpleDoubleProperty();
 
         this.transportId = new SimpleIntegerProperty();
-        this.transportDate = new SimpleObjectProperty<>();
         this.transportAmount = new SimpleDoubleProperty();
     }
 
     public int getHarvestHoursID() {
         return harvestHoursID.get();
-    }
-
-    public IntegerProperty harvestHoursIDProperty() {
-        return harvestHoursID;
     }
 
     public void setHarvestHoursID(int harvestHoursID) {
@@ -75,20 +70,12 @@ public class AddHarvestHours {
         return startMorning.get();
     }
 
-    public ObjectProperty<Time> startMorningProperty() {
-        return startMorning;
-    }
-
     public void setStartMorning(Time startMorning) {
         this.startMorning.set(startMorning);
     }
 
     public Time getEndMorning() {
         return endMorning.get();
-    }
-
-    public ObjectProperty<Time> endMorningProperty() {
-        return endMorning;
     }
 
     public void setEndMorning(Time endMorning) {
@@ -99,20 +86,12 @@ public class AddHarvestHours {
         return startNoon.get();
     }
 
-    public ObjectProperty<Time> startNoonProperty() {
-        return startNoon;
-    }
-
     public void setStartNoon(Time startNoon) {
         this.startNoon.set(startNoon);
     }
 
     public Time getEndNoon() {
         return endNoon.get();
-    }
-
-    public ObjectProperty<Time> endNoonProperty() {
-        return endNoon;
     }
 
     public void setEndNoon(Time endNoon) {
@@ -159,20 +138,12 @@ public class AddHarvestHours {
         return harvestID.get();
     }
 
-    public IntegerProperty harvestIDProperty() {
-        return harvestID;
-    }
-
     public void setHarvestID(int harvestID) {
         this.harvestID.set(harvestID);
     }
 
     public Date getHarvestDate() {
         return harvestDate.get();
-    }
-
-    public ObjectProperty<Date> harvestDateProperty() {
-        return harvestDate;
     }
 
     public void setHarvestDate(Date harvestDate) {
@@ -183,20 +154,12 @@ public class AddHarvestHours {
         return employeeType.get();
     }
 
-    public IntegerProperty employeeTypeProperty() {
-        return employeeType;
-    }
-
     public void setEmployeeType(int employeeType) {
         this.employeeType.set(employeeType);
     }
 
     public int getEmployeeId() {
         return employeeId.get();
-    }
-
-    public SimpleIntegerProperty employeeIdProperty() {
-        return employeeId;
     }
 
     public void setEmployeeId(int employeeId) {
@@ -219,10 +182,6 @@ public class AddHarvestHours {
         return employeeFullName.get();
     }
 
-    public StringProperty employeeFullNameProperty() {
-        return employeeFullName;
-    }
-
     public void setEmployeeFullName(String employeeFullName) {
         this.employeeFullName.set(employeeFullName);
     }
@@ -231,24 +190,8 @@ public class AddHarvestHours {
         return creditId.get();
     }
 
-    public SimpleIntegerProperty creditIdProperty() {
-        return creditId;
-    }
-
     public void setCreditId(int creditId) {
         this.creditId.set(creditId);
-    }
-
-    public Date getCreditDate() {
-        return creditDate.get();
-    }
-
-    public ObjectProperty<Date> creditDateProperty() {
-        return creditDate;
-    }
-
-    public void setCreditDate(Date creditDate) {
-        this.creditDate.set(creditDate);
     }
 
     public double getCreditAmount() {
@@ -263,6 +206,18 @@ public class AddHarvestHours {
         this.creditAmount.set(creditAmount);
     }
 
+    public int getFarmId() {
+        return farmId.get();
+    }
+
+    public SimpleIntegerProperty farmIdProperty() {
+        return farmId;
+    }
+
+    public void setFarmId(int farmId) {
+        this.farmId.set(farmId);
+    }
+
     public int getTransportId() {
         return transportId.get();
     }
@@ -273,18 +228,6 @@ public class AddHarvestHours {
 
     public void setTransportId(int transportId) {
         this.transportId.set(transportId);
-    }
-
-    public Date getTransportDate() {
-        return transportDate.get();
-    }
-
-    public ObjectProperty<Date> transportDateProperty() {
-        return transportDate;
-    }
-
-    public void setTransportDate(Date transportDate) {
-        this.transportDate.set(transportDate);
     }
 
     public double getTransportAmount() {

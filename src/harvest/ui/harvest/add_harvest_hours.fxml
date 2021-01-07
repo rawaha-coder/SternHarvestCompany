@@ -57,6 +57,7 @@
                   <TableColumn fx:id="fxEmployeeSelectColumn" editable="true" minWidth="40.0" text="Select" />
                   <TableColumn fx:id="fxEmployeeFullNameColumn" minWidth="100.0" prefWidth="180.0" text="Employee" />
                   <TableColumn fx:id="fxTransportSelectColumn" editable="true" minWidth="40.0" text="Transport" />
+                  <TableColumn fx:id="fxCreditColumn" editable="true" minWidth="160.0" prefWidth="220.0" text="Credit" />
                   <TableColumn fx:id="fxRemarqueColumn" editable="true" minWidth="160.0" prefWidth="220.0" text="Remarque" />
               </columns>
           </TableView>
