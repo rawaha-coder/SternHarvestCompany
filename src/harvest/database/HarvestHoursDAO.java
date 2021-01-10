@@ -93,12 +93,15 @@ public class HarvestHoursDAO extends DAO {
                 + TABLE_HARVEST_HOURS + "." + COLUMN_HARVEST_REMARQUE + ", "
                 + TABLE_EMPLOYEE + "." + COLUMN_EMPLOYEE_FIRST_NAME + ", "
                 + TABLE_EMPLOYEE + "." + COLUMN_EMPLOYEE_LAST_NAME  + ", "
-                + TABLE_TRANSPORT + "." + COLUMN_TRANSPORT_AMOUNT + " "
+                + TABLE_TRANSPORT + "." + COLUMN_TRANSPORT_AMOUNT + ", "
+                + TABLE_CREDIT + "." + COLUMN_CREDIT_AMOUNT + " "
                 + " FROM " + TABLE_HARVEST_HOURS + " "
                 + " LEFT JOIN " + TABLE_EMPLOYEE + " "
                 + " ON " + TABLE_EMPLOYEE + "." + COLUMN_EMPLOYEE_ID  + " = " + TABLE_HARVEST_HOURS + "." + COLUMN_HARVEST_HOURS_EMPLOYEE_ID + " "
                 + " LEFT JOIN " + TABLE_TRANSPORT + " "
                 + " ON " + TABLE_TRANSPORT + "." + COLUMN_TRANSPORT_ID  + " = " + TABLE_HARVEST_HOURS + "." + COLUMN_HARVEST_HOURS_TRANSPORT_ID + " "
+                + " LEFT JOIN " + TABLE_CREDIT + " "
+                + " ON " + TABLE_CREDIT + "." + COLUMN_CREDIT_ID + " = " + TABLE_HARVEST_HOURS + "." + COLUMN_HARVEST_HOURS_CREDIT_ID + " "
                 + " WHERE " + TABLE_HARVEST_HOURS + "." + COLUMN_HARVEST_HOURS_DATE + " = " + date.getTime() + " "
                 + " ORDER BY " + TABLE_HARVEST_HOURS + "." + COLUMN_HARVEST_HOURS_DATE + " DESC ;";
 
@@ -120,6 +123,7 @@ public class HarvestHoursDAO extends DAO {
                 harvestHours.setHarvestRemarque(resultSet.getString(7));
                 harvestHours.setEmployeeFullName(resultSet.getString(8), resultSet.getString(9));
                 harvestHours.setTransportAmount(resultSet.getDouble(10));
+                harvestHours.setCreditAmount(resultSet.getDouble(11));
                 System.out.println(resultSet.getDouble(10));
                 harvestHoursList.add(harvestHours);
 
