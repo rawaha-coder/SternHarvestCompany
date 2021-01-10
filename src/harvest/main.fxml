@@ -45,16 +45,17 @@
                 </MenuBar>
                 <HBox fx:id="fxHBoxTopMenu" alignment="CENTER" fillHeight="true" prefHeight="40.0" prefWidth="800.0" spacing="5.0">
                     <children>
-                        <ToggleButton prefHeight="30" prefWidth="140" text="Hours Work">
+                        <ToggleButton fx:id="fxHarvestHoursMenuBtn" onAction="#setDisplayHarvestHours" prefHeight="30" prefWidth="140" text="Hours Work"  toggleGroup="$topMenu" >
                      <toggleGroup>
                         <ToggleGroup fx:id="topMenu" />
-                     </toggleGroup></ToggleButton>
+                     </toggleGroup>
+                        </ToggleButton>
                         <ToggleButton prefHeight="30" prefWidth="140" text="Individual Work" toggleGroup="$topMenu" />
                         <ToggleButton prefHeight="30" prefWidth="140" text="Group Work" toggleGroup="$topMenu" />
                         <ToggleButton fx:id="fxTransportCreditMenuBtn" onAction="#setDisplayCredit" prefHeight="30" prefWidth="160" text="Transport / Credit" toggleGroup="$topMenu" />
                         <ToggleButton fx:id="fxEmployeeMenuBtn" onAction="#setDisplayEmployee" prefHeight="30" prefWidth="120" text="Employees" toggleGroup="$topMenu" />
                         <ToggleButton fx:id="fxSupplierMenuBtn" onAction="#setDisplaySupplier" prefHeight="30" prefWidth="140" text="Supplier" toggleGroup="$topMenu" />
-                        <ToggleButton fx:id="fxFarmSeasonMenuBtn" onAction="#setDisplayFarm" prefHeight="30" prefWidth="120" text="Farm / Season" toggleGroup="$topMenu" />
+                        <ToggleButton fx:id="fxFarmSeasonMenuBtn" onAction="#setDisplayFarmSeason" prefHeight="30" prefWidth="120" text="Farm / Season" toggleGroup="$topMenu" />
                         <ToggleButton fx:id="fxProductMenuBtn" onAction="#setDisplayProduct" prefHeight="30" prefWidth="120" text="Products" toggleGroup="$topMenu" />
                     </children>
                     <padding>
