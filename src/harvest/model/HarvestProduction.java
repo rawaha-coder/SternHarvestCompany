@@ -2,10 +2,11 @@ package harvest.model;
 
 import javafx.beans.property.*;
 
+import java.sql.Date;
+
 public class HarvestProduction {
     private final IntegerProperty harvestProductionID;
-    private Harvest mHarvest;
-    private final IntegerProperty harvestID;
+    private final ObjectProperty<Date> harvestProductionDate;
     private final LongProperty harvestProductionTotalHours;
     private final DoubleProperty harvestProductionTotalAmount;
     private final DoubleProperty harvestProductionTotalQuantity;
@@ -14,9 +15,12 @@ public class HarvestProduction {
     private final IntegerProperty harvestProductionTotalEmployee;
     private final DoubleProperty harvestProductionTotalCredit;
     private final DoubleProperty harvestProductionTotalTransport;
+    private Harvest mHarvest;
+    private final IntegerProperty harvestID;
 
     public HarvestProduction() {
         this.harvestProductionID = new SimpleIntegerProperty();
+        this.harvestProductionDate = new SimpleObjectProperty();
         this.harvestProductionTotalHours = new SimpleLongProperty();
         this.harvestProductionTotalAmount = new SimpleDoubleProperty();
         this.harvestProductionTotalQuantity = new SimpleDoubleProperty();
@@ -39,6 +43,18 @@ public class HarvestProduction {
 
     public void setHarvestProductionID(int harvestProductionID) {
         this.harvestProductionID.set(harvestProductionID);
+    }
+
+    public Date getHarvestProductionDate() {
+        return harvestProductionDate.get();
+    }
+
+    public ObjectProperty<Date> harvestProductionDateProperty() {
+        return harvestProductionDate;
+    }
+
+    public void setHarvestProductionDate(Date harvestProductionDate) {
+        this.harvestProductionDate.set(harvestProductionDate);
     }
 
     public long getHarvestProductionTotalHours() {

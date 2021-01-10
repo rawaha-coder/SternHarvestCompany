@@ -103,8 +103,6 @@ public class EmployeeDAO extends DAO{
         } catch (SQLException e) {
             System.out.println("SQL select operation has been failed: " + e);
             throw e;
-        }finally {
-            dbDisConnect();
         }
     }
 

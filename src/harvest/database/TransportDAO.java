@@ -38,7 +38,6 @@ public class TransportDAO extends DAO{
     public static final String COLUMN_TRANSPORT_FARM_ID = "farm_id";
 
 
-
     public List<Transport> getData() throws SQLException {
         List<Transport> list = new ArrayList<>();
         String selectStmt = "SELECT  "

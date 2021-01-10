@@ -1,45 +1,54 @@
 package harvest.model;
 
 import javafx.beans.property.*;
+import javafx.collections.ObservableList;
 
+import java.sql.Date;
 import java.sql.Time;
-import java.time.Duration;
 
 public class HarvestHours {
     private final IntegerProperty harvestHoursID;
+    private final ObjectProperty<Date> harvestDate;
     private final ObjectProperty<Time> startMorning;
     private final ObjectProperty<Time> endMorning;
     private final ObjectProperty<Time> startNoon;
     private final ObjectProperty<Time> endNoon;
-    private LongProperty totalHours;
-    private final StringProperty harvestRemarque;
-    private final IntegerProperty employeeType;
-
-    private Harvest mHarvest;
-    private Employee mEmployee;
-    private final SimpleIntegerProperty employeeId;
+    private final LongProperty totalHours;
     private final SimpleBooleanProperty employeeStatus;
     private final StringProperty employeeFullName;
-    private Credit mCredit;
-    private Transport mTransport;
+    private final SimpleBooleanProperty transportStatus;
+    private final IntegerProperty employeeType;
+    private final SimpleDoubleProperty creditAmount;
+    private final StringProperty harvestRemarque;
+    private final SimpleDoubleProperty transportAmount;
+    private final IntegerProperty harvestID;
+    private final SimpleIntegerProperty employeeId;
+    private final SimpleIntegerProperty creditId;
+    private final SimpleIntegerProperty farmId;
+    private final SimpleIntegerProperty transportId;
 
 
     public HarvestHours() {
         this.harvestHoursID = new SimpleIntegerProperty();
+        this.harvestDate = new SimpleObjectProperty<>();
         this.startMorning = new SimpleObjectProperty<>();
         this.endMorning = new SimpleObjectProperty<>();
         this.startNoon = new SimpleObjectProperty<>();
         this.endNoon = new SimpleObjectProperty<>();
         this.totalHours = new SimpleLongProperty();
-        this.employeeType = new SimpleIntegerProperty();
-        this.harvestRemarque = new SimpleStringProperty();
-        mHarvest = new Harvest();
-        mEmployee = new Employee();
-        this.employeeId = new SimpleIntegerProperty();
         this.employeeFullName = new SimpleStringProperty();
         this.employeeStatus = new SimpleBooleanProperty();
-        mCredit = new Credit();
-        mTransport = new Transport();
+        this.transportStatus = new SimpleBooleanProperty();
+        this.employeeType = new SimpleIntegerProperty();
+        this.transportAmount = new SimpleDoubleProperty();
+        this.creditAmount = new SimpleDoubleProperty();
+        this.harvestRemarque = new SimpleStringProperty();
+        this.harvestID = new SimpleIntegerProperty();
+        this.employeeId = new SimpleIntegerProperty();
+        this.farmId = new SimpleIntegerProperty();
+        this.creditId = new SimpleIntegerProperty();
+        this.transportId = new SimpleIntegerProperty();
+
     }
 
     public int getHarvestHoursID() {
@@ -82,11 +91,35 @@ public class HarvestHours {
         this.endNoon.set(endNoon);
     }
 
+    public void setEndNoon(Long endNoon) {
+
+    }
+
     public long getTotalHours() {
-        Duration morningDuration = Duration.between(startMorning.get().toLocalTime(), endMorning.get().toLocalTime());
-        Duration noonDuration = Duration.between(startNoon.get().toLocalTime(), endNoon.get().toLocalTime());
-        this.totalHours = new SimpleLongProperty((Duration.ofSeconds(morningDuration.getSeconds() + noonDuration.getSeconds())).getSeconds());
+        long totalMilliSeconds = 0;
+        totalMilliSeconds =  (startMorning.getValue().getTime() - endMorning.getValue().getTime()) + (startNoon.getValue().getTime() - endNoon.getValue().getTime());
+        this.totalHours.set(totalMilliSeconds);
         return totalHours.get();
+    }
+
+    public void setTotalHours(long totalHours) {
+        this.totalHours.set(totalHours);
+    }
+
+    public LongProperty totalHoursProperty() {
+        return totalHours;
+    }
+
+    public boolean isTransportStatus() {
+        return transportStatus.get();
+    }
+
+    public void setTransportStatus(boolean transportStatus) {
+        this.transportStatus.set(transportStatus);
+    }
+
+    public SimpleBooleanProperty transportStatusProperty() {
+        return transportStatus;
     }
 
     public String getHarvestRemarque() {
@@ -97,6 +130,26 @@ public class HarvestHours {
         this.harvestRemarque.set(harvestRemarque);
     }
 
+    public StringProperty harvestRemarqueProperty() {
+        return harvestRemarque;
+    }
+
+    public int getHarvestID() {
+        return harvestID.get();
+    }
+
+    public void setHarvestID(int harvestID) {
+        this.harvestID.set(harvestID);
+    }
+
+    public Date getHarvestDate() {
+        return harvestDate.get();
+    }
+
+    public void setHarvestDate(Date harvestDate) {
+        this.harvestDate.set(harvestDate);
+    }
+
     public int getEmployeeType() {
         return employeeType.get();
     }
@@ -105,28 +158,8 @@ public class HarvestHours {
         this.employeeType.set(employeeType);
     }
 
-    public Harvest getHarvest() {
-        return mHarvest;
-    }
-
-    public void setHarvest(Harvest harvest){
-        mHarvest = new Harvest(harvest);
-    }
-
-    public Employee getEmployee() {
-        return mEmployee;
-    }
-
-    public void setEmployee(Employee employee){
-        this.mEmployee = employee;
-    }
-
     public int getEmployeeId() {
         return employeeId.get();
-    }
-
-    public SimpleIntegerProperty employeeIdProperty() {
-        return employeeId;
     }
 
     public void setEmployeeId(int employeeId) {
@@ -137,39 +170,79 @@ public class HarvestHours {
         return employeeStatus.get();
     }
 
-    public SimpleBooleanProperty employeeStatusProperty() {
-        return employeeStatus;
-    }
-
     public void setEmployeeStatus(boolean employeeStatus) {
         this.employeeStatus.set(employeeStatus);
     }
 
+    public SimpleBooleanProperty employeeStatusProperty() {
+        return employeeStatus;
+    }
+
     public String getEmployeeFullName() {
-        this.employeeFullName.set(this.mEmployee.getEmployeeFullName());
-        return employeeFullName.get();
+        return employeeFullName.get().toUpperCase();
     }
 
-    public StringProperty employeeFullNameProperty() {
-        this.employeeFullName.set(this.mEmployee.getEmployeeFullName());
-        return employeeFullName;
+    public void setEmployeeFullName(String employeeFullName) {
+        this.employeeFullName.set(employeeFullName);
     }
 
-    public Credit getCredit() {
-        return mCredit;
+    public void setEmployeeFullName(String first, String last) {
+        this.employeeFullName.set(first + " " + last);
     }
 
-    public void setCredit(Credit credit) {
-        mCredit = credit;
+    public int getCreditId() {
+        return creditId.get();
     }
 
-    public Transport getTransport() {
-        return mTransport;
+    public void setCreditId(int creditId) {
+        this.creditId.set(creditId);
     }
 
-    public void setTransport(Transport transport) {
-        mTransport = transport;
+    public double getCreditAmount() {
+        return creditAmount.get();
     }
 
+    public void setCreditAmount(double creditAmount) {
+        this.creditAmount.set(creditAmount);
+    }
 
+    public SimpleDoubleProperty creditAmountProperty() {
+        return creditAmount;
+    }
+
+    public int getFarmId() {
+        return farmId.get();
+    }
+
+    public void setFarmId(int farmId) {
+        this.farmId.set(farmId);
+    }
+
+    public SimpleIntegerProperty farmIdProperty() {
+        return farmId;
+    }
+
+    public int getTransportId() {
+        return transportId.get();
+    }
+
+    public void setTransportId(int transportId) {
+        this.transportId.set(transportId);
+    }
+
+    public SimpleIntegerProperty transportIdProperty() {
+        return transportId;
+    }
+
+    public double getTransportAmount() {
+        return transportAmount.get();
+    }
+
+    public void setTransportAmount(double transportAmount) {
+        this.transportAmount.set(transportAmount);
+    }
+
+    public SimpleDoubleProperty transportAmountProperty() {
+        return transportAmount;
+    }
 }

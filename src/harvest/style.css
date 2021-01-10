@@ -67,11 +67,12 @@
 
 }
 
+/*
 .toggle-button:focused{
     -fx-background-color: -fx-hover-color;
 
 }
-
+*/
 /* Button styling */
 .button {
     -fx-text-fill: -fx-white-text;

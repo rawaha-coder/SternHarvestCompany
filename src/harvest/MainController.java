@@ -34,6 +34,8 @@ public class MainController implements Initializable {
     private ToggleButton fxTransportCreditMenuBtn;
     @FXML
     private ToggleButton fxFarmSeasonMenuBtn;
+    @FXML
+    public ToggleButton fxHarvestHoursMenuBtn;
 
     @FXML
     private Button fxAddEmployeeButton;
@@ -58,7 +60,7 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        setDisplayHarvestHours();
     }
 
     @FXML
@@ -72,11 +74,16 @@ public class MainController implements Initializable {
     }
 
     @FXML
+    void setDisplayHarvestHours(){
+        setDisplayView("/harvest/ui/harvest/display_harvest_hours.fxml", fxHarvestHoursMenuBtn);
+    }
+
+    @FXML
     void loadUIAddFarmSeason() {
         loadAddWindow("/harvest/ui/farm/add_farm.fxml", "Add Farm / Season", fxAddFarmSeasonButton);
     }
     @FXML
-    void setDisplayFarm(){
+    void setDisplayFarmSeason(){
         setDisplayView("/harvest/ui/farm/display_farm_season.fxml", fxFarmSeasonMenuBtn);
     }
 
