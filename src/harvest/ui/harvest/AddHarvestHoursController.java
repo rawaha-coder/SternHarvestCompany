@@ -44,7 +44,7 @@ public class AddHarvestHoursController implements Initializable {
     ObservableList<String> observableFarmList = FXCollections.observableArrayList();
     ObservableList<String> observableProductList = FXCollections.observableArrayList();
     ObservableList<String> observableProductCode = FXCollections.observableArrayList();
-    private HarvestProduction mHarvestProduction = new HarvestProduction();
+    private final HarvestProduction mHarvestProduction = new HarvestProduction();
 
     @FXML
     private AnchorPane addHarvestHoursUI;
@@ -82,10 +82,10 @@ public class AddHarvestHoursController implements Initializable {
     private RadioButton fxController;
 
     @FXML
-    private Button fxSaveButton;
+    private TextField fxHourPrice;
 
     @FXML
-    private Button fxClearButton;
+    private TextField fxCalculateResult;
 
     @FXML
     private TableView<HarvestHours> fxAddHarvestHoursTable;
@@ -109,19 +109,13 @@ public class AddHarvestHoursController implements Initializable {
     private TextField fxTotalHours;
 
     @FXML
-    private TextField fxTotalAmount;
+    private TextField fxTotalCredit;
 
     @FXML
     private TextField fxTotalEmployee;
 
     @FXML
     private TextField fxTotalTransport;
-
-    @FXML
-    private Button fxApplyButton;
-
-    @FXML
-    private Button fxCloseButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -134,6 +128,11 @@ public class AddHarvestHoursController implements Initializable {
         fxRemarqueColumn.setEditable(true);
         observeRemarqueColumnChange();
         fxHarvester.setSelected(true);
+        fxTotalHours.setText("0.0");
+        fxTotalCredit.setText("0.0");
+        fxTotalEmployee.setText("0");
+        fxTotalTransport.setText("0.0");
+        fxHourPrice.setText("0.0");
     }
 
     //Initialization employee table Columns
@@ -339,10 +338,7 @@ public class AddHarvestHoursController implements Initializable {
         }
 
         HarvestHoursDAO harvestHoursDAO = HarvestHoursDAO.getInstance();
-        //HarvestHours harvestHours = new HarvestHours();
         Harvest harvest = new Harvest();
-        //AddHarvestHours addHarvestHours = new AddHarvestHours();
-
         harvest.setHarvestDate(Date.valueOf(fxHarvestDate.getValue()));
         harvest.setSupplier(mSupplierMap.get(fxSupplierList.getValue()));
         harvest.setFarm(mFarmMap.get(fxFarmList.getValue()));
@@ -379,8 +375,8 @@ public class AddHarvestHoursController implements Initializable {
         fxTotalEmployee.setText(String.valueOf(count));
         long time = getTotalSecondWork(HARVEST_HOURS_LIST_LIVE_DATA);
         fxTotalHours.setText(timeToStringTime(time));
-        fxTotalAmount.setText("");
-        fxTotalTransport.setText("");
+        fxTotalCredit.setText(String.valueOf(getTotalCredit()));
+        fxTotalTransport.setText(String.valueOf(getTotalTransport()));
 
         mHarvestProduction.setHarvest(harvest);
         mHarvestProduction.setHarvestID(harvest.getHarvestID());
@@ -389,6 +385,8 @@ public class AddHarvestHoursController implements Initializable {
         mHarvestProduction.setHarvestProductionPrice2(harvest.getProductDetail().getProductSecondPrice());
         mHarvestProduction.setHarvestProductionTotalEmployee(count);
         mHarvestProduction.setHarvestProductionTotalHours(time);
+        mHarvestProduction.setHarvestProductionTotalTransport(Double.parseDouble(fxTotalTransport.getText()));
+        mHarvestProduction.setHarvestProductionTotalCredit(Double.parseDouble(fxTotalCredit.getText()));
         System.out.println("Employee added: " + count);
     }
 
@@ -421,7 +419,7 @@ public class AddHarvestHoursController implements Initializable {
 
     @FXML
     public void handleApplyButton(){
-        if (fxTotalAmount.getText().isEmpty()
+        if (fxTotalCredit.getText().isEmpty()
                 || fxTotalTransport.getText().isEmpty()
                 || fxTotalEmployee.getText().isEmpty()
                 || fxTotalHours.getText().isEmpty())
@@ -429,9 +427,43 @@ public class AddHarvestHoursController implements Initializable {
             alert.missingInfo("Harvest");
             return;
         }
-        mHarvestProduction.setHarvestProductionTotalAmount(Double.parseDouble(fxTotalAmount.getText()));
+        mHarvestProduction.setHarvestProductionTotalAmount(Double.parseDouble(fxTotalCredit.getText()));
         mHarvestProduction.setHarvestProductionTotalTransport(Double.parseDouble(fxTotalTransport.getText()));
         HarvestProductionDAO harvestProductionDAO = HarvestProductionDAO.getInstance();
         alert.saveItem("Harvest Production", harvestProductionDAO.addHarvestProduction(mHarvestProduction));
     }
+
+    @FXML
+    void handleCalculateResultButton() {
+        double result;
+        result =((getTotalMilliSeconds()/1000) * (Double.parseDouble(fxHourPrice.getText()) * 3600)) - (getTotalTransport() + getTotalCredit());
+        fxCalculateResult.setText(String.valueOf(result));
+    }
+
+    private double getTotalMilliSeconds(){
+        long hours = 0;
+        for (HarvestHours harvestHours : HARVEST_HOURS_LIST_LIVE_DATA){
+            hours += harvestHours.getTotalWorkOnMilliSeconds();
+        }
+        return (double) hours;
+    }
+
+    private double getTotalTransport(){
+        double d = 0.0;
+        for (HarvestHours harvestHours : HARVEST_HOURS_LIST_LIVE_DATA){
+            d += harvestHours.getTransportAmount();
+        }
+
+        return d;
+    }
+
+    private double getTotalCredit(){
+        double d = 0.0;
+        for (HarvestHours harvestHours : HARVEST_HOURS_LIST_LIVE_DATA){
+            d += harvestHours.getCreditAmount();
+        }
+        return d;
+    }
+
+
 }
