@@ -14,7 +14,11 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane prefHeight="768" prefWidth="1024" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.MainController">
+<StackPane prefHeight="768" prefWidth="1024"
+           stylesheets="@style.css"
+           xmlns="http://javafx.com/javafx/11.0.1"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="harvest.MainController">
     <BorderPane fx:id="mainBorderPane" stylesheets="@style.css">
         <top>
             <VBox prefHeight="120.0">

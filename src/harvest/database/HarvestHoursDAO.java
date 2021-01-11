@@ -120,13 +120,13 @@ public class HarvestHoursDAO extends DAO {
                 harvestHours.setEndMorning(resultSet.getTime(4));
                 harvestHours.setStartNoon(resultSet.getTime(5));
                 harvestHours.setEndNoon(resultSet.getTime(6));
+                harvestHours.setTotalHours(harvestHours.getTotalHours());
                 harvestHours.setHarvestRemarque(resultSet.getString(7));
                 harvestHours.setEmployeeFullName(resultSet.getString(8), resultSet.getString(9));
                 harvestHours.setTransportAmount(resultSet.getDouble(10));
                 harvestHours.setCreditAmount(resultSet.getDouble(11));
                 System.out.println(resultSet.getDouble(10));
                 harvestHoursList.add(harvestHours);
-
             }
             return harvestHoursList;
         }catch (SQLException e){
