@@ -14,11 +14,10 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane prefHeight="768" prefWidth="1024"
-           stylesheets="@style.css"
-           xmlns="http://javafx.com/javafx/11.0.1"
-           xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="harvest.MainController">
+<?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.control.ScrollPane?>
+<StackPane maxWidth="1600" maxHeight="850" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.MainController">
+    <ScrollPane maxWidth="1600" maxHeight="850">
     <BorderPane fx:id="mainBorderPane" stylesheets="@style.css">
         <top>
             <VBox prefHeight="120.0">
@@ -49,12 +48,12 @@
                 </MenuBar>
                 <HBox fx:id="fxHBoxTopMenu" alignment="CENTER" fillHeight="true" prefHeight="40.0" prefWidth="800.0" spacing="5.0">
                     <children>
-                        <ToggleButton fx:id="fxHarvestHoursMenuBtn" onAction="#setDisplayHarvestHours" prefHeight="30" prefWidth="140" text="Hours Work"  toggleGroup="$topMenu" >
+                        <ToggleButton fx:id="fxHarvestHoursMenuBtn" onAction="#setDisplayHarvestHours" prefHeight="30" prefWidth="140" text="Hours Work" toggleGroup="$topMenu">
                      <toggleGroup>
                         <ToggleGroup fx:id="topMenu" />
                      </toggleGroup>
                         </ToggleButton>
-                        <ToggleButton prefHeight="30" prefWidth="140" text="Individual Work" toggleGroup="$topMenu" />
+                        <ToggleButton fx:id="fxHarvestIndividualMenuBtn" onAction="#setDisplayHarvestIndividual" prefHeight="30" prefWidth="140" text="Individual Work" toggleGroup="$topMenu" />
                         <ToggleButton prefHeight="30" prefWidth="140" text="Group Work" toggleGroup="$topMenu" />
                         <ToggleButton fx:id="fxTransportCreditMenuBtn" onAction="#setDisplayCredit" prefHeight="30" prefWidth="160" text="Transport / Credit" toggleGroup="$topMenu" />
                         <ToggleButton fx:id="fxEmployeeMenuBtn" onAction="#setDisplayEmployee" prefHeight="30" prefWidth="120" text="Employees" toggleGroup="$topMenu" />
@@ -83,6 +82,15 @@
                         </graphic>
                     </Button>
                     <Button fx:id="fxAddHarvestHoursButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#loadUIAddHarvestHours" prefHeight="50.0" prefWidth="146.0" text="Add Harvest Hours">
+                        <graphic>
+                            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@icon/ic_shortcut_nature.png" />
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                    <Button fx:id="fxAddHarvestIndividualButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#loadUIAddHarvestIndividual" prefHeight="50.0" prefWidth="146.0" text="Add Individual Work">
                         <graphic>
                             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
@@ -151,4 +159,5 @@
         <bottom>
         </bottom>
     </BorderPane>
+    </ScrollPane>
 </StackPane>

@@ -147,7 +147,6 @@ public class CreditDAO extends DAO{
     //*************************************************************
     //Observe Credit Data
     //*************************************************************
-    //@Override
     public void updateLiveData() {
         CREDIT_LIST_LIVE_DATA.clear();
         try {

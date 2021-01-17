@@ -43,6 +43,7 @@ public class HarvestHoursDAO extends DAO {
         return sHarvestHoursDAO;
     }
 
+
     public void createHarvestTable() throws SQLException {
         String createStmt = "CREATE TABLE IF NOT EXISTS " + TABLE_HARVEST_HOURS + " ("
                 + COLUMN_HARVEST_HOURS_ID + " INTEGER PRIMARY KEY, "

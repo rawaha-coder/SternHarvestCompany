@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -22,12 +23,20 @@ public class Main extends Application {
     //HarvestDAO mHarvestDAO = HarvestDAO.getInstance();
     //HarvestHoursDAO mHarvestHoursDAO = HarvestHoursDAO.getInstance();
     //HarvestProductionDAO mHarvestProductionDAO = HarvestProductionDAO.getInstance();
+    HarvestIndividualDAO mHarvestIndividualDAO = HarvestIndividualDAO.getInstance();
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
+        // Create a ScrollPane
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setStyle("style.css");
+        // Set content for ScrollPane
+        scrollPane.setContent(root);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         primaryStage.setTitle("Stern harvest Company");
-        primaryStage.setScene(new Scene(root, 1400, 900));
+        primaryStage.setScene(new Scene(root, 1600, 900));
         primaryStage.show();
         //mCreditDAO.createCreditTable();
         //mEmployeeDAO.createEmployeeTable();
@@ -41,6 +50,7 @@ public class Main extends Application {
         //mHarvestDAO.createHarvestTable();
         //mHarvestHoursDAO.createHarvestTable();
         //mHarvestProductionDAO.createHarvestTable();
+        mHarvestIndividualDAO.createHarvestTable();
     }
 
     public static void main(String[] args) {
