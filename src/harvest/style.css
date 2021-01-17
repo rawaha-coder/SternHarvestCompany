@@ -35,6 +35,39 @@
     -fx-font-size: 1.5em;
 }
 
+/* ScrollPane styling */
+
+
+.scroll-pane {
+    -fx-background-color: -fx-bg-color;
+    -fx-padding:5px;
+}
+
+.scroll-pane > .corner {
+    -fx-background-color: black;
+}
+
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color:-fx-bg-color;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: white;
+    -fx-background-radius: 5em;
+}
 
 /* Menu bar styling */
 .menu-bar{

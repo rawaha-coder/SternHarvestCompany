@@ -4,7 +4,7 @@
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane fx:id="fxEmployeeTableUI" prefHeight="768.0" prefWidth="1240.0"
+<AnchorPane fx:id="fxEmployeeTableUI" prefHeight="700.0" prefWidth="1400.0"
             stylesheets="@../../style.css"
             xmlns="http://javafx.com/javafx/11.0.1"
             xmlns:fx="http://javafx.com/fxml/1"

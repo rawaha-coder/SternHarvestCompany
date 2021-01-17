@@ -3,11 +3,8 @@ package harvest.ui.harvest;
 import harvest.database.*;
 import harvest.model.*;
 import harvest.util.AlertMaker;
-import harvest.util.TimeTextField;
 import harvest.util.Validation;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,29 +14,26 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import java.net.URL;
 import java.sql.Date;
-import java.sql.Time;
 import java.util.*;
 
-public class AddHarvestHoursController implements Initializable {
+public class AddHarvestIndividualController implements Initializable {
 
-    public static ObservableList<HarvestHours> HARVEST_HOURS_LIST_LIVE_DATA = FXCollections.observableArrayList();
+    public static ObservableList<HarvestIndividual> HARVEST_INDIVIDUAL_LIST_LIVE_DATA = FXCollections.observableArrayList();
 
     private final Map<String, Supplier> mSupplierMap = new LinkedHashMap<>();
     private final Map<String, Farm> mFarmMap = new LinkedHashMap<>();
     private final Map<String, Product> mProductMap = new LinkedHashMap<>();
     private final Map<String, ProductDetail> mProductDetailMap = new LinkedHashMap<>();
     private final AlertMaker alert = new AlertMaker();
+    private final HarvestIndividualDAO mHarvestIndividualDAO = HarvestIndividualDAO.getInstance();
     private final EmployeeDAO mEmployeeDAO = EmployeeDAO.getInstance();
     private final SupplierDAO mSupplierDAO = SupplierDAO.getInstance();
     private final FarmDAO mFarmDAO = FarmDAO.getInstance();
     private final ProductDAO mProductDAO = ProductDAO.getInstance();
     private final ProductDetailDAO mProductDetailDAO = ProductDetailDAO.getInstance();
     private final HarvestDAO mHarvestDAO = HarvestDAO.getInstance();
-    private final CommonDAO commonDAO = CommonDAO.getInstance();
     ObservableList<String> observableSupplierList = FXCollections.observableArrayList();
     ObservableList<String> observableFarmList = FXCollections.observableArrayList();
     ObservableList<String> observableProductList = FXCollections.observableArrayList();
@@ -47,75 +41,59 @@ public class AddHarvestHoursController implements Initializable {
     private final HarvestProduction mHarvestProduction = new HarvestProduction();
 
     @FXML
-    private AnchorPane addHarvestHoursUI;
-    @FXML
     private DatePicker fxHarvestDate;
-
     @FXML
     private ChoiceBox<String> fxSupplierList;
-
     @FXML
     private ChoiceBox<String> fxFarmList;
-
     @FXML
     private ChoiceBox<String> fxProductList;
-
     @FXML
     private ChoiceBox<String> fxProductCodeList;
-
     @FXML
-    private TimeTextField fxStartMorningTime;
-
+    private RadioButton fxIndividual;
     @FXML
-    private TimeTextField fxEndMorningTime;
-
+    private RadioButton fxGroup;
     @FXML
-    private TimeTextField fxStartNoonTime;
-
-    @FXML
-    private TimeTextField fxEndNoonTime;
-
-    @FXML
-    private RadioButton fxHarvester;
-
-    @FXML
-    private RadioButton fxController;
-
-    @FXML
-    private TextField fxHourPrice;
-
+    private TextField fxProductPrice;
     @FXML
     private TextField fxCalculateResult;
-
     @FXML
-    private TableView<HarvestHours> fxAddHarvestHoursTable;
-
+    private TableView<HarvestIndividual> fxAddHarvestHoursTable;
     @FXML
-    private TableColumn<HarvestHours, Boolean> fxEmployeeSelectColumn;
-
+    private TableColumn<HarvestIndividual, Boolean> fxEmployeeSelectColumn;
     @FXML
-    private TableColumn<HarvestHours, String> fxEmployeeFullNameColumn;
-
+    private TableColumn<HarvestIndividual, String> fxEmployeeFullNameColumn;
     @FXML
-    private TableColumn<HarvestHours, Boolean> fxTransportSelectColumn;
-
+    private TableColumn<HarvestIndividual, String> fxAllQuantityColumn;
     @FXML
-    private TableColumn<HarvestHours, String> fxCreditColumn;
-
+    private TableColumn<HarvestIndividual, String> fxBadQualityColumn;
     @FXML
-    private TableColumn<HarvestHours, String> fxRemarqueColumn;
-
+    private TableColumn<HarvestIndividual, String> fxGoodQualityColumn;
     @FXML
-    private TextField fxTotalHours;
-
+    private TableColumn<HarvestIndividual, String> fxPriceColumn;
+    @FXML
+    private TableColumn<HarvestIndividual, Boolean> fxTransportSelectColumn;
+    @FXML
+    private TableColumn<HarvestIndividual, String> fxCreditColumn;
+    @FXML
+    private TableColumn<HarvestIndividual, String> fxNetAmountColumn;
+    @FXML
+    private TableColumn<HarvestIndividual, String> fxRemarqueColumn;
+    @FXML
+    private TextField fxAllQuantity;
+    @FXML
+    private TextField fxBadQuality;
+    @FXML
+    private TextField fxGoodQuality;
     @FXML
     private TextField fxTotalCredit;
-
     @FXML
     private TextField fxTotalEmployee;
-
     @FXML
     private TextField fxTotalTransport;
+    @FXML
+    private TextField fxTotalNet;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -127,32 +105,46 @@ public class AddHarvestHoursController implements Initializable {
         initTable();
         fxRemarqueColumn.setEditable(true);
         observeRemarqueColumnChange();
-        fxHarvester.setSelected(true);
-        fxTotalHours.setText("0.0");
+        fxIndividual.setSelected(true);
+        fxNetAmountColumn.setEditable(true);
+        fxAllQuantity.setText("0.0");
+        fxBadQuality.setText("0.0");
+        fxGoodQuality.setText("0.0");
+        fxProductPrice.setText("0.0");
         fxTotalCredit.setText("0.0");
         fxTotalEmployee.setText("0");
         fxTotalTransport.setText("0.0");
-        fxHourPrice.setText("0.0");
+        fxTotalNet.setText("0.0");
+
     }
 
     //Initialization employee table Columns
     public void initTable(){
         updateLiveData();
-        fxAddHarvestHoursTable.setItems(HARVEST_HOURS_LIST_LIVE_DATA);
+        fxAddHarvestHoursTable.setItems(HARVEST_INDIVIDUAL_LIST_LIVE_DATA);
         fxEmployeeSelectColumn.setCellValueFactory(new PropertyValueFactory<>("employeeStatus"));
         fxEmployeeFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("employeeFullName"));
+        fxAllQuantityColumn.setCellValueFactory(new PropertyValueFactory<>("allQuantity"));
+        fxBadQualityColumn.setCellValueFactory(new PropertyValueFactory<>("badQuality"));
+        fxGoodQualityColumn.setCellValueFactory(new PropertyValueFactory<>("goodQuality"));
+        fxPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         fxTransportSelectColumn.setCellValueFactory(new PropertyValueFactory<>("transportStatus"));
         fxCreditColumn.setCellValueFactory(new PropertyValueFactory<>("creditAmount"));
+        fxNetAmountColumn.setCellValueFactory(new PropertyValueFactory<>("netAmount"));
         fxRemarqueColumn.setCellValueFactory(new PropertyValueFactory<>("harvestRemarque"));
         observeEmployeeSelectColumn();
+        observeAllQuantityColumnChange();
+        observeBadQualityColumnChange();
+        observePriceColumnChange();
         observeTransportSelectColumn();
         observeCreditColumnChange();
+        observeNetAmountColumnChange();
     }
 
     public void updateLiveData(){
-        HARVEST_HOURS_LIST_LIVE_DATA.clear();
+        HARVEST_INDIVIDUAL_LIST_LIVE_DATA.clear();
         try {
-            HARVEST_HOURS_LIST_LIVE_DATA.setAll(commonDAO.getHarvestHoursData());
+            HARVEST_INDIVIDUAL_LIST_LIVE_DATA.setAll(mHarvestIndividualDAO.getHarvestIndividualData());
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -162,11 +154,11 @@ public class AddHarvestHoursController implements Initializable {
     private void observeEmployeeSelectColumn() {
         fxEmployeeSelectColumn.setCellFactory(column -> new CheckBoxTableCell<>());
         fxEmployeeSelectColumn.setCellValueFactory(cellData -> {
-            HarvestHours harvestHours = cellData.getValue();
-            BooleanProperty booleanProperty = harvestHours.employeeStatusProperty();
+            HarvestIndividual harvestIndividual = cellData.getValue();
+            BooleanProperty booleanProperty = harvestIndividual.employeeStatusProperty();
             booleanProperty.addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
-                if (mEmployeeDAO.updateEmployeeStatusById(harvestHours.getEmployeeId(), harvestHours.isEmployeeStatus())) {
-                    updateLiveData();
+                if (mEmployeeDAO.updateEmployeeStatusById(harvestIndividual.getEmployeeId(), harvestIndividual.isEmployeeStatus())) {
+                    harvestIndividual.setEmployeeStatus(newValue);
                 } else {
                     alert.show("Error", "something wrong happened", Alert.AlertType.ERROR);
                 }
@@ -175,69 +167,145 @@ public class AddHarvestHoursController implements Initializable {
         });
     }
 
-    //Add CheckBox To EmployeeSelectColumn and observe the change
-    private void observeTransportSelectColumn() {
-        fxTransportSelectColumn.setCellFactory(column -> new CheckBoxTableCell<>());
-        fxTransportSelectColumn.setCellValueFactory(cellData -> {
-            HarvestHours harvestHours = cellData.getValue();
-            BooleanProperty booleanProperty = harvestHours.transportStatusProperty();
-            booleanProperty.addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
-                harvestHours.setTransportStatus(newValue);
-                harvestHours.setTransportAmount(10.0);
-            });
-            return booleanProperty;
+    //Observe and update All Quantity Column Change
+    private void observeAllQuantityColumnChange() {
+        fxAllQuantityColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        fxAllQuantityColumn.setCellValueFactory(cellData -> {
+            HarvestIndividual harvestIndividual = cellData.getValue();
+            fxAllQuantityColumn.setOnEditCommit(
+                    (TableColumn.CellEditEvent<HarvestIndividual, String> t) ->
+                    {
+                        if (Validation.isDouble(t.getNewValue())){
+                            harvestIndividual.setAllQuantity(Double.parseDouble(t.getNewValue()));
+                            System.out.println(harvestIndividual.getAllQuantity());
+                            harvestIndividual.getGoodQuality();
+                        }else {
+                            alert.missingInfo("Error");
+                            observeAllQuantityColumnChange();
+                        }
+                    }
+            );
+            return new SimpleStringProperty(String.valueOf(harvestIndividual.getAllQuantity()));
         });
     }
 
-    //Add CheckBox To EmployeeSelectColumn and observe the change
+    //Observe and update Bad Quality Column Change
+    private void observeBadQualityColumnChange() {
+        fxBadQualityColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        fxBadQualityColumn.setCellValueFactory(cellData -> {
+            HarvestIndividual harvestIndividual = cellData.getValue();
+            fxBadQualityColumn.setOnEditCommit(
+                    (TableColumn.CellEditEvent<HarvestIndividual, String> t) ->
+                    {
+                        if (Validation.isDouble(t.getNewValue())){
+                            harvestIndividual.setBadQuality(Double.parseDouble(t.getNewValue()));
+                            System.out.println(harvestIndividual.getBadQuality());
+                            harvestIndividual.getGoodQuality();
+                        }else {
+                            alert.missingInfo("Error");
+                            observeBadQualityColumnChange();
+                        }
+                    }
+            );
+            return new SimpleStringProperty(String.valueOf(harvestIndividual.getBadQuality()));
+        });
+    }
+
+    //Observe and update Price Column Change
+    private void observePriceColumnChange() {
+        fxPriceColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        fxPriceColumn.setCellValueFactory(cellData -> {
+            HarvestIndividual harvestIndividual = cellData.getValue();
+            fxPriceColumn.setOnEditCommit(
+                    (TableColumn.CellEditEvent<HarvestIndividual, String> t) ->
+                    {
+                        if (Validation.isDouble(t.getNewValue())){
+                            harvestIndividual.setPrice(Double.parseDouble(t.getNewValue()));
+                            System.out.println(harvestIndividual.getPrice());
+                        }else {
+                            alert.missingInfo("Error");
+                            observePriceColumnChange();
+                        }
+                    }
+            );
+            return new SimpleStringProperty(String.valueOf(harvestIndividual.getPrice()));
+        });
+    }
+
+    //Observe and update Transport Column Change
+    private void observeTransportSelectColumn() {
+        fxTransportSelectColumn.setCellFactory(column -> new CheckBoxTableCell<>());
+        fxTransportSelectColumn.setCellValueFactory(cellData -> {
+            HarvestIndividual harvestIndividual = cellData.getValue();
+            harvestIndividual.transportStatusProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
+                if (newValue){
+                    harvestIndividual.setTransportAmount(10.0);
+                }else {
+                    harvestIndividual.setTransportAmount(0.0);
+                }
+                harvestIndividual.setTransportStatus(newValue);
+                System.out.println(harvestIndividual.transportStatusProperty().get());
+                System.out.println(harvestIndividual.getTransportAmount());
+            });
+            return harvestIndividual.transportStatusProperty();
+        });
+    }
+
+    //Observe and update Credit Column Change
     private void observeCreditColumnChange() {
         fxCreditColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         fxCreditColumn.setCellValueFactory(cellData -> {
-            HarvestHours harvestHours = cellData.getValue();
+            HarvestIndividual harvestIndividual = cellData.getValue();
             fxCreditColumn.setOnEditCommit(
-                    (TableColumn.CellEditEvent<HarvestHours, String> t) ->
+                    (TableColumn.CellEditEvent<HarvestIndividual, String> t) ->
                     {
                         if (Validation.isDouble(t.getNewValue())){
-                            harvestHours.setCreditAmount(Double.parseDouble(t.getNewValue()));
+                            harvestIndividual.setCreditAmount(Double.parseDouble(t.getNewValue()));
                         }else {
                             alert.missingInfo("Error");
                             observeCreditColumnChange();
                         }
                     }
             );
-            return new SimpleStringProperty(String.valueOf(harvestHours.getCreditAmount()));
+            return new SimpleStringProperty(String.valueOf(harvestIndividual.getCreditAmount()));
         });
     }
 
-    //Add CheckBox To EmployeeSelectColumn and observe the change
+    //Observe and update Net Amount Column Change
+    private void observeNetAmountColumnChange() {
+        fxNetAmountColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        fxNetAmountColumn.setCellValueFactory(cellData -> {
+            HarvestIndividual harvestIndividual = cellData.getValue();
+            fxNetAmountColumn.setOnEditCommit(
+                    (TableColumn.CellEditEvent<HarvestIndividual, String> t) ->
+                    {
+                        if (Validation.isDouble(t.getNewValue())){
+                            harvestIndividual.setNetAmount(Double.parseDouble(t.getNewValue()));
+                            System.out.println(harvestIndividual.getNetAmount());
+                        }else {
+                            alert.missingInfo("Error");
+                            observeBadQualityColumnChange();
+                        }
+                    }
+            );
+            return new SimpleStringProperty(String.valueOf(harvestIndividual.getNetAmount()));
+        });
+    }
+
+    //Observe and update Remarque Column Change
     private void observeRemarqueColumnChange() {
         fxRemarqueColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         fxRemarqueColumn.setCellValueFactory(cellData -> {
-            HarvestHours harvestHours = cellData.getValue();
-            StringProperty stringProperty = harvestHours.harvestRemarqueProperty();
+            HarvestIndividual harvestIndividual = cellData.getValue();
             fxRemarqueColumn.setOnEditCommit(
-                    (TableColumn.CellEditEvent<HarvestHours, String> t) ->
+                    (TableColumn.CellEditEvent<HarvestIndividual, String> t) ->
                     {
-                        harvestHours.setHarvestRemarque(t.getNewValue());
-                        System.out.println(harvestHours.getHarvestRemarque());
+                        harvestIndividual.setHarvestRemarque(t.getNewValue());
+                        System.out.println(harvestIndividual.getHarvestRemarque());
                     }
             );
-            return stringProperty;
+            return harvestIndividual.harvestRemarqueProperty();
         });
-    }
-
-    @FXML
-    void handleClearButton() {
-        getSupplierList();
-        getFarmList();
-        getProductList();
-        fxHarvestDate.getEditor().setText("");
-    }
-
-    @FXML
-    void handleCloseButton() {
-        Stage stage = (Stage) addHarvestHoursUI.getScene().getWindow();
-        stage.close();
     }
 
     private void getSupplierList() {
@@ -298,7 +366,6 @@ public class AddHarvestHoursController implements Initializable {
         });
     }
 
-
     //fill the ChoiceBox by employee list
     private void getProductCode(Product product) {
         observableProductCode.clear();
@@ -316,14 +383,21 @@ public class AddHarvestHoursController implements Initializable {
         fxProductCodeList.setItems(observableProductCode);
     }
 
-    private int getEmployeeType(){
-        if(fxController.isSelected()){
+    private int getHarvestType(){
+        if(fxGroup.isSelected()){
             return 1;
         }else {
             return 0;
         }
     }
 
+    @FXML
+    void handleClearButton() {
+        getSupplierList();
+        getFarmList();
+        getProductList();
+        fxHarvestDate.getEditor().setText("");
+    }
 
     @FXML
     void handleSaveButton() {
@@ -337,7 +411,7 @@ public class AddHarvestHoursController implements Initializable {
             return;
         }
 
-        HarvestHoursDAO harvestHoursDAO = HarvestHoursDAO.getInstance();
+        HarvestIndividualDAO harvestIndividualDAO = HarvestIndividualDAO.getInstance();
         Harvest harvest = new Harvest();
         harvest.setHarvestDate(Date.valueOf(fxHarvestDate.getValue()));
         harvest.setSupplier(mSupplierMap.get(fxSupplierList.getValue()));
@@ -348,33 +422,42 @@ public class AddHarvestHoursController implements Initializable {
         if (mHarvestDAO.isExists(harvest) == 0){
             if (mHarvestDAO.addHarvestDate(harvest)){
                 harvest.setHarvestID(mHarvestDAO.getHarvestId(harvest));
+
             }
         }else{
             harvest.setHarvestID(mHarvestDAO.getHarvestId(harvest));
         }
 
+        System.out.println("HJarvest id: " + harvest.getHarvestID());
         int count = 0;
+        double allQuantity = 0.0;
+        double badQuality = 0.0;
+        double netAmount = 0.0;
         if (harvest.getHarvestID() != 0){
-            for (HarvestHours item : HARVEST_HOURS_LIST_LIVE_DATA){
+            for (HarvestIndividual item : HARVEST_INDIVIDUAL_LIST_LIVE_DATA){
                 if (item.isEmployeeStatus()){
-                    item.setStartMorning(Time.valueOf(fxStartMorningTime.getText()));
-                    item.setEndMorning(Time.valueOf(fxEndMorningTime.getText()));
-                    item.setStartNoon(Time.valueOf(fxStartNoonTime.getText()));
-                    item.setEndNoon(Time.valueOf(fxEndNoonTime.getText()));
-                    item.setEmployeeType(getEmployeeType());
-                    item.setHarvestID(harvest.getHarvestID());
                     item.setHarvestDate(harvest.getHarvestDate());
+                    item.setHarvestType(getHarvestType());
+                    item.setHarvestID(harvest.getHarvestID());
                     item.setFarmId(harvest.getFarm().getFarmId());
-                    if (harvestHoursDAO.addHarvesters(item)){
+                    if (harvestIndividualDAO.addHarvesters(item)){
                         count ++;
+                        allQuantity += item.getAllQuantity();
+                        badQuality += item.getBadQuality();
+                        netAmount += item.getNetAmount();
+                    }else{
+                        alert.missingInfo("Error");
                     }
                 }
             }
         }
 
         fxTotalEmployee.setText(String.valueOf(count));
-        long time = getTotalSecondWork(HARVEST_HOURS_LIST_LIVE_DATA);
-        fxTotalHours.setText(timeToStringTime(time));
+        fxAllQuantity.setText(String.valueOf(allQuantity));
+        fxBadQuality.setText(String.valueOf(badQuality));
+        fxGoodQuality.setText(String.valueOf(allQuantity - badQuality));
+        fxTotalNet.setText(String.valueOf(netAmount));
+
         fxTotalCredit.setText(String.valueOf(getTotalCredit()));
         fxTotalTransport.setText(String.valueOf(getTotalTransport()));
 
@@ -384,45 +467,22 @@ public class AddHarvestHoursController implements Initializable {
         mHarvestProduction.setHarvestProductionPrice1(harvest.getProductDetail().getProductFirstPrice());
         mHarvestProduction.setHarvestProductionPrice2(harvest.getProductDetail().getProductSecondPrice());
         mHarvestProduction.setHarvestProductionTotalEmployee(count);
-        mHarvestProduction.setHarvestProductionTotalHours(time);
         mHarvestProduction.setHarvestProductionTotalTransport(Double.parseDouble(fxTotalTransport.getText()));
         mHarvestProduction.setHarvestProductionTotalCredit(Double.parseDouble(fxTotalCredit.getText()));
         System.out.println("Employee added: " + count);
     }
 
-    private long getTotalSecondWork(ObservableList<HarvestHours> list){
-        long totalSeconds = 0;
-        for (HarvestHours item : list){
-            if (item.isEmployeeStatus()){
-              totalSeconds +=  item.getEndMorning().getTime() - item.getStartMorning().getTime();
-              totalSeconds += item.getEndNoon().getTime() - item.getStartNoon().getTime();
-            }
-        }
-        return (int) totalSeconds;
-    }
-
-    private String timeToStringTime(long time) {
-        int sec = (int) time/1000;
-        int seconds = sec % 60;
-        int minutes = sec / 60;
-        if (minutes >= 60) {
-            int hours = minutes / 60;
-            minutes %= 60;
-            if( hours >= 24) {
-                int days = hours / 24;
-                return String.format("%d days %02d:%02d:%02d", days,hours%24, minutes, seconds);
-            }
-            return String.format("%02d:%02d:%02d", hours, minutes, seconds);
-        }
-        return String.format("00:%02d:%02d", minutes, seconds);
-    }
-
     @FXML
     public void handleApplyButton(){
-        if (fxTotalCredit.getText().isEmpty()
+        if (fxTotalEmployee.getText().isEmpty()
+                || fxAllQuantity.getText().isEmpty()
+                || fxBadQuality.getText().isEmpty()
+                || fxGoodQuality.getText().isEmpty()
+                || fxProductPrice.getText().isEmpty()
                 || fxTotalTransport.getText().isEmpty()
-                || fxTotalEmployee.getText().isEmpty()
-                || fxTotalHours.getText().isEmpty())
+                || fxTotalCredit.getText().isEmpty()
+                || fxTotalNet.getText().isEmpty()
+                )
         {
             alert.missingInfo("Harvest");
             return;
@@ -435,23 +495,15 @@ public class AddHarvestHoursController implements Initializable {
 
     @FXML
     void handleCalculateResultButton() {
-        double result;
-        result =((getTotalMilliSeconds()/1000) * (Double.parseDouble(fxHourPrice.getText()) * 3600)) - (getTotalTransport() + getTotalCredit());
+        double result = 0;
+        //result =((getTotalMilliSeconds()/1000) * (Double.parseDouble(fxHourPrice.getText()) * 3600)) - (getTotalTransport() + getTotalCredit());
         fxCalculateResult.setText(String.valueOf(result));
-    }
-
-    private double getTotalMilliSeconds(){
-        long hours = 0;
-        for (HarvestHours harvestHours : HARVEST_HOURS_LIST_LIVE_DATA){
-            hours += harvestHours.getTotalWorkOnMilliSeconds();
-        }
-        return (double) hours;
     }
 
     private double getTotalTransport(){
         double d = 0.0;
-        for (HarvestHours harvestHours : HARVEST_HOURS_LIST_LIVE_DATA){
-            d += harvestHours.getTransportAmount();
+        for (HarvestIndividual harvestIndividual : HARVEST_INDIVIDUAL_LIST_LIVE_DATA){
+            d += harvestIndividual.getTransportAmount();
         }
 
         return d;
@@ -459,11 +511,10 @@ public class AddHarvestHoursController implements Initializable {
 
     private double getTotalCredit(){
         double d = 0.0;
-        for (HarvestHours harvestHours : HARVEST_HOURS_LIST_LIVE_DATA){
-            d += harvestHours.getCreditAmount();
+        for (HarvestIndividual harvestIndividual : HARVEST_INDIVIDUAL_LIST_LIVE_DATA){
+            d += harvestIndividual.getCreditAmount();
         }
         return d;
     }
-
 
 }

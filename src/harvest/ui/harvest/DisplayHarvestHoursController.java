@@ -3,15 +3,12 @@ package harvest.ui.harvest;
 import harvest.database.HarvestHoursDAO;
 import harvest.model.HarvestHours;
 import harvest.util.Validation;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.sql.Date;
@@ -25,8 +22,6 @@ public class DisplayHarvestHoursController implements Initializable {
     public static ObservableList<HarvestHours> HARVEST_HOURS_LIST_LIVE_DATA = FXCollections.observableArrayList();
     HarvestHoursDAO mHarvestHoursDAO = HarvestHoursDAO.getInstance();
 
-    @FXML
-    private AnchorPane displayHarvestHoursUI;
 
     @FXML
     private TableView<HarvestHours> fxHarvestHoursTable;
@@ -108,7 +103,7 @@ public class DisplayHarvestHoursController implements Initializable {
     private String getTotalHours(){
         long hours = 0;
                 for (HarvestHours harvestHours : HARVEST_HOURS_LIST_LIVE_DATA){
-                    hours += harvestHours.getTotalHours();
+                    hours += harvestHours.getTotalWorkOnMilliSeconds();
                 }
         return Validation.timeToStringTime(hours);
     }

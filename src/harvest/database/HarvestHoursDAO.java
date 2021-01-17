@@ -1,23 +1,15 @@
 package harvest.database;
 
 import harvest.model.HarvestHours;
-import harvest.util.Validation;
 
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import static harvest.database.CreditDAO.*;
 import static harvest.database.EmployeeDAO.COLUMN_EMPLOYEE_ID;
 import static harvest.database.EmployeeDAO.*;
-import static harvest.database.FarmDAO.TABLE_FARM;
 import static harvest.database.HarvestDAO.*;
-import static harvest.database.SeasonDAO.COLUMN_SEASON_FARM_ID;
-import static harvest.database.SeasonDAO.TABLE_SEASON;
 import static harvest.database.TransportDAO.*;
 import static harvest.ui.harvest.DisplayHarvestHoursController.HARVEST_HOURS_LIST_LIVE_DATA;
 
@@ -50,6 +42,7 @@ public class HarvestHoursDAO extends DAO {
         }
         return sHarvestHoursDAO;
     }
+
 
     public void createHarvestTable() throws SQLException {
         String createStmt = "CREATE TABLE IF NOT EXISTS " + TABLE_HARVEST_HOURS + " ("
@@ -120,7 +113,7 @@ public class HarvestHoursDAO extends DAO {
                 harvestHours.setEndMorning(resultSet.getTime(4));
                 harvestHours.setStartNoon(resultSet.getTime(5));
                 harvestHours.setEndNoon(resultSet.getTime(6));
-                harvestHours.setTotalHours(harvestHours.getTotalHours());
+                harvestHours.setTotalHours(harvestHours.getTotalWorkOnMilliSeconds());
                 harvestHours.setHarvestRemarque(resultSet.getString(7));
                 harvestHours.setEmployeeFullName(resultSet.getString(8), resultSet.getString(9));
                 harvestHours.setTransportAmount(resultSet.getDouble(10));

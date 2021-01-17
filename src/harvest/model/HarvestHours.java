@@ -96,9 +96,15 @@ public class HarvestHours {
     }
 
 
-    public long getTotalHours() {
+    public long getTotalWorkOnMilliSeconds() {
         long totalMilliSeconds = 0;
-        totalMilliSeconds =  (endMorning.getValue().getTime() - startMorning.getValue().getTime()) + (endNoon.getValue().getTime() - startNoon.getValue().getTime());
+        if (endMorning.getValue() != null
+                && startMorning.getValue() != null
+                && endNoon.getValue() != null
+                && startNoon.getValue() != null
+        ){
+            totalMilliSeconds =  (endMorning.getValue().getTime() - startMorning.getValue().getTime()) + (endNoon.getValue().getTime() - startNoon.getValue().getTime());
+        }
         this.totalHours.set(totalMilliSeconds);
         return totalHours.get();
     }
