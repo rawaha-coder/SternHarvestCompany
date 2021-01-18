@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static harvest.database.EmployeeDAO.*;
-import static harvest.database.FarmDAO.*;
+import static harvest.util.Constant.*;
 import static harvest.ui.credit.DisplayCrdTrsController.TRANSPORT_LIST_LIVE_DATA;
 
 public class TransportDAO extends DAO{

@@ -6,7 +6,10 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="displayHarvestHoursUI" prefHeight="700.0" prefWidth="1400.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.ui.harvest.DisplayHarvestHoursController">
+<AnchorPane fx:id="displayHarvestHoursUI"
+            prefHeight="700.0" prefWidth="1400.0" stylesheets="@../../style.css"
+            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="harvest.ui.harvest.DisplayHarvestHoursController">
 
     <TableView fx:id="fxHarvestHoursTable" layoutX="16.0" layoutY="14.0" maxHeight="590.0" prefHeight="590.0" prefWidth="940.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
         <columnResizePolicy>

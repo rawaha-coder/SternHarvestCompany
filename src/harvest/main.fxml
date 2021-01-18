@@ -53,7 +53,7 @@
                         <ToggleGroup fx:id="topMenu" />
                      </toggleGroup>
                         </ToggleButton>
-                        <ToggleButton fx:id="fxHarvestIndividualMenuBtn" onAction="#setDisplayHarvestIndividual" prefHeight="30" prefWidth="140" text="Individual Work" toggleGroup="$topMenu" />
+                        <ToggleButton fx:id="fxHarvestWorkMenuBtn" onAction="#getHarvestWork" prefHeight="30" prefWidth="140" text="Harvest Work" toggleGroup="$topMenu" />
                         <ToggleButton prefHeight="30" prefWidth="140" text="Group Work" toggleGroup="$topMenu" />
                         <ToggleButton fx:id="fxTransportCreditMenuBtn" onAction="#setDisplayCredit" prefHeight="30" prefWidth="160" text="Transport / Credit" toggleGroup="$topMenu" />
                         <ToggleButton fx:id="fxEmployeeMenuBtn" onAction="#setDisplayEmployee" prefHeight="30" prefWidth="120" text="Employees" toggleGroup="$topMenu" />
@@ -90,7 +90,7 @@
                             </ImageView>
                         </graphic>
                     </Button>
-                    <Button fx:id="fxAddHarvestIndividualButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#loadUIAddHarvestIndividual" prefHeight="50.0" prefWidth="146.0" text="Add Individual Work">
+                    <Button fx:id="fxSetHarvestWorkButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setHarvestWork" prefHeight="50.0" prefWidth="146.0" text="Set Harvest Work">
                         <graphic>
                             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                 <image>

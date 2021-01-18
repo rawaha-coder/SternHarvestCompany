@@ -37,7 +37,7 @@ public class MainController implements Initializable {
     @FXML
     public ToggleButton fxHarvestHoursMenuBtn;
     @FXML
-    public ToggleButton fxHarvestIndividualMenuBtn;
+    public ToggleButton fxHarvestWorkMenuBtn;
 
     @FXML
     private Button fxAddEmployeeButton;
@@ -56,7 +56,7 @@ public class MainController implements Initializable {
     @FXML
     public Button fxAddHarvestHoursButton;
     @FXML
-    public Button fxAddHarvestIndividualButton;
+    public Button fxSetHarvestWorkButton;
     @FXML
     private HBox fxHBoxTopMenu;
 
@@ -83,13 +83,13 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    void loadUIAddHarvestIndividual() {
-        loadAddWindow("/harvest/ui/harvest/add_harvest_individual.fxml", "Add Harvest Individual", fxAddHarvestIndividualButton);
+    void setHarvestWork() {
+        loadAddWindow("/harvest/ui/harvest/set_harvest_work.fxml", "Add Harvest Individual", fxSetHarvestWorkButton);
     }
 
     @FXML
-    void setDisplayHarvestIndividual(){
-        setDisplayView("/harvest/ui/harvest/display_harvest_individual.fxml", fxHarvestIndividualMenuBtn);
+    void getHarvestWork(){
+        setDisplayView("/harvest/ui/harvest/get_harvest_work.fxml", fxHarvestWorkMenuBtn);
     }
 
     @FXML

@@ -8,13 +8,14 @@ import java.util.List;
 
 import static harvest.ui.farm.DisplayFarmSeasonController.FARM_LIST_LIVE_DATA;
 import static harvest.ui.farm.DisplayFarmSeasonController.SEASON_LIST_LIVE_DATA;
+import static harvest.util.Constant.*;
 
 public class FarmDAO extends DAO{
 
-    public static final String TABLE_FARM = "farm";
-    public static final String COLUMN_FARM_ID = "id";
-    public static final String COLUMN_FARM_NAME = "name";
-    public static final String COLUMN_FARM_ADDRESS = "address";
+//    public static final String TABLE_FARM = "farm";
+//    public static final String COLUMN_FARM_ID = "id";
+//    public static final String COLUMN_FARM_NAME = "name";
+//    public static final String COLUMN_FARM_ADDRESS = "address";
 
     private static FarmDAO sFarmDAO = new FarmDAO();
 

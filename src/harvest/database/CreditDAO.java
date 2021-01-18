@@ -9,17 +9,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import static harvest.database.EmployeeDAO.*;
+import static harvest.util.Constant.*;
 import static harvest.ui.credit.DisplayCrdTrsController.CREDIT_LIST_LIVE_DATA;
 
 public class CreditDAO extends DAO{
 
-    public static final String TABLE_CREDIT = "credit";
-    public static final String COLUMN_CREDIT_ID = "id";
-    public static final String COLUMN_CREDIT_DATE = "date";
-    public static final String COLUMN_CREDIT_AMOUNT = "amount";
-    public static final String COLUMN_CREDIT_EMPLOYEE_ID = "employee_id";
+//    public static final String TABLE_CREDIT = "credit";
+//    public static final String COLUMN_CREDIT_ID = "id";
+//    public static final String COLUMN_CREDIT_DATE = "date";
+//    public static final String COLUMN_CREDIT_AMOUNT = "amount";
+//    public static final String COLUMN_CREDIT_EMPLOYEE_ID = "employee_id";
 
     private static CreditDAO sCreditDAO = new CreditDAO();
 

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static harvest.ui.supplier.DisplaySupplierController.*;
+import static harvest.util.Constant.*;
 
 public class SupplierDAO extends DAO{
 
@@ -23,11 +24,11 @@ public class SupplierDAO extends DAO{
         return sSupplierDAO;
     }
 
-    public static final String TABLE_SUPPLIER = "supplier";
-    public static final String COLUMN_SUPPLIER_ID = "id";
-    public static final String COLUMN_SUPPLIER_NAME = "company_name";
-    public static final String COLUMN_SUPPLIER_FIRSTNAME = "firstname";
-    public static final String COLUMN_SUPPLIER_LASTNAME = "lastname";
+//    public static final String TABLE_SUPPLIER = "supplier";
+//    public static final String COLUMN_SUPPLIER_ID = "id";
+//    public static final String COLUMN_SUPPLIER_NAME = "company_name";
+//    public static final String COLUMN_SUPPLIER_FIRSTNAME = "firstname";
+//    public static final String COLUMN_SUPPLIER_LASTNAME = "lastname";
 
     //Get all supplier data
     public List<Supplier> getData() throws Exception {

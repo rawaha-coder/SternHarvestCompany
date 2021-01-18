@@ -12,17 +12,18 @@ import java.util.List;
 
 import static harvest.ui.employee.DisplayEmployeeController.EMPLOYEE_GRAPH_LIVE_DATA;
 import static harvest.ui.employee.DisplayEmployeeController.EMPLOYEE_LIST_LIVE_DATA;
+import static harvest.util.Constant.*;
 
 public class EmployeeDAO extends DAO{
 
-    public static final String TABLE_EMPLOYEE = "employee";
-    public static final String COLUMN_EMPLOYEE_ID = "id";
-    public static final String COLUMN_EMPLOYEE_STATUS = "status";
-    public static final String COLUMN_EMPLOYEE_FIRST_NAME = "first_name";
-    public static final String COLUMN_EMPLOYEE_LAST_NAME = "last_name";
-    public static final String COLUMN_EMPLOYEE_HIRE_DATE = "hire_date";
-    public static final String COLUMN_EMPLOYEE_FIRE_DATE = "fire_date";
-    public static final String COLUMN_EMPLOYEE_PERMISSION_DATE = "permission_date";
+//    public static final String TABLE_EMPLOYEE = "employee";
+//    public static final String COLUMN_EMPLOYEE_ID = "id";
+//    public static final String COLUMN_EMPLOYEE_STATUS = "status";
+//    public static final String COLUMN_EMPLOYEE_FIRST_NAME = "first_name";
+//    public static final String COLUMN_EMPLOYEE_LAST_NAME = "last_name";
+//    public static final String COLUMN_EMPLOYEE_HIRE_DATE = "hire_date";
+//    public static final String COLUMN_EMPLOYEE_FIRE_DATE = "fire_date";
+//    public static final String COLUMN_EMPLOYEE_PERMISSION_DATE = "permission_date";
 
     private static EmployeeDAO sEmployeeDAO = new EmployeeDAO();
 

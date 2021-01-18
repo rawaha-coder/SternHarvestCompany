@@ -44,6 +44,10 @@ public class Transport {
         return transportAmount.get();
     }
 
+    public SimpleDoubleProperty transportAmountProperty() {
+        return transportAmount;
+    }
+
     public void setTransportAmount(double transportAmount) {
         this.transportAmount.set(transportAmount);
     }

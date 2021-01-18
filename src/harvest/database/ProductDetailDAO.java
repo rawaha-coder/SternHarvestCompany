@@ -8,16 +8,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static harvest.ui.product.DisplayProductController.PRODUCT_DETAIL_LIVE_DATA;
+import static harvest.util.Constant.*;
 
 public class ProductDetailDAO extends DAO{
 
-    public static final String TABLE_PRODUCT_DETAIL = "product_detail";
-    public static final String COLUMN_PRODUCT_DETAIL_ID = "id";
-    public static final String COLUMN_PRODUCT_TYPE = "type";
-    public static final String COLUMN_PRODUCT_CODE = "code";
-    public static final String COLUMN_PRODUCT_PRICE_1 = "price_1";
-    public static final String COLUMN_PRODUCT_PRICE_2 = "price_2";
-    public static final String COLUMN_FOREIGN_KEY_PRODUCT_ID = "product_id";
+//    public static final String TABLE_PRODUCT_DETAIL = "product_detail";
+//    public static final String COLUMN_PRODUCT_DETAIL_ID = "id";
+//    public static final String COLUMN_PRODUCT_TYPE = "type";
+//    public static final String COLUMN_PRODUCT_CODE = "code";
+//    public static final String COLUMN_PRODUCT_PRICE_1 = "price_1";
+//    public static final String COLUMN_PRODUCT_PRICE_2 = "price_2";
+//    public static final String COLUMN_FOREIGN_KEY_PRODUCT_ID = "product_id";
 
     private static ProductDetailDAO sProductDetail = new ProductDetailDAO();
 

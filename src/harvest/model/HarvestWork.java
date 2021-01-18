@@ -5,53 +5,70 @@ import javafx.beans.property.*;
 import java.sql.Date;
 
 public class HarvestWork {
-    private final IntegerProperty harvestWorkID;
-    private final ObjectProperty<Date> harvestDate;
-    private final SimpleIntegerProperty harvestType;
-    private final SimpleDoubleProperty allQuantity;
-    private final SimpleDoubleProperty badQuality;
-    private final SimpleDoubleProperty goodQuality;
-    private final SimpleDoubleProperty productPrice;
-    private final SimpleDoubleProperty netAmount;
-    private final SimpleStringProperty harvestRemarque;
+    private final IntegerProperty harvestWorkID = new SimpleIntegerProperty();
+    private final ObjectProperty<Date> harvestDate = new SimpleObjectProperty<>();
+    private final SimpleIntegerProperty harvestType  = new SimpleIntegerProperty();
+    private final SimpleDoubleProperty allQuantity = new SimpleDoubleProperty();
+    private final SimpleDoubleProperty badQuality = new SimpleDoubleProperty();
+    private final SimpleDoubleProperty goodQuality = new SimpleDoubleProperty();
+    private final SimpleDoubleProperty productPrice = new SimpleDoubleProperty();
+    private final SimpleDoubleProperty netAmount = new SimpleDoubleProperty();
+    private final SimpleStringProperty harvestRemarque = new SimpleStringProperty();
+    private final SimpleIntegerProperty harvestProductionID = new SimpleIntegerProperty();
+    private Employee employee = new Employee();
+    private Transport transport = new Transport();
+    private final SimpleBooleanProperty transportStatus = new SimpleBooleanProperty();
+    private final SimpleDoubleProperty transportAmount = new SimpleDoubleProperty();
+    private Credit credit = new Credit();
+    private final SimpleDoubleProperty creditAmount = new SimpleDoubleProperty();
+    private Farm farm = new Farm();
+    private final SimpleStringProperty farmName = new SimpleStringProperty();
 
-    private final SimpleIntegerProperty harvestID;
+    public Employee getEmployee() {
+        return employee;
+    }
 
-    private final SimpleIntegerProperty employeeId;
-    private final SimpleBooleanProperty employeeStatus;
-    private final SimpleStringProperty employeeFullName;
+    public void setEmployee(Employee employee){
+        this.employee = employee;
+    }
 
-    private final SimpleIntegerProperty transportId;
-    private final SimpleBooleanProperty transportStatus;
-    private final SimpleDoubleProperty transportAmount;
+    public Transport getTransport() {
+        return transport;
+    }
 
-    private final SimpleIntegerProperty creditId;
-    private final SimpleDoubleProperty creditAmount;
+    public void setTransport(Transport transport) {
+        this.transport = transport;
+    }
 
-    private final SimpleIntegerProperty farmId;
-    private final SimpleStringProperty farmName;
+    public double getTransportAmount() {
+        this.transportAmount.set(this.transport.getTransportAmount());
+        return transportAmount.get();
+    }
 
-    public HarvestWork() {
-        this.harvestWorkID = new SimpleIntegerProperty();
-        this.harvestDate = new SimpleObjectProperty<>();
-        this.harvestType = new SimpleIntegerProperty();
-        this.allQuantity = new SimpleDoubleProperty();
-        this.badQuality =new SimpleDoubleProperty();
-        this.goodQuality = new SimpleDoubleProperty();
-        this.productPrice = new SimpleDoubleProperty();
-        this.netAmount = new SimpleDoubleProperty();
-        this.harvestRemarque = new SimpleStringProperty();
-        this.harvestID = new SimpleIntegerProperty();
-        this.employeeId = new SimpleIntegerProperty();
-        this.employeeStatus = new SimpleBooleanProperty();
-        this.employeeFullName = new SimpleStringProperty();
-        this.transportId = new SimpleIntegerProperty();
-        this.transportStatus = new SimpleBooleanProperty();
-        this.transportAmount = new SimpleDoubleProperty();
-        this.creditId = new SimpleIntegerProperty();
-        this.creditAmount = new SimpleDoubleProperty();
-        this.farmId = new SimpleIntegerProperty();
-        this.farmName = new SimpleStringProperty();
+    public Credit getCredit() {
+        return credit;
+    }
+
+    public void setCredit(Credit credit) {
+        this.credit = credit;
+    }
+
+    public double getCreditAmount() {
+        this.creditAmount.set(this.credit.getCreditAmount());
+        return creditAmount.get();
+    }
+
+    public Farm getFarm() {
+        return farm;
+    }
+
+    public void setFarm(Farm farm) {
+        this.farm = farm;
+    }
+
+    public String getFarmName() {
+        this.farmName.set(this.farm.getFarmName());
+        return farmName.get();
     }
 
     public int getHarvestWorkID() {
@@ -115,10 +132,12 @@ public class HarvestWork {
     }
 
     public double getGoodQuality() {
+        this.goodQuality.set(this.getAllQuantity() - this.getBadQuality());
         return goodQuality.get();
     }
 
     public SimpleDoubleProperty goodQualityProperty() {
+        this.goodQuality.set(this.getAllQuantity() - this.getBadQuality());
         return goodQuality;
     }
 
@@ -162,64 +181,16 @@ public class HarvestWork {
         this.harvestRemarque.set(harvestRemarque);
     }
 
-    public int getHarvestID() {
-        return harvestID.get();
+    public int getHarvestProductionID() {
+        return harvestProductionID.get();
     }
 
-    public SimpleIntegerProperty harvestIDProperty() {
-        return harvestID;
+    public SimpleIntegerProperty harvestProductionIDProperty() {
+        return harvestProductionID;
     }
 
-    public void setHarvestID(int harvestID) {
-        this.harvestID.set(harvestID);
-    }
-
-    public int getEmployeeId() {
-        return employeeId.get();
-    }
-
-    public SimpleIntegerProperty employeeIdProperty() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(int employeeId) {
-        this.employeeId.set(employeeId);
-    }
-
-    public boolean isEmployeeStatus() {
-        return employeeStatus.get();
-    }
-
-    public SimpleBooleanProperty employeeStatusProperty() {
-        return employeeStatus;
-    }
-
-    public void setEmployeeStatus(boolean employeeStatus) {
-        this.employeeStatus.set(employeeStatus);
-    }
-
-    public String getEmployeeFullName() {
-        return employeeFullName.get();
-    }
-
-    public SimpleStringProperty employeeFullNameProperty() {
-        return employeeFullName;
-    }
-
-    public void setEmployeeFullName(String employeeFullName) {
-        this.employeeFullName.set(employeeFullName);
-    }
-
-    public int getTransportId() {
-        return transportId.get();
-    }
-
-    public SimpleIntegerProperty transportIdProperty() {
-        return transportId;
-    }
-
-    public void setTransportId(int transportId) {
-        this.transportId.set(transportId);
+    public void setHarvestProductionID(int harvestProductionID) {
+        this.harvestProductionID.set(harvestProductionID);
     }
 
     public boolean isTransportStatus() {
@@ -232,65 +203,5 @@ public class HarvestWork {
 
     public void setTransportStatus(boolean transportStatus) {
         this.transportStatus.set(transportStatus);
-    }
-
-    public double getTransportAmount() {
-        return transportAmount.get();
-    }
-
-    public SimpleDoubleProperty transportAmountProperty() {
-        return transportAmount;
-    }
-
-    public void setTransportAmount(double transportAmount) {
-        this.transportAmount.set(transportAmount);
-    }
-
-    public int getCreditId() {
-        return creditId.get();
-    }
-
-    public SimpleIntegerProperty creditIdProperty() {
-        return creditId;
-    }
-
-    public void setCreditId(int creditId) {
-        this.creditId.set(creditId);
-    }
-
-    public double getCreditAmount() {
-        return creditAmount.get();
-    }
-
-    public SimpleDoubleProperty creditAmountProperty() {
-        return creditAmount;
-    }
-
-    public void setCreditAmount(double creditAmount) {
-        this.creditAmount.set(creditAmount);
-    }
-
-    public int getFarmId() {
-        return farmId.get();
-    }
-
-    public SimpleIntegerProperty farmIdProperty() {
-        return farmId;
-    }
-
-    public void setFarmId(int farmId) {
-        this.farmId.set(farmId);
-    }
-
-    public String getFarmName() {
-        return farmName.get();
-    }
-
-    public SimpleStringProperty farmNameProperty() {
-        return farmName;
-    }
-
-    public void setFarmName(String farmName) {
-        this.farmName.set(farmName);
     }
 }

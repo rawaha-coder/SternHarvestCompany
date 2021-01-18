@@ -5,33 +5,21 @@ import javafx.beans.property.*;
 import java.sql.Date;
 
 public class HarvestProduction {
-    private final IntegerProperty harvestProductionID;
-    private final ObjectProperty<Date> harvestProductionDate;
-    private final LongProperty harvestProductionTotalHours;
-    private final DoubleProperty harvestProductionTotalAmount;
-    private final DoubleProperty harvestProductionTotalQuantity;
-    private final DoubleProperty harvestProductionPrice1;
-    private final DoubleProperty harvestProductionPrice2;
-    private final IntegerProperty harvestProductionTotalEmployee;
-    private final DoubleProperty harvestProductionTotalCredit;
-    private final DoubleProperty harvestProductionTotalTransport;
-    private Harvest mHarvest;
-    private final IntegerProperty harvestID;
 
-    public HarvestProduction() {
-        this.harvestProductionID = new SimpleIntegerProperty();
-        this.harvestProductionDate = new SimpleObjectProperty();
-        this.harvestProductionTotalHours = new SimpleLongProperty();
-        this.harvestProductionTotalAmount = new SimpleDoubleProperty();
-        this.harvestProductionTotalQuantity = new SimpleDoubleProperty();
-        this.harvestProductionPrice1 = new SimpleDoubleProperty();
-        this.harvestProductionPrice2 = new SimpleDoubleProperty();
-        this.harvestProductionTotalEmployee = new SimpleIntegerProperty();
-        this.harvestProductionTotalCredit = new SimpleDoubleProperty();
-        this.harvestProductionTotalTransport = new SimpleDoubleProperty();
-        this.mHarvest = new Harvest();
-        this.harvestID = new SimpleIntegerProperty();
-    }
+    private final IntegerProperty harvestProductionID = new SimpleIntegerProperty();
+    private final SimpleObjectProperty<Date> harvestProductionDate = new SimpleObjectProperty();
+    private final IntegerProperty harvestProductionHarvestType = new SimpleIntegerProperty();
+    private final IntegerProperty harvestProductionTotalEmployee = new SimpleIntegerProperty();
+    private final LongProperty harvestProductionTotalHours = new SimpleLongProperty();
+    private final DoubleProperty harvestProductionTotalQuantity = new SimpleDoubleProperty();
+    private final DoubleProperty harvestProductionTotalAmount = new SimpleDoubleProperty();
+    private final DoubleProperty harvestProductionTotalTransport = new SimpleDoubleProperty();
+    private final DoubleProperty harvestProductionTotalCredit = new SimpleDoubleProperty();
+
+    private Supplier supplier = new Supplier();
+    private Product product = new Product();
+    private ProductDetail productDetail = new ProductDetail();
+    private Farm farm = new Farm();
 
     public int getHarvestProductionID() {
         return harvestProductionID.get();
@@ -49,12 +37,36 @@ public class HarvestProduction {
         return harvestProductionDate.get();
     }
 
-    public ObjectProperty<Date> harvestProductionDateProperty() {
+    public SimpleObjectProperty<Date> harvestProductionDateProperty() {
         return harvestProductionDate;
     }
 
     public void setHarvestProductionDate(Date harvestProductionDate) {
         this.harvestProductionDate.set(harvestProductionDate);
+    }
+
+    public int getHarvestProductionHarvestType() {
+        return harvestProductionHarvestType.get();
+    }
+
+    public IntegerProperty harvestProductionHarvestTypeProperty() {
+        return harvestProductionHarvestType;
+    }
+
+    public void setHarvestProductionHarvestType(int harvestProductionHarvestType) {
+        this.harvestProductionHarvestType.set(harvestProductionHarvestType);
+    }
+
+    public int getHarvestProductionTotalEmployee() {
+        return harvestProductionTotalEmployee.get();
+    }
+
+    public IntegerProperty harvestProductionTotalEmployeeProperty() {
+        return harvestProductionTotalEmployee;
+    }
+
+    public void setHarvestProductionTotalEmployee(int harvestProductionTotalEmployee) {
+        this.harvestProductionTotalEmployee.set(harvestProductionTotalEmployee);
     }
 
     public long getHarvestProductionTotalHours() {
@@ -93,42 +105,6 @@ public class HarvestProduction {
         this.harvestProductionTotalQuantity.set(harvestProductionTotalQuantity);
     }
 
-    public double getHarvestProductionPrice1() {
-        return harvestProductionPrice1.get();
-    }
-
-    public DoubleProperty harvestProductionPrice1Property() {
-        return harvestProductionPrice1;
-    }
-
-    public void setHarvestProductionPrice1(double harvestProductionPrice1) {
-        this.harvestProductionPrice1.set(harvestProductionPrice1);
-    }
-
-    public double getHarvestProductionPrice2() {
-        return harvestProductionPrice2.get();
-    }
-
-    public DoubleProperty harvestProductionPrice2Property() {
-        return harvestProductionPrice2;
-    }
-
-    public void setHarvestProductionPrice2(double harvestProductionPrice2) {
-        this.harvestProductionPrice2.set(harvestProductionPrice2);
-    }
-
-    public int getHarvestProductionTotalEmployee() {
-        return harvestProductionTotalEmployee.get();
-    }
-
-    public IntegerProperty harvestProductionTotalEmployeeProperty() {
-        return harvestProductionTotalEmployee;
-    }
-
-    public void setHarvestProductionTotalEmployee(int harvestProductionTotalEmployee) {
-        this.harvestProductionTotalEmployee.set(harvestProductionTotalEmployee);
-    }
-
     public double getHarvestProductionTotalCredit() {
         return harvestProductionTotalCredit.get();
     }
@@ -153,23 +129,35 @@ public class HarvestProduction {
         this.harvestProductionTotalTransport.set(harvestProductionTotalTransport);
     }
 
-    public Harvest getHarvest() {
-        return mHarvest;
+    public Supplier getSupplier() {
+        return supplier;
     }
 
-    public void setHarvest(Harvest harvest) {
-        mHarvest = harvest;
+    public void setSupplier(Supplier supplier){
+        this.supplier = supplier;
     }
 
-    public int getHarvestID() {
-        return harvestID.get();
+    public Product getProduct() {
+        return product;
     }
 
-    public IntegerProperty harvestIDProperty() {
-        return harvestID;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
-    public void setHarvestID(int harvestID) {
-        this.harvestID.set(harvestID);
+    public ProductDetail getProductDetail() {
+        return productDetail;
+    }
+
+    public void setProductDetail(ProductDetail productDetail) {
+        this.productDetail = productDetail;
+    }
+
+    public Farm getFarm() {
+        return farm;
+    }
+
+    public void setFarm(Farm farm) {
+        this.farm = farm;
     }
 }
