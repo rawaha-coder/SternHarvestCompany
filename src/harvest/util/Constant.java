@@ -3,6 +3,23 @@ package harvest.util;
 public class Constant {
 
     //*************************************
+    //Database table columns name for harvest hours UI and model
+    //*************************************
+    public static final String TABLE_HARVEST_HOURS = "harvest_hours";
+    public static final String COLUMN_HARVEST_HOURS_ID = "id";
+    public static final String COLUMN_HARVEST_HOURS_DATE = "date";
+    public static final String COLUMN_HARVEST_HOURS_SM = "start_morning";
+    public static final String COLUMN_HARVEST_HOURS_EM = "end_morning";
+    public static final String COLUMN_HARVEST_HOURS_SN = "start_noon";
+    public static final String COLUMN_HARVEST_HOURS_EN = "end_noon";
+    public static final String COLUMN_HARVEST_HOURS_HARVEST_ID = "harvest_id";
+    public static final String COLUMN_HARVEST_HOURS_TYPE = "employee_type";
+    public static final String COLUMN_HARVEST_HOURS_EMPLOYEE_ID = "employee_id";
+    public static final String COLUMN_HARVEST_HOURS_CREDIT_ID = "credit_id";
+    public static final String COLUMN_HARVEST_HOURS_TRANSPORT_ID = "transport_id";
+    public static final String COLUMN_HARVEST_REMARQUE = "remarque";
+
+    //*************************************
     //Database table columns name for harvest work UI and model
     //*************************************
     public static final String TABLE_HARVEST_WORK = "harvest_individual";
@@ -50,6 +67,16 @@ public class Constant {
     public static final String COLUMN_EMPLOYEE_HIRE_DATE = "hire_date";
     public static final String COLUMN_EMPLOYEE_FIRE_DATE = "fire_date";
     public static final String COLUMN_EMPLOYEE_PERMISSION_DATE = "permission_date";
+
+    //*************************************
+    //Database table columns name for transport UI and model
+    //*************************************
+    public static final String TABLE_TRANSPORT = "transport";
+    public static final String COLUMN_TRANSPORT_ID = "id";
+    public static final String COLUMN_TRANSPORT_DATE = "date";
+    public static final String COLUMN_TRANSPORT_AMOUNT = "amount";
+    public static final String COLUMN_TRANSPORT_EMPLOYEE_ID = "employee_id";
+    public static final String COLUMN_TRANSPORT_FARM_ID = "farm_id";
 
     //*************************************
     //Database table columns name for credit UI and model

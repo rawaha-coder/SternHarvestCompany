@@ -56,11 +56,6 @@ public class Transport {
         return employee;
     }
 
-
-    public void setEmployee(Employee employee){
-        this.employee = employee;
-    }
-
     public String getEmployeeName() {
         employeeName.set(employee.getEmployeeFullName());
         return employeeName.get();
@@ -68,10 +63,6 @@ public class Transport {
 
     public Farm getFarm() {
         return farm;
-    }
-
-    public void setFarm(Farm farm){
-        this.farm = farm;
     }
 
     public String getFarmName() {

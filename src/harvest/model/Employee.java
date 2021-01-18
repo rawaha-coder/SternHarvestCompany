@@ -1,42 +1,17 @@
 package harvest.model;
 
-import harvest.util.Validation;
 import javafx.beans.property.*;
-
-import java.time.LocalDate;
 import java.sql.Date;
 
 public class Employee {
-    private final SimpleIntegerProperty employeeId;
-    private final SimpleBooleanProperty employeeStatus;
-    private final SimpleStringProperty employeeFirstName;
-    private final SimpleStringProperty employeeLastName;
-    private final SimpleStringProperty employeeFullName;
-    private final ObjectProperty<Date> employeeHireDate;
-    private final ObjectProperty<Date> employeeFireDate;
-    private final ObjectProperty<Date> employeePermissionDate;
-
-    public Employee() {
-        this.employeeId = new SimpleIntegerProperty();
-        this.employeeStatus = new SimpleBooleanProperty();
-        this.employeeFirstName = new SimpleStringProperty();
-        this.employeeFullName = new SimpleStringProperty();
-        this.employeeLastName = new SimpleStringProperty();
-        this.employeeHireDate = new SimpleObjectProperty<>();
-        this.employeeFireDate = new SimpleObjectProperty<>();
-        this.employeePermissionDate = new SimpleObjectProperty<>();
-    }
-
-    public Employee(int id, String fn, String ln) {
-        this.employeeId = new SimpleIntegerProperty(id);
-        this.employeeFirstName = new SimpleStringProperty(fn);
-        this.employeeLastName = new SimpleStringProperty(ln);
-        this.employeeFullName = new SimpleStringProperty(fn + " " + ln);
-        this.employeeStatus = new SimpleBooleanProperty();
-        this.employeeHireDate = new SimpleObjectProperty<>();
-        this.employeeFireDate = new SimpleObjectProperty<>();
-        this.employeePermissionDate = new SimpleObjectProperty<>();
-    }
+    private final SimpleIntegerProperty employeeId = new SimpleIntegerProperty();
+    private final SimpleBooleanProperty employeeStatus = new SimpleBooleanProperty();
+    private final SimpleStringProperty employeeFirstName = new SimpleStringProperty();
+    private final SimpleStringProperty employeeLastName = new SimpleStringProperty();
+    private final SimpleStringProperty employeeFullName = new SimpleStringProperty();
+    private final ObjectProperty<Date> employeeHireDate = new SimpleObjectProperty<>();
+    private final ObjectProperty<Date> employeeFireDate = new SimpleObjectProperty<>();
+    private final ObjectProperty<Date> employeePermissionDate = new SimpleObjectProperty<>();
 
     //Setters and getters
     public int getEmployeeId() {
@@ -83,14 +58,6 @@ public class Employee {
     public SimpleStringProperty employeeFullNameProperty() {
         this.employeeFullName.set((getEmployeeFirstName() + " " + getEmployeeLastName()).toUpperCase());
         return employeeFullName;
-    }
-
-    public void setEmployeeFullName() {
-        this.employeeFullName.set(getEmployeeFirstName() + " " + getEmployeeLastName());
-    }
-
-    public void setEmployeeFullName(String fn, String ln) {
-        this.employeeFullName.set(fn.trim() + " " + ln.trim());
     }
 
     public Date getEmployeeHireDate() {

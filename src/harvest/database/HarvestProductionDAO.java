@@ -1,8 +1,6 @@
 package harvest.database;
 
-import harvest.model.Harvest;
 import harvest.model.HarvestProduction;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,6 +19,64 @@ public class HarvestProductionDAO extends DAO {
             return sHarvestProductionDAO;
         }
         return sHarvestProductionDAO;
+    }
+
+    //add list of harvesters
+    public boolean addHarvestProduction(HarvestProduction harvestProduction){
+        String insertHarvestHours = "INSERT INTO " + TABLE_HARVEST_PRODUCTION + " ("
+                + COLUMN_HARVEST_PRODUCTION_DATE + ", "
+                + COLUMN_HARVEST_PRODUCTION_TYPE + ", "
+                + COLUMN_HARVEST_PRODUCTION_SUPPLIER_ID + ", "
+                + COLUMN_HARVEST_PRODUCTION_FARM_ID  + ", "
+                + COLUMN_HARVEST_PRODUCTION_PRODUCT_ID  + ", "
+                + COLUMN_HARVEST_PRODUCTION_PRODUCT_DETAIL_ID  + ") "
+                + " VALUES (?,?,?,?,?,?);";
+        try(PreparedStatement preparedStatement = dbGetConnect().prepareStatement(insertHarvestHours)){
+            preparedStatement.setDate(1, harvestProduction.getHarvestProductionDate());
+            preparedStatement.setInt(2, harvestProduction.getHarvestProductionHarvestType());
+            preparedStatement.setInt(3, harvestProduction.getSupplier().getSupplierId());
+            preparedStatement.setInt(4, harvestProduction.getFarm().getFarmId());
+            preparedStatement.setInt(5, harvestProduction.getProduct().getProductId());
+            preparedStatement.setInt(6, harvestProduction.getProductDetail().getProductDetailId());
+            preparedStatement.execute();
+            preparedStatement.close();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.print("Error occurred while INSERT Operation: " + e.getMessage());
+            return false;
+        }finally {
+            dbDisConnect();
+        }
+    }
+
+    //add list of harvesters
+    public boolean updateHarvestProduction(HarvestProduction harvestProduction){
+        String updateStmt = "UPDATE " + TABLE_HARVEST_PRODUCTION + " SET " +
+                "" + COLUMN_HARVEST_PRODUCTION_TE + " =?, " +
+                "" + COLUMN_HARVEST_PRODUCTION_TH + " =?, " +
+                "" + COLUMN_HARVEST_PRODUCTION_TQ + " =?, " +
+                "" + COLUMN_HARVEST_PRODUCTION_TA + " =?, " +
+                "" + COLUMN_HARVEST_PRODUCTION_TT + " =?, " +
+                "" + COLUMN_HARVEST_PRODUCTION_TC + " =? " +
+                " WHERE " + COLUMN_HARVEST_PRODUCTION_ID + " = " + harvestProduction.getHarvestProductionID() + " ;";
+        try(PreparedStatement preparedStatement = dbGetConnect().prepareStatement(updateStmt)){
+            preparedStatement.setInt(1, harvestProduction.getHarvestProductionTotalEmployee());
+            preparedStatement.setDouble(2, harvestProduction.getHarvestProductionTotalHours());
+            preparedStatement.setDouble(3, harvestProduction.getHarvestProductionTotalQuantity());
+            preparedStatement.setDouble(4, harvestProduction.getHarvestProductionTotalAmount());
+            preparedStatement.setDouble(5, harvestProduction.getHarvestProductionTotalTransport());
+            preparedStatement.setDouble(6, harvestProduction.getHarvestProductionTotalCredit());
+            preparedStatement.execute();
+            preparedStatement.close();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.print("Error occurred while INSERT Operation: " + e.getMessage());
+            return false;
+        }finally {
+            dbDisConnect();
+        }
     }
 
     public void createHarvestTable() throws SQLException {
@@ -62,7 +118,7 @@ public class HarvestProductionDAO extends DAO {
                 + COLUMN_HARVEST_PRODUCTION_PRODUCT_DETAIL_ID + " = " + hp.getProductDetail().getProductDetailId()
                 + " )";
 
-        try(Statement statement = dbGetConnect().createStatement();) {
+        try(Statement statement = dbGetConnect().createStatement()) {
             ResultSet resultSet = statement.executeQuery(stmt);
             value = resultSet.getInt(1);
         }catch (SQLException e){
@@ -71,35 +127,6 @@ public class HarvestProductionDAO extends DAO {
             dbDisConnect();
         }
         return value;
-    }
-
-    //add list of harvesters
-    public boolean addHarvestProduction(HarvestProduction harvestProduction){
-        String insertHarvestHours = "INSERT INTO " + TABLE_HARVEST_PRODUCTION + " ("
-                + COLUMN_HARVEST_PRODUCTION_DATE + ", "
-                + COLUMN_HARVEST_PRODUCTION_TYPE + ", "
-                + COLUMN_HARVEST_PRODUCTION_SUPPLIER_ID + ", "
-                + COLUMN_HARVEST_PRODUCTION_FARM_ID  + ", "
-                + COLUMN_HARVEST_PRODUCTION_PRODUCT_ID  + ", "
-                + COLUMN_HARVEST_PRODUCTION_PRODUCT_DETAIL_ID  + ") "
-                + " VALUES (?,?,?,?,?,?);";
-        try(PreparedStatement preparedStatement = dbGetConnect().prepareStatement(insertHarvestHours)){
-            preparedStatement.setDate(1, harvestProduction.getHarvestProductionDate());
-            preparedStatement.setInt(2, harvestProduction.getHarvestProductionHarvestType());
-            preparedStatement.setInt(3, harvestProduction.getSupplier().getSupplierId());
-            preparedStatement.setInt(4, harvestProduction.getFarm().getFarmId());
-            preparedStatement.setInt(5, harvestProduction.getProduct().getProductId());
-            preparedStatement.setInt(6, harvestProduction.getProductDetail().getProductDetailId());
-            preparedStatement.execute();
-            preparedStatement.close();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.print("Error occurred while INSERT Operation: " + e.getMessage());
-            return false;
-        }finally {
-            dbDisConnect();
-        }
     }
 
     public int getHarvestProductionId(HarvestProduction hp){
