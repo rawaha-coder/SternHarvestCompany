@@ -15,29 +15,21 @@ public class HarvestWork {
     private final SimpleDoubleProperty netAmount = new SimpleDoubleProperty();
     private final SimpleStringProperty harvestRemarque = new SimpleStringProperty();
     private final SimpleIntegerProperty harvestProductionID = new SimpleIntegerProperty();
-    private Employee employee = new Employee();
-    private Transport transport = new Transport();
+    private final Employee employee = new Employee();
+    private final Transport transport = new Transport();
     private final SimpleBooleanProperty transportStatus = new SimpleBooleanProperty();
     private final SimpleDoubleProperty transportAmount = new SimpleDoubleProperty();
-    private Credit credit = new Credit();
+    private final Credit credit = new Credit();
     private final SimpleDoubleProperty creditAmount = new SimpleDoubleProperty();
-    private Farm farm = new Farm();
+    private final Farm farm = new Farm();
     private final SimpleStringProperty farmName = new SimpleStringProperty();
 
     public Employee getEmployee() {
         return employee;
     }
 
-    public void setEmployee(Employee employee){
-        this.employee = employee;
-    }
-
     public Transport getTransport() {
         return transport;
-    }
-
-    public void setTransport(Transport transport) {
-        this.transport = transport;
     }
 
     public double getTransportAmount() {
@@ -49,10 +41,6 @@ public class HarvestWork {
         return credit;
     }
 
-    public void setCredit(Credit credit) {
-        this.credit = credit;
-    }
-
     public double getCreditAmount() {
         this.creditAmount.set(this.credit.getCreditAmount());
         return creditAmount.get();
@@ -60,10 +48,6 @@ public class HarvestWork {
 
     public Farm getFarm() {
         return farm;
-    }
-
-    public void setFarm(Farm farm) {
-        this.farm = farm;
     }
 
     public String getFarmName() {
@@ -75,20 +59,12 @@ public class HarvestWork {
         return harvestWorkID.get();
     }
 
-    public IntegerProperty harvestWorkIDProperty() {
-        return harvestWorkID;
-    }
-
     public void setHarvestWorkID(int harvestWorkID) {
         this.harvestWorkID.set(harvestWorkID);
     }
 
     public Date getHarvestDate() {
         return harvestDate.get();
-    }
-
-    public ObjectProperty<Date> harvestDateProperty() {
-        return harvestDate;
     }
 
     public void setHarvestDate(Date harvestDate) {
@@ -99,10 +75,6 @@ public class HarvestWork {
         return harvestType.get();
     }
 
-    public SimpleIntegerProperty harvestTypeProperty() {
-        return harvestType;
-    }
-
     public void setHarvestType(int harvestType) {
         this.harvestType.set(harvestType);
     }
@@ -111,20 +83,12 @@ public class HarvestWork {
         return allQuantity.get();
     }
 
-    public SimpleDoubleProperty allQuantityProperty() {
-        return allQuantity;
-    }
-
     public void setAllQuantity(double allQuantity) {
         this.allQuantity.set(allQuantity);
     }
 
     public double getBadQuality() {
         return badQuality.get();
-    }
-
-    public SimpleDoubleProperty badQualityProperty() {
-        return badQuality;
     }
 
     public void setBadQuality(double badQuality) {
@@ -136,21 +100,8 @@ public class HarvestWork {
         return goodQuality.get();
     }
 
-    public SimpleDoubleProperty goodQualityProperty() {
-        this.goodQuality.set(this.getAllQuantity() - this.getBadQuality());
-        return goodQuality;
-    }
-
-    public void setGoodQuality(double goodQuality) {
-        this.goodQuality.set(goodQuality);
-    }
-
     public double getProductPrice() {
         return productPrice.get();
-    }
-
-    public SimpleDoubleProperty productPriceProperty() {
-        return productPrice;
     }
 
     public void setProductPrice(double productPrice) {
@@ -159,10 +110,6 @@ public class HarvestWork {
 
     public double getNetAmount() {
         return netAmount.get();
-    }
-
-    public SimpleDoubleProperty netAmountProperty() {
-        return netAmount;
     }
 
     public void setNetAmount(double netAmount) {
@@ -183,10 +130,6 @@ public class HarvestWork {
 
     public int getHarvestProductionID() {
         return harvestProductionID.get();
-    }
-
-    public SimpleIntegerProperty harvestProductionIDProperty() {
-        return harvestProductionID;
     }
 
     public void setHarvestProductionID(int harvestProductionID) {

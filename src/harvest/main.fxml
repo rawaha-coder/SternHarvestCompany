@@ -48,7 +48,7 @@
                 </MenuBar>
                 <HBox fx:id="fxHBoxTopMenu" alignment="CENTER" fillHeight="true" prefHeight="40.0" prefWidth="800.0" spacing="5.0">
                     <children>
-                        <ToggleButton fx:id="fxHarvestHoursMenuBtn" onAction="#setDisplayHarvestHours" prefHeight="30" prefWidth="140" text="Hours Work" toggleGroup="$topMenu">
+                        <ToggleButton fx:id="fxHarvestHoursMenuBtn" onAction="#setDisplayHarvestHours" prefHeight="30" prefWidth="140" text="Harvest Hours" toggleGroup="$topMenu">
                      <toggleGroup>
                         <ToggleGroup fx:id="topMenu" />
                      </toggleGroup>

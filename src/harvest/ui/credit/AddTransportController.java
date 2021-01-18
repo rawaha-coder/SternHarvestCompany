@@ -110,8 +110,8 @@ public class AddTransportController implements Initializable {
         Transport transport = new Transport();
         transport.setTransportDate(Date.valueOf(fxTransportDate.getValue()));
         transport.setTransportAmount(Double.parseDouble(fxTransportAmount.getText()));
-        transport.setEmployee(employeeMap.get(fxEmployeeList.getValue()));
-        transport.setFarm(farmMap.get(fxFarmList.getValue()));
+        transport.getEmployee().setEmployeeId(employeeMap.get(fxEmployeeList.getValue()).getEmployeeId());
+        transport.getFarm().setFarmId(farmMap.get(fxFarmList.getValue()).getFarmId());
         if (mTransportDAO.addData(transport)){
             mTransportDAO.updateLiveData();
             alert.saveItem("Transport", true);
@@ -123,8 +123,8 @@ public class AddTransportController implements Initializable {
 
     public void handleEditOperation(Transport transport) {
         transport.setTransportDate(Date.valueOf(fxTransportDate.getValue()));
-        transport.setEmployee(employeeMap.get(fxEmployeeList.getValue()));
-        transport.setFarm(farmMap.get(fxFarmList.getValue()));
+        transport.getEmployee().setEmployeeId(employeeMap.get(fxEmployeeList.getValue()).getEmployeeId());
+        transport.getFarm().setFarmId(farmMap.get(fxFarmList.getValue()).getFarmId());
         transport.setTransportAmount(Double.parseDouble(fxTransportAmount.getText()));
         if (mTransportDAO.editData(transport)){
             mTransportDAO.updateLiveData();

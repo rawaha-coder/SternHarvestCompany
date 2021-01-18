@@ -16,17 +16,13 @@ public class HarvestProduction {
     private final DoubleProperty harvestProductionTotalTransport = new SimpleDoubleProperty();
     private final DoubleProperty harvestProductionTotalCredit = new SimpleDoubleProperty();
 
-    private Supplier supplier = new Supplier();
-    private Product product = new Product();
-    private ProductDetail productDetail = new ProductDetail();
-    private Farm farm = new Farm();
+    private final Supplier supplier = new Supplier();
+    private final Product product = new Product();
+    private final ProductDetail productDetail = new ProductDetail();
+    private final Farm farm = new Farm();
 
     public int getHarvestProductionID() {
         return harvestProductionID.get();
-    }
-
-    public IntegerProperty harvestProductionIDProperty() {
-        return harvestProductionID;
     }
 
     public void setHarvestProductionID(int harvestProductionID) {
@@ -37,20 +33,12 @@ public class HarvestProduction {
         return harvestProductionDate.get();
     }
 
-    public SimpleObjectProperty<Date> harvestProductionDateProperty() {
-        return harvestProductionDate;
-    }
-
     public void setHarvestProductionDate(Date harvestProductionDate) {
         this.harvestProductionDate.set(harvestProductionDate);
     }
 
     public int getHarvestProductionHarvestType() {
         return harvestProductionHarvestType.get();
-    }
-
-    public IntegerProperty harvestProductionHarvestTypeProperty() {
-        return harvestProductionHarvestType;
     }
 
     public void setHarvestProductionHarvestType(int harvestProductionHarvestType) {
@@ -133,31 +121,15 @@ public class HarvestProduction {
         return supplier;
     }
 
-    public void setSupplier(Supplier supplier){
-        this.supplier = supplier;
-    }
-
     public Product getProduct() {
         return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
     }
 
     public ProductDetail getProductDetail() {
         return productDetail;
     }
 
-    public void setProductDetail(ProductDetail productDetail) {
-        this.productDetail = productDetail;
-    }
-
     public Farm getFarm() {
         return farm;
-    }
-
-    public void setFarm(Farm farm) {
-        this.farm = farm;
     }
 }

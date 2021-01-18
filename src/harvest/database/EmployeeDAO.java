@@ -1,7 +1,6 @@
 package harvest.database;
 
 import harvest.model.Employee;
-import harvest.util.Validation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
@@ -15,15 +14,6 @@ import static harvest.ui.employee.DisplayEmployeeController.EMPLOYEE_LIST_LIVE_D
 import static harvest.util.Constant.*;
 
 public class EmployeeDAO extends DAO{
-
-//    public static final String TABLE_EMPLOYEE = "employee";
-//    public static final String COLUMN_EMPLOYEE_ID = "id";
-//    public static final String COLUMN_EMPLOYEE_STATUS = "status";
-//    public static final String COLUMN_EMPLOYEE_FIRST_NAME = "first_name";
-//    public static final String COLUMN_EMPLOYEE_LAST_NAME = "last_name";
-//    public static final String COLUMN_EMPLOYEE_HIRE_DATE = "hire_date";
-//    public static final String COLUMN_EMPLOYEE_FIRE_DATE = "fire_date";
-//    public static final String COLUMN_EMPLOYEE_PERMISSION_DATE = "permission_date";
 
     private static EmployeeDAO sEmployeeDAO = new EmployeeDAO();
 
@@ -94,7 +84,6 @@ public class EmployeeDAO extends DAO{
                 employee.setEmployeeStatus(resultSet.getBoolean(2));
                 employee.setEmployeeFirstName(resultSet.getString(3));
                 employee.setEmployeeLastName(resultSet.getString(4));
-                employee.setEmployeeFullName();
                 employee.setEmployeeHireDate(resultSet.getDate(5));
                 employee.setEmployeeFireDate(resultSet.getDate(6));
                 employee.setEmployeePermissionDate(resultSet.getDate(7));

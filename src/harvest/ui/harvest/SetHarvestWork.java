@@ -407,15 +407,14 @@ public class SetHarvestWork implements Initializable {
         HarvestProduction harvestProduction = new HarvestProduction();
         harvestProduction.setHarvestProductionDate(Date.valueOf(fxHarvestDate.getValue()));
         harvestProduction.setHarvestProductionHarvestType(1);
-        harvestProduction.setSupplier(mSupplierMap.get(fxSupplierList.getValue()));
-        harvestProduction.setFarm(mFarmMap.get(fxFarmList.getValue()));
-        harvestProduction.setProduct(mProductMap.get(fxProductList.getValue()));
-        harvestProduction.setProductDetail(mProductDetailMap.get(fxProductCodeList.getValue()));
+        harvestProduction.getSupplier().setSupplierId(mSupplierMap.get(fxSupplierList.getValue()).getSupplierId());
+        harvestProduction.getFarm().setFarmId(mFarmMap.get(fxFarmList.getValue()).getFarmId());
+        harvestProduction.getProduct().setProductId(mProductMap.get(fxProductList.getValue()).getProductId());
+        harvestProduction.getProductDetail().setProductDetailId(mProductDetailMap.get(fxProductCodeList.getValue()).getProductDetailId());
 
         if (mHarvestProductionDAO.isExists(harvestProduction) == 0){
             if (mHarvestProductionDAO.addHarvestProduction(harvestProduction)){
                 harvestProduction.setHarvestProductionID(mHarvestProductionDAO.getHarvestProductionId(harvestProduction));
-
             }
         }else{
             harvestProduction.setHarvestProductionID(mHarvestProductionDAO.getHarvestProductionId(harvestProduction));

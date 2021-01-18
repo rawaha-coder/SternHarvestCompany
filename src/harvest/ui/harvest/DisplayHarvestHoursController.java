@@ -22,46 +22,32 @@ public class DisplayHarvestHoursController implements Initializable {
     public static ObservableList<HarvestHours> HARVEST_HOURS_LIST_LIVE_DATA = FXCollections.observableArrayList();
     HarvestHoursDAO mHarvestHoursDAO = HarvestHoursDAO.getInstance();
 
-
     @FXML
     private TableView<HarvestHours> fxHarvestHoursTable;
-
     @FXML
     private TableColumn<HarvestHours, String> fxEmployee;
-
     @FXML
     private TableColumn<HarvestHours, Time> fxStartMorning;
-
     @FXML
     private TableColumn<HarvestHours, Time> fxEndMorning;
-
     @FXML
     private TableColumn<HarvestHours, Time> fxStartNoon;
-
     @FXML
     private TableColumn<HarvestHours, Time> fxEndNoon;
-
     @FXML
     private TableColumn<HarvestHours, Time> fxTotalHours;
-
     @FXML
-    private TableColumn<HarvestHours, Double> fxTransport;
-
+    private TableColumn<HarvestHours, String> fxTransport;
     @FXML
     private TableColumn<HarvestHours, Double> fxCredit;
-
     @FXML
     private TableColumn<HarvestHours, String> fxRemarque;
-
     @FXML
     private DatePicker fxDatePicker;
-
     @FXML
     private Label fxTotalWorkingHours;
-
     @FXML
     private Label fxTotalTransport;
-
     @FXML
     private Label fxTotalCredit;
 
@@ -84,7 +70,7 @@ public class DisplayHarvestHoursController implements Initializable {
         fxStartNoon.setCellValueFactory(new PropertyValueFactory<>("startNoon"));
         fxEndNoon.setCellValueFactory(new PropertyValueFactory<>("endNoon"));
         fxTotalHours.setCellValueFactory(new PropertyValueFactory<>("totalHours"));
-        fxEmployee.setCellValueFactory(new PropertyValueFactory<>("employeeFullName"));
+        fxEmployee.setCellValueFactory(it -> it.getValue().getEmployee().employeeFullNameProperty());
         fxTransport.setCellValueFactory(new PropertyValueFactory<>("transportAmount"));
         fxCredit.setCellValueFactory(new PropertyValueFactory<>("creditAmount"));
         fxRemarque.setCellValueFactory(new PropertyValueFactory<>("harvestRemarque"));
@@ -111,7 +97,7 @@ public class DisplayHarvestHoursController implements Initializable {
     private String getTotalTransport(){
         double d = 0.0;
         for (HarvestHours harvestHours : HARVEST_HOURS_LIST_LIVE_DATA){
-            d += harvestHours.getTransportAmount();
+            d += harvestHours.getTransport().getTransportAmount();
         }
         System.out.println(d);
         return String.valueOf(d);
@@ -120,7 +106,7 @@ public class DisplayHarvestHoursController implements Initializable {
     private String getTotalCredit(){
         double d = 0.0;
         for (HarvestHours harvestHours : HARVEST_HOURS_LIST_LIVE_DATA){
-            d += harvestHours.getCreditAmount();
+            d += harvestHours.getCredit().getCreditAmount();
         }
         return String.valueOf(d);
     }

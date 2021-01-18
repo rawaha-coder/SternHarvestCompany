@@ -1,7 +1,6 @@
 package harvest.database;
 
 import harvest.model.Employee;
-import harvest.model.Farm;
 import harvest.model.Transport;
 
 import java.sql.PreparedStatement;
@@ -11,7 +10,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import static harvest.database.EmployeeDAO.*;
 import static harvest.util.Constant.*;
 import static harvest.ui.credit.DisplayCrdTrsController.TRANSPORT_LIST_LIVE_DATA;
 
@@ -29,14 +27,6 @@ public class TransportDAO extends DAO{
         }
         return sTransportDAO;
     }
-
-    public static final String TABLE_TRANSPORT = "transport";
-    public static final String COLUMN_TRANSPORT_ID = "id";
-    public static final String COLUMN_TRANSPORT_DATE = "date";
-    public static final String COLUMN_TRANSPORT_AMOUNT = "amount";
-    public static final String COLUMN_TRANSPORT_EMPLOYEE_ID = "employee_id";
-    public static final String COLUMN_TRANSPORT_FARM_ID = "farm_id";
-
 
     public List<Transport> getData() throws SQLException {
         List<Transport> list = new ArrayList<>();
@@ -63,8 +53,12 @@ public class TransportDAO extends DAO{
                     transport.setTransportId(resultSet.getInt(1));
                     transport.setTransportDate(resultSet.getDate(2));
                     transport.setTransportAmount(resultSet.getDouble(3));
-                    transport.setEmployee(new Employee(resultSet.getInt(4), resultSet.getString(5), resultSet.getString(6)));
-                    transport.setFarm(new Farm(resultSet.getInt(7), resultSet.getString(8), resultSet.getString(9)));
+                    transport.getEmployee().setEmployeeId(resultSet.getInt(4));
+                    transport.getEmployee().setEmployeeFirstName(resultSet.getString(5));
+                    transport.getEmployee().setEmployeeLastName(resultSet.getString(6));
+                    transport.getFarm().setFarmId(resultSet.getInt(7));
+                    transport.getFarm().setFarmName(resultSet.getString(8));
+                    transport.getFarm().setFarmAddress(resultSet.getString(9));
                     list.add(transport);
                 }
             }

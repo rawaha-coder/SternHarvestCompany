@@ -6,17 +6,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static harvest.database.CreditDAO.*;
-import static harvest.database.EmployeeDAO.*;
-import static harvest.database.FarmDAO.*;
-import static harvest.database.HarvestHoursDAO.*;
-import static harvest.database.ProductDAO.*;
-import static harvest.database.ProductDetailDAO.*;
+import static harvest.util.Constant.*;
 import static harvest.database.SeasonDAO.*;
-import static harvest.database.SupplierDAO.*;
 import static harvest.database.SupplyDAO.*;
 import static harvest.database.TransportDAO.*;
-import static harvest.util.Constant.*;
 
 
 public class CommonDAO extends DAO{
@@ -32,141 +25,6 @@ public class CommonDAO extends DAO{
             return sCommonDAO;
         }
         return sCommonDAO;
-    }
-
-    //*******************************
-    //add list of harvesters work hours
-    //******************************
-    public boolean addHarvesters(HarvestHours harvestHours) {
-        int transportId = 0;
-        int CreditId = 0;
-        Connection connection;
-        PreparedStatement preparedStatement;
-
-        String insertTransport = "INSERT INTO " + TABLE_TRANSPORT + " ("
-                + COLUMN_TRANSPORT_DATE + ", "
-                + COLUMN_TRANSPORT_AMOUNT + ", "
-                + COLUMN_TRANSPORT_EMPLOYEE_ID + ", "
-                + COLUMN_TRANSPORT_FARM_ID + ") "
-                + " VALUES (?,?,?,?) ";
-
-        String getTransportId = "SELECT last_insert_rowid() FROM " + TABLE_TRANSPORT + " ;";
-
-        String insertCredit = "INSERT INTO " + TABLE_CREDIT + " ("
-                + COLUMN_CREDIT_DATE + ", "
-                + COLUMN_CREDIT_AMOUNT + ", "
-                + COLUMN_CREDIT_EMPLOYEE_ID + ") "
-                + "VALUES (?,?,?);";
-
-        String getCreditId = "SELECT last_insert_rowid() FROM " + TABLE_CREDIT + " ;";
-
-        String insertHarvestHours = "INSERT INTO " + TABLE_HARVEST_HOURS + " ("
-                + COLUMN_HARVEST_HOURS_DATE + ", "
-                + COLUMN_HARVEST_HOURS_SM + ", "
-                + COLUMN_HARVEST_HOURS_EM + ", "
-                + COLUMN_HARVEST_HOURS_SN + ", "
-                + COLUMN_HARVEST_HOURS_EN + ", "
-                + COLUMN_HARVEST_HOURS_TYPE + ", "
-                + COLUMN_HARVEST_REMARQUE + ", "
-                + COLUMN_HARVEST_HOURS_HARVEST_ID + ", "
-                + COLUMN_HARVEST_HOURS_EMPLOYEE_ID + ", "
-                + COLUMN_HARVEST_HOURS_CREDIT_ID + ", "
-                + COLUMN_HARVEST_HOURS_TRANSPORT_ID + ") "
-                + " VALUES (?,?,?,?,?,?,?,?,?,?,?);";
-        try {
-            connection = dbGetConnect();
-            connection.setAutoCommit(false);
-
-            if (harvestHours.isTransportStatus()){
-                preparedStatement = dbGetConnect().prepareStatement(insertTransport);
-                preparedStatement.setDate(1, harvestHours.getHarvestDate());
-                preparedStatement.setDouble(2, harvestHours.getTransportAmount());
-                preparedStatement.setInt(3, harvestHours.getEmployeeId());
-                preparedStatement.setInt(4, harvestHours.getFarmId());
-                preparedStatement.execute();
-            }
-
-            if (harvestHours.getCreditAmount() > 0.0){
-                preparedStatement = dbGetConnect().prepareStatement(insertCredit);
-                preparedStatement.setDate(1, harvestHours.getHarvestDate());
-                preparedStatement.setDouble(2, harvestHours.getCreditAmount());
-                preparedStatement.setInt(3, harvestHours.getEmployeeId());
-                preparedStatement.execute();
-            }
-
-            Statement statement1 = connection.createStatement();
-            ResultSet resultSet1 = statement1.executeQuery(getTransportId);
-            transportId = resultSet1.getInt(1);
-
-            Statement statement2 = connection.createStatement();
-            ResultSet resultSet2 = statement2.executeQuery(getCreditId);
-            CreditId = resultSet2.getInt(1);
-
-            preparedStatement = connection.prepareStatement(insertHarvestHours);
-            preparedStatement.setDate(1, harvestHours.getHarvestDate());
-            preparedStatement.setTime(2, harvestHours.getStartMorning());
-            preparedStatement.setTime(3, harvestHours.getEndMorning());
-            preparedStatement.setTime(4, harvestHours.getStartNoon());
-            preparedStatement.setTime(5, harvestHours.getEndNoon());
-            preparedStatement.setInt(6, harvestHours.getEmployeeType());
-            preparedStatement.setString(7, harvestHours.getHarvestRemarque());
-            preparedStatement.setInt(8, harvestHours.getHarvestID());
-            preparedStatement.setInt(9, harvestHours.getEmployeeId());
-            preparedStatement.setInt(10, CreditId);
-            preparedStatement.setInt(11, transportId);
-            preparedStatement.execute();
-
-            statement1.close();
-            statement2.close();
-            preparedStatement.close();
-            connection.commit();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.print("Error occurred while INSERT Operation: " + e.getMessage());
-            return false;
-        } finally {
-            dbDisConnect();
-        }
-    }
-    private String timeToStringTime(long time) {
-        int sec = (int) time/1000;
-        int seconds = sec % 60;
-        int minutes = sec / 60;
-        if (minutes >= 60) {
-            int hours = minutes / 60;
-            minutes %= 60;
-            if( hours >= 24) {
-                int days = hours / 24;
-                return String.format("%d days %02d:%02d:%02d", days,hours%24, minutes, seconds);
-            }
-            return String.format("%02d:%02d:%02d", hours, minutes, seconds);
-        }
-        return String.format("00:%02d:%02d", minutes, seconds);
-    }
-
-    //*******************************
-    //Get all employees data
-    //*******************************
-    public List<HarvestHours> getHarvestHoursData() throws Exception {
-        List<HarvestHours> harvestHoursList = new ArrayList<>();
-        String sqlStmt = "SELECT * FROM " + TABLE_EMPLOYEE + " ORDER BY " + COLUMN_EMPLOYEE_ID + " DESC;";
-
-        try(Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(sqlStmt)) {
-            while (resultSet.next()) {
-                HarvestHours harvestHours = new HarvestHours();
-                harvestHours.setEmployeeId(resultSet.getInt(1));
-                harvestHours.setEmployeeStatus(resultSet.getBoolean(2));
-                harvestHours.setEmployeeFullName(resultSet.getString(3) + " " + resultSet.getString(4));
-                harvestHoursList.add(harvestHours);
-            }
-            return harvestHoursList;
-        } catch (SQLException e) {
-            System.out.println("SQL select operation has been failed: " + e);
-            throw e;
-        }finally {
-            dbDisConnect();
-        }
     }
 
     //*************************************************************
