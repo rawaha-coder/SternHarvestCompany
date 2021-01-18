@@ -16,6 +16,8 @@ import static harvest.database.SeasonDAO.*;
 import static harvest.database.SupplierDAO.*;
 import static harvest.database.SupplyDAO.*;
 import static harvest.database.TransportDAO.*;
+import static harvest.util.Constant.*;
+
 
 public class CommonDAO extends DAO{
 

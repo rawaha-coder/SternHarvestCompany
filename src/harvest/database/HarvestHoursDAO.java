@@ -6,9 +6,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static harvest.database.CreditDAO.*;
-import static harvest.database.EmployeeDAO.COLUMN_EMPLOYEE_ID;
-import static harvest.database.EmployeeDAO.*;
+import static harvest.util.Constant.*;
 import static harvest.database.HarvestDAO.*;
 import static harvest.database.TransportDAO.*;
 import static harvest.ui.harvest.DisplayHarvestHoursController.HARVEST_HOURS_LIST_LIVE_DATA;

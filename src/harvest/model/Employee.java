@@ -81,7 +81,7 @@ public class Employee {
     }
 
     public SimpleStringProperty employeeFullNameProperty() {
-        this.employeeFullName.set(getEmployeeFirstName() + " " + getEmployeeLastName());
+        this.employeeFullName.set((getEmployeeFirstName() + " " + getEmployeeLastName()).toUpperCase());
         return employeeFullName;
     }
 
@@ -92,11 +92,6 @@ public class Employee {
     public void setEmployeeFullName(String fn, String ln) {
         this.employeeFullName.set(fn.trim() + " " + ln.trim());
     }
-
-    //    public void setEmployeeFullName(String employeeFullName) {
-//
-//        this.employeeFullName.set(employeeFullName);
-//    }
 
     public Date getEmployeeHireDate() {
         return employeeHireDate.get();

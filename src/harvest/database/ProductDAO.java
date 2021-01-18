@@ -7,12 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static harvest.ui.product.DisplayProductController.PRODUCT_NAME_LIVE_DATA;
+import static harvest.util.Constant.*;
 
 public class ProductDAO extends DAO{
 
-    public static final String TABLE_PRODUCT = "product";
-    public static final String COLUMN_PRODUCT_ID = "id";
-    public static final String COLUMN_PRODUCT_NAME = "name";
+//    public static final String TABLE_PRODUCT = "product";
+//    public static final String COLUMN_PRODUCT_ID = "id";
+//    public static final String COLUMN_PRODUCT_NAME = "name";
 
     private static ProductDAO sProductDAO = new ProductDAO();
 

@@ -7,14 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import static harvest.database.FarmDAO.COLUMN_FARM_ID;
-import static harvest.database.FarmDAO.TABLE_FARM;
-import static harvest.database.ProductDAO.COLUMN_PRODUCT_ID;
-import static harvest.database.ProductDAO.TABLE_PRODUCT;
-import static harvest.database.ProductDetailDAO.COLUMN_PRODUCT_DETAIL_ID;
-import static harvest.database.ProductDetailDAO.TABLE_PRODUCT_DETAIL;
-import static harvest.database.SupplierDAO.COLUMN_SUPPLIER_ID;
-import static harvest.database.SupplierDAO.TABLE_SUPPLIER;
+import static harvest.util.Constant.*;
 
 public class HarvestDAO extends DAO{
 
@@ -25,6 +18,13 @@ public class HarvestDAO extends DAO{
     public static final String COLUMN_HARVEST_FARM_ID = "farm_id";
     public static final String COLUMN_HARVEST_PRODUCT_ID = "product_id";
     public static final String COLUMN_HARVEST_PRODUCT_DETAIL_ID = "product_detail_id";
+
+    public static final String COLUMN_HARVEST_TOTAL_HOURS = "total_hours";
+    public static final String COLUMN_HARVEST_TOTAL_EMPLOYEE  = "total_employees";
+    public static final String COLUMN_HARVEST_TOTAL_QUANTITY  = "total_quantity";
+    public static final String COLUMN_HARVEST_TOTAL_CREDIT  = "total_credits";
+    public static final String COLUMN_HARVEST_PRODUCT_PRICE_1 = "price_1";
+    public static final String COLUMN_HARVEST_PRODUCT_PRICE_2 = "price_2";
 
     private static HarvestDAO sHarvestDAO = new HarvestDAO();
     //private constructor
@@ -37,26 +37,6 @@ public class HarvestDAO extends DAO{
         return sHarvestDAO;
     }
 
-    public void createHarvestTable() throws SQLException {
-        String createStmt =  "CREATE TABLE IF NOT EXISTS " + TABLE_HARVEST + " ("
-                + COLUMN_HARVEST_ID + " INTEGER PRIMARY KEY, "
-                + COLUMN_HARVEST_DATE + " DATE NOT NULL, "
-                + COLUMN_HARVEST_SUPPLIER_ID + " INTEGER NOT NULL, "
-                + COLUMN_HARVEST_FARM_ID + " INTEGER NOT NULL, "
-                + COLUMN_HARVEST_PRODUCT_ID + " INTEGER NOT NULL, "
-                + COLUMN_HARVEST_PRODUCT_DETAIL_ID + " INTEGER NOT NULL, "
-                + " FOREIGN KEY (" + COLUMN_HARVEST_SUPPLIER_ID + ") REFERENCES " + TABLE_SUPPLIER + " (" + COLUMN_SUPPLIER_ID + ")"
-                + " FOREIGN KEY (" + COLUMN_HARVEST_FARM_ID + ") REFERENCES " + TABLE_FARM + " (" + COLUMN_FARM_ID + ")"
-                + " FOREIGN KEY (" + COLUMN_HARVEST_PRODUCT_ID + ") REFERENCES " + TABLE_PRODUCT + " (" + COLUMN_PRODUCT_ID + ")"
-                + " FOREIGN KEY (" + COLUMN_HARVEST_PRODUCT_DETAIL_ID + ") REFERENCES " + TABLE_PRODUCT_DETAIL + " (" + COLUMN_PRODUCT_DETAIL_ID + ")"
-                + ");";
-        try(Statement statement = dbGetConnect().createStatement()) {
-            statement.execute(createStmt);
-        }catch (SQLException e){
-            e.printStackTrace();
-            throw e;
-        }
-    }
 
     public int isExists(Harvest harvest){
         int value = -1;

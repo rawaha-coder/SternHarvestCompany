@@ -13,7 +13,7 @@
 
 <AnchorPane fx:id="mAnchorPane" prefHeight="852.0" prefWidth="1197.0" stylesheets="@../../style.css"
             xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="harvest.ui.harvest.AddHarvestIndividualController">
+            fx:controller="harvest.ui.harvest.SetHarvestWork">
     <AnchorPane layoutX="1013.0" prefHeight="844.0" prefWidth="184.0">
         <children>
             <Label alignment="CENTER" contentDisplay="CENTER" layoutX="29.0" layoutY="111.0" prefHeight="30.0"

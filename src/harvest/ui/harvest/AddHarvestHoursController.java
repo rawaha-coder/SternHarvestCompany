@@ -378,15 +378,15 @@ public class AddHarvestHoursController implements Initializable {
         fxTotalCredit.setText(String.valueOf(getTotalCredit()));
         fxTotalTransport.setText(String.valueOf(getTotalTransport()));
 
-        mHarvestProduction.setHarvest(harvest);
-        mHarvestProduction.setHarvestID(harvest.getHarvestID());
-        mHarvestProduction.setHarvestProductionDate(harvest.getHarvestDate());
-        mHarvestProduction.setHarvestProductionPrice1(harvest.getProductDetail().getProductFirstPrice());
-        mHarvestProduction.setHarvestProductionPrice2(harvest.getProductDetail().getProductSecondPrice());
-        mHarvestProduction.setHarvestProductionTotalEmployee(count);
-        mHarvestProduction.setHarvestProductionTotalHours(time);
-        mHarvestProduction.setHarvestProductionTotalTransport(Double.parseDouble(fxTotalTransport.getText()));
-        mHarvestProduction.setHarvestProductionTotalCredit(Double.parseDouble(fxTotalCredit.getText()));
+//        mHarvestProduction.setHarvest(harvest);
+//        mHarvestProduction.setHarvestID(harvest.getHarvestID());
+//        mHarvestProduction.setHarvestProductionDate(harvest.getHarvestDate());
+//        mHarvestProduction.setHarvestProductionPrice1(harvest.getProductDetail().getProductFirstPrice());
+//        mHarvestProduction.setHarvestProductionPrice2(harvest.getProductDetail().getProductSecondPrice());
+//        mHarvestProduction.setHarvestProductionTotalEmployee(count);
+//        mHarvestProduction.setHarvestProductionTotalHours(time);
+//        mHarvestProduction.setHarvestProductionTotalTransport(Double.parseDouble(fxTotalTransport.getText()));
+//        mHarvestProduction.setHarvestProductionTotalCredit(Double.parseDouble(fxTotalCredit.getText()));
         System.out.println("Employee added: " + count);
     }
 

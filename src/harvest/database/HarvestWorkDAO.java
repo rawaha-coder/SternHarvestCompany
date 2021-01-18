@@ -1,6 +1,6 @@
 package harvest.database;
 
-import harvest.model.HarvestIndividual;
+import harvest.model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -8,15 +8,13 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static harvest.database.CreditDAO.*;
-import static harvest.database.CreditDAO.TABLE_CREDIT;
-import static harvest.database.EmployeeDAO.*;
+import static harvest.util.Constant.*;
 import static harvest.database.HarvestDAO.COLUMN_HARVEST_ID;
 import static harvest.database.HarvestDAO.TABLE_HARVEST;
 import static harvest.database.TransportDAO.*;
-import static harvest.ui.harvest.AddHarvestIndividualController.HARVEST_INDIVIDUAL_LIST_LIVE_DATA;
+import static harvest.ui.harvest.SetHarvestWork.HARVEST_WORK_LIVE_LIST;
 
-public class HarvestIndividualDAO extends DAO {
+public class HarvestWorkDAO extends DAO {
 
     public static final String TABLE_HARVEST_INDIVIDUAL = "harvest_individual";
     public static final String COLUMN_HARVEST_INDIVIDUAL_ID = "id";
@@ -33,18 +31,18 @@ public class HarvestIndividualDAO extends DAO {
     public static final String COLUMN_HARVEST_INDIVIDUAL_TRANSPORT_ID = "transport_id";
     public static final String COLUMN_HARVEST_REMARQUE = "remarque";
 
-    private static HarvestIndividualDAO sHarvestIndividualDAO = new HarvestIndividualDAO();
+    private static HarvestWorkDAO sHarvestWorkDAO = new HarvestWorkDAO();
 
     //private constructor
-    private HarvestIndividualDAO() {
+    private HarvestWorkDAO() {
     }
 
-    public static HarvestIndividualDAO getInstance() {
-        if (sHarvestIndividualDAO == null) {
-            sHarvestIndividualDAO = new HarvestIndividualDAO();
-            return sHarvestIndividualDAO;
+    public static HarvestWorkDAO getInstance() {
+        if (sHarvestWorkDAO == null) {
+            sHarvestWorkDAO = new HarvestWorkDAO();
+            return sHarvestWorkDAO;
         }
-        return sHarvestIndividualDAO;
+        return sHarvestWorkDAO;
     }
 
 
@@ -76,7 +74,7 @@ public class HarvestIndividualDAO extends DAO {
         }
     }
 
-    public List<HarvestIndividual> getData(Date date) throws SQLException{
+    public ObservableList<HarvestWork> getData(Date date) throws SQLException{
         Statement statement;
         ResultSet resultSet;
         String select = "SELECT "
@@ -113,12 +111,12 @@ public class HarvestIndividualDAO extends DAO {
         }
     }
 
-    private ObservableList<HarvestIndividual> getDataFromResultSet(ResultSet resultSet) throws SQLException {
-        ObservableList<HarvestIndividual> list = FXCollections.observableArrayList();
+    private ObservableList<HarvestWork> getDataFromResultSet(ResultSet resultSet) throws SQLException {
+        ObservableList<HarvestWork> list = FXCollections.observableArrayList();
         while (resultSet.next()) {
-            HarvestIndividual harvestIndividual = new HarvestIndividual();
+            HarvestWork harvestWork = new HarvestWork();
 
-            list.add(harvestIndividual);
+            list.add(harvestWork);
         }
         return list;
     }
@@ -128,17 +126,17 @@ public class HarvestIndividualDAO extends DAO {
     //Observe Live Data
     //*************************************************************
     public void updateLiveData(Date date) {
-        HARVEST_INDIVIDUAL_LIST_LIVE_DATA.clear();
+        HARVEST_WORK_LIVE_LIST.clear();
         try {
-            HARVEST_INDIVIDUAL_LIST_LIVE_DATA.setAll(getData(date));
-            System.out.println(" Update list size: " + HARVEST_INDIVIDUAL_LIST_LIVE_DATA.size());
+            HARVEST_WORK_LIVE_LIST.setAll(getData(date));
+            System.out.println(" Update list size: " + HARVEST_WORK_LIVE_LIST.size());
         }catch (SQLException e){
             e.printStackTrace();
         }
     }
 
     //add list of harvesters
-    public boolean addHarvesters(HarvestIndividual harvestIndividual) {
+    public boolean addHarvesters(HarvestWork harvestWork) {
 
         Connection connection;
         PreparedStatement preparedStatement;
@@ -181,29 +179,29 @@ public class HarvestIndividualDAO extends DAO {
             int transportId = 0;
             int CreditId = 0;
 
-            if (harvestIndividual.isTransportStatus()){
-                System.out.println("inside the loop Transport: " +harvestIndividual.isTransportStatus());
+            if (harvestWork.isTransportStatus()){
+                System.out.println("inside the loop Transport: " +harvestWork.isTransportStatus());
                 preparedStatement = dbGetConnect().prepareStatement(insertTransport);
-                preparedStatement.setDate(1, harvestIndividual.getHarvestDate());
-                preparedStatement.setDouble(2, harvestIndividual.getTransportAmount());
-                preparedStatement.setInt(3, harvestIndividual.getEmployeeId());
-                preparedStatement.setInt(4, harvestIndividual.getFarmId());
+                preparedStatement.setDate(1, harvestWork.getHarvestDate());
+                preparedStatement.setDouble(2, harvestWork.getTransportAmount());
+                preparedStatement.setInt(3, harvestWork.getEmployee().getEmployeeId());
+                preparedStatement.setInt(4, harvestWork.getFarm().getFarmId());
                 preparedStatement.execute();
                 preparedStatement.close();
             }
 
 
-            if (harvestIndividual.getCreditAmount() > 0.0){
-                System.out.println("inside the loop Credit: " + harvestIndividual.getCreditAmount());
+            if (harvestWork.getCreditAmount() > 0.0){
+                System.out.println("inside the loop Credit: " + harvestWork.getCreditAmount());
                 preparedStatement = dbGetConnect().prepareStatement(insertCredit);
-                preparedStatement.setDate(1, harvestIndividual.getHarvestDate());
-                preparedStatement.setDouble(2, harvestIndividual.getCreditAmount());
-                preparedStatement.setInt(3, harvestIndividual.getEmployeeId());
+                preparedStatement.setDate(1, harvestWork.getHarvestDate());
+                preparedStatement.setDouble(2, harvestWork.getCreditAmount());
+                preparedStatement.setInt(3, harvestWork.getEmployee().getEmployeeId());
                 preparedStatement.execute();
                 preparedStatement.close();
             }
 
-            if (harvestIndividual.isTransportStatus()){
+            if (harvestWork.isTransportStatus()){
                 Statement statement1 = connection.createStatement();
                 ResultSet resultSet1 = statement1.executeQuery(getTransportId);
                 transportId = resultSet1.getInt(1);
@@ -211,7 +209,7 @@ public class HarvestIndividualDAO extends DAO {
                 statement1.close();
             }
 
-            if (harvestIndividual.getCreditAmount() > 0.0){
+            if (harvestWork.getCreditAmount() > 0.0){
                 Statement statement2 = connection.createStatement();
                 ResultSet resultSet2 = statement2.executeQuery(getCreditId);
                 CreditId = resultSet2.getInt(1);
@@ -220,16 +218,16 @@ public class HarvestIndividualDAO extends DAO {
             }
 
             preparedStatement = connection.prepareStatement(insertHarvestINDIVIDUAL);
-            preparedStatement.setDate(1, harvestIndividual.getHarvestDate());
-            preparedStatement.setDouble(2, harvestIndividual.getAllQuantity());
-            preparedStatement.setDouble(3, harvestIndividual.getBadQuality());
-            preparedStatement.setDouble(4, harvestIndividual.getGoodQuality());
-            preparedStatement.setDouble(5, harvestIndividual.getPrice());
-            preparedStatement.setDouble(6, harvestIndividual.getNetAmount());
-            preparedStatement.setInt(7, harvestIndividual.getHarvestType());
-            preparedStatement.setString(8, harvestIndividual.getHarvestRemarque());
-            preparedStatement.setInt(9, harvestIndividual.getHarvestID());
-            preparedStatement.setInt(10, harvestIndividual.getEmployeeId());
+            preparedStatement.setDate(1, harvestWork.getHarvestDate());
+            preparedStatement.setDouble(2, harvestWork.getAllQuantity());
+            preparedStatement.setDouble(3, harvestWork.getBadQuality());
+            preparedStatement.setDouble(4, harvestWork.getGoodQuality());
+            preparedStatement.setDouble(5, harvestWork.getProductPrice());
+            preparedStatement.setDouble(6, harvestWork.getNetAmount());
+            preparedStatement.setInt(7, harvestWork.getHarvestType());
+            preparedStatement.setString(8, harvestWork.getHarvestRemarque());
+            preparedStatement.setInt(9, harvestWork.getHarvestProductionID());
+            preparedStatement.setInt(10, harvestWork.getEmployee().getEmployeeId());
             preparedStatement.setInt(11, CreditId);
             preparedStatement.setInt(12, transportId);
             preparedStatement.execute();
@@ -249,25 +247,93 @@ public class HarvestIndividualDAO extends DAO {
     //*******************************
     //Get all employees data
     //*******************************
-    public List<HarvestIndividual> getHarvestIndividualData() throws Exception {
-        List<HarvestIndividual> harvestIndividuals = new ArrayList<>();
+    public ObservableList<HarvestWork> getHarvestWorkData() throws Exception {
+        ObservableList<HarvestWork> harvestWorks = FXCollections.observableArrayList();
         String sqlStmt = "SELECT * FROM " + TABLE_EMPLOYEE + " ORDER BY " + COLUMN_EMPLOYEE_ID + " DESC;";
 
         try(Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(sqlStmt)) {
             while (resultSet.next()) {
-                HarvestIndividual harvestIndividual = new HarvestIndividual();
-                harvestIndividual.setEmployeeId(resultSet.getInt(1));
-                harvestIndividual.setEmployeeStatus(resultSet.getBoolean(2));
-                harvestIndividual.setEmployeeFullName(resultSet.getString(3) + " " + resultSet.getString(4));
-                harvestIndividuals.add(harvestIndividual);
+                Employee employee = new Employee();
+                employee.setEmployeeId(resultSet.getInt(1));
+                employee.setEmployeeStatus(resultSet.getBoolean(2));
+                employee.setEmployeeFirstName(resultSet.getString(3));
+                employee.setEmployeeLastName(resultSet.getString(4));
+                HarvestWork harvestWork = new HarvestWork();
+                harvestWork.setEmployee(employee);
+                harvestWorks.add(harvestWork);
             }
-            return harvestIndividuals;
+            return harvestWorks;
         } catch (SQLException e) {
             System.out.println("SQL select operation has been failed: " + e);
             throw e;
         }finally {
             dbDisConnect();
         }
+    }
+
+    //*******************************
+    //Get all employees data
+    //*******************************
+    public ObservableList<HarvestWork> getHarvestWorkData(Date date) throws Exception {
+        String select = "SELECT "
+                + TABLE_HARVEST_INDIVIDUAL + "." + COLUMN_HARVEST_INDIVIDUAL_ID + ", "
+                + TABLE_HARVEST_INDIVIDUAL + "." + COLUMN_HARVEST_INDIVIDUAL_DATE + ", "
+                + TABLE_HARVEST_INDIVIDUAL + "." + COLUMN_HARVEST_INDIVIDUAL_AQ + ", "
+                + TABLE_HARVEST_INDIVIDUAL + "." + COLUMN_HARVEST_INDIVIDUAL_BQ + ", "
+                + TABLE_HARVEST_INDIVIDUAL + "." + COLUMN_HARVEST_INDIVIDUAL_PRICE + ", "
+                + TABLE_HARVEST_INDIVIDUAL + "." + COLUMN_HARVEST_INDIVIDUAL_NET_AMOUNT + ", "
+                + TABLE_HARVEST_INDIVIDUAL + "." + COLUMN_HARVEST_WORK_TYPE + ", "
+                + TABLE_HARVEST_INDIVIDUAL + "." + COLUMN_HARVEST_REMARQUE + ", "
+                + TABLE_EMPLOYEE + "." + COLUMN_EMPLOYEE_ID + ", "
+                + TABLE_EMPLOYEE + "." + COLUMN_EMPLOYEE_FIRST_NAME + ", "
+                + TABLE_EMPLOYEE + "." + COLUMN_EMPLOYEE_LAST_NAME  + ", "
+                + TABLE_TRANSPORT + "." + COLUMN_TRANSPORT_ID + ", "
+                + TABLE_TRANSPORT + "." + COLUMN_TRANSPORT_AMOUNT + ", "
+                + TABLE_CREDIT + "." + COLUMN_CREDIT_ID + ", "
+                + TABLE_CREDIT + "." + COLUMN_CREDIT_AMOUNT + " "
+                + " FROM " + TABLE_HARVEST_INDIVIDUAL + " "
+                + " LEFT JOIN " + TABLE_EMPLOYEE + " "
+                + " ON " + TABLE_EMPLOYEE + "." + COLUMN_EMPLOYEE_ID  + " = " + TABLE_HARVEST_INDIVIDUAL + "." + COLUMN_HARVEST_INDIVIDUAL_EMPLOYEE_ID + " "
+                + " LEFT JOIN " + TABLE_TRANSPORT + " "
+                + " ON " + TABLE_TRANSPORT + "." + COLUMN_TRANSPORT_ID  + " = " + TABLE_HARVEST_INDIVIDUAL + "." + COLUMN_HARVEST_INDIVIDUAL_TRANSPORT_ID + " "
+                + " LEFT JOIN " + TABLE_CREDIT + " "
+                + " ON " + TABLE_CREDIT + "." + COLUMN_CREDIT_ID + " = " + TABLE_HARVEST_INDIVIDUAL + "." + COLUMN_HARVEST_INDIVIDUAL_CREDIT_ID + " "
+                + " WHERE " + TABLE_HARVEST_INDIVIDUAL + "." + COLUMN_HARVEST_INDIVIDUAL_DATE + " = " + date.getTime() + " "
+                + " ORDER BY " + TABLE_HARVEST_INDIVIDUAL + "." + COLUMN_HARVEST_INDIVIDUAL_DATE + " DESC ;";
+        try(Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(select)) {
+            return getHarvestWorkDataFromResultSet(resultSet);
+        } catch (SQLException e) {
+            System.out.println("SQL select operation has been failed: " + e);
+            throw e;
+        }finally {
+            dbDisConnect();
+        }
+    }
+
+    private ObservableList<HarvestWork> getHarvestWorkDataFromResultSet(ResultSet resultSet) throws SQLException {
+        ObservableList<HarvestWork> list = FXCollections.observableArrayList();
+        while (resultSet.next()) {
+            HarvestWork harvestWork = new HarvestWork();
+            harvestWork.setHarvestWorkID(resultSet.getInt(1));
+            harvestWork.setHarvestDate(resultSet.getDate(2));
+            harvestWork.setAllQuantity(resultSet.getDouble(3));
+            harvestWork.setBadQuality(resultSet.getDouble(4));
+            harvestWork.setProductPrice(resultSet.getDouble(5));
+            harvestWork.setNetAmount(resultSet.getDouble(6));
+            harvestWork.setHarvestType(resultSet.getInt(7));
+            harvestWork.setHarvestRemarque(resultSet.getString(8));
+            harvestWork.setEmployee(new Employee(resultSet.getInt(9), resultSet.getString(10), resultSet.getString(11)));
+            Transport transport = new Transport();
+            transport.setTransportId(resultSet.getInt(12));
+            transport.setTransportAmount(resultSet.getDouble(13));
+            harvestWork.setTransport(transport);
+            Credit credit = new Credit();
+            credit.setCreditId(resultSet.getInt(14));
+            credit.setCreditAmount(resultSet.getDouble(15));
+            harvestWork.setCredit(credit);
+            list.add(harvestWork);
+        }
+        return list;
     }
 
 }
