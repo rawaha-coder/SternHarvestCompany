@@ -59,7 +59,7 @@ public class SetHarvestWork implements Initializable {
     @FXML
     private TextField fxCalculateResult;
     @FXML
-    private TableView<HarvestWork> fxAddHarvestHoursTable;
+    private TableView<HarvestWork> fxHarvestWorkTable;
     @FXML
     private TableColumn<HarvestWork, Boolean> fxEmployeeSelectColumn;
     @FXML
@@ -69,7 +69,7 @@ public class SetHarvestWork implements Initializable {
     @FXML
     private TableColumn<HarvestWork, String> fxBadQualityColumn;
     @FXML
-    private TableColumn<HarvestWork, String> fxGoodQualityColumn;
+    private TableColumn<HarvestWork, Double> fxGoodQualityColumn;
     @FXML
     private TableColumn<HarvestWork, String> fxPriceColumn;
     @FXML
@@ -121,9 +121,9 @@ public class SetHarvestWork implements Initializable {
     //Initialization employee table Columns
     public void initTable(){
         updateLiveData();
-        fxAddHarvestHoursTable.setItems(HARVEST_WORK_LIVE_LIST);
+        fxHarvestWorkTable.setItems(HARVEST_WORK_LIVE_LIST);
         fxEmployeeSelectColumn.setCellValueFactory(new PropertyValueFactory<>("employeeStatus"));
-        fxEmployeeFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("employeeFullName"));
+        fxEmployeeFullNameColumn.setCellValueFactory(it -> it.getValue().getEmployee().employeeFullNameProperty());
         fxAllQuantityColumn.setCellValueFactory(new PropertyValueFactory<>("allQuantity"));
         fxBadQualityColumn.setCellValueFactory(new PropertyValueFactory<>("badQuality"));
         fxGoodQualityColumn.setCellValueFactory(new PropertyValueFactory<>("goodQuality"));
@@ -176,8 +176,7 @@ public class SetHarvestWork implements Initializable {
                     {
                         if (Validation.isDouble(t.getNewValue())){
                             harvestWork.setAllQuantity(Double.parseDouble(t.getNewValue()));
-                            System.out.println(harvestWork.getAllQuantity());
-                            harvestWork.getGoodQuality();
+                            fxHarvestWorkTable.refresh();
                         }else {
                             alert.missingInfo("Error");
                             observeAllQuantityColumnChange();
@@ -198,8 +197,7 @@ public class SetHarvestWork implements Initializable {
                     {
                         if (Validation.isDouble(t.getNewValue())){
                             harvestWork.setBadQuality(Double.parseDouble(t.getNewValue()));
-                            System.out.println(harvestWork.getBadQuality());
-                            harvestWork.getGoodQuality();
+                            fxHarvestWorkTable.refresh();
                         }else {
                             alert.missingInfo("Error");
                             observeBadQualityColumnChange();
@@ -356,7 +354,8 @@ public class SetHarvestWork implements Initializable {
     }
 
     private void observeChoiceProduct() {
-        fxProductList.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
+        fxProductList.getSelectionModel().selectedItemProperty().addListener(
+                (ObservableValue<? extends String> ov, String old_val, String new_val) -> {
             if (mProductMap.get(new_val) != null) {
                 getProductCode(mProductMap.get(new_val));
             }
@@ -404,33 +403,32 @@ public class SetHarvestWork implements Initializable {
         }
 
         HarvestWorkDAO harvestWorkDAO = HarvestWorkDAO.getInstance();
-        HarvestProduction harvestProduction = new HarvestProduction();
-        harvestProduction.setHarvestProductionDate(Date.valueOf(fxHarvestDate.getValue()));
-        harvestProduction.setHarvestProductionHarvestType(1);
-        harvestProduction.getSupplier().setSupplierId(mSupplierMap.get(fxSupplierList.getValue()).getSupplierId());
-        harvestProduction.getFarm().setFarmId(mFarmMap.get(fxFarmList.getValue()).getFarmId());
-        harvestProduction.getProduct().setProductId(mProductMap.get(fxProductList.getValue()).getProductId());
-        harvestProduction.getProductDetail().setProductDetailId(mProductDetailMap.get(fxProductCodeList.getValue()).getProductDetailId());
+        mHarvestProduction.setHarvestProductionDate(Date.valueOf(fxHarvestDate.getValue()));
+        mHarvestProduction.setHarvestProductionHarvestType(1);
+        mHarvestProduction.getSupplier().setSupplierId(mSupplierMap.get(fxSupplierList.getValue()).getSupplierId());
+        mHarvestProduction.getFarm().setFarmId(mFarmMap.get(fxFarmList.getValue()).getFarmId());
+        mHarvestProduction.getProduct().setProductId(mProductMap.get(fxProductList.getValue()).getProductId());
+        mHarvestProduction.getProductDetail().setProductDetailId(mProductDetailMap.get(fxProductCodeList.getValue()).getProductDetailId());
 
-        if (mHarvestProductionDAO.isExists(harvestProduction) == 0){
-            if (mHarvestProductionDAO.addHarvestProduction(harvestProduction)){
-                harvestProduction.setHarvestProductionID(mHarvestProductionDAO.getHarvestProductionId(harvestProduction));
+        if (mHarvestProductionDAO.isExists(mHarvestProduction) == 0){
+            if (mHarvestProductionDAO.addHarvestProduction(mHarvestProduction)){
+                mHarvestProduction.setHarvestProductionID(mHarvestProductionDAO.getHarvestProductionId(mHarvestProduction));
             }
         }else{
-            harvestProduction.setHarvestProductionID(mHarvestProductionDAO.getHarvestProductionId(harvestProduction));
+            mHarvestProduction.setHarvestProductionID(mHarvestProductionDAO.getHarvestProductionId(mHarvestProduction));
         }
 
         int count = 0;
         double allQuantity = 0.0;
         double badQuality = 0.0;
         double netAmount = 0.0;
-        if (harvestProduction.getHarvestProductionID() != 0){
+        if (mHarvestProduction.getHarvestProductionID() != 0){
             for (HarvestWork item : HARVEST_WORK_LIVE_LIST){
                 if (item.getEmployee().isEmployeeStatus()){
-                    item.setHarvestDate(harvestProduction.getHarvestProductionDate());
+                    item.setHarvestDate(mHarvestProduction.getHarvestProductionDate());
                     item.setHarvestType(getHarvestType());
-                    item.setHarvestProductionID(harvestProduction.getHarvestProductionID());
-                    item.getFarm().setFarmId(harvestProduction.getFarm().getFarmId());
+                    item.setHarvestProductionID(mHarvestProduction.getHarvestProductionID());
+                    item.getFarm().setFarmId(mHarvestProduction.getFarm().getFarmId());
                     if (harvestWorkDAO.addHarvesters(item)){
                         count ++;
                         allQuantity += item.getAllQuantity();
@@ -452,15 +450,9 @@ public class SetHarvestWork implements Initializable {
         fxTotalCredit.setText(String.valueOf(getTotalCredit()));
         fxTotalTransport.setText(String.valueOf(getTotalTransport()));
 
-//        mHarvestProduction.setHarvest(harvest);
-//        mHarvestProduction.setHarvestID(harvest.getHarvestID());
-//        mHarvestProduction.setHarvestProductionDate(harvest.getHarvestDate());
-//        mHarvestProduction.setHarvestProductionPrice1(harvest.getProductDetail().getProductFirstPrice());
-//        mHarvestProduction.setHarvestProductionPrice2(harvest.getProductDetail().getProductSecondPrice());
-//        mHarvestProduction.setHarvestProductionTotalEmployee(count);
-//        mHarvestProduction.setHarvestProductionTotalTransport(Double.parseDouble(fxTotalTransport.getText()));
-//        mHarvestProduction.setHarvestProductionTotalCredit(Double.parseDouble(fxTotalCredit.getText()));
-        System.out.println("Employee added: " + count);
+        mHarvestProduction.setHarvestProductionTotalEmployee(count);
+        mHarvestProduction.setHarvestProductionTotalTransport(Double.parseDouble(fxTotalTransport.getText()));
+        mHarvestProduction.setHarvestProductionTotalCredit(Double.parseDouble(fxTotalCredit.getText()));
     }
 
     @FXML
@@ -478,10 +470,7 @@ public class SetHarvestWork implements Initializable {
             alert.missingInfo("Harvest");
             return;
         }
-        mHarvestProduction.setHarvestProductionTotalAmount(Double.parseDouble(fxTotalCredit.getText()));
-        mHarvestProduction.setHarvestProductionTotalTransport(Double.parseDouble(fxTotalTransport.getText()));
-        HarvestProductionDAO harvestProductionDAO = HarvestProductionDAO.getInstance();
-        alert.saveItem("Harvest Production", harvestProductionDAO.addHarvestProduction(mHarvestProduction));
+        alert.saveItem("Harvest Production", mHarvestProductionDAO.addHarvestProduction(mHarvestProduction));
     }
 
     @FXML

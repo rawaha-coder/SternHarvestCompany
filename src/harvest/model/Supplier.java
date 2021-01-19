@@ -46,6 +46,10 @@ public class Supplier {
         this.supplierName.set(supplierName);
     }
 
+    public SimpleStringProperty supplierNameProperty() {
+        return supplierName;
+    }
+
     public String getSupplierFirstname() {
         return supplierFirstname.get();
     }

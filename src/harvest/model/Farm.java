@@ -55,6 +55,10 @@ public class Farm {
         return farmName.get();
     }
 
+    public SimpleStringProperty farmNameProperty() {
+        return farmName;
+    }
+
     public void setFarmName(String farmName) {
         this.farmName.set(farmName);
     }

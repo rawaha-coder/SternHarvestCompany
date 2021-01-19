@@ -12,7 +12,8 @@ public class HarvestProduction {
     private final IntegerProperty harvestProductionTotalEmployee = new SimpleIntegerProperty();
     private final LongProperty harvestProductionTotalHours = new SimpleLongProperty();
     private final DoubleProperty harvestProductionTotalQuantity = new SimpleDoubleProperty();
-    private final DoubleProperty harvestProductionTotalAmount = new SimpleDoubleProperty();
+    private final DoubleProperty harvestProductionPrice = new SimpleDoubleProperty();
+    private final DoubleProperty harvestProductionTotalCost = new SimpleDoubleProperty();
     private final DoubleProperty harvestProductionTotalTransport = new SimpleDoubleProperty();
     private final DoubleProperty harvestProductionTotalCredit = new SimpleDoubleProperty();
 
@@ -69,16 +70,28 @@ public class HarvestProduction {
         this.harvestProductionTotalHours.set(harvestProductionTotalHours);
     }
 
-    public double getHarvestProductionTotalAmount() {
-        return harvestProductionTotalAmount.get();
+    public double getHarvestProductionPrice() {
+        return harvestProductionPrice.get();
     }
 
-    public DoubleProperty harvestProductionTotalAmountProperty() {
-        return harvestProductionTotalAmount;
+    public DoubleProperty harvestProductionPriceProperty() {
+        return harvestProductionPrice;
     }
 
-    public void setHarvestProductionTotalAmount(double harvestProductionTotalAmount) {
-        this.harvestProductionTotalAmount.set(harvestProductionTotalAmount);
+    public void setHarvestProductionPrice(double harvestProductionPrice) {
+        this.harvestProductionPrice.set(harvestProductionPrice);
+    }
+
+    public double getHarvestProductionTotalCost() {
+        return harvestProductionTotalCost.get();
+    }
+
+    public DoubleProperty harvestProductionTotalCostProperty() {
+        return harvestProductionTotalCost;
+    }
+
+    public void setHarvestProductionTotalCost(double harvestProductionTotalCost) {
+        this.harvestProductionTotalCost.set(harvestProductionTotalCost);
     }
 
     public double getHarvestProductionTotalQuantity() {

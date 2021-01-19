@@ -21,6 +21,14 @@ public class ProductDetail {
         this.product = new Product();
     }
 
+    public void ProductDetail(ProductDetail productDetail){
+        this.productDetailId.set(productDetail.getProductDetailId());
+        this.productCode.set(productDetail.getProductCode());
+        this.productType.set(productDetail.getProductType());
+        this.productFirstPrice.set(productDetail.getProductFirstPrice());
+        this.productSecondPrice.set(productDetail.getProductSecondPrice());
+    }
+
     public int getProductDetailId() {
         return productDetailId.get();
     }

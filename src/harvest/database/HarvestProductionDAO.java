@@ -1,10 +1,10 @@
 package harvest.database;
 
 import harvest.model.HarvestProduction;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+import java.sql.*;
 
 import static harvest.util.Constant.*;
 
@@ -19,6 +19,78 @@ public class HarvestProductionDAO extends DAO {
             return sHarvestProductionDAO;
         }
         return sHarvestProductionDAO;
+    }
+
+    //*******************************
+    //Get all HarvestWork data
+    //*******************************
+    public ObservableList<HarvestProduction> getData() throws Exception {
+        String select = "SELECT "
+                + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_ID + ", "
+                + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_DATE + ", "
+                + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_TYPE + ", "
+                + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_TE + ", "
+                + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_TH + ", "
+                + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_TQ + ", "
+                + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_TA + ", "
+                + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_TT + ", "
+                + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_TC + ", "
+                + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_ID + ", "
+                + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_NAME + ", "
+                + TABLE_PRODUCT + "." + COLUMN_PRODUCT_ID + ", "
+                + TABLE_PRODUCT + "." + COLUMN_PRODUCT_NAME + ", "
+                + TABLE_PRODUCT_DETAIL  + "." + COLUMN_PRODUCT_DETAIL_ID + ", "
+                + TABLE_PRODUCT_DETAIL  + "." + COLUMN_PRODUCT_CODE + ", "
+                + TABLE_PRODUCT_DETAIL  + "." + COLUMN_PRODUCT_PRICE_1 + ", "
+                + TABLE_PRODUCT_DETAIL  + "." + COLUMN_PRODUCT_PRICE_2 + ", "
+                + TABLE_FARM + "." + COLUMN_FARM_ID + ", "
+                + TABLE_FARM + "." + COLUMN_FARM_NAME + " "
+                + " FROM " + TABLE_HARVEST_PRODUCTION + " "
+                + " LEFT JOIN " + TABLE_SUPPLIER + " "
+                + " ON " + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_ID  + " = " + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_SUPPLIER_ID + " "
+                + " LEFT JOIN " + TABLE_PRODUCT + " "
+                + " ON " + TABLE_PRODUCT + "." + COLUMN_PRODUCT_ID + " = " + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_PRODUCT_ID + " "
+                + " LEFT JOIN " + TABLE_PRODUCT_DETAIL + " "
+                + " ON " + TABLE_PRODUCT_DETAIL + "." + COLUMN_PRODUCT_DETAIL_ID + " = " + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_PRODUCT_DETAIL_ID + " "
+                + " LEFT JOIN " + TABLE_FARM + " "
+                + " ON " + TABLE_FARM + "." + COLUMN_FARM_ID + " = " + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_FARM_ID + " "
+                + " ORDER BY " + COLUMN_HARVEST_PRODUCTION_DATE + " DESC ;";
+        try(Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(select)) {
+            return getDataFromResultSet(resultSet);
+        } catch (SQLException e) {
+            System.out.println("SQL select operation has been failed: " + e);
+            throw e;
+        }finally {
+            dbDisConnect();
+        }
+    }
+
+    private ObservableList<HarvestProduction> getDataFromResultSet(ResultSet resultSet) throws SQLException {
+        ObservableList<HarvestProduction> list = FXCollections.observableArrayList();
+        while (resultSet.next()) {
+            HarvestProduction harvestProduction = new HarvestProduction();
+            harvestProduction.setHarvestProductionID(resultSet.getInt(1));
+            harvestProduction.setHarvestProductionDate(resultSet.getDate(2));
+            harvestProduction.setHarvestProductionHarvestType(resultSet.getInt(3));
+            harvestProduction.setHarvestProductionTotalEmployee(resultSet.getInt(4));
+            harvestProduction.setHarvestProductionTotalHours(resultSet.getLong(5));
+            harvestProduction.setHarvestProductionTotalQuantity(resultSet.getDouble(6));
+            harvestProduction.setHarvestProductionTotalCost(resultSet.getDouble(7));
+            harvestProduction.setHarvestProductionTotalTransport(resultSet.getDouble(8));
+            harvestProduction.setHarvestProductionTotalCredit(resultSet.getDouble(9));
+            harvestProduction.getSupplier().setSupplierId(resultSet.getInt(10));
+            harvestProduction.getSupplier().setSupplierName(resultSet.getString(11));
+            harvestProduction.getProduct().setProductId(resultSet.getInt(12));
+            harvestProduction.getProduct().setProductName(resultSet.getString(13));
+            harvestProduction.getProductDetail().setProductDetailId(resultSet.getInt(14));
+            harvestProduction.getProductDetail().setProductCode(resultSet.getString(15));
+            harvestProduction.getProductDetail().setProductFirstPrice(resultSet.getDouble(16));
+            harvestProduction.getProductDetail().setProductSecondPrice(resultSet.getDouble(17));
+            harvestProduction.getFarm().setFarmId(resultSet.getInt(18));
+            harvestProduction.getFarm().setFarmName(resultSet.getString(19));
+            list.add(harvestProduction);
+        }
+        return list;
     }
 
     //add list of harvesters
@@ -64,7 +136,7 @@ public class HarvestProductionDAO extends DAO {
             preparedStatement.setInt(1, harvestProduction.getHarvestProductionTotalEmployee());
             preparedStatement.setDouble(2, harvestProduction.getHarvestProductionTotalHours());
             preparedStatement.setDouble(3, harvestProduction.getHarvestProductionTotalQuantity());
-            preparedStatement.setDouble(4, harvestProduction.getHarvestProductionTotalAmount());
+            preparedStatement.setDouble(4, harvestProduction.getHarvestProductionTotalCost());
             preparedStatement.setDouble(5, harvestProduction.getHarvestProductionTotalTransport());
             preparedStatement.setDouble(6, harvestProduction.getHarvestProductionTotalCredit());
             preparedStatement.execute();
@@ -149,6 +221,79 @@ public class HarvestProductionDAO extends DAO {
             dbDisConnect();
         }
         return value;
+    }
+
+    //*******************************
+    //Get all HarvestWork data by date
+    //*******************************
+    public ObservableList<HarvestProduction> getDataByDate(Date date) throws Exception {
+        String select = "SELECT "
+                + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_ID + ", "
+                + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_DATE + ", "
+                + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_TYPE + ", "
+                + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_TE + ", "
+                + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_TH + ", "
+                + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_TQ + ", "
+                + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_TA + ", "
+                + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_TT + ", "
+                + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_TC + ", "
+                + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_ID + ", "
+                + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_NAME + ", "
+                + TABLE_PRODUCT + "." + COLUMN_PRODUCT_ID + ", "
+                + TABLE_PRODUCT + "." + COLUMN_PRODUCT_NAME + ", "
+                + TABLE_PRODUCT_DETAIL  + "." + COLUMN_PRODUCT_DETAIL_ID + ", "
+                + TABLE_PRODUCT_DETAIL  + "." + COLUMN_PRODUCT_CODE + ", "
+                + TABLE_PRODUCT_DETAIL  + "." + COLUMN_PRODUCT_PRICE_1 + ", "
+                + TABLE_PRODUCT_DETAIL  + "." + COLUMN_PRODUCT_PRICE_2 + ", "
+                + TABLE_FARM + "." + COLUMN_FARM_ID + ", "
+                + TABLE_FARM + "." + COLUMN_FARM_NAME + " "
+                + " FROM " + TABLE_HARVEST_PRODUCTION + " "
+                + " LEFT JOIN " + TABLE_SUPPLIER + " "
+                + " ON " + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_ID  + " = " + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_SUPPLIER_ID + " "
+                + " LEFT JOIN " + TABLE_PRODUCT + " "
+                + " ON " + TABLE_PRODUCT + "." + COLUMN_PRODUCT_ID + " = " + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_PRODUCT_ID + " "
+                + " LEFT JOIN " + TABLE_PRODUCT_DETAIL + " "
+                + " ON " + TABLE_PRODUCT_DETAIL + "." + COLUMN_PRODUCT_DETAIL_ID + " = " + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_PRODUCT_DETAIL_ID + " "
+                + " LEFT JOIN " + TABLE_FARM + " "
+                + " ON " + TABLE_FARM + "." + COLUMN_FARM_ID + " = " + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_FARM_ID + " "
+                + " WHERE " + TABLE_HARVEST_WORK + "." + COLUMN_HARVEST_WORK_DATE + " = " + date.getTime() + " "
+                + " ORDER BY " + TABLE_HARVEST_WORK + "." + COLUMN_HARVEST_WORK_DATE + " DESC ;";
+        try(Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(select)) {
+            return getHPDataFromResultSet(resultSet);
+        } catch (SQLException e) {
+            System.out.println("SQL select operation has been failed: " + e);
+            throw e;
+        }finally {
+            dbDisConnect();
+        }
+    }
+
+    private ObservableList<HarvestProduction> getHPDataFromResultSet(ResultSet resultSet) throws SQLException {
+        ObservableList<HarvestProduction> list = FXCollections.observableArrayList();
+        while (resultSet.next()) {
+            HarvestProduction harvestProduction = new HarvestProduction();
+            harvestProduction.setHarvestProductionID(resultSet.getInt(1));
+            harvestProduction.setHarvestProductionDate(resultSet.getDate(2));
+            harvestProduction.setHarvestProductionHarvestType(resultSet.getInt(3));
+            harvestProduction.setHarvestProductionTotalEmployee(resultSet.getInt(4));
+            harvestProduction.setHarvestProductionTotalHours(resultSet.getLong(5));
+            harvestProduction.setHarvestProductionTotalQuantity(resultSet.getDouble(6));
+            harvestProduction.setHarvestProductionTotalCost(resultSet.getDouble(7));
+            harvestProduction.setHarvestProductionTotalTransport(resultSet.getDouble(8));
+            harvestProduction.setHarvestProductionTotalCredit(resultSet.getDouble(9));
+            harvestProduction.getSupplier().setSupplierId(resultSet.getInt(10));
+            harvestProduction.getSupplier().setSupplierName(resultSet.getString(11));
+            harvestProduction.getProduct().setProductId(resultSet.getInt(12));
+            harvestProduction.getProduct().setProductName(resultSet.getString(13));
+            harvestProduction.getProductDetail().setProductDetailId(resultSet.getInt(14));
+            harvestProduction.getProductDetail().setProductCode(resultSet.getString(15));
+            harvestProduction.getProductDetail().setProductFirstPrice(resultSet.getDouble(16));
+            harvestProduction.getProductDetail().setProductSecondPrice(resultSet.getDouble(17));
+            harvestProduction.getFarm().setFarmId(resultSet.getInt(18));
+            harvestProduction.getFarm().setFarmName(resultSet.getString(19));
+            list.add(harvestProduction);
+        }
+        return list;
     }
 
 }

@@ -23,7 +23,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.*;
 
-public class AddHarvestHoursController implements Initializable {
+public class SetHarvestHours implements Initializable {
 
     public static ObservableList<HarvestHours> HARVEST_HOURS_LIVE_LIST = FXCollections.observableArrayList();
 
@@ -389,7 +389,7 @@ public class AddHarvestHoursController implements Initializable {
             alert.missingInfo("Harvest");
             return;
         }
-        mHarvestProduction.setHarvestProductionTotalAmount(Double.parseDouble(fxTotalCredit.getText()));
+        mHarvestProduction.setHarvestProductionTotalCost(Double.parseDouble(fxTotalCredit.getText()));
         mHarvestProduction.setHarvestProductionTotalTransport(Double.parseDouble(fxTotalTransport.getText()));
         alert.saveItem("Harvest Production", mHarvestProductionDAO.updateHarvestProduction(mHarvestProduction));
     }
@@ -404,7 +404,7 @@ public class AddHarvestHoursController implements Initializable {
     private double getTotalMilliSeconds(){
         long hours = 0;
         for (HarvestHours harvestHours : HARVEST_HOURS_LIVE_LIST){
-            hours += harvestHours.getTotalWorkOnMilliSeconds();
+            hours += harvestHours.getTotalHours() ;
         }
         return (double) hours;
     }

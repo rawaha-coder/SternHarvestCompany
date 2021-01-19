@@ -49,7 +49,7 @@
         </children>
     </AnchorPane>
 
-    <TableView fx:id="fxAddHarvestHoursTable" editable="true" layoutX="13.0" layoutY="134.0" prefHeight="692.0"
+    <TableView fx:id="fxHarvestWorkTable" editable="true" layoutX="13.0" layoutY="134.0" prefHeight="692.0"
                prefWidth="989.0">
         <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>

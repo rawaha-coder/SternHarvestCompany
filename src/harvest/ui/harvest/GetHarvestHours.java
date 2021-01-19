@@ -17,9 +17,9 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 //This class will show Harvest working hours by day for every employee
-public class DisplayHarvestHoursController implements Initializable {
+public class GetHarvestHours implements Initializable {
 
-    public static ObservableList<HarvestHours> HARVEST_HOURS_LIST_LIVE_DATA = FXCollections.observableArrayList();
+    public static ObservableList<HarvestHours> HARVEST_HOURS_LIVE_LIST = FXCollections.observableArrayList();
     HarvestHoursDAO mHarvestHoursDAO = HarvestHoursDAO.getInstance();
 
     @FXML
@@ -39,7 +39,7 @@ public class DisplayHarvestHoursController implements Initializable {
     @FXML
     private TableColumn<HarvestHours, String> fxTransport;
     @FXML
-    private TableColumn<HarvestHours, Double> fxCredit;
+    private TableColumn<HarvestHours, String> fxCredit;
     @FXML
     private TableColumn<HarvestHours, String> fxRemarque;
     @FXML
@@ -71,10 +71,10 @@ public class DisplayHarvestHoursController implements Initializable {
         fxEndNoon.setCellValueFactory(new PropertyValueFactory<>("endNoon"));
         fxTotalHours.setCellValueFactory(new PropertyValueFactory<>("totalHours"));
         fxEmployee.setCellValueFactory(it -> it.getValue().getEmployee().employeeFullNameProperty());
-        fxTransport.setCellValueFactory(new PropertyValueFactory<>("transportAmount"));
-        fxCredit.setCellValueFactory(new PropertyValueFactory<>("creditAmount"));
+        fxTransport.setCellValueFactory(it -> it.getValue().transportAmountProperty());
+        fxCredit.setCellValueFactory(it -> it.getValue().creditAmountProperty());
         fxRemarque.setCellValueFactory(new PropertyValueFactory<>("harvestRemarque"));
-        fxHarvestHoursTable.setItems(HARVEST_HOURS_LIST_LIVE_DATA);
+        fxHarvestHoursTable.setItems(HARVEST_HOURS_LIVE_LIST);
     }
 
     private void observeDatePicker(){
@@ -88,15 +88,15 @@ public class DisplayHarvestHoursController implements Initializable {
 
     private String getTotalHours(){
         long hours = 0;
-                for (HarvestHours harvestHours : HARVEST_HOURS_LIST_LIVE_DATA){
-                    hours += harvestHours.getTotalWorkOnMilliSeconds();
+                for (HarvestHours harvestHours : HARVEST_HOURS_LIVE_LIST){
+                    hours += harvestHours.getTotalHours() ;
                 }
         return Validation.timeToStringTime(hours);
     }
 
     private String getTotalTransport(){
         double d = 0.0;
-        for (HarvestHours harvestHours : HARVEST_HOURS_LIST_LIVE_DATA){
+        for (HarvestHours harvestHours : HARVEST_HOURS_LIVE_LIST){
             d += harvestHours.getTransport().getTransportAmount();
         }
         System.out.println(d);
@@ -105,7 +105,7 @@ public class DisplayHarvestHoursController implements Initializable {
 
     private String getTotalCredit(){
         double d = 0.0;
-        for (HarvestHours harvestHours : HARVEST_HOURS_LIST_LIVE_DATA){
+        for (HarvestHours harvestHours : HARVEST_HOURS_LIVE_LIST){
             d += harvestHours.getCredit().getCreditAmount();
         }
         return String.valueOf(d);
