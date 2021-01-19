@@ -15,7 +15,6 @@ public class HarvestHours {
     private final LongProperty totalHours = new SimpleLongProperty();
     private final IntegerProperty employeeType = new SimpleIntegerProperty();
     private final StringProperty harvestRemarque = new SimpleStringProperty();
-
     private final HarvestProduction harvestProduction = new HarvestProduction();
     private final Employee employee = new Employee();
     private final Transport transport = new Transport();
@@ -36,18 +35,18 @@ public class HarvestHours {
         return transport;
     }
 
-    public String getTransportAmount() {
+    public SimpleStringProperty transportAmountProperty() {
         this.transportAmount.set(String.valueOf(getTransport().getTransportAmount()));
-        return transportAmount.get();
+        return transportAmount;
     }
 
     public Credit getCredit() {
         return credit;
     }
 
-    public String getCreditAmount() {
+    public SimpleStringProperty creditAmountProperty() {
         this.creditAmount.set(String.valueOf(getCredit().getCreditAmount()));
-        return creditAmount.get();
+        return creditAmount;
     }
 
     public void setHarvestHoursID(int harvestHoursID) {
@@ -86,21 +85,18 @@ public class HarvestHours {
         this.endNoon.set(endNoon);
     }
 
-    public long getTotalWorkOnMilliSeconds() {
+    public void getTotalWorkOnMilliSeconds() {
         long totalMilliSeconds = 0;
-        if (endMorning.getValue() != null
-                && startMorning.getValue() != null
-                && endNoon.getValue() != null
-                && startNoon.getValue() != null
-        ){
+        if (endMorning.getValue() != null && startMorning.getValue() != null
+                && endNoon.getValue() != null && startNoon.getValue() != null){
             totalMilliSeconds =  (endMorning.getValue().getTime() - startMorning.getValue().getTime()) + (endNoon.getValue().getTime() - startNoon.getValue().getTime());
         }
         this.totalHours.set(totalMilliSeconds);
-        return totalHours.get();
     }
 
-    public void setTotalHours(long totalHours) {
-        this.totalHours.set(totalHours);
+    public long getTotalHours() {
+        getTotalWorkOnMilliSeconds();
+        return totalHours.get();
     }
 
     public boolean isTransportStatus() {

@@ -40,6 +40,10 @@ public class Product {
         return productName.get();
     }
 
+    public SimpleStringProperty productNameProperty() {
+        return productName;
+    }
+
     public void setProductName(String productName) {
         this.productName.set(productName);
     }

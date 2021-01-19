@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="harvest.ui.harvest.GetHarvestProduction"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane fx:id="fxGetHarvestProductionUI" prefHeight="700.0" prefWidth="1400.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.ui.harvest.GetHarvestProduction">
+
+    <TableView fx:id="fxHarvestProductionTable" layoutX="16.0" layoutY="14.0" maxHeight="590.0" prefHeight="590.0" prefWidth="940.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+        </columnResizePolicy>
+        <columns>
+            <TableColumn fx:id="fxHarvestProductionDate" minWidth="120.0" prefWidth="160.0" text="Date" />
+            <TableColumn fx:id="fxHarvestProductionSupplier" minWidth="120.0" prefWidth="160.0" text="Supplier" />
+            <TableColumn fx:id="fxHarvestProductionFarm" minWidth="120.0" prefWidth="160.0" text="Farm" />
+            <TableColumn fx:id="fxHarvestProductionProduct" minWidth="120.0" prefWidth="160.0" text="Product" />
+            <TableColumn fx:id="fxHarvestProductionCodeProduct" minWidth="120.0" prefWidth="160.0" text="Code Product" />
+            <TableColumn fx:id="fxHarvestProductionNumberEmployee" minWidth="80.0" prefWidth="120.0" text="Number Employee" />
+            <TableColumn fx:id="fxHarvestProductionQuantity" minWidth="120.0" prefWidth="160.0" text="Quantity" />
+            <TableColumn fx:id="fxHarvestProductionPrice" minWidth="100.0" prefWidth="140.0" text="Price" />
+            <TableColumn fx:id="fxHarvestProductionCost" minWidth="120.0" prefWidth="160.0" text="Cost" />
+        </columns>
+    </TableView>
+    <Label fx:id="fxDate" alignment="CENTER" contentDisplay="CENTER" layoutX="91.0" layoutY="631.0" prefHeight="30.0" prefWidth="100.0" text="Date" textAlignment="CENTER" />
+    <DatePicker fx:id="fxDatePicker" layoutX="14.0" layoutY="661.0" prefHeight="30.0" prefWidth="240.0" />
 
 </AnchorPane>

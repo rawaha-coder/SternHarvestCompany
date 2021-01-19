@@ -1,5 +1,6 @@
 package harvest;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,6 +25,8 @@ public class MainController implements Initializable {
 
     @FXML
     private BorderPane mainBorderPane;
+    @FXML
+    private ToggleButton fxHarvestProductionMenuBtn;
     @FXML
     private ToggleButton fxEmployeeMenuBtn;
     @FXML
@@ -64,27 +67,33 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setDisplayHarvestHours();
+        getHarvestProduction();
+    }
+
+
+    @FXML
+    public void getHarvestProduction() {
+        setDisplayView("/harvest/ui/harvest/get_harvest_production.fxml", fxHarvestProductionMenuBtn);
     }
 
     @FXML
-    void loadUIAddHarvest() {
-        loadAddWindow("/harvest/ui/harvest/add_harvest.fxml", "Add Harvest", fxAddHarvestButton);
+    void setHarvestProduction() {
+        loadAddWindow("/harvest/ui/harvest/set_harvest_production.fxml", "Add Harvest", fxAddHarvestButton);
     }
 
     @FXML
-    void loadUIAddHarvestHours() {
-        loadAddWindow("/harvest/ui/harvest/add_harvest_hours.fxml", "Add Harvest Hours", fxAddHarvestHoursButton);
+    void setHarvestHours() {
+        loadAddWindow("/harvest/ui/harvest/set_harvest_hours.fxml", "Add Harvest Hours", fxAddHarvestHoursButton);
     }
 
     @FXML
-    void setDisplayHarvestHours(){
-        setDisplayView("/harvest/ui/harvest/display_harvest_hours.fxml", fxHarvestHoursMenuBtn);
+    void getHarvestHours(){
+        setDisplayView("/harvest/ui/harvest/get_harvest_hours.fxml", fxHarvestHoursMenuBtn);
     }
 
     @FXML
     void setHarvestWork() {
-        loadAddWindow("/harvest/ui/harvest/set_harvest_work.fxml", "Add Harvest Individual", fxSetHarvestWorkButton);
+        loadAddWindow("/harvest/ui/harvest/set_harvest_work.fxml", "Add Harvest Work", fxSetHarvestWorkButton);
     }
 
     @FXML
@@ -93,56 +102,55 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    void loadUIAddFarmSeason() {
+    void setFarmSeason() {
         loadAddWindow("/harvest/ui/farm/add_farm.fxml", "Add Farm / Season", fxAddFarmSeasonButton);
     }
     @FXML
-    void setDisplayFarmSeason(){
+    void getFarmSeason(){
         setDisplayView("/harvest/ui/farm/display_farm_season.fxml", fxFarmSeasonMenuBtn);
     }
 
     @FXML
-    void loadUIAddCredit() {
+    void setCredit() {
         loadAddWindow("/harvest/ui/credit/add_credit.fxml", "Add Credit", fxAddTransportCreditButton);
     }
     @FXML
-    void setDisplayCredit() {
+    void getCredit() {
         setDisplayView("/harvest/ui/credit/display_credit.fxml", fxTransportCreditMenuBtn);
     }
 
     @FXML
-    void loadUIAddTransport() {
+    void setTransport() {
         loadAddWindow("/harvest/ui/credit/add_transport.fxml", "Add Transport", fxAddTransportButton);
     }
 
     @FXML
-    void loadUIAddEmployee() {
+    void setEmployee() {
         loadAddWindow("/harvest/ui/employee/add_employee.fxml", "Add New Employee", fxAddEmployeeButton);
     }
     @FXML
-    void setDisplayEmployee() {
+    void getEmployee() {
         setDisplayView("/harvest/ui/employee/display_employee.fxml", fxEmployeeMenuBtn);
     }
 
     @FXML
-    void loadUIAddSupplier() {
+    void setSupplier() {
         loadAddWindow("/harvest/ui/supplier/add_supplier.fxml", "Add supplier", fxAddSupplierButton);
     }
     @FXML
-    void setDisplaySupplier(){
+    void getSupplier(){
         setDisplayView("/harvest/ui/supplier/display_supplier.fxml", fxSupplierMenuBtn);
     }
 
     @FXML
-    void loadUIAddProduct() {
+    void setProduct() {
         loadAddWindow("/harvest/ui/product/add_product.fxml", "Add New Product", fxAddProductButton);
 
     }
     @FXML
-    void setDisplayProduct(){
+    void getProduct(){
         setDisplayView("/harvest/ui/product/display_product.fxml", fxProductMenuBtn);
     }
-
 
     public void setDisplayView(String location, ToggleButton fxButton){
         try {
@@ -170,6 +178,5 @@ public class MainController implements Initializable {
             e.printStackTrace();
         }
     }
-
 
 }

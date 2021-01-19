@@ -4,7 +4,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.sql.*;
 import static harvest.util.Constant.*;
-import static harvest.database.TransportDAO.*;
 import static harvest.ui.harvest.SetHarvestWork.HARVEST_WORK_LIVE_LIST;
 
 public class HarvestWorkDAO extends DAO {
@@ -51,65 +50,6 @@ public class HarvestWorkDAO extends DAO {
         }
     }
 
-    public ObservableList<HarvestWork> getData(Date date) throws SQLException{
-        Statement statement;
-        ResultSet resultSet;
-        String select = "SELECT "
-                + TABLE_HARVEST_WORK + "." + COLUMN_HARVEST_WORK_ID + ", "
-                + TABLE_HARVEST_WORK + "." + COLUMN_HARVEST_WORK_DATE + ", "
-                + TABLE_HARVEST_WORK + "." + COLUMN_HARVEST_WORK_AQ + ", "
-                + TABLE_HARVEST_WORK + "." + COLUMN_HARVEST_WORK_BQ + ", "
-                + TABLE_HARVEST_WORK + "." + COLUMN_HARVEST_WORK_PRICE + ", "
-                + TABLE_HARVEST_WORK + "." + COLUMN_HARVEST_WORK_NET_AMOUNT + ", "
-                + TABLE_HARVEST_WORK + "." + COLUMN_HARVEST_WORK_TYPE + ", "
-                + TABLE_HARVEST_WORK + "." + COLUMN_HARVEST_WORK_REMARQUE + ", "
-                + TABLE_EMPLOYEE + "." + COLUMN_EMPLOYEE_FIRST_NAME + ", "
-                + TABLE_EMPLOYEE + "." + COLUMN_EMPLOYEE_LAST_NAME  + ", "
-                + TABLE_TRANSPORT + "." + COLUMN_TRANSPORT_AMOUNT + ", "
-                + TABLE_CREDIT + "." + COLUMN_CREDIT_AMOUNT + " "
-                + " FROM " + TABLE_HARVEST_WORK + " "
-                + " LEFT JOIN " + TABLE_EMPLOYEE + " "
-                + " ON " + TABLE_EMPLOYEE + "." + COLUMN_EMPLOYEE_ID  + " = " + TABLE_HARVEST_WORK + "." + COLUMN_HARVEST_WORK_EMPLOYEE_ID + " "
-                + " LEFT JOIN " + TABLE_TRANSPORT + " "
-                + " ON " + TABLE_TRANSPORT + "." + COLUMN_TRANSPORT_ID  + " = " + TABLE_HARVEST_WORK + "." + COLUMN_HARVEST_WORK_TRANSPORT_ID + " "
-                + " LEFT JOIN " + TABLE_CREDIT + " "
-                + " ON " + TABLE_CREDIT + "." + COLUMN_CREDIT_ID + " = " + TABLE_HARVEST_WORK + "." + COLUMN_HARVEST_WORK_CREDIT_ID + " "
-                + " WHERE " + TABLE_HARVEST_WORK + "." + COLUMN_HARVEST_WORK_DATE + " = " + date.getTime() + " "
-                + " ORDER BY " + TABLE_HARVEST_WORK + "." + COLUMN_HARVEST_WORK_DATE + " DESC ;";
-        try{
-            statement = dbGetConnect().createStatement();
-            resultSet = statement.executeQuery(select);
-            return getDataFromResultSet(resultSet);
-        }catch (SQLException e){
-            e.printStackTrace();
-            throw e;
-        }finally {
-            dbDisConnect();
-        }
-    }
-
-    private ObservableList<HarvestWork> getDataFromResultSet(ResultSet resultSet) throws SQLException {
-        ObservableList<HarvestWork> list = FXCollections.observableArrayList();
-        while (resultSet.next()) {
-            HarvestWork harvestWork = new HarvestWork();
-
-            list.add(harvestWork);
-        }
-        return list;
-    }
-
-    //*************************************************************
-    //Observe Live Data
-    //*************************************************************
-    public void updateLiveData(Date date) {
-        HARVEST_WORK_LIVE_LIST.clear();
-        try {
-            HARVEST_WORK_LIVE_LIST.setAll(getData(date));
-            System.out.println(" Update list size: " + HARVEST_WORK_LIVE_LIST.size());
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-    }
 
     //add list of harvesters
     public boolean addHarvesters(HarvestWork harvestWork) {
@@ -244,10 +184,23 @@ public class HarvestWorkDAO extends DAO {
         }
     }
 
+    //*************************************************************
+    //Observe Live Data
+    //*************************************************************
+    public void updateLiveData(Date date) {
+        HARVEST_WORK_LIVE_LIST.clear();
+        try {
+            HARVEST_WORK_LIVE_LIST.setAll(getData(date));
+            System.out.println(" Update list size: " + HARVEST_WORK_LIVE_LIST.size());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     //*******************************
-    //Get all employees data
+    //Get all HarvestWork data
     //*******************************
-    public ObservableList<HarvestWork> getHarvestWorkData(Date date) throws Exception {
+    public ObservableList<HarvestWork> getData(Date date) throws Exception {
         String select = "SELECT "
                 + TABLE_HARVEST_WORK + "." + COLUMN_HARVEST_WORK_ID + ", "
                 + TABLE_HARVEST_WORK + "." + COLUMN_HARVEST_WORK_DATE + ", "

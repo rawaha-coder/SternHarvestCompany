@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static harvest.util.Constant.*;
-import static harvest.ui.harvest.DisplayHarvestHoursController.HARVEST_HOURS_LIST_LIVE_DATA;
+import static harvest.ui.harvest.GetHarvestHours.HARVEST_HOURS_LIVE_LIST;
 
 public class HarvestHoursDAO extends DAO {
 
@@ -103,7 +103,6 @@ public class HarvestHoursDAO extends DAO {
             harvestHours.setEndMorning(resultSet.getTime(4));
             harvestHours.setStartNoon(resultSet.getTime(5));
             harvestHours.setEndNoon(resultSet.getTime(6));
-            harvestHours.setTotalHours(harvestHours.getTotalWorkOnMilliSeconds());
             harvestHours.setHarvestRemarque(resultSet.getString(7));
             harvestHours.getEmployee().setEmployeeId(resultSet.getInt(8));
             harvestHours.getEmployee().setEmployeeFirstName(resultSet.getString(9));
@@ -119,10 +118,10 @@ public class HarvestHoursDAO extends DAO {
     }
 
     public void updateLiveData(Date date) {
-        HARVEST_HOURS_LIST_LIVE_DATA.clear();
+        HARVEST_HOURS_LIVE_LIST.clear();
         try {
-            HARVEST_HOURS_LIST_LIVE_DATA.setAll(getData(date));
-            System.out.println(" Update list size: " + HARVEST_HOURS_LIST_LIVE_DATA.size());
+            HARVEST_HOURS_LIVE_LIST.setAll(getData(date));
+            System.out.println(" Update list size: " + HARVEST_HOURS_LIVE_LIST.size());
         }catch (SQLException e){
             e.printStackTrace();
         }

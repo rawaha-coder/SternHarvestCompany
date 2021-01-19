@@ -96,7 +96,7 @@ public class HarvestWork {
     }
 
     public double getGoodQuality() {
-        this.goodQuality.set(this.getAllQuantity() - this.getBadQuality());
+        this.goodQuality.set(getAllQuantity() - getBadQuality());
         return goodQuality.get();
     }
 
