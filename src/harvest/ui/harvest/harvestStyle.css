@@ -1,0 +1,63 @@
+/* TableView styling */
+.table-view {
+    -fx-background-color: #424242;
+    -fx-padding: 0px 0px 0px 5px;
+}
+
+
+.table-view .column-header {
+    -fx-background-color: -fx-linear-gradient-header-color;
+}
+
+/* Style of each column header in the tableView */
+.table-view .column-header-background{
+    -fx-background-color: -fx-linear-gradient-header-color;
+    -fx-background-radius: 7px 7px 0px 0px;
+    -fx-background-insets: 0 1px 0 1px;
+    -fx-padding: 5px 5px 5px 5px;
+}
+
+ /* Style of each column header's label  in the tableView */
+.table-view .column-header-background .label{
+    -fx-background-color: -fx-linear-gradient-header-color;
+    -fx-font-weight:bold;
+    -fx-text-fill: white;
+}
+
+ /* Style of each table cell */
+.table-view .table-cell{
+    -fx-background-color: #424242;
+    -fx-border-color: #424242;
+    -fx-padding: 5px 5px 5px 5px;
+    -fx-font-family: "Verdana";
+    -fx-font-weight:bold;
+    -fx-font-size:15px;
+    -fx-border-color: orange;
+}
+
+.table-row-cell{
+    -fx-background-color: #424242;
+    -fx-text-background-color: white;
+    -fx-font-weight: bold;
+    -fx-text-size: 30px;
+    -fx-font-family: "Arial Narrow";
+    -fx-cell-size: 30px;
+}
+.table-row-cell:hover {
+    -fx-background-color: orange;
+    -fx-text-background-color: orange;
+}
+.table-row-cell:selected {
+    -fx-background-color: -fx-linear-gradient-to-top;
+    -fx-text-background-color: orange;
+}
+.table-row-cell: odd{
+    -fx-background-color: #93f9b911;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+}
+.table-row-cell: even{
+    -fx-background-color: #1dbbdd11;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+}
