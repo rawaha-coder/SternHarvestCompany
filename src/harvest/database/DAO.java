@@ -13,7 +13,7 @@ public class DAO {
         String CONNECTION_URL = "jdbc:sqlite:" + DB_NAME;
         connection = DriverManager.getConnection(CONNECTION_URL);
         if (connection != null){
-            System.out.println("Connect to database :)");
+            System.out.println("Connect to database, called by: " + getClass().getName());
             return connection;
         }
         return null;

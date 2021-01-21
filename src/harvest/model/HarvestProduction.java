@@ -1,11 +1,14 @@
 package harvest.model;
 
 import javafx.beans.property.*;
+import javafx.scene.control.Button;
 
 import java.sql.Date;
 
 public class HarvestProduction {
 
+    private final BooleanProperty detailHarvestProduction = new SimpleBooleanProperty();
+    private final ObjectProperty<Button> status = new SimpleObjectProperty();
     private final IntegerProperty harvestProductionID = new SimpleIntegerProperty();
     private final SimpleObjectProperty<Date> harvestProductionDate = new SimpleObjectProperty();
     private final IntegerProperty harvestProductionHarvestType = new SimpleIntegerProperty();
@@ -21,6 +24,30 @@ public class HarvestProduction {
     private final Product product = new Product();
     private final ProductDetail productDetail = new ProductDetail();
     private final Farm farm = new Farm();
+
+    public Button getStatus() {
+        return status.get();
+    }
+
+    public ObjectProperty<Button> statusProperty() {
+        return status;
+    }
+
+    public void setStatus(Button status) {
+        this.status.set(status);
+    }
+
+    public boolean getDetailHarvestProduction() {
+        return detailHarvestProduction.get();
+    }
+
+    public BooleanProperty detailHarvestProductionProperty() {
+        return detailHarvestProduction;
+    }
+
+    public void setDetailHarvestProduction(boolean detailHarvestProduction) {
+        this.detailHarvestProduction.set(detailHarvestProduction);
+    }
 
     public int getHarvestProductionID() {
         return harvestProductionID.get();

@@ -178,7 +178,7 @@
 
  /* Style of each column in the tableView */
 .table-view .table-column{
-    -fx-alignment:center;
+    /*-fx-alignment:center;*/
 }
 
  /* Style of each entire row in the table view */
@@ -188,6 +188,7 @@
     -fx-font-weight: bold;
     -fx-text-size: 30px;
     -fx-font-family: "Arial Narrow";
+    -fx-cell-size: 30px;
 }
 .table-row-cell:hover {
     -fx-background-color: orange;
