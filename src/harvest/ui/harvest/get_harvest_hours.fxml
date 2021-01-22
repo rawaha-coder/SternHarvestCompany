@@ -6,12 +6,9 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="displayHarvestHoursUI"
-            prefHeight="700.0" prefWidth="1400.0" stylesheets="@../../style.css"
-            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="harvest.ui.harvest.GetHarvestHours">
+<AnchorPane fx:id="displayHarvestHoursUI" prefHeight="600.0" prefWidth="1200.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.ui.harvest.GetHarvestHours">
 
-    <TableView fx:id="fxHarvestHoursTable" layoutX="16.0" layoutY="14.0" maxHeight="590.0" prefHeight="590.0" prefWidth="940.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+    <TableView fx:id="fxHarvestHoursTable" layoutX="16.0" layoutY="14.0" maxHeight="590.0" prefHeight="500.0" prefWidth="940.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
         <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
         </columnResizePolicy>
@@ -27,12 +24,12 @@
             <TableColumn fx:id="fxRemarque" minWidth="150.0" prefWidth="200.0" text="Remarque" />
         </columns>
     </TableView>
-   <Label fx:id="fxTotalWorkingHours1" alignment="CENTER" contentDisplay="CENTER" layoutX="91.0" layoutY="631.0" prefHeight="30.0" prefWidth="100.0" text="Date" textAlignment="CENTER" />
-   <DatePicker fx:id="fxDatePicker" layoutX="14.0" layoutY="661.0" prefHeight="30.0" prefWidth="240.0" />
-   <Label alignment="CENTER" layoutX="280.0" layoutY="631.0" prefHeight="30.0" prefWidth="200.0" text="Total Hours" />
-   <Label fx:id="fxTotalWorkingHours" alignment="CENTER" layoutX="280.0" layoutY="661.0" prefHeight="30.0" prefWidth="200.0" text="0" />
-   <Label alignment="CENTER" layoutX="514.0" layoutY="631.0" prefHeight="30.0" prefWidth="200.0" text="Transport" />
-   <Label fx:id="fxTotalTransport" alignment="CENTER" layoutX="514.0" layoutY="661.0" prefHeight="30.0" prefWidth="200.0" text="0" />
-   <Label alignment="CENTER" layoutX="746.0" layoutY="631.0" prefHeight="30.0" prefWidth="200.0" text="Credit" />
-   <Label fx:id="fxTotalCredit" alignment="CENTER" layoutX="746.0" layoutY="661.0" prefHeight="30.0" prefWidth="200.0" text="0" />
+   <Label fx:id="fxTotalWorkingHours1" alignment="CENTER" contentDisplay="CENTER" layoutX="110.0" layoutY="527.0" prefHeight="30.0" prefWidth="100.0" text="Date" textAlignment="CENTER" />
+   <DatePicker fx:id="fxDatePicker" layoutX="33.0" layoutY="557.0" prefHeight="30.0" prefWidth="240.0" />
+   <Label alignment="CENTER" layoutX="299.0" layoutY="527.0" prefHeight="30.0" prefWidth="200.0" text="Total Hours" />
+   <Label fx:id="fxTotalWorkingHours" alignment="CENTER" layoutX="299.0" layoutY="557.0" prefHeight="30.0" prefWidth="200.0" text="0" />
+   <Label alignment="CENTER" layoutX="533.0" layoutY="527.0" prefHeight="30.0" prefWidth="200.0" text="Transport" />
+   <Label fx:id="fxTotalTransport" alignment="CENTER" layoutX="533.0" layoutY="557.0" prefHeight="30.0" prefWidth="200.0" text="0" />
+   <Label alignment="CENTER" layoutX="765.0" layoutY="527.0" prefHeight="30.0" prefWidth="200.0" text="Credit" />
+   <Label fx:id="fxTotalCredit" alignment="CENTER" layoutX="765.0" layoutY="557.0" prefHeight="30.0" prefWidth="200.0" text="0" />
 </AnchorPane>

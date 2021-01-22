@@ -15,9 +15,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane prefHeight="900" prefWidth="1600" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.MainController">
-    <ScrollPane maxHeight="900" maxWidth="1600">
-    <BorderPane fx:id="mainBorderPane" prefHeight="900.0" prefWidth="1500.0" stylesheets="@style.css">
+<StackPane prefHeight="700" prefWidth="1320" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.MainController">
+    <ScrollPane prefHeight="700" prefWidth="1320">
+    <BorderPane fx:id="mainBorderPane" prefHeight="700.0" prefWidth="1300.0" stylesheets="@style.css">
         <top>
             <VBox prefHeight="30.0">
                 <MenuBar prefHeight="40.0" stylesheets="@style.css" BorderPane.alignment="CENTER">
@@ -25,7 +25,7 @@
                         <Insets />
                     </BorderPane.margin>
                     <padding>
-                        <Insets bottom="10.0" left="20.0" right="10.0" top="20.0" />
+                        <Insets bottom="2.0" left="10.0" right="5.0" top="2.0" />
                     </padding>
                     <VBox.margin>
                         <Insets />
@@ -49,23 +49,23 @@
                         </items>
                     </Menu>
                 </MenuBar>
-                <HBox fx:id="fxHBoxTopMenu" alignment="CENTER" fillHeight="true" prefHeight="40.0" prefWidth="800.0" spacing="5.0">
+                <HBox fx:id="fxHBoxTopMenu" alignment="CENTER_LEFT" fillHeight="true" prefHeight="35.0" prefWidth="900.0" spacing="5.0">
                     <children>
-                        <ToggleButton fx:id="fxHarvestProductionMenuBtn" onAction="#getHarvestProduction" prefHeight="30" prefWidth="160.0" text="Harvest Production">
+                        <ToggleButton fx:id="fxHarvestProductionMenuBtn" alignment="CENTER_LEFT" onAction="#getHarvestProduction" prefHeight="30.0" prefWidth="160.0" text="Harvest Production">
                         <toggleGroup>
                         <ToggleGroup fx:id="topMenu" />
                         </toggleGroup>
                      </ToggleButton>
-                        <ToggleButton fx:id="fxHarvestHoursMenuBtn" onAction="#getHarvestHours" prefHeight="30" prefWidth="160.0" text="Harvest Hours" toggleGroup="$topMenu" />
-                        <ToggleButton fx:id="fxHarvestWorkMenuBtn" onAction="#getHarvestWork" prefHeight="30" prefWidth="160.0" text="Harvest Work" toggleGroup="$topMenu" />
-                        <ToggleButton fx:id="fxTransportCreditMenuBtn" onAction="#getCredit" prefHeight="30" prefWidth="160" text="Transport / Credit" toggleGroup="$topMenu" />
-                        <ToggleButton fx:id="fxEmployeeMenuBtn" onAction="#getEmployee" prefHeight="30" prefWidth="160.0" text="Employees" toggleGroup="$topMenu" />
-                        <ToggleButton fx:id="fxSupplierMenuBtn" onAction="#getSupplier" prefHeight="30" prefWidth="160.0" text="Supplier" toggleGroup="$topMenu" />
-                        <ToggleButton fx:id="fxFarmSeasonMenuBtn" onAction="#getFarmSeason" prefHeight="30" prefWidth="160.0" text="Farm / Season" toggleGroup="$topMenu" />
-                        <ToggleButton fx:id="fxProductMenuBtn" onAction="#getProduct" prefHeight="30" prefWidth="160.0" text="Products" toggleGroup="$topMenu" />
+                        <ToggleButton fx:id="fxHarvestHoursMenuBtn" onAction="#getHarvestHours" prefHeight="30" prefWidth="150.0" text="Harvest Hours" toggleGroup="$topMenu" />
+                        <ToggleButton fx:id="fxHarvestWorkMenuBtn" onAction="#getHarvestWork" prefHeight="30" prefWidth="150.0" text="Harvest Work" toggleGroup="$topMenu" />
+                        <ToggleButton fx:id="fxTransportCreditMenuBtn" onAction="#getCredit" prefHeight="30" prefWidth="150.0" text="Transport / Credit" toggleGroup="$topMenu" />
+                        <ToggleButton fx:id="fxEmployeeMenuBtn" onAction="#getEmployee" prefHeight="30" prefWidth="150.0" text="Employees" toggleGroup="$topMenu" />
+                        <ToggleButton fx:id="fxSupplierMenuBtn" onAction="#getSupplier" prefHeight="30" prefWidth="150.0" text="Supplier" toggleGroup="$topMenu" />
+                        <ToggleButton fx:id="fxFarmSeasonMenuBtn" onAction="#getFarmSeason" prefHeight="30" prefWidth="150.0" text="Farm / Season" toggleGroup="$topMenu" />
+                        <ToggleButton fx:id="fxProductMenuBtn" onAction="#getProduct" prefHeight="30" prefWidth="150.0" text="Products" toggleGroup="$topMenu" />
                     </children>
                     <padding>
-                        <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                     </padding>
                 </HBox>
             </VBox>
@@ -73,9 +73,9 @@
         <center>
         </center>
         <right>
-            <VBox prefHeight="700.0" prefWidth="150.0" BorderPane.alignment="CENTER">
+            <VBox prefHeight="600.0" prefWidth="131.0" BorderPane.alignment="CENTER">
                 <children>
-                    <Button fx:id="fxAddHarvestHoursButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setHarvestHours" prefHeight="50.0" prefWidth="146.0" text="+ Harvest Hours">
+                    <Button fx:id="fxAddHarvestHoursButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setHarvestHours" prefHeight="50.0" prefWidth="120.0" text="+ Harvest Hours">
                         <graphic>
                             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
@@ -84,7 +84,7 @@
                             </ImageView>
                         </graphic>
                     </Button>
-                    <Button fx:id="fxSetHarvestWorkButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setHarvestWork" prefHeight="50.0" prefWidth="146.0" text="+ Harvest Work">
+                    <Button fx:id="fxSetHarvestWorkButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setHarvestWork" prefHeight="50.0" prefWidth="120.0" text="+ Harvest Work">
                         <graphic>
                             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
@@ -93,7 +93,7 @@
                             </ImageView>
                         </graphic>
                     </Button>
-                    <Button fx:id="fxAddFarmSeasonButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setFarmSeason" prefHeight="50.0" prefWidth="146.0" text="+ Farm / Season">
+                    <Button fx:id="fxAddFarmSeasonButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setFarmSeason" prefHeight="50.0" prefWidth="120.0" text="+ Farm / Season">
                         <graphic>
                             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
@@ -102,7 +102,7 @@
                             </ImageView>
                         </graphic>
                     </Button>
-                    <Button fx:id="fxAddTransportCreditButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setCredit" prefHeight="50.0" prefWidth="146.0" text="+ Credit">
+                    <Button fx:id="fxAddTransportCreditButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setCredit" prefHeight="50.0" prefWidth="120.0" text="+ Credit">
                         <graphic>
                             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
@@ -111,7 +111,7 @@
                             </ImageView>
                         </graphic>
                     </Button>
-                    <Button fx:id="fxAddTransportButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setTransport" prefHeight="50.0" prefWidth="146.0" text="+ Transport">
+                    <Button fx:id="fxAddTransportButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setTransport" prefHeight="50.0" prefWidth="120.0" text="+ Transport">
                         <graphic>
                             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
@@ -120,7 +120,7 @@
                             </ImageView>
                         </graphic>
                     </Button>
-                    <Button fx:id="fxAddEmployeeButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setEmployee" prefHeight="50.0" prefWidth="146.0" text="+ Employee">
+                    <Button fx:id="fxAddEmployeeButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setEmployee" prefHeight="50.0" prefWidth="120.0" text="+ Employee">
                         <graphic>
                             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
@@ -129,7 +129,7 @@
                             </ImageView>
                         </graphic>
                     </Button>
-                    <Button fx:id="fxAddSupplierButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setSupplier" prefHeight="50.0" prefWidth="146.0" text="+ Supplier">
+                    <Button fx:id="fxAddSupplierButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setSupplier" prefHeight="50.0" prefWidth="120.0" text="+ Supplier">
                         <graphic>
                             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
@@ -138,7 +138,7 @@
                             </ImageView>
                         </graphic>
                     </Button>
-                    <Button fx:id="fxAddProductButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setProduct" prefHeight="50.0" prefWidth="146.0" text="+ Product">
+                    <Button fx:id="fxAddProductButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setProduct" prefHeight="50.0" prefWidth="120.0" text="+ Product">
                         <graphic>
                             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
