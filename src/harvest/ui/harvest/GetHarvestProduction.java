@@ -7,15 +7,29 @@ import harvest.model.HarvestProduction;
 import harvest.model.HarvestWork;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.chart.AreaChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 
 public class GetHarvestProduction implements Initializable {
@@ -43,13 +57,19 @@ public class GetHarvestProduction implements Initializable {
     private TableColumn<HarvestProduction, Double> fxHarvestPrice;
     @FXML
     private TableColumn<HarvestProduction, Double> fxHarvestCost;
-
+    @FXML
+    private DatePicker fxDatePickerFrom;
+    @FXML
+    private DatePicker fxDatePickerTo;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initTable();
         updateData();
         constructTable();
+        LocalDate date = LocalDate.now();
+        fxDatePickerFrom.setValue(date.minus(Period.ofDays(30)));
+        fxDatePickerTo.setValue(date);
     }
 
     private void initTable() {
@@ -76,7 +96,18 @@ public class GetHarvestProduction implements Initializable {
 
     @FXML
     void handleSearch(){
-        //TODO
+        LocalDate fromDate = fxDatePickerFrom.getValue();
+        LocalDate toDate = fxDatePickerTo.getValue();
+        updateData(fromDate, toDate);
+    }
+
+    public void updateData(LocalDate fromDate, LocalDate toDate){
+        HARVEST_PRODUCTION_LIVE_LIST.clear();
+        try {
+            HARVEST_PRODUCTION_LIVE_LIST.setAll(mHarvestProductionDAO.searchDataByDate(Date.valueOf(fromDate), Date.valueOf(toDate)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -176,4 +207,19 @@ public class GetHarvestProduction implements Initializable {
         subTable.setStyle("-fx-border-color: #42bff4;");
         return subTable;
     }
+
+    @FXML
+    void harvestChart(){
+        final Stage stage = new Stage();
+        try {
+            String location = "/harvest/ui/harvest/harvest_chart.fxml";
+            Parent parent = FXMLLoader.load(GetHarvestProduction.class.getResource(location));
+            stage.setTitle("harvest Chart Production");
+            stage.setScene(new Scene(parent));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

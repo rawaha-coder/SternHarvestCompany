@@ -3,6 +3,9 @@ package harvest.database;
 import harvest.model.HarvestProduction;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.chart.AreaChart;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 
 import java.sql.*;
 
@@ -296,4 +299,76 @@ public class HarvestProductionDAO extends DAO {
         return list;
     }
 
+    public ObservableList<HarvestProduction> searchDataByDate(Date fromDate, Date  toDate) throws Exception{
+        String select = "SELECT "
+                + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_ID + ", "
+                + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_DATE + ", "
+                + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_TYPE + ", "
+                + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_TE + ", "
+                + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_TH + ", "
+                + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_TQ + ", "
+                + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_TA + ", "
+                + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_TT + ", "
+                + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_TC + ", "
+                + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_ID + ", "
+                + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_NAME + ", "
+                + TABLE_PRODUCT + "." + COLUMN_PRODUCT_ID + ", "
+                + TABLE_PRODUCT + "." + COLUMN_PRODUCT_NAME + ", "
+                + TABLE_PRODUCT_DETAIL  + "." + COLUMN_PRODUCT_DETAIL_ID + ", "
+                + TABLE_PRODUCT_DETAIL  + "." + COLUMN_PRODUCT_CODE + ", "
+                + TABLE_PRODUCT_DETAIL  + "." + COLUMN_PRODUCT_PRICE_1 + ", "
+                + TABLE_PRODUCT_DETAIL  + "." + COLUMN_PRODUCT_PRICE_2 + ", "
+                + TABLE_FARM + "." + COLUMN_FARM_ID + ", "
+                + TABLE_FARM + "." + COLUMN_FARM_NAME + " "
+                + " FROM " + TABLE_HARVEST_PRODUCTION + " "
+                + " LEFT JOIN " + TABLE_SUPPLIER + " "
+                + " ON " + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_ID  + " = " + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_SUPPLIER_ID
+                + " LEFT JOIN " + TABLE_PRODUCT + " "
+                + " ON " + TABLE_PRODUCT + "." + COLUMN_PRODUCT_ID + " = " + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_PRODUCT_ID
+                + " LEFT JOIN " + TABLE_PRODUCT_DETAIL + " "
+                + " ON " + TABLE_PRODUCT_DETAIL + "." + COLUMN_PRODUCT_DETAIL_ID + " = " + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_PRODUCT_DETAIL_ID
+                + " LEFT JOIN " + TABLE_FARM + " "
+                + " ON " + TABLE_FARM + "." + COLUMN_FARM_ID + " = " + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_FARM_ID
+                + " WHERE " + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_DATE + " >= " + fromDate.getTime()
+                + " AND " + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_DATE+ " <= " + toDate.getTime()
+                + " ORDER BY " + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_DATE + " DESC ;";
+        try(Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(select)) {
+            return getHPDataFromResultSet(resultSet);
+        } catch (SQLException e) {
+            System.out.println("SQL select operation has been failed: " + e);
+            throw e;
+        }finally {
+            dbDisConnect();
+        }
+    }
+
+    //*******************************
+    //Get selected employees as graphic
+    //*******************************
+    public XYChart.Series<String, Number> harvestProductionGraph(Date fromDate, Date  toDate) throws SQLException {
+        var data = new XYChart.Series<String, Number>();
+        String q1 = "SELECT "
+                + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_DATE + ", "
+                + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_TQ
+                + " FROM " + TABLE_HARVEST_PRODUCTION
+                + " WHERE " + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_DATE + " >= " + fromDate.getTime()
+                + " AND " + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_DATE+ " <= " + toDate.getTime()
+                + " ORDER BY " + TABLE_HARVEST_PRODUCTION + "." + COLUMN_HARVEST_PRODUCTION_DATE + " ASC ;";
+
+        try(Statement statement = dbGetConnect().createStatement()) {
+            ResultSet resultSet = statement.executeQuery(q1);
+            while (resultSet.next()) {
+                data.getData().add(new XYChart.Data<String , Number>(resultSet.getDate(1).toString(), resultSet.getDouble(2)));
+                System.out.println(resultSet.getDate(1));
+                System.out.println(resultSet.getDouble(2));
+            }
+            resultSet.close();
+            return data;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }finally {
+            dbDisConnect();
+        }
+    }
 }

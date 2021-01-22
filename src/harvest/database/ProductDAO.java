@@ -4,16 +4,14 @@ import harvest.model.Product;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import static harvest.ui.product.DisplayProductController.PRODUCT_NAME_LIVE_DATA;
 import static harvest.util.Constant.*;
 
 public class ProductDAO extends DAO{
-
-//    public static final String TABLE_PRODUCT = "product";
-//    public static final String COLUMN_PRODUCT_ID = "id";
-//    public static final String COLUMN_PRODUCT_NAME = "name";
 
     private static ProductDAO sProductDAO = new ProductDAO();
 
@@ -41,6 +39,26 @@ public class ProductDAO extends DAO{
                 list.add(product);
             }
             return list;
+        } catch (SQLException e) {
+            System.out.println("SQL select operation has been failed: " + e);
+            throw e;
+        }finally {
+            dbDisConnect();
+        }
+    }
+
+    //Get all data product
+    public Map<String, Product> getProductMap() throws Exception {
+        Map<String, Product> mProductMap = new LinkedHashMap<>();
+        String sqlStmt = "SELECT * FROM " + TABLE_PRODUCT + " ORDER BY " + COLUMN_PRODUCT_ID + " ASC;";
+        try (Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(sqlStmt)){
+            while (resultSet.next()) {
+                Product product = new Product();
+                product.setProductId(resultSet.getInt(1));
+                product.setProductName(resultSet.getString(2));
+                mProductMap.put(product.getProductName(), product);
+            }
+            return mProductMap;
         } catch (SQLException e) {
             System.out.println("SQL select operation has been failed: " + e);
             throw e;

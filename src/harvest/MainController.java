@@ -22,7 +22,6 @@ import java.util.ResourceBundle;
 public class MainController implements Initializable {
 
 
-
     @FXML
     private BorderPane mainBorderPane;
     @FXML
@@ -70,6 +69,11 @@ public class MainController implements Initializable {
         getHarvestProduction();
     }
 
+    @FXML
+    void handleCloseButton() {
+        Stage stage = (Stage) mainBorderPane.getScene().getWindow();
+        stage.close();
+    }
 
     @FXML
     public void getHarvestProduction() {
