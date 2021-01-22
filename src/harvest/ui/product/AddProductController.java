@@ -24,7 +24,7 @@ import static harvest.ui.product.DisplayProductController.PRODUCT_NAME_LIVE_DATA
 public class AddProductController implements Initializable {
 
     ObservableList<String> observableProductList = FXCollections.observableArrayList();
-    private final Map<String, Product> mProductMap = new LinkedHashMap<>();
+    private Map<String, Product> mProductMap = new LinkedHashMap<>();
     ObservableList<String> observableProductTypeList = FXCollections.observableArrayList();
 
     @FXML
@@ -57,17 +57,26 @@ public class AddProductController implements Initializable {
     //fill the ChoiceBox by employee list
     private void getProductList() {
         observableProductList.clear();
+        mProductMap.clear();
         try {
-            List<Product> products = new ArrayList<>(mProductDAO.getData());
-            if (products.size() > 0) {
-                for (Product product: products) {
-                    observableProductList.add(product.getProductName());
-                    mProductMap.put(product.getProductName(), product);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            mProductMap = mProductDAO.getProductMap();
+            observableProductList.setAll(mProductMap.keySet());
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
+
+/// /       try {
+//            List<Product> products = new ArrayList<>(mProductDAO.getData());
+//            if (products.size() > 0) {
+//                for (Product product: products) {
+//                    observableProductList.add(product.getProductName());
+//                    mProductMap.put(product.getProductName(), product);
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
         fxProductNameComboBox.setItems(observableProductList);
     }
 

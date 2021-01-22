@@ -15,7 +15,7 @@
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
     </padding>
     <children>
-      <HBox alignment="TOP_CENTER" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+      <HBox alignment="TOP_CENTER" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
               <TableView fx:id="fxSupplierTable" prefHeight="600" prefWidth="600.0">
                   <columnResizePolicy>

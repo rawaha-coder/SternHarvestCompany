@@ -15,10 +15,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane prefHeight="900" prefWidth="1600"
-           stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1"
-           xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="harvest.MainController">
+<StackPane prefHeight="900" prefWidth="1600" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.MainController">
     <ScrollPane maxHeight="900" maxWidth="1600">
     <BorderPane fx:id="mainBorderPane" prefHeight="900.0" prefWidth="1500.0" stylesheets="@style.css">
         <top>
@@ -34,7 +31,7 @@
                         <Insets />
                     </VBox.margin>
                     <Menu mnemonicParsing="false" text="File">
-                        <MenuItem mnemonicParsing="false" text="Close" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleCloseButton" text="Close" />
                     </Menu>
                     <Menu mnemonicParsing="false" text="Add">
                      <MenuItem mnemonicParsing="false" onAction="#setHarvestHours" text="Add Harvest  Hours" />
@@ -78,7 +75,25 @@
         <right>
             <VBox prefHeight="700.0" prefWidth="150.0" BorderPane.alignment="CENTER">
                 <children>
-                    <Button fx:id="fxAddHarvestButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setHarvestProduction" prefHeight="50.0" prefWidth="146.0" text="Add Harvest">
+                    <Button fx:id="fxAddHarvestHoursButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setHarvestHours" prefHeight="50.0" prefWidth="146.0" text="+ Harvest Hours">
+                        <graphic>
+                            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@icon/ic_shortcut_access_time.png" />
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                    <Button fx:id="fxSetHarvestWorkButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setHarvestWork" prefHeight="50.0" prefWidth="146.0" text="+ Harvest Work">
+                        <graphic>
+                            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@icon/ic_shortcut_nature_people.png" />
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                    <Button fx:id="fxAddFarmSeasonButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setFarmSeason" prefHeight="50.0" prefWidth="146.0" text="+ Farm / Season">
                         <graphic>
                             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
@@ -87,34 +102,7 @@
                             </ImageView>
                         </graphic>
                     </Button>
-                    <Button fx:id="fxAddHarvestHoursButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setHarvestHours" prefHeight="50.0" prefWidth="146.0" text="Add Harvest Hours">
-                        <graphic>
-                            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                                <image>
-                                    <Image url="@icon/ic_shortcut_nature.png" />
-                                </image>
-                            </ImageView>
-                        </graphic>
-                    </Button>
-                    <Button fx:id="fxSetHarvestWorkButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setHarvestWork" prefHeight="50.0" prefWidth="146.0" text="Set Harvest Work">
-                        <graphic>
-                            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                                <image>
-                                    <Image url="@icon/ic_shortcut_nature.png" />
-                                </image>
-                            </ImageView>
-                        </graphic>
-                    </Button>
-                    <Button fx:id="fxAddFarmSeasonButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setFarmSeason" prefHeight="50.0" prefWidth="146.0" text="Add Farm / Season">
-                        <graphic>
-                            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                                <image>
-                                    <Image url="@icon/ic_shortcut_nature.png" />
-                                </image>
-                            </ImageView>
-                        </graphic>
-                    </Button>
-                    <Button fx:id="fxAddTransportCreditButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setCredit" prefHeight="50.0" prefWidth="146.0" text="Add Credit">
+                    <Button fx:id="fxAddTransportCreditButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setCredit" prefHeight="50.0" prefWidth="146.0" text="+ Credit">
                         <graphic>
                             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
@@ -123,25 +111,25 @@
                             </ImageView>
                         </graphic>
                     </Button>
-                    <Button fx:id="fxAddTransportButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setTransport" prefHeight="50.0" prefWidth="146.0" text="Add Transport">
+                    <Button fx:id="fxAddTransportButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setTransport" prefHeight="50.0" prefWidth="146.0" text="+ Transport">
                         <graphic>
                             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
-                                    <Image url="@icon/ic_shortcut_directions_bus.png" />
+                                    <Image url="@icon/ic_shortcut_local_shipping.png" />
                                 </image>
                             </ImageView>
                         </graphic>
                     </Button>
-                    <Button fx:id="fxAddEmployeeButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setEmployee" prefHeight="50.0" prefWidth="146.0" text="Add Employee">
+                    <Button fx:id="fxAddEmployeeButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setEmployee" prefHeight="50.0" prefWidth="146.0" text="+ Employee">
                         <graphic>
                             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
-                                    <Image url="@icon/ic_shortcut_group_add.png" />
+                                    <Image url="@icon/ic_shortcut_person_add.png" />
                                 </image>
                             </ImageView>
                         </graphic>
                     </Button>
-                    <Button fx:id="fxAddSupplierButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setSupplier" prefHeight="50.0" prefWidth="146.0" text="Add Supplier">
+                    <Button fx:id="fxAddSupplierButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setSupplier" prefHeight="50.0" prefWidth="146.0" text="+ Supplier">
                         <graphic>
                             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
@@ -150,7 +138,7 @@
                             </ImageView>
                         </graphic>
                     </Button>
-                    <Button fx:id="fxAddProductButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setProduct" prefHeight="50.0" prefWidth="146.0" text="Add Product">
+                    <Button fx:id="fxAddProductButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setProduct" prefHeight="50.0" prefWidth="146.0" text="+ Product">
                         <graphic>
                             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
