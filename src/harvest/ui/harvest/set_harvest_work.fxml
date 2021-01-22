@@ -11,7 +11,7 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="mAnchorPane" prefHeight="852.0" prefWidth="1197.0" stylesheets="@../../style.css"
+<AnchorPane fx:id="mAnchorPane" prefHeight="600.0" prefWidth="1200.0" stylesheets="@../../style.css"
             xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="harvest.ui.harvest.SetHarvestWork">
     <AnchorPane layoutX="1013.0" prefHeight="844.0" prefWidth="184.0">

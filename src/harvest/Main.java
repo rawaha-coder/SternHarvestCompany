@@ -37,7 +37,7 @@ public class Main extends Application {
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         primaryStage.setTitle("Stern harvest Company");
-        primaryStage.setScene(new Scene(root, 1600, 900));
+        primaryStage.setScene(new Scene(root, 1320, 700));
         primaryStage.show();
         //mCreditDAO.createCreditTable();
         //mEmployeeDAO.createEmployeeTable();

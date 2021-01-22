@@ -7,19 +7,15 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
             fx:controller="harvest.ui.product.DisplayProductController"
             prefHeight="700.0" prefWidth="1400.0"
             stylesheets="@../../style.css"
             fx:id="fxProductTableRoot">
 
-    <padding>
-        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-    </padding>
-    <HBox AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+    <HBox AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
         <children>
-            <TableView fx:id="fxProductTable" prefHeight="600.0" prefWidth="300.0">
+            <TableView fx:id="fxProductTable" prefHeight="500.0" maxHeight="600.0" prefWidth="300.0">
                 <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
                 <columns>
                     <TableColumn fx:id="fxProductNameColumn" minWidth="-Infinity" prefWidth="300.0" text="Product Name"/>
@@ -33,7 +29,7 @@
                     </ContextMenu>
                 </contextMenu>
             </TableView>
-            <TableView fx:id="fxProductDetailTable" prefHeight="600.0" prefWidth="900.0">
+            <TableView fx:id="fxProductDetailTable" prefHeight="500.0" maxHeight="600.0" prefWidth="900.0">
                 <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
                 <columns>
                     <TableColumn fx:id="fxProductTypeColumn" prefWidth="300.0" text="Type Product"/>
