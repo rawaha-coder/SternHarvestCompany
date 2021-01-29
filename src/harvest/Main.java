@@ -23,7 +23,7 @@ public class Main extends Application {
     //TransportDAO mTransportDAO = TransportDAO.getInstance();
     //HarvestDAO mHarvestDAO = HarvestDAO.getInstance();
     //HarvestHoursDAO mHarvestHoursDAO = HarvestHoursDAO.getInstance();
-    HarvestProductionDAO mHarvestProductionDAO = HarvestProductionDAO.getInstance();
+    //HarvestProductionDAO mHarvestProductionDAO = HarvestProductionDAO.getInstance();
     //HarvestIndividualDAO mHarvestIndividualDAO = HarvestIndividualDAO.getInstance();
 
     @Override
@@ -50,7 +50,7 @@ public class Main extends Application {
         //mTransportDAO.createTransportTable();
         //mHarvestDAO.createHarvestTable();
         //mHarvestHoursDAO.createHarvestTable();
-        mHarvestProductionDAO.createHarvestTable();
+        //mHarvestProductionDAO.createHarvestTable();
         //mHarvestIndividualDAO.createHarvestTable();
     }
 
