@@ -1,0 +1,130 @@
+/*
+    Dark theme
+*/
+
+* {
+    -fx-bg-color : #000000;
+	-fx-first-menu-color : #2F2F2F;
+	-fx-second-menu-color : #474747;
+	-fx-button-text-active: #FFFFFF;
+	-fx-button-text-hover: #000000;
+	-fx-hover-color : #ADBBC2;
+	
+}
+
+/*
+=======================================================
+    main.fxml file styling
+=======================================================
+*/
+
+.root {
+	-fx-base: -fx-bg-color;
+    -fx-background-color : -fx-bg-color;
+    -fx-font-family: "Times New Roman";
+    -fx-font-size: 1.3em;
+}
+
+.firstMenu {
+	-fx-background-color : -fx-first-menu-color;
+	-fx-padding: 5px 0px 10px 0px;
+}
+
+.secondMenu {
+	-fx-background-color : -fx-second-menu-color;
+	-fx-padding: 2px 2px 2px 2px;
+}
+
+/* ToggleButton styling */
+.topButton{
+    -fx-font-family: "Times New Roman";
+    -fx-text-alignment: center;
+    -fx-font-size: 1.3em;
+    -fx-text-fill: -fx-button-text-active;
+    -fx-cursor:hand;
+    -fx-background-color: transparent;
+    -fx-background-radius: 7 7 7 7;
+    -fx-border-radius: 7 7 7 7;
+}
+
+.topButton:hover{
+    -fx-background-color: -fx-hover-color;
+    -fx-text-fill: -fx-button-text-hover;
+    -fx-border-color: rgba(255,255,255,1);
+}
+
+.topButton:focused{
+     -fx-background-color: white;
+     -fx-text-fill: black;
+     -fx-border-color: rgba(255,255,255,1);
+      -fx-translate-y: -7;
+      -fx-rotate: -3;
+
+
+}
+
+.sideButton{
+    -fx-font-family: "Times New Roman";
+    -fx-text-alignment: center;
+    -fx-font-size: 1.3em;
+    -fx-text-fill: white;
+    -fx-cursor:hand;
+    -fx-background-color:  #f84005;
+    -fx-background-radius: 7 7 7 7;
+    -fx-border-radius: 7 7 7 7;
+    -fx-padding: 10px 2px 10px 2px;
+}
+
+.sideButton:hover{
+     -fx-background-color: yellow;
+     -fx-text-fill: black;
+     -fx-border-color: rgba(255,255,255,1);
+     -fx-rotate: -5;
+     -fx-translate-x: 5;
+}
+
+.sideButton:focused{
+     -fx-background-color: yellow;
+     -fx-text-fill: black;
+     -fx-border-color: rgba(255,255,255,1);
+     -fx-rotate: -5;
+     -fx-translate-x: 5;
+}
+
+.mainCenter {
+	-fx-background-color: -fx-bg-color;
+	-fx-padding: 5px;
+}
+
+.scroll-pane {
+    -fx-background-color: -fx-bg-color;
+    -fx-padding:5px;
+}
+
+.scroll-pane > .corner {
+    -fx-background-color: black;
+}
+
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color:-fx-bg-color;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: white;
+    -fx-background-radius: 5em;
+}
+
+

@@ -7,29 +7,21 @@ import harvest.model.HarvestProduction;
 import harvest.model.HarvestWork;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.AreaChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 
 public class GetHarvestProduction implements Initializable {
@@ -116,7 +108,7 @@ public class GetHarvestProduction implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/main.fxml"));
             loader.load();
             MainController controller = loader.getController();
-            controller.getHarvestProduction();
+            controller.getProduction();
         } catch (IOException e) {
             e.printStackTrace();
         }

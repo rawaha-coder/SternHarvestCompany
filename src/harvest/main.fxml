@@ -1,157 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane prefHeight="700" prefWidth="1320" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.MainController">
-    <ScrollPane prefHeight="700" prefWidth="1320">
-    <BorderPane fx:id="mainBorderPane" prefHeight="700.0" prefWidth="1300.0" stylesheets="@style.css">
-        <top>
-            <VBox prefHeight="30.0">
-                <MenuBar prefHeight="40.0" stylesheets="@style.css" BorderPane.alignment="CENTER">
-                    <BorderPane.margin>
-                        <Insets />
-                    </BorderPane.margin>
-                    <padding>
-                        <Insets bottom="2.0" left="10.0" right="5.0" top="2.0" />
-                    </padding>
-                    <VBox.margin>
-                        <Insets />
-                    </VBox.margin>
-                    <Menu mnemonicParsing="false" text="File">
-                        <MenuItem mnemonicParsing="false" onAction="#handleCloseButton" text="Close" />
-                    </Menu>
-                    <Menu mnemonicParsing="false" text="Add">
-                     <MenuItem mnemonicParsing="false" onAction="#setHarvestHours" text="Add Harvest  Hours" />
-                     <MenuItem mnemonicParsing="false" onAction="#setHarvestWork" text="Add Harvest Work" />
-                        <MenuItem mnemonicParsing="false" onAction="#setFarmSeason" text="Add Farm /Season" />
-                     <MenuItem mnemonicParsing="false" onAction="#setCredit" text="Add Credit" />
-                     <MenuItem mnemonicParsing="false" onAction="#setTransport" text="Add Transport" />
-                        <MenuItem mnemonicParsing="false" onAction="#setEmployee" text="Add Employee" />
-                        <MenuItem mnemonicParsing="false" onAction="#setSupplier" text="Add Supplier" />
-                        <MenuItem mnemonicParsing="false" onAction="#setProduct" text="Add Product" />
-                    </Menu>
-                    <Menu mnemonicParsing="false" text="Search">
-                        <items>
-                            <MenuItem mnemonicParsing="false" text="Search Production" />
-                        </items>
-                    </Menu>
-                </MenuBar>
-                <HBox fx:id="fxHBoxTopMenu" alignment="CENTER_LEFT" fillHeight="true" prefHeight="35.0" prefWidth="900.0" spacing="5.0">
-                    <children>
-                        <ToggleButton fx:id="fxHarvestProductionMenuBtn" alignment="CENTER_LEFT" onAction="#getHarvestProduction" prefHeight="30.0" prefWidth="160.0" text="Harvest Production">
-                        <toggleGroup>
-                        <ToggleGroup fx:id="topMenu" />
-                        </toggleGroup>
-                     </ToggleButton>
-                        <ToggleButton fx:id="fxHarvestHoursMenuBtn" onAction="#getHarvestHours" prefHeight="30" prefWidth="150.0" text="Harvest Hours" toggleGroup="$topMenu" />
-                        <ToggleButton fx:id="fxHarvestWorkMenuBtn" onAction="#getHarvestWork" prefHeight="30" prefWidth="150.0" text="Harvest Work" toggleGroup="$topMenu" />
-                        <ToggleButton fx:id="fxTransportCreditMenuBtn" onAction="#getCredit" prefHeight="30" prefWidth="150.0" text="Transport / Credit" toggleGroup="$topMenu" />
-                        <ToggleButton fx:id="fxEmployeeMenuBtn" onAction="#getEmployee" prefHeight="30" prefWidth="150.0" text="Employees" toggleGroup="$topMenu" />
-                        <ToggleButton fx:id="fxSupplierMenuBtn" onAction="#getSupplier" prefHeight="30" prefWidth="150.0" text="Supplier" toggleGroup="$topMenu" />
-                        <ToggleButton fx:id="fxFarmSeasonMenuBtn" onAction="#getFarmSeason" prefHeight="30" prefWidth="150.0" text="Farm / Season" toggleGroup="$topMenu" />
-                        <ToggleButton fx:id="fxProductMenuBtn" onAction="#getProduct" prefHeight="30" prefWidth="150.0" text="Products" toggleGroup="$topMenu" />
-                    </children>
-                    <padding>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                    </padding>
-                </HBox>
-            </VBox>
-        </top>
-        <center>
-        </center>
-        <right>
-            <VBox prefHeight="600.0" prefWidth="131.0" BorderPane.alignment="CENTER">
-                <children>
-                    <Button fx:id="fxAddHarvestHoursButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setHarvestHours" prefHeight="50.0" prefWidth="120.0" text="+ Harvest Hours">
-                        <graphic>
-                            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                                <image>
-                                    <Image url="@icon/ic_shortcut_access_time.png" />
-                                </image>
-                            </ImageView>
-                        </graphic>
-                    </Button>
-                    <Button fx:id="fxSetHarvestWorkButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setHarvestWork" prefHeight="50.0" prefWidth="120.0" text="+ Harvest Work">
-                        <graphic>
-                            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                                <image>
-                                    <Image url="@icon/ic_shortcut_nature_people.png" />
-                                </image>
-                            </ImageView>
-                        </graphic>
-                    </Button>
-                    <Button fx:id="fxAddFarmSeasonButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setFarmSeason" prefHeight="50.0" prefWidth="120.0" text="+ Farm / Season">
-                        <graphic>
-                            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                                <image>
-                                    <Image url="@icon/ic_shortcut_nature.png" />
-                                </image>
-                            </ImageView>
-                        </graphic>
-                    </Button>
-                    <Button fx:id="fxAddTransportCreditButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setCredit" prefHeight="50.0" prefWidth="120.0" text="+ Credit">
-                        <graphic>
-                            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                                <image>
-                                    <Image url="@icon/ic_shortcut_euro_symbol.png" />
-                                </image>
-                            </ImageView>
-                        </graphic>
-                    </Button>
-                    <Button fx:id="fxAddTransportButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setTransport" prefHeight="50.0" prefWidth="120.0" text="+ Transport">
-                        <graphic>
-                            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                                <image>
-                                    <Image url="@icon/ic_shortcut_local_shipping.png" />
-                                </image>
-                            </ImageView>
-                        </graphic>
-                    </Button>
-                    <Button fx:id="fxAddEmployeeButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setEmployee" prefHeight="50.0" prefWidth="120.0" text="+ Employee">
-                        <graphic>
-                            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                                <image>
-                                    <Image url="@icon/ic_shortcut_person_add.png" />
-                                </image>
-                            </ImageView>
-                        </graphic>
-                    </Button>
-                    <Button fx:id="fxAddSupplierButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setSupplier" prefHeight="50.0" prefWidth="120.0" text="+ Supplier">
-                        <graphic>
-                            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                                <image>
-                                    <Image url="@icon/ic_shortcut_assignment_ind.png" />
-                                </image>
-                            </ImageView>
-                        </graphic>
-                    </Button>
-                    <Button fx:id="fxAddProductButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#setProduct" prefHeight="50.0" prefWidth="120.0" text="+ Product">
-                        <graphic>
-                            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                                <image>
-                                    <Image url="@icon/ic_shortcut_shopping_basket.png" />
-                                </image>
-                            </ImageView>
-                        </graphic>
-                    </Button>
-                </children>
-            </VBox>
-        </right>
-        <bottom>
-        </bottom>
-    </BorderPane>
-    </ScrollPane>
-</StackPane>
+<AnchorPane fx:id="fxMainStage" prefHeight="700.0" prefWidth="1300.0" styleClass="root" stylesheets="@main_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.MainController">
+   <children>
+      <BorderPane prefHeight="700.0" prefWidth="1300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <AnchorPane prefHeight="55.0" prefWidth="1300.0" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox>
+                     <children>
+                        <MenuBar prefHeight="30.0" prefWidth="1300.0" styleClass="firstMenu">
+                          <menus>
+                            <Menu mnemonicParsing="false" text="File">
+                              <items>
+                                <MenuItem mnemonicParsing="false" text="Close" />
+                              </items>
+                            </Menu>
+                            <Menu mnemonicParsing="false" text="Add">
+                                <MenuItem mnemonicParsing="false" onAction="#addWorkByHours" text="Add Harvest  Hours" />
+                                <MenuItem mnemonicParsing="false" onAction="#addWorkByGroup" text="Add Harvest Work" />
+                                <MenuItem mnemonicParsing="false" onAction="#addFarmSeason" text="Add Farm /Season" />
+                                <MenuItem mnemonicParsing="false" onAction="#addCredit" text="Add Credit" />
+                                <MenuItem mnemonicParsing="false" onAction="#addTransport" text="Add Transport" />
+                                <MenuItem mnemonicParsing="false" onAction="#addEmployee" text="Add Employee" />
+                                <MenuItem mnemonicParsing="false" onAction="#addSupplier" text="Add Supplier" />
+                                <MenuItem mnemonicParsing="false" onAction="#addProduct" text="Add Product" />
+                            </Menu>
+                            <Menu mnemonicParsing="false" text="Help">
+                              <items>
+                                <MenuItem mnemonicParsing="false" text="About" />
+                              </items>
+                            </Menu>
+                          </menus>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </MenuBar>
+                         <HBox fx:id="fxHBoxTopMenu" alignment="CENTER_LEFT" fillHeight="true" prefHeight="30.0" prefWidth="1300.0" styleClass="secondMenu">
+                             <children>
+                                 <ToggleButton fx:id="fxGetProductionBtn" alignment="CENTER_LEFT" onAction="#getProduction" prefHeight="30.0" prefWidth="160.0" text="Harvest Production" styleClass="topButton">
+                                     <toggleGroup>
+                                         <ToggleGroup fx:id="topMenu" />
+                                     </toggleGroup>
+                                 </ToggleButton>
+                                 <ToggleButton fx:id="fxHarvestHoursMenuBtn" onAction="#getHours" prefHeight="30" prefWidth="150.0" text="Harvest Hours" toggleGroup="$topMenu" styleClass="topButton" />
+                                 <ToggleButton fx:id="fxGetWorkBtn" onAction="#getWork" prefHeight="30" prefWidth="150.0" text="Harvest Work" toggleGroup="$topMenu" styleClass="topButton" />
+                                 <ToggleButton fx:id="fxTransportCreditMenuBtn" onAction="#getCredit" prefHeight="30" prefWidth="150.0" text="Transport / Credit" toggleGroup="$topMenu" styleClass="topButton" />
+                                 <ToggleButton fx:id="fxEmployeeMenuBtn" onAction="#getEmployee" prefHeight="30" prefWidth="150.0" text="Employees" toggleGroup="$topMenu" styleClass="topButton" />
+                                 <ToggleButton fx:id="fxSupplierMenuBtn" onAction="#getSupplier" prefHeight="30" prefWidth="150.0" text="Supplier" toggleGroup="$topMenu" styleClass="topButton" />
+                                 <ToggleButton fx:id="fxFarmSeasonMenuBtn" onAction="#getFarmSeason" prefHeight="30" prefWidth="150.0" text="Farm / Season" toggleGroup="$topMenu" styleClass="topButton" />
+                                 <ToggleButton fx:id="fxProductMenuBtn" onAction="#getProduct" prefHeight="30" prefWidth="150.0" text="Products" toggleGroup="$topMenu" styleClass="topButton" />
+                             </children>
+                         </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+         </top>
+         <center>
+            <ScrollPane prefHeight="629.0" prefWidth="1096.0" BorderPane.alignment="CENTER">
+              <content>
+                <AnchorPane fx:id="mainCenterPane" minHeight="0.0" minWidth="0.0" prefHeight="700" prefWidth="1400" styleClass="mainCenter" />
+              </content>
+            </ScrollPane>
+         </center>
+          <right>
+              <VBox prefWidth="131.0" spacing="20.0" BorderPane.alignment="CENTER">
+                  <children>
+                          <ToggleButton onAction="#addWorkByGroup" prefHeight="30.0" prefWidth="150.0" styleClass="sideButton" text="Group">
+                              <toggleGroup>
+                                  <ToggleGroup fx:id="sideMenu" />
+                              </toggleGroup>
+                          </ToggleButton>
+                          <ToggleButton onAction="#addWorkByHours" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Hours" toggleGroup="$sideMenu" />
+                          <ToggleButton onAction="#addWorkByGroup" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Work" toggleGroup="$sideMenu" />
+                          <ToggleButton onAction="#addCredit" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Credit" toggleGroup="$sideMenu" />
+                          <ToggleButton onAction="#addTransport" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Transport" toggleGroup="$sideMenu" />
+                          <ToggleButton onAction="#addEmployee" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Employees" toggleGroup="$sideMenu" />
+                          <ToggleButton onAction="#addSupplier" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Supplier" toggleGroup="$sideMenu" />
+                          <ToggleButton onAction="#addFarmSeason" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Farm / Season" toggleGroup="$sideMenu" />
+                          <ToggleButton onAction="#addProduct" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Products" toggleGroup="$sideMenu" />
+                  </children>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+               <padding>
+                  <Insets bottom="20.0" left="5.0" right="5.0" top="20.0" />
+               </padding>
+              </VBox>
+          </right>
+      </BorderPane>
+   </children>
+</AnchorPane>
