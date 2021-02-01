@@ -8,33 +8,21 @@ public class ProductDetail {
     private final SimpleIntegerProperty productDetailId;
     private final SimpleStringProperty productCode;
     private final SimpleStringProperty productType;
-    private final SimpleDoubleProperty productFirstPrice;
-    private final SimpleDoubleProperty productSecondPrice;
+    private final SimpleDoubleProperty priceEmployee;
+    private final SimpleDoubleProperty priceCompany;
     private final Product product;
 
     public ProductDetail() {
         this.productDetailId = new SimpleIntegerProperty();
-        this.productCode = new SimpleStringProperty();;
-        this.productType = new SimpleStringProperty();;
-        this.productFirstPrice = new SimpleDoubleProperty(0.0);;
-        this.productSecondPrice = new SimpleDoubleProperty(0.0);;
+        this.productCode = new SimpleStringProperty();
+        this.productType = new SimpleStringProperty();
+        this.priceEmployee = new SimpleDoubleProperty(0.0);
+        this.priceCompany = new SimpleDoubleProperty(0.0);
         this.product = new Product();
-    }
-
-    public void ProductDetail(ProductDetail productDetail){
-        this.productDetailId.set(productDetail.getProductDetailId());
-        this.productCode.set(productDetail.getProductCode());
-        this.productType.set(productDetail.getProductType());
-        this.productFirstPrice.set(productDetail.getProductFirstPrice());
-        this.productSecondPrice.set(productDetail.getProductSecondPrice());
     }
 
     public int getProductDetailId() {
         return productDetailId.get();
-    }
-
-    public SimpleIntegerProperty productDetailIdProperty() {
-        return productDetailId;
     }
 
     public void setProductDetailId(int productDetailId) {
@@ -57,36 +45,24 @@ public class ProductDetail {
         return productType.get();
     }
 
-    public SimpleStringProperty productTypeProperty() {
-        return productType;
-    }
-
     public void setProductType(String productType) {
         this.productType.set(productType);
     }
 
-    public double getProductFirstPrice() {
-        return productFirstPrice.get();
+    public double getPriceEmployee() {
+        return priceEmployee.get();
     }
 
-    public SimpleDoubleProperty productFirstPriceProperty() {
-        return productFirstPrice;
+    public void setPriceEmployee(double priceEmployee) {
+        this.priceEmployee.set(priceEmployee);
     }
 
-    public void setProductFirstPrice(double productFirstPrice) {
-        this.productFirstPrice.set(productFirstPrice);
+    public double getPriceCompany() {
+        return priceCompany.get();
     }
 
-    public double getProductSecondPrice() {
-        return productSecondPrice.get();
-    }
-
-    public SimpleDoubleProperty productSecondPriceProperty() {
-        return productSecondPrice;
-    }
-
-    public void setProductSecondPrice(double productSecondPrice) {
-        this.productSecondPrice.set(productSecondPrice);
+    public void setPriceCompany(double priceCompany) {
+        this.priceCompany.set(priceCompany);
     }
 
     public Product getProduct() {

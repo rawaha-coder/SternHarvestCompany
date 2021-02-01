@@ -1,0 +1,72 @@
+
+* {
+    -fx-bg-color : #000000;
+	-fx-first-menu-color : #2F2F2F;
+	-fx-second-menu-color : #474747;
+	-fx-button-text-active: #FFFFFF;
+	-fx-button-text-hover: #000000;
+	-fx-hover-color : #ADBBC2;
+	-fx-border-c : #4A4A4A;
+	-fx-linear-gradient-header-color: linear-gradient(to bottom, #1dbbdd44, #93f9b944);
+}
+
+.tableName {
+    -fx-background-color: transparent;
+    -fx-font-weight:bold;
+    -fx-text-fill: yellow;
+    -fx-font-family: "Verdana";
+    -fx-text-size: 1.1em;
+}
+/* TableView styling */
+.table-view {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+}
+
+/* Style of each column header in the tableView */
+.table-view .column-header-background{
+    -fx-background-color: -fx-linear-gradient-header-color;
+    -fx-background-radius: 7px 7px 0px 0px;
+    -fx-background-insets: 0 1px 0 1px;
+    -fx-padding: 5px 5px 5px 5px;
+}
+
+.table-view .column-header-background .label{
+    -fx-background-color: transparent;
+    -fx-font-weight:bold;
+    -fx-text-fill: white;
+    -fx-font-family: "Verdana";
+    -fx-text-size: 1.0em;
+}
+
+.table-row-cell{
+    -fx-text-background-color: white;
+    -fx-text-size: 1.2em;
+    -fx-font-family: "Arial Narrow";
+    -fx-cell-size: 28px;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: orange;
+    -fx-text-background-color: orange;
+}
+
+.table-row-cell: odd{
+    -fx-background-color: -fx-first-menu-color;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+}
+.table-row-cell: even{
+    -fx-background-color: -fx-second-menu-color;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+}
+
+ /* Style of each table cell*/
+.table-view .table-cell{
+    -fx-padding: 5px 5px 5px 10px;
+    -fx-border-color: -fx-border-c;
+}

@@ -1,7 +1,5 @@
 package harvest.ui.product;
 
-
-import harvest.database.CommonDAO;
 import harvest.database.ProductDAO;
 import harvest.database.ProductDetailDAO;
 import harvest.model.Product;
@@ -43,9 +41,10 @@ public class DisplayProductController implements Initializable {
     @FXML
     private TableColumn<ProductDetail, String> fxProductCodeColumn;
     @FXML
-    private TableColumn<ProductDetail, Double> fxProductSecondPriceColumn;
+    private TableColumn<ProductDetail, Double> fxProductPriceEmployeeColumn;
     @FXML
-    private TableColumn<ProductDetail, Double> fxProductFirstPriceColumn;
+    private TableColumn<ProductDetail, Double> fxProductPriceCompanyColumn;
+
 
     private final AlertMaker alert = new AlertMaker();
     private final ProductDAO mProductDAO = ProductDAO.getInstance();
@@ -67,11 +66,10 @@ public class DisplayProductController implements Initializable {
         fxProductNameColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
         fxProductTypeColumn.setCellValueFactory(new PropertyValueFactory<>("productType"));
         fxProductCodeColumn.setCellValueFactory(new PropertyValueFactory<>("productCode"));
-        fxProductFirstPriceColumn.setCellValueFactory(new PropertyValueFactory<>("productFirstPrice"));
-        fxProductSecondPriceColumn.setCellValueFactory(new PropertyValueFactory<>("productSecondPrice"));
+        fxProductPriceEmployeeColumn.setCellValueFactory(new PropertyValueFactory<>("priceEmployee"));
+        fxProductPriceCompanyColumn.setCellValueFactory(new PropertyValueFactory<>("priceCompany"));
         fxProductTable.setItems(PRODUCT_NAME_LIVE_DATA);
         fxProductDetailTable.setItems(PRODUCT_DETAIL_LIVE_DATA);
-
     }
 
     private void observeSelectProduct(){
@@ -120,8 +118,7 @@ public class DisplayProductController implements Initializable {
         Optional<ButtonType> result = alertDelete.deleteConfirmation("Product");
         assert result.isPresent();
         if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
-            CommonDAO commonDAO = CommonDAO.getInstance();
-            alert.deleteItem("Product", commonDAO.deleteProductDataById(product.getProductId()));
+            alert.deleteItem("Product", mProductDAO.deleteProduct(product));
         } else {
             alert.cancelOperation("Delete");
         }

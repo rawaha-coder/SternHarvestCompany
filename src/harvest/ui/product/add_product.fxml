@@ -1,85 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<AnchorPane fx:id="fxAddProductUI" xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="harvest.ui.product.AddProductController"
-            prefHeight="700.0" prefWidth="400.0"
-            stylesheets="@../../style.css">
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 
-    <VBox prefHeight="600.0" prefWidth="300.0" spacing="15.0" styleClass="test" AnchorPane.bottomAnchor="0.0"
-          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <padding>
-            <Insets bottom="10.0" left="20.0" right="20.0" top="10.0"/>
-        </padding>
-        <ComboBox fx:id="fxProductNameComboBox" editable="true" prefHeight="40.0" prefWidth="369.0"
-                  promptText="Product Name">
-            <VBox.margin>
-                <Insets bottom="10.0" left="5.0" right="5.0" top="15.0"/>
-            </VBox.margin>
-            <padding>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-            </padding>
-        </ComboBox>
-        <ComboBox fx:id="fxProductTypeComboBox" editable="true" prefHeight="40.0" prefWidth="374.0"
-                  promptText="Product Type">
-            <VBox.margin>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-            </VBox.margin>
-            <padding>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-            </padding>
-        </ComboBox>
-        <TextField fx:id="fxProductCode" layoutX="10.0" layoutY="10.0" minHeight="20.0" minWidth="100.0"
-                   prefColumnCount="0" prefHeight="40.0" prefWidth="100.0" promptText="Product Code">
-            <padding>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-            </padding>
-            <VBox.margin>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-            </VBox.margin>
-        </TextField>
-        <TextField fx:id="fxProductPrice1" prefHeight="40.0" prefWidth="200.0" promptText="Product Price 1">
-            <padding>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-            </padding>
-            <VBox.margin>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-            </VBox.margin>
-        </TextField>
-        <TextField fx:id="fxProductPrice2" prefHeight="40.0" prefWidth="300.0" promptText="Product Price 2">
-            <padding>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-            </padding>
-            <VBox.margin>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-            </VBox.margin>
-        </TextField>
-        <AnchorPane prefHeight="98.0" prefWidth="370.0">
-            <VBox.margin>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-            </VBox.margin>
-            <padding>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-            </padding>
-            <Button layoutX="258.0" layoutY="40.0" mnemonicParsing="false" onAction="#handleClearFieldsButton"
-                    text="Clear Fields"/>
-        </AnchorPane>
-        <HBox alignment="CENTER" prefHeight="111.0" prefWidth="380.0">
-            <Button mnemonicParsing="false" onAction="#handleSaveButton" prefHeight="50.0" prefWidth="260.0"
-                    text="Save">
-                <HBox.margin>
-                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-                </HBox.margin>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#handleCancelButton" prefHeight="50.0" prefWidth="260.0"
-                    text="Cancel">
-                <HBox.margin>
-                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-                </HBox.margin>
-            </Button>
-        </HBox>
-    </VBox>
+<AnchorPane fx:id="fxAddProductUI" maxHeight="660.0" maxWidth="450.0" minHeight="600.0" minWidth="400.0" prefHeight="650.0" prefWidth="440.0" stylesheets="@../../main_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.ui.product.AddProductController">
+   <Label layoutX="95.0" layoutY="28.0" prefHeight="30.0" prefWidth="250.0" styleClass="addProductLabel" text="Produit:">
+      <padding>
+         <Insets left="10.0" />
+      </padding>
+   </Label>
+     <ComboBox fx:id="fxProductNameComboBox" editable="true" layoutX="95.0" layoutY="58.0" prefHeight="34.0" prefWidth="250.0" />
+   <Label layoutX="95.0" layoutY="112.0" prefHeight="30.0" prefWidth="250.0" styleClass="addProductLabel" text="Type:">
+      <padding>
+         <Insets left="10.0" />
+      </padding>
+   </Label>
+     <TextField fx:id="fxProductCode" layoutX="95.0" layoutY="235.0" prefColumnCount="0" prefHeight="34.0" prefWidth="250.0" />
+   <Label layoutX="95.0" layoutY="205.0" prefHeight="30.0" prefWidth="250.0" styleClass="addProductLabel" text="Code:">
+      <padding>
+         <Insets left="10.0" />
+      </padding>
+   </Label>
+     <ComboBox fx:id="fxProductTypeComboBox" editable="true" layoutX="95.0" layoutY="142.0" prefHeight="34.0" prefWidth="250.0" />
+   <Label layoutX="95.0" layoutY="297.0" prefHeight="30.0" prefWidth="250.0" styleClass="addProductLabel" text="Price.E:">
+      <padding>
+         <Insets left="10.0" />
+      </padding>
+   </Label>
+     <TextField fx:id="fxProductPriceEmployee" layoutX="95.0" layoutY="327.0" prefHeight="34.0" prefWidth="250.0">
+         <padding>
+             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+     </TextField>
+   <Label layoutX="95.0" layoutY="383.0" prefHeight="30.0" prefWidth="250.0" styleClass="addProductLabel" text="Price.C:">
+      <padding>
+         <Insets left="10.0" />
+      </padding>
+   </Label>
+     <TextField fx:id="fxProductPriceCompany" layoutX="95.0" layoutY="413.0" prefHeight="34.0" prefWidth="250.0">
+         <padding>
+             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+     </TextField>
+      <Button layoutX="220.0" layoutY="488.0" mnemonicParsing="false" onAction="#handleClearButton" prefHeight="20.0" prefWidth="140.0" styleClass="clearButton" text="Effacer les champs " />
+      <Button layoutX="32.0" layoutY="575.0" mnemonicParsing="false" onAction="#handleSaveButton" prefHeight="35.0" prefWidth="160.0" styleClass="sideButton" text="Save" />
+      <Button layoutX="237.0" layoutY="575.0" mnemonicParsing="false" onAction="#handleCancelButton" prefHeight="35.0" prefWidth="160.0" styleClass="sideButton" text="Cancel" />
 </AnchorPane>

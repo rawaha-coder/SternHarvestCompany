@@ -105,7 +105,7 @@ public class Constant {
     public static final String COLUMN_FARM_ADDRESS = "address";
 
     //*************************************
-    //Database table columns name for product UI and model
+    //Product table Database  columns names
     //*************************************
     public static final String TABLE_PRODUCT = "product";
     public static final String COLUMN_PRODUCT_ID = "id";
@@ -118,7 +118,7 @@ public class Constant {
     public static final String COLUMN_PRODUCT_DETAIL_ID = "id";
     public static final String COLUMN_PRODUCT_TYPE = "type";
     public static final String COLUMN_PRODUCT_CODE = "code";
-    public static final String COLUMN_PRODUCT_PRICE_1 = "price_1";
-    public static final String COLUMN_PRODUCT_PRICE_2 = "price_2";
+    public static final String COLUMN_PRODUCT_PRICE_EMPLOYEE = "price_employee";
+    public static final String COLUMN_PRODUCT_PRICE_COMPANY = "price_company";
     public static final String COLUMN_FOREIGN_KEY_PRODUCT_ID = "product_id";
 }

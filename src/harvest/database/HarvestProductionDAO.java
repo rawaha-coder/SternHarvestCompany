@@ -3,8 +3,6 @@ package harvest.database;
 import harvest.model.HarvestProduction;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.chart.AreaChart;
-import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 
 import java.sql.*;
@@ -44,8 +42,8 @@ public class HarvestProductionDAO extends DAO {
                 + TABLE_PRODUCT + "." + COLUMN_PRODUCT_NAME + ", "
                 + TABLE_PRODUCT_DETAIL  + "." + COLUMN_PRODUCT_DETAIL_ID + ", "
                 + TABLE_PRODUCT_DETAIL  + "." + COLUMN_PRODUCT_CODE + ", "
-                + TABLE_PRODUCT_DETAIL  + "." + COLUMN_PRODUCT_PRICE_1 + ", "
-                + TABLE_PRODUCT_DETAIL  + "." + COLUMN_PRODUCT_PRICE_2 + ", "
+                + TABLE_PRODUCT_DETAIL  + "." + COLUMN_PRODUCT_PRICE_EMPLOYEE + ", "
+                + TABLE_PRODUCT_DETAIL  + "." + COLUMN_PRODUCT_PRICE_COMPANY + ", "
                 + TABLE_FARM + "." + COLUMN_FARM_ID + ", "
                 + TABLE_FARM + "." + COLUMN_FARM_NAME + " "
                 + " FROM " + TABLE_HARVEST_PRODUCTION + " "
@@ -87,8 +85,8 @@ public class HarvestProductionDAO extends DAO {
             harvestProduction.getProduct().setProductName(resultSet.getString(13));
             harvestProduction.getProductDetail().setProductDetailId(resultSet.getInt(14));
             harvestProduction.getProductDetail().setProductCode(resultSet.getString(15));
-            harvestProduction.getProductDetail().setProductFirstPrice(resultSet.getDouble(16));
-            harvestProduction.getProductDetail().setProductSecondPrice(resultSet.getDouble(17));
+            harvestProduction.getProductDetail().setPriceEmployee(resultSet.getDouble(16));
+            harvestProduction.getProductDetail().setPriceCompany(resultSet.getDouble(17));
             harvestProduction.getFarm().setFarmId(resultSet.getInt(18));
             harvestProduction.getFarm().setFarmName(resultSet.getString(19));
             list.add(harvestProduction);
@@ -246,8 +244,8 @@ public class HarvestProductionDAO extends DAO {
                 + TABLE_PRODUCT + "." + COLUMN_PRODUCT_NAME + ", "
                 + TABLE_PRODUCT_DETAIL  + "." + COLUMN_PRODUCT_DETAIL_ID + ", "
                 + TABLE_PRODUCT_DETAIL  + "." + COLUMN_PRODUCT_CODE + ", "
-                + TABLE_PRODUCT_DETAIL  + "." + COLUMN_PRODUCT_PRICE_1 + ", "
-                + TABLE_PRODUCT_DETAIL  + "." + COLUMN_PRODUCT_PRICE_2 + ", "
+                + TABLE_PRODUCT_DETAIL  + "." + COLUMN_PRODUCT_PRICE_EMPLOYEE + ", "
+                + TABLE_PRODUCT_DETAIL  + "." + COLUMN_PRODUCT_PRICE_COMPANY + ", "
                 + TABLE_FARM + "." + COLUMN_FARM_ID + ", "
                 + TABLE_FARM + "." + COLUMN_FARM_NAME + " "
                 + " FROM " + TABLE_HARVEST_PRODUCTION + " "
@@ -290,8 +288,8 @@ public class HarvestProductionDAO extends DAO {
             harvestProduction.getProduct().setProductName(resultSet.getString(13));
             harvestProduction.getProductDetail().setProductDetailId(resultSet.getInt(14));
             harvestProduction.getProductDetail().setProductCode(resultSet.getString(15));
-            harvestProduction.getProductDetail().setProductFirstPrice(resultSet.getDouble(16));
-            harvestProduction.getProductDetail().setProductSecondPrice(resultSet.getDouble(17));
+            harvestProduction.getProductDetail().setPriceEmployee(resultSet.getDouble(16));
+            harvestProduction.getProductDetail().setPriceCompany(resultSet.getDouble(17));
             harvestProduction.getFarm().setFarmId(resultSet.getInt(18));
             harvestProduction.getFarm().setFarmName(resultSet.getString(19));
             list.add(harvestProduction);
@@ -316,8 +314,8 @@ public class HarvestProductionDAO extends DAO {
                 + TABLE_PRODUCT + "." + COLUMN_PRODUCT_NAME + ", "
                 + TABLE_PRODUCT_DETAIL  + "." + COLUMN_PRODUCT_DETAIL_ID + ", "
                 + TABLE_PRODUCT_DETAIL  + "." + COLUMN_PRODUCT_CODE + ", "
-                + TABLE_PRODUCT_DETAIL  + "." + COLUMN_PRODUCT_PRICE_1 + ", "
-                + TABLE_PRODUCT_DETAIL  + "." + COLUMN_PRODUCT_PRICE_2 + ", "
+                + TABLE_PRODUCT_DETAIL  + "." + COLUMN_PRODUCT_PRICE_EMPLOYEE + ", "
+                + TABLE_PRODUCT_DETAIL  + "." + COLUMN_PRODUCT_PRICE_COMPANY + ", "
                 + TABLE_FARM + "." + COLUMN_FARM_ID + ", "
                 + TABLE_FARM + "." + COLUMN_FARM_NAME + " "
                 + " FROM " + TABLE_HARVEST_PRODUCTION + " "

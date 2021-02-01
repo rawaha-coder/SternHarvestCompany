@@ -9,7 +9,6 @@ import java.util.List;
 import static harvest.util.Constant.*;
 import static harvest.database.SeasonDAO.*;
 import static harvest.database.SupplyDAO.*;
-import static harvest.database.TransportDAO.*;
 
 
 public class CommonDAO extends DAO{
@@ -25,96 +24,6 @@ public class CommonDAO extends DAO{
             return sCommonDAO;
         }
         return sCommonDAO;
-    }
-
-    //*************************************************************
-    //Product and ProductDetail tables
-    //*************************************************************
-
-    //Add new product and product detail
-    public boolean addNewProductData(ProductDetail productDetail) {
-        Connection connection = null;
-        PreparedStatement preparedStatement;
-
-        String insertProduct = "INSERT INTO " + TABLE_PRODUCT + " (" + COLUMN_PRODUCT_NAME+ ") VALUES (?);";
-
-        String getProductId = "SELECT last_insert_rowid() FROM " + TABLE_PRODUCT + " ;";
-
-        String insertProductDetail = "INSERT INTO " + TABLE_PRODUCT_DETAIL + " ("
-                + COLUMN_PRODUCT_TYPE + ", "
-                + COLUMN_PRODUCT_CODE + ", "
-                + COLUMN_PRODUCT_PRICE_1 + ", "
-                + COLUMN_PRODUCT_PRICE_2 + ", "
-                + COLUMN_FOREIGN_KEY_PRODUCT_ID + ") "
-                + "VALUES (?,?,?,?,?);";
-
-        try {
-            connection = dbGetConnect();
-            connection.setAutoCommit(false);
-            preparedStatement = connection.prepareStatement(insertProduct);
-            preparedStatement.setString(1, productDetail.getProduct().getProductName());
-            preparedStatement.execute();
-
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(getProductId);
-            int id = resultSet.getInt(1);
-
-            preparedStatement = connection.prepareStatement(insertProductDetail);
-            preparedStatement.setString(1, productDetail.getProductType());
-            preparedStatement.setString(2, productDetail.getProductCode());
-            preparedStatement.setDouble(3, productDetail.getProductFirstPrice());
-            preparedStatement.setDouble(4, productDetail.getProductSecondPrice());
-            preparedStatement.setInt(5, id);
-            preparedStatement.execute();
-            connection.commit();
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.print("Error occurred while INSERT Operation: " + e.getMessage());
-            try {
-                assert connection != null;
-                connection.rollback();
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
-            return false;
-        }finally {
-            dbDisConnect();
-        }
-    }
-
-    //Delete all product data
-    public boolean deleteProductDataById(int Id) {
-        Connection connection = null;
-        Statement statement;
-        String deleteFarm = "DELETE FROM " + TABLE_PRODUCT + " WHERE " + COLUMN_PRODUCT_ID + " = " + Id + " ;";
-        String deleteSeason = "DELETE FROM " + TABLE_PRODUCT_DETAIL + " WHERE " + COLUMN_FOREIGN_KEY_PRODUCT_ID + " = " + Id +" ;";
-
-        try {
-            connection = dbGetConnect();
-            connection.setAutoCommit(false);
-
-            statement = connection.createStatement();
-            statement.execute(deleteFarm);
-
-            statement = connection.createStatement();
-            statement.execute(deleteSeason);
-            connection.commit();
-            return true;
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            assert connection != null;
-            try {
-                connection.rollback();
-            }catch (SQLException sqlException){
-                sqlException.printStackTrace();
-                System.out.print("Error occurred while rollback Operation: " + sqlException.getMessage());
-            }
-            System.out.print("Error occurred while INSERT Operation: " + exception.getMessage());
-            return false;
-        }finally {
-            dbDisConnect();
-        }
     }
 
     //*************************************************************
