@@ -71,12 +71,12 @@
          <center>
             <ScrollPane prefHeight="629.0" prefWidth="1096.0" BorderPane.alignment="CENTER">
               <content>
-                <AnchorPane fx:id="mainCenterPane" minHeight="0.0" minWidth="0.0" prefHeight="700" prefWidth="1400" styleClass="mainCenter" />
+                <AnchorPane fx:id="mainCenterPane" minHeight="0.0" minWidth="1200.0" prefHeight="600" styleClass="mainCenter" />
               </content>
             </ScrollPane>
          </center>
           <right>
-              <VBox prefWidth="131.0" spacing="20.0" BorderPane.alignment="CENTER">
+              <VBox prefWidth="131.0" spacing="20.0" BorderPane.alignment="CENTER" styleClass="rightSide">
                   <children>
                           <ToggleButton onAction="#addWorkByGroup" prefHeight="30.0" prefWidth="150.0" styleClass="sideButton" text="Group">
                               <toggleGroup>

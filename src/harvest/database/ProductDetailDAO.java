@@ -12,14 +12,6 @@ import static harvest.util.Constant.*;
 
 public class ProductDetailDAO extends DAO{
 
-//    public static final String TABLE_PRODUCT_DETAIL = "product_detail";
-//    public static final String COLUMN_PRODUCT_DETAIL_ID = "id";
-//    public static final String COLUMN_PRODUCT_TYPE = "type";
-//    public static final String COLUMN_PRODUCT_CODE = "code";
-//    public static final String COLUMN_PRODUCT_PRICE_1 = "price_1";
-//    public static final String COLUMN_PRODUCT_PRICE_2 = "price_2";
-//    public static final String COLUMN_FOREIGN_KEY_PRODUCT_ID = "product_id";
-
     private static ProductDetailDAO sProductDetail = new ProductDetailDAO();
 
     //private Constructor
@@ -41,7 +33,7 @@ public class ProductDetailDAO extends DAO{
         Statement statement;
         String sqlStmt = "SELECT * FROM " + TABLE_PRODUCT_DETAIL
                 + " WHERE " + COLUMN_FOREIGN_KEY_PRODUCT_ID + " = " + product.getProductId()
-                + " ORDER BY " + COLUMN_PRODUCT_DETAIL_ID + " DESC;";
+                + " ORDER BY " + COLUMN_PRODUCT_TYPE + " ASC;";
         //Execute SELECT statement
         try {
             statement = dbGetConnect().createStatement();
@@ -51,8 +43,8 @@ public class ProductDetailDAO extends DAO{
                 productDetail.setProductDetailId(resultSet.getInt(1));
                 productDetail.setProductType(resultSet.getString(2));
                 productDetail.setProductCode(resultSet.getString(3));
-                productDetail.setProductFirstPrice(resultSet.getDouble(4));
-                productDetail.setProductSecondPrice(resultSet.getDouble(5));
+                productDetail.setPriceEmployee(resultSet.getDouble(4));
+                productDetail.setPriceCompany(resultSet.getDouble(5));
                 productDetail.setProduct(product);
                 list.add(productDetail);
             }
@@ -71,8 +63,8 @@ public class ProductDetailDAO extends DAO{
         String insertProductDetail = "INSERT INTO " + TABLE_PRODUCT_DETAIL + " ("
                 + COLUMN_PRODUCT_TYPE + ", "
                 + COLUMN_PRODUCT_CODE + ", "
-                + COLUMN_PRODUCT_PRICE_1 + ", "
-                + COLUMN_PRODUCT_PRICE_2 + ", "
+                + COLUMN_PRODUCT_PRICE_EMPLOYEE + ", "
+                + COLUMN_PRODUCT_PRICE_COMPANY + ", "
                 + COLUMN_FOREIGN_KEY_PRODUCT_ID + ") "
                 + "VALUES (?,?,?,?,?);";
 
@@ -80,8 +72,8 @@ public class ProductDetailDAO extends DAO{
             PreparedStatement preparedStatement = dbGetConnect().prepareStatement(insertProductDetail);
             preparedStatement.setString(1, productDetail.getProductType());
             preparedStatement.setString(2, productDetail.getProductCode());
-            preparedStatement.setDouble(3, productDetail.getProductFirstPrice());
-            preparedStatement.setDouble(4, productDetail.getProductSecondPrice());
+            preparedStatement.setDouble(3, productDetail.getPriceEmployee());
+            preparedStatement.setDouble(4, productDetail.getPriceCompany());
             preparedStatement.setInt(5, productDetail.getProduct().getProductId());
             preparedStatement.execute();
             return true;
@@ -100,15 +92,15 @@ public class ProductDetailDAO extends DAO{
         String updateProductDetail = "UPDATE " + TABLE_PRODUCT_DETAIL + " SET "
                 + COLUMN_PRODUCT_TYPE + "=?, "
                 + COLUMN_PRODUCT_CODE + "=?, "
-                + COLUMN_PRODUCT_PRICE_1 + "=?, "
-                + COLUMN_PRODUCT_PRICE_2 + "=? "
+                + COLUMN_PRODUCT_PRICE_EMPLOYEE + "=?, "
+                + COLUMN_PRODUCT_PRICE_COMPANY + "=? "
                 + " WHERE " + COLUMN_PRODUCT_DETAIL_ID + " = " + productDetail.getProductDetailId() + " ;";
         try {
             preparedStatement = dbGetConnect().prepareStatement(updateProductDetail);
             preparedStatement.setString(1, productDetail.getProductType());
             preparedStatement.setString(2, productDetail.getProductCode());
-            preparedStatement.setDouble(3, productDetail.getProductFirstPrice());
-            preparedStatement.setDouble(4, productDetail.getProductSecondPrice());
+            preparedStatement.setDouble(3, productDetail.getPriceEmployee());
+            preparedStatement.setDouble(4, productDetail.getPriceCompany());
             preparedStatement.execute();
             return true;
         } catch (Exception e) {
@@ -135,6 +127,58 @@ public class ProductDetailDAO extends DAO{
         }
     }
 
+    //Add new product and product detail
+    public boolean addNewProductData(ProductDetail productDetail) {
+        Connection connection = null;
+        PreparedStatement preparedStatement;
+
+        String insertProduct = "INSERT INTO " + TABLE_PRODUCT + " (" + COLUMN_PRODUCT_NAME+ ") VALUES (?);";
+
+        String getProductId = "SELECT last_insert_rowid() FROM " + TABLE_PRODUCT + " ;";
+
+        String insertProductDetail = "INSERT INTO " + TABLE_PRODUCT_DETAIL + " ("
+                + COLUMN_PRODUCT_TYPE + ", "
+                + COLUMN_PRODUCT_CODE + ", "
+                + COLUMN_PRODUCT_PRICE_EMPLOYEE + ", "
+                + COLUMN_PRODUCT_PRICE_COMPANY + ", "
+                + COLUMN_FOREIGN_KEY_PRODUCT_ID + ") "
+                + "VALUES (?,?,?,?,?);";
+
+        try {
+            connection = dbGetConnect();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(insertProduct);
+            preparedStatement.setString(1, productDetail.getProduct().getProductName());
+            preparedStatement.execute();
+
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(getProductId);
+            int id = resultSet.getInt(1);
+
+            preparedStatement = connection.prepareStatement(insertProductDetail);
+            preparedStatement.setString(1, productDetail.getProductType());
+            preparedStatement.setString(2, productDetail.getProductCode());
+            preparedStatement.setDouble(3, productDetail.getPriceEmployee());
+            preparedStatement.setDouble(4, productDetail.getPriceCompany());
+            preparedStatement.setInt(5, id);
+            preparedStatement.execute();
+            connection.commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.print("Error occurred while INSERT Operation: " + e.getMessage());
+            try {
+                assert connection != null;
+                connection.rollback();
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
+            return false;
+        }finally {
+            dbDisConnect();
+        }
+    }
+
     //Update product detail live data
     public void updateLiveData(Product product) {
         PRODUCT_DETAIL_LIVE_DATA.clear();
@@ -145,23 +189,22 @@ public class ProductDetailDAO extends DAO{
         }
     }
 
-    /* **
-    public void createProductDetailTable() throws SQLException {
-        try {
-            Statement statement = dbGetConnect().createStatement();
-            statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_PRODUCT_DETAIL
-                    + "(" + COLUMN_PRODUCT_DETAIL_ID + " INTEGER PRIMARY KEY, "
-                    + COLUMN_PRODUCT_TYPE + " TEXT NOT NULL, "
-                    + COLUMN_PRODUCT_CODE + " TEXT UNIQUE, "
-                    + COLUMN_PRODUCT_PRICE_1 + " REAL NOT NULL, "
-                    + COLUMN_PRODUCT_PRICE_2 + " REAL, "
-                    + COLUMN_FOREIGN_KEY_PRODUCT_ID + " INTEGER NOT NULL, "
-                    + "FOREIGN KEY (" + COLUMN_FOREIGN_KEY_PRODUCT_ID + ") REFERENCES " + TABLE_PRODUCT + " (" + COLUMN_PRODUCT_ID + ") "
-                    + ")");
-        }catch (SQLException e){
-            e.printStackTrace();
-            throw e;
-        }
-    }
-*/
+// *   public void createProductDetailTable() throws SQLException {
+//        try {
+//            Statement statement = dbGetConnect().createStatement();
+//            statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_PRODUCT_DETAIL
+//                    + "(" + COLUMN_PRODUCT_DETAIL_ID + " INTEGER PRIMARY KEY, "
+//                    + COLUMN_PRODUCT_TYPE + " TEXT NOT NULL, "
+//                    + COLUMN_PRODUCT_CODE + " TEXT UNIQUE, "
+//                    + COLUMN_PRODUCT_PRICE_EMPLOYEE + " REAL NOT NULL, "
+//                    + COLUMN_PRODUCT_PRICE_COMPANY + " REAL NOT NULL, "
+//                    + COLUMN_FOREIGN_KEY_PRODUCT_ID + " INTEGER NOT NULL, "
+//                    + "FOREIGN KEY (" + COLUMN_FOREIGN_KEY_PRODUCT_ID + ") REFERENCES " + TABLE_PRODUCT + " (" + COLUMN_PRODUCT_ID + ") "
+//                    + ")");
+//        }catch (SQLException e){
+//            e.printStackTrace();
+//            throw e;
+//        }
+//    }
+
 }

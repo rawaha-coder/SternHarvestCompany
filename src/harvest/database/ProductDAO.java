@@ -30,7 +30,7 @@ public class ProductDAO extends DAO{
     //Get all data product
     public List<Product> getData() throws Exception {
         List<Product> list = new ArrayList<>();
-        String sqlStmt = "SELECT * FROM " + TABLE_PRODUCT + " ORDER BY " + COLUMN_PRODUCT_ID + " ASC;";
+        String sqlStmt = "SELECT * FROM " + TABLE_PRODUCT + " ORDER BY " + COLUMN_PRODUCT_NAME + " ASC;";
         try (Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(sqlStmt)){
             while (resultSet.next()) {
                 Product product = new Product();
@@ -50,7 +50,7 @@ public class ProductDAO extends DAO{
     //Get all data product
     public Map<String, Product> getProductMap() throws Exception {
         Map<String, Product> mProductMap = new LinkedHashMap<>();
-        String sqlStmt = "SELECT * FROM " + TABLE_PRODUCT + " ORDER BY " + COLUMN_PRODUCT_ID + " ASC;";
+        String sqlStmt = "SELECT * FROM " + TABLE_PRODUCT + " ORDER BY " + COLUMN_PRODUCT_NAME + " ASC;";
         try (Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(sqlStmt)){
             while (resultSet.next()) {
                 Product product = new Product();
@@ -67,28 +67,6 @@ public class ProductDAO extends DAO{
         }
     }
 
-    //Get product by Id
-
-    /* **
-    public boolean addData(Product product) {
-        PreparedStatement preparedStatement;
-        String sqlStmt = "INSERT INTO " + TABLE_PRODUCT +  " (" + COLUMN_PRODUCT_NAME + ") VALUES(?);";
-        try {
-            preparedStatement = dbGetConnect().prepareStatement(sqlStmt);
-            preparedStatement.setString(1, product.getProductName());
-            preparedStatement.execute();
-            preparedStatement.close();
-            return true;
-        }catch (Exception e){
-            e.printStackTrace();
-            return false;
-        }finally {
-            dbDisConnect();
-        }
-
-    }
-    */
-
     //Edit product
     public boolean editData(Product product) {
         String updateStmt = "UPDATE " + TABLE_PRODUCT + " SET " + COLUMN_PRODUCT_NAME + " =? " +
@@ -100,6 +78,40 @@ public class ProductDAO extends DAO{
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Error occurred while UPDATE Operation: " + e.getMessage());
+            return false;
+        }finally {
+            dbDisConnect();
+        }
+    }
+
+    //Delete product
+    public boolean deleteProduct(Product product) {
+        Connection connection = null;
+        Statement statement;
+        String deleteProduct = "DELETE FROM " + TABLE_PRODUCT + " WHERE " + COLUMN_PRODUCT_ID + " = " + product.getProductId() + " ;";
+        String deleteProductDetail = "DELETE FROM " + TABLE_PRODUCT_DETAIL + " WHERE " + COLUMN_FOREIGN_KEY_PRODUCT_ID + " = " + product.getProductId() +" ;";
+
+        try {
+            connection = dbGetConnect();
+            connection.setAutoCommit(false);
+
+            statement = connection.createStatement();
+            statement.execute(deleteProduct);
+
+            statement = connection.createStatement();
+            statement.execute(deleteProductDetail);
+            connection.commit();
+            return true;
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            assert connection != null;
+            try {
+                connection.rollback();
+            }catch (SQLException sqlException){
+                sqlException.printStackTrace();
+                System.out.print("Error occurred while rollback Operation: " + sqlException.getMessage());
+            }
+            System.out.print("Error occurred while INSERT Operation: " + exception.getMessage());
             return false;
         }finally {
             dbDisConnect();

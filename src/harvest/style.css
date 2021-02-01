@@ -132,25 +132,6 @@
         -fx-border-radius: 7 7 7 7;
 }
 
-.text-field{
-    -fx-background-color: -fx-other-text-color;
-    -fx-background-radius: 7 7 7 7;
-    -fx-border-radius: 7 7 7 7;
-    -fx-border-color: -fx-grey-border;
-    -fx-text-fill: -fx-white-text;
-    -fx-font-size: 1.3em;
-    -fx-font-weight:bold;
-    -fx-prompt-text-fill: -fx-white-text;
-
-
-}
-
-.text-field:focused{
-    -fx-background-color: -fx-3-color;
-    -fx-background-radius: 7 7 7 7;
-    -fx-border-radius: 7 7 7 7;
-}
-
 /* TableView styling */
 .table-view {
     -fx-background-color: transparent;

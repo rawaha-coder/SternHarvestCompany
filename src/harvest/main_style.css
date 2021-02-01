@@ -3,13 +3,14 @@
 */
 
 * {
-    -fx-bg-color : #000000;
+    -fx-bg-color : #151819;
 	-fx-first-menu-color : #2F2F2F;
 	-fx-second-menu-color : #474747;
 	-fx-button-text-active: #FFFFFF;
 	-fx-button-text-hover: #000000;
 	-fx-hover-color : #ADBBC2;
-	
+	-fx-border-c : #4A4A4A;
+	-fx-clearbutton-c : #ACBAC1;
 }
 
 /*
@@ -59,8 +60,6 @@
      -fx-border-color: rgba(255,255,255,1);
       -fx-translate-y: -7;
       -fx-rotate: -3;
-
-
 }
 
 .sideButton{
@@ -102,7 +101,7 @@
 }
 
 .scroll-pane > .corner {
-    -fx-background-color: black;
+    -fx-background-color: -fx-bg-color;
 }
 
 .scroll-bar:horizontal, .scroll-bar:vertical{
@@ -125,6 +124,36 @@
 .scroll-bar:vertical .thumb {
     -fx-background-color: white;
     -fx-background-radius: 5em;
+}
+
+.rightSide {
+-fx-border-color: -fx-border-c;
+}
+
+.addProductLabel {
+        -fx-background-color: transparent;
+        -fx-font-weight:bold;
+        -fx-text-fill: white;
+        -fx-font-family: "Verdana";
+        -fx-text-size: 0.9em;
+}
+
+.text-field{
+    -fx-background-color: -fx-clearbutton-c;
+    -fx-background-radius: 7 7 7 7;
+    -fx-border-radius: 7 7 7 7;
+    -fx-text-fill: black;
+    -fx-font-family: "Verdana";
+    -fx-text-size: 0.9em;
+}
+
+.text-field:focused{
+    -fx-background-color: white;
+}
+
+.clearButton{
+        -fx-background-color: -fx-clearbutton-c;
+        -fx-text-fill: black;
 }
 
 
