@@ -70,6 +70,7 @@ public class DisplayProductController implements Initializable {
         fxProductPriceCompanyColumn.setCellValueFactory(new PropertyValueFactory<>("priceCompany"));
         fxProductTable.setItems(PRODUCT_NAME_LIVE_DATA);
         fxProductDetailTable.setItems(PRODUCT_DETAIL_LIVE_DATA);
+        fxProductTable.getSelectionModel().selectFirst();
     }
 
     private void observeSelectProduct(){
@@ -124,7 +125,6 @@ public class DisplayProductController implements Initializable {
         }
         mProductDAO.updateLiveData();
         fxProductTable.getSelectionModel().selectFirst();
-        fxProductDetailTable.getSelectionModel().selectFirst();
     }
 
     @FXML

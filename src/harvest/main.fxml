@@ -59,8 +59,8 @@
                                  <ToggleButton fx:id="fxTransportCreditMenuBtn" onAction="#getCredit" prefHeight="30" prefWidth="150.0" text="Transport / Credit" toggleGroup="$topMenu" styleClass="topButton" />
                                  <ToggleButton fx:id="fxEmployeeMenuBtn" onAction="#getEmployee" prefHeight="30" prefWidth="150.0" text="Employees" toggleGroup="$topMenu" styleClass="topButton" />
                                  <ToggleButton fx:id="fxSupplierMenuBtn" onAction="#getSupplier" prefHeight="30" prefWidth="150.0" text="Supplier" toggleGroup="$topMenu" styleClass="topButton" />
-                                 <ToggleButton fx:id="fxFarmSeasonMenuBtn" onAction="#getFarmSeason" prefHeight="30" prefWidth="150.0" text="Farm / Season" toggleGroup="$topMenu" styleClass="topButton" />
-                                 <ToggleButton fx:id="fxProductMenuBtn" onAction="#getProduct" prefHeight="30" prefWidth="150.0" text="Products" toggleGroup="$topMenu" styleClass="topButton" />
+                                 <ToggleButton fx:id="fxFarmSeasonMenuBtn" onAction="#getFarmSeason" prefHeight="30" prefWidth="150.0" text="Champs" toggleGroup="$topMenu" styleClass="topButton" />
+                                 <ToggleButton fx:id="fxProductMenuBtn" onAction="#getProduct" prefHeight="30" prefWidth="150.0" text="Produits" toggleGroup="$topMenu" styleClass="topButton" />
                              </children>
                          </HBox>
                      </children>
@@ -84,13 +84,13 @@
                               </toggleGroup>
                           </ToggleButton>
                           <ToggleButton onAction="#addWorkByHours" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Hours" toggleGroup="$sideMenu" />
-                          <ToggleButton onAction="#addWorkByGroup" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Work" toggleGroup="$sideMenu" />
-                          <ToggleButton onAction="#addCredit" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Credit" toggleGroup="$sideMenu" />
+                          <ToggleButton onAction="#addWorkByIndividual" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Individuel " toggleGroup="$sideMenu" />
+                          <ToggleButton onAction="#addCredit" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Crédit" toggleGroup="$sideMenu" />
                           <ToggleButton onAction="#addTransport" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Transport" toggleGroup="$sideMenu" />
-                          <ToggleButton onAction="#addEmployee" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Employees" toggleGroup="$sideMenu" />
-                          <ToggleButton onAction="#addSupplier" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Supplier" toggleGroup="$sideMenu" />
-                          <ToggleButton onAction="#addFarmSeason" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Farm / Season" toggleGroup="$sideMenu" />
-                          <ToggleButton onAction="#addProduct" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Products" toggleGroup="$sideMenu" />
+                          <ToggleButton onAction="#addEmployee" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Employée" toggleGroup="$sideMenu" />
+                          <ToggleButton onAction="#addSupplier" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Fournisseur" toggleGroup="$sideMenu" />
+                          <ToggleButton onAction="#addFarmSeason" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Champ" toggleGroup="$sideMenu" />
+                          <ToggleButton onAction="#addProduct" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Produit" toggleGroup="$sideMenu" />
                   </children>
                <BorderPane.margin>
                   <Insets />

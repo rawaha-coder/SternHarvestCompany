@@ -65,6 +65,11 @@
     -fx-padding: 0.0em;
 }
 
+.table-row-cell:selected {
+    -fx-background-color: #3896FF;
+    -fx-text-background-color: white;
+}
+
  /* Style of each table cell*/
 .table-view .table-cell{
     -fx-padding: 5px 5px 5px 10px;

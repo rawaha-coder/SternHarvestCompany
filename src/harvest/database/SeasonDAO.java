@@ -3,22 +3,14 @@ package harvest.database;
 import harvest.model.Farm;
 import harvest.model.Season;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static harvest.database.ConstantDAO.*;
 import static harvest.ui.farm.DisplayFarmSeasonController.SEASON_LIST_LIVE_DATA;
 
 public class SeasonDAO extends DAO{
-
-    public static final String TABLE_SEASON = "season";
-    public static final String COLUMN_SEASON_ID = "id";
-    public static final String COLUMN_SEASON_DATE_PLANTING = "planting";
-    public static final String COLUMN_SEASON_DATE_HARVEST = "harvest";
-    public static final String COLUMN_SEASON_FARM_ID = "farm_id";
 
     private static SeasonDAO sSeasonDAO = new SeasonDAO();
 
@@ -56,8 +48,6 @@ public class SeasonDAO extends DAO{
     }
 
     public boolean addSeasonData(Season season) {
-        //PreparedStatement preparedStatement;
-        //Declare a INSERT statement
         String sqlStmt = "INSERT INTO " + TABLE_SEASON + " ("
                 + COLUMN_SEASON_DATE_PLANTING + ", "
                 + COLUMN_SEASON_DATE_HARVEST + ", "
@@ -73,6 +63,59 @@ public class SeasonDAO extends DAO{
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.print("Error occurred while INSERT Operation: " + e.getMessage());
+            return false;
+        }finally {
+            dbDisConnect();
+        }
+    }
+
+    //Add data to Farm and Season tables
+    public boolean addFarmSeasonData(Season season){
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        String sqlInsertFarmStmt = "INSERT INTO " + TABLE_FARM + " ("
+                + COLUMN_FARM_NAME + ", "
+                + COLUMN_FARM_ADDRESS + ") "
+                + "VALUES (?,?);";
+
+        String sqlGetLastId = "SELECT last_insert_rowid() FROM " + TABLE_FARM + " ;";
+
+        String sqlInsertSeasonStmt = "INSERT INTO " + TABLE_SEASON + " ("
+                + COLUMN_SEASON_DATE_PLANTING + ", "
+                + COLUMN_SEASON_DATE_HARVEST + ", "
+                + COLUMN_SEASON_FARM_ID + ") "
+                + "VALUES (?,?,?);";
+
+        try {
+            connection = dbGetConnect();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sqlInsertFarmStmt);
+            preparedStatement.setString(1, season.getSeasonFarm().getFarmName());
+            preparedStatement.setString(2, season.getSeasonFarm().getFarmAddress());
+            preparedStatement.execute();
+
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sqlGetLastId);
+            int id = resultSet.getInt(1);
+
+            preparedStatement = connection.prepareStatement(sqlInsertSeasonStmt);
+            preparedStatement.setDate(1, season.getFarmPlantingDate());
+            preparedStatement.setDate(2, season.getFarmHarvestDate());
+            preparedStatement.setInt(3, id);
+            preparedStatement.execute();
+            connection.commit();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.print("Error occurred while INSERT Operation: " + e.getMessage());
+            assert connection != null;
+            assert preparedStatement != null;
+            try {
+                connection.rollback();
+                preparedStatement.close();
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
             return false;
         }finally {
             dbDisConnect();

@@ -7,7 +7,7 @@ import javafx.scene.chart.XYChart;
 
 import java.sql.*;
 
-import static harvest.util.Constant.*;
+import static harvest.database.ConstantDAO.*;
 
 public class HarvestProductionDAO extends DAO {
 

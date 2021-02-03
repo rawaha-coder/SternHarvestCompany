@@ -10,7 +10,11 @@
 	-fx-button-text-hover: #000000;
 	-fx-hover-color : #ADBBC2;
 	-fx-border-c : #4A4A4A;
-	-fx-clearbutton-c : #ACBAC1;
+	-fx-clearButton-color : #ACBAC1;
+	-fx-sideButton-color : #f84005;
+	-fx-org-color : orange;
+	-fx-ylw-color : yellow;
+	-fx-grn-color : green;
 }
 
 /*
@@ -75,7 +79,7 @@
 }
 
 .sideButton:hover{
-     -fx-background-color: yellow;
+     -fx-background-color: -fx-ylw-color;
      -fx-text-fill: black;
      -fx-border-color: rgba(255,255,255,1);
      -fx-rotate: -5;
@@ -83,7 +87,7 @@
 }
 
 .sideButton:focused{
-     -fx-background-color: yellow;
+     -fx-background-color: -fx-ylw-color;
      -fx-text-fill: black;
      -fx-border-color: rgba(255,255,255,1);
      -fx-rotate: -5;
@@ -130,7 +134,7 @@
 -fx-border-color: -fx-border-c;
 }
 
-.addProductLabel {
+.addWindowsLabel {
         -fx-background-color: transparent;
         -fx-font-weight:bold;
         -fx-text-fill: white;
@@ -139,7 +143,7 @@
 }
 
 .text-field{
-    -fx-background-color: -fx-clearbutton-c;
+    -fx-background-color: -fx-clearButton-color;
     -fx-background-radius: 7 7 7 7;
     -fx-border-radius: 7 7 7 7;
     -fx-text-fill: black;
@@ -151,8 +155,53 @@
     -fx-background-color: white;
 }
 
+/* Style of date picker */
+.date-picker > .text-field {
+    -fx-background-color: -fx-clearButton-color;
+    -fx-background-insets: 0 0 0 0;
+    -fx-background-radius: 7 0 0 7;
+    -fx-border-radius: 7 0 0 7;
+    -fx-font-weight:bold;
+    -fx-font-size: 1.3em;
+}
+
+.date-picker:focused > .text-field,
+.date-picker > .text-field:focused {
+    -fx-background-color: white;
+    -fx-background-insets: 0 0 0 0;
+    -fx-background-radius: 7 0 0 7;
+    -fx-border-radius: 7 0 0 7;
+}
+
+
+.date-picker-popup > .month-year-pane {
+       -fx-padding: 0.588883em 0.5em 0.666667em 0.5em;
+       -fx-background-color: -fx-org-color;
+       -fx-background-insets: 0 0 0 0, 0 0 1 0;
+}
+
+.date-cell {
+       -fx-background-color: -fx-org-color;
+       -fx-font-family: "Andalus";
+       -fx-font-size: 16.0;
+       -fx-text-fill: white;
+}
+
+.date-cell:hover {
+       -fx-background-color: -fx-grn-color;
+       -fx-font-family: "Andalus";
+       -fx-font-size: 16.0;
+       -fx-text-fill: white;
+}
+.date-cell.selected {
+       -fx-background-color: -fx-sideButton-color;
+       -fx-font-family: "Andalus";
+       -fx-font-size: 16.0;
+       -fx-text-fill: white;
+}
+
 .clearButton{
-        -fx-background-color: -fx-clearbutton-c;
+        -fx-background-color: -fx-clearButton-color;
         -fx-text-fill: black;
 }
 

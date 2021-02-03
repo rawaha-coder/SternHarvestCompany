@@ -1,15 +1,10 @@
 package harvest.database;
 
 import harvest.model.*;
-
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
-import static harvest.util.Constant.*;
-import static harvest.database.SeasonDAO.*;
+import static harvest.database.ConstantDAO.*;
 import static harvest.database.SupplyDAO.*;
-
 
 public class CommonDAO extends DAO{
 
@@ -119,154 +114,6 @@ public class CommonDAO extends DAO{
                 connection.close();
             } catch (SQLException sqlException) {
                 sqlException.printStackTrace();
-            }
-            dbDisConnect();
-        }
-    }
-
-    //*************************************************************
-    //Farm and Season tables
-    //*************************************************************
-    //Get data from farm and season tables
-    public List<Season> getData() throws Exception {
-        //Declare a SELECT statement
-        String sqlStmt = "SELECT "
-                + TABLE_SEASON + "." + COLUMN_SEASON_ID + ", "
-                + TABLE_SEASON + "." + COLUMN_SEASON_DATE_PLANTING + ", "
-                + TABLE_SEASON + "." + COLUMN_SEASON_DATE_HARVEST + ", "
-                + TABLE_FARM + "." + COLUMN_FARM_ID + ", "
-                + TABLE_FARM + "." + COLUMN_FARM_NAME + ", "
-                + TABLE_FARM + "." + COLUMN_FARM_ADDRESS + ", "
-                + " FROM " + TABLE_SEASON + " "
-                + " LEFT JOIN " + TABLE_FARM + " "
-                + " ON " + TABLE_FARM + "." + COLUMN_FARM_ID  + " = " + TABLE_SEASON + "." + COLUMN_SEASON_FARM_ID + " "
-                + " ORDER BY " + COLUMN_SEASON_DATE_HARVEST + " DESC;";
-        try {
-            Statement statement = dbGetConnect().createStatement();
-            ResultSet resultSet = statement.executeQuery(sqlStmt);
-            return getDataFromResultSet(resultSet);
-        } catch (SQLException e) {
-            System.out.println("SQL select operation has been failed: " + e);
-            throw e;
-        }finally {
-            dbDisConnect();
-        }
-    }
-
-    private List<Season> getDataFromResultSet(ResultSet resultSet) throws SQLException {
-        List<Season> list = new ArrayList<>();
-        while (resultSet.next()) {
-            Season season = new Season();
-            season.setSeasonId(resultSet.getInt(1));
-            season.setFarmPlantingDate(resultSet.getDate(2));
-            season.setFarmHarvestDate(resultSet.getDate(3));
-            season.setSeasonFarm(new Farm(resultSet.getInt(4), resultSet.getString(5), resultSet.getString(6)));
-            list.add(season);
-        }
-        return list;
-    }
-
-    //Add data to Farm and Season tables
-    public boolean addFarmSeasonData(Season season){
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        String sqlInsertFarmStmt = "INSERT INTO " + TABLE_FARM + " ("
-                + COLUMN_FARM_NAME + ", "
-                + COLUMN_FARM_ADDRESS + ") "
-                + "VALUES (?,?);";
-
-        String sqlGetLastId = "SELECT last_insert_rowid() FROM " + TABLE_FARM + " ;";
-
-        String sqlInsertSeasonStmt = "INSERT INTO " + TABLE_SEASON + " ("
-                + COLUMN_SEASON_DATE_PLANTING + ", "
-                + COLUMN_SEASON_DATE_HARVEST + ", "
-                + COLUMN_SEASON_FARM_ID + ") "
-                + "VALUES (?,?,?);";
-
-        try {
-            connection = dbGetConnect();
-            connection.setAutoCommit(false);
-            preparedStatement = connection.prepareStatement(sqlInsertFarmStmt);
-            preparedStatement.setString(1, season.getSeasonFarm().getFarmName());
-            preparedStatement.setString(2, season.getSeasonFarm().getFarmAddress());
-            preparedStatement.execute();
-
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sqlGetLastId);
-            int id = resultSet.getInt(1);
-
-            preparedStatement = connection.prepareStatement(sqlInsertSeasonStmt);
-            preparedStatement.setDate(1, season.getFarmPlantingDate());
-            preparedStatement.setDate(2, season.getFarmHarvestDate());
-            preparedStatement.setInt(3, id);
-            preparedStatement.execute();
-            connection.commit();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.print("Error occurred while INSERT Operation: " + e.getMessage());
-            assert connection != null;
-            assert preparedStatement != null;
-            try {
-                connection.rollback();
-                preparedStatement.close();
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
-            return false;
-        }finally {
-            dbDisConnect();
-        }
-    }
-
-    //Delete data from farm and season
-    public boolean deleteAllFarmDataById(int id){
-        Connection connection = null;
-        Statement statement = null;
-        String deleteFarmStmt = "DELETE FROM " + TABLE_FARM + " WHERE " + COLUMN_FARM_ID + " ="+id+" ;";
-        String deleteSeasonStmt = "DELETE FROM " + TABLE_SEASON + " WHERE " + COLUMN_SEASON_FARM_ID + " ="+id+" ;";
-        String deleteSupplyStmt = "DELETE FROM " + TABLE_SUPPLY + " WHERE " + COLUMN_SUPPLY_FRGN_KEY_FARM_ID + " ="+id+" ;";
-        String deleteTransportStmt = "DELETE FROM " + TABLE_TRANSPORT + " WHERE " + COLUMN_TRANSPORT_FARM_ID + " ="+id+" ;";
-        try {
-            connection = dbGetConnect();
-            connection.setAutoCommit(false);
-
-            statement = connection.createStatement();
-            statement.execute(deleteFarmStmt);
-
-            statement = connection.createStatement();
-            statement.execute(deleteSeasonStmt);
-
-            statement = connection.createStatement();
-            statement.execute(deleteSupplyStmt);
-
-            statement = connection.createStatement();
-            statement.execute(deleteTransportStmt);
-
-            connection.commit();
-            statement.close();
-            return true;
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            assert connection != null;
-            try {
-                connection.rollback();
-            }catch (SQLException sqlException){
-                sqlException.printStackTrace();
-                System.out.print("Error occurred while rollback Operation: " + sqlException.getMessage());
-            }
-            System.out.print("Error occurred while Delete Operation: " + exception.getMessage());
-            return false;
-        }finally {
-            if (statement != null){
-                try {
-                    statement.close();
-                }catch (SQLException e){/**/}
-            }
-            if (connection != null){
-                try {
-                    connection.close();
-                }catch (SQLException e){/**/}
             }
             dbDisConnect();
         }

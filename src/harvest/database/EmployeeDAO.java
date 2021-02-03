@@ -11,7 +11,7 @@ import java.util.List;
 
 import static harvest.ui.employee.DisplayEmployeeController.EMPLOYEE_GRAPH_LIVE_DATA;
 import static harvest.ui.employee.DisplayEmployeeController.EMPLOYEE_LIST_LIVE_DATA;
-import static harvest.util.Constant.*;
+import static harvest.database.ConstantDAO.*;
 
 public class EmployeeDAO extends DAO{
 

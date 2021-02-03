@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static harvest.ui.supplier.DisplaySupplierController.*;
-import static harvest.util.Constant.*;
+import static harvest.database.ConstantDAO.*;
 
 public class SupplierDAO extends DAO{
 

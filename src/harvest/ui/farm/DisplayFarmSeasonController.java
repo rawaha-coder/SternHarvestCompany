@@ -1,6 +1,5 @@
 package harvest.ui.farm;
 
-import harvest.database.CommonDAO;
 import harvest.database.FarmDAO;
 import harvest.database.SeasonDAO;
 import harvest.model.Farm;
@@ -33,23 +32,12 @@ public class DisplayFarmSeasonController implements Initializable {
     private final AlertMaker alert = new AlertMaker();
     FarmDAO mFarmDAO = FarmDAO.getInstance();
 
-    @FXML
-    private TableView<Farm> fxFarmTable;
-
-    @FXML
-    private TableColumn<Farm, String> fxFarmNameColumn;
-
-    @FXML
-    private TableColumn<Farm, String> fxFarmAddressColumn;
-
-    @FXML
-    private TableView<Season> fxSeasonTable;
-
-    @FXML
-    private TableColumn<Season, String> fxPlantingDateColumn;
-
-    @FXML
-    private TableColumn<Season, String > fxHarvestDateColumn;
+    @FXML private TableView<Farm> fxFarmTable;
+    @FXML private TableColumn<Farm, String> fxFarmNameColumn;
+    @FXML private TableColumn<Farm, String> fxFarmAddressColumn;
+    @FXML private TableView<Season> fxSeasonTable;
+    @FXML private TableColumn<Season, String> fxPlantingDateColumn;
+    @FXML private TableColumn<Season, String > fxHarvestDateColumn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -83,23 +71,20 @@ public class DisplayFarmSeasonController implements Initializable {
     void deleteFarm() {
         Farm farm = fxFarmTable.getSelectionModel().getSelectedItem();
         if (farm == null) {
-            alert.selectDeleteItem("Farm");
+            alert.selectDeleteItem("Champ");
             return;
         }
-
         AlertMaker alertDelete = new AlertMaker();
-
-        Optional<ButtonType> result = alertDelete.deleteConfirmation("Farm");
-        CommonDAO commonDAO =CommonDAO.getInstance();
+        Optional<ButtonType> result = alertDelete.deleteConfirmation("Champ");
         assert result.isPresent();
         if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
-            if (commonDAO.deleteAllFarmDataById(farm.getFarmId())) {
+            if (mFarmDAO.deleteFarmData(farm)) {
                 mFarmDAO.updateLiveData();
-                alert.deleteItem("Farm", true);
+                alert.deleteItem("Champ", true);
                 fxFarmTable.getSelectionModel().selectFirst();
                 fxSeasonTable.getSelectionModel().selectFirst();
             } else {
-                alert.deleteItem("Farm", false);
+                alert.deleteItem("Champ", false);
             }
         } else {
             alert.cancelOperation("Delete");
@@ -110,7 +95,7 @@ public class DisplayFarmSeasonController implements Initializable {
     void editFarm() {
         Farm farm = fxFarmTable.getSelectionModel().getSelectedItem();
         if (farm == null) {
-            alert.selectEditItem("Farm");
+            alert.selectEditItem("Champ");
             return;
         }
         try {
@@ -119,7 +104,7 @@ public class DisplayFarmSeasonController implements Initializable {
             Parent parent = loader.load();
             AddFarmController controller = loader.getController();
             controller.inflateFarmUI(farm);
-            stage.setTitle("Edit farm");
+            stage.setTitle("Edit Champ");
             stage.setScene(new Scene(parent));
             stage.show();
         } catch (IOException e) {
@@ -134,22 +119,21 @@ public class DisplayFarmSeasonController implements Initializable {
     void deleteSeason() {
         Season season = fxSeasonTable.getSelectionModel().getSelectedItem();
         if (season == null) {
-            alert.selectDeleteItem("Season");
+            alert.selectDeleteItem("Saison");
             return;
         }
 
         AlertMaker alertDelete = new AlertMaker();
-
-        Optional<ButtonType> result = alertDelete.deleteConfirmation("Season");
+        Optional<ButtonType> result = alertDelete.deleteConfirmation("Saison");
 
         assert result.isPresent();
         if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
             SeasonDAO seasonDAO = SeasonDAO.getInstance();
             if(seasonDAO.deleteSeasonById(season.getSeasonId())) {
                 mFarmDAO.updateLiveData();
-                alert.deleteItem("Season", true);
+                alert.deleteItem("Saison", true);
             } else {
-                alert.deleteItem("Season", false);
+                alert.deleteItem("Saison ", false);
             }
         } else {
             alert.cancelOperation("Delete");
@@ -169,7 +153,7 @@ public class DisplayFarmSeasonController implements Initializable {
             Parent parent = loader.load();
             AddFarmController controller = loader.getController();
             controller.inflateSeasonUI(season);
-            stage.setTitle("Edit Season");
+            stage.setTitle("Edit Saison");
             stage.setScene(new Scene(parent));
             stage.show();
         } catch (IOException e) {

@@ -1,6 +1,5 @@
 package harvest.ui.farm;
 
-import harvest.database.CommonDAO;
 import harvest.database.FarmDAO;
 import harvest.database.SeasonDAO;
 import harvest.model.*;
@@ -22,26 +21,21 @@ import java.util.*;
 
 public class AddFarmController implements Initializable {
 
-    private final Map<String, Farm> mFarmMap = new LinkedHashMap<>();
+    private Map<String, Farm> mFarmMap = new LinkedHashMap<>();
     private final AlertMaker alert = new AlertMaker();
     FarmDAO mFarmDAO = FarmDAO.getInstance();
+    SeasonDAO mSeasonDAO = SeasonDAO.getInstance();
     Farm mFarm = new Farm();
     Season mSeason = new Season();
     ObservableList<String> observableFarmList = FXCollections.observableArrayList();
     private boolean isEditFarm = false;
     private boolean isEditSeason = false;
 
-    @FXML
-    private AnchorPane fxUIAddItem;
-    @FXML
-    private ComboBox<String> fxFarmComboBox;
-    @FXML
-    private TextField fxFarmAddress;
-    @FXML
-    private DatePicker fxPlantingDate;
-    @FXML
-    private DatePicker fxHarvestDate;
-    @FXML
+    @FXML private AnchorPane fxUIAddItem;
+    @FXML private ComboBox<String> fxFarmComboBox;
+    @FXML private TextField fxFarmAddress;
+    @FXML private DatePicker fxPlantingDate;
+    @FXML private DatePicker fxHarvestDate;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -51,19 +45,15 @@ public class AddFarmController implements Initializable {
         observeSelectFarm();
     }
 
-    //fill the ChoiceBox by employee list
+    //fill the ChoiceBox by farm name list
     private void getFarmList() {
         observableFarmList.clear();
+        mFarmMap.clear();
         try {
-            List<Farm> farms = new ArrayList<>(mFarmDAO.getFarmData());
-            if (farms.size() > 0) {
-                for (Farm farm : farms) {
-                    observableFarmList.add(farm.getFarmName());
-                    mFarmMap.put(farm.getFarmName(), farm);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            mFarmMap = mFarmDAO.getFarmMap();
+            observableFarmList.setAll( mFarmMap.keySet());
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
         fxFarmComboBox.setItems(observableFarmList);
     }
@@ -73,7 +63,6 @@ public class AddFarmController implements Initializable {
                 (ObservableValue<? extends String> ov, String old_val, String new_val) -> {
                         if(mFarmMap.get(new_val) != null)
                             fxFarmAddress.setText(mFarmMap.get(new_val).getFarmAddress());
-
                 }
         );
     }
@@ -81,18 +70,19 @@ public class AddFarmController implements Initializable {
     @FXML
     void handleSaveButton() {
         if (isEditFarm){
-            handleEditFarmOperation(mFarm);
+            handleEditFarmData(mFarm);
         }else if (isEditSeason){
-            handleEditSeasonOperation(mSeason);
+            handleEditSeasonData(mSeason);
         } else{
-            handleAddFarmOperation();
+            handleAddFarmData();
         }
     }
 
-    private void handleAddFarmOperation(){
+    //Function to insert farm data into database
+    private void handleAddFarmData(){
         if (Validation.isEmpty(fxFarmComboBox.getEditor().getText(), fxFarmAddress.getText()))
         {
-            alert.missingInfo("Farm");
+            alert.missingInfo("Champ");
             return;
         }
         boolean isAdded = false;
@@ -105,9 +95,8 @@ public class AddFarmController implements Initializable {
             season.setFarmPlantingDate(Date.valueOf(fxPlantingDate.getValue()));
             season.setFarmHarvestDate(Date.valueOf(fxHarvestDate.getValue()));
             season.setSeasonFarm(newFarm);
-            CommonDAO commonDAO = CommonDAO.getInstance();
             try {
-                isAdded = commonDAO.addFarmSeasonData(season);
+                isAdded = mSeasonDAO.addFarmSeasonData(season);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -132,21 +121,20 @@ public class AddFarmController implements Initializable {
             mFarmDAO.updateLiveData();
             handleClearButton();
             getFarmList();
-            alert.saveItem("Farm", true);
+            alert.saveItem("Champ", true);
         } else {
-            alert.saveItem("Farm", false);
+            alert.saveItem("Champ", false);
         }
     }
 
-    private void handleEditFarmOperation(Farm farm){
+    private void handleEditFarmData(Farm farm){
             farm.setFarmName(fxFarmComboBox.getValue());
             farm.setFarmAddress(fxFarmAddress.getText());
         alert.updateItem("Farm", mFarmDAO.editFarmData(farm));
-        isEditFarm = false;
         handleCancelButton();
     }
 
-    private void handleEditSeasonOperation(Season season){
+    private void handleEditSeasonData(Season season){
         season.setFarmPlantingDate(Date.valueOf(fxPlantingDate.getValue()));
         season.setFarmHarvestDate(Date.valueOf(fxHarvestDate.getValue()));
         SeasonDAO seasonDAO = SeasonDAO.getInstance();
@@ -156,20 +144,21 @@ public class AddFarmController implements Initializable {
         }else {
             alert.updateItem("Season", false);
         }
-        isEditSeason = false;
         handleCancelButton();
     }
 
     @FXML
     void handleCancelButton() {
+        isEditFarm = false;
+        isEditSeason = false;
         Stage stage = (Stage) fxUIAddItem.getScene().getWindow();
         stage.close();
-        System.out.println("Cancel...");
     }
 
     @FXML
     void handleClearButton() {
         getFarmList();
+        fxFarmComboBox.valueProperty().set(null);
         fxFarmAddress.setText("");
         fxPlantingDate.getEditor().setText("");
         fxHarvestDate.getEditor().setText("");

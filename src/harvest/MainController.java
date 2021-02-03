@@ -49,11 +49,11 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    void addWorkByHours(){ loadAddWindow("/harvest/ui/harvest/set_harvest_hours.fxml", "Add work by hours"); }
+    void addWorkByHours(){ loadAddWindow("/harvest/ui/harvest/set_harvest_hours.fxml", "Add hours work"); }
     @FXML
-    void setWorkByGroup(){ loadAddWindow("/harvest/ui/harvest/set_harvest_work.fxml", "Add work by group"); }
+    void addWorkByIndividual(){ loadAddWindow("/harvest/ui/harvest/set_harvest_work.fxml", "Add individual work "); }
     @FXML
-    void addWorkByGroup(){ loadAddWindow("/harvest/ui/harvest/set_harvest_work.fxml", "Add work by group"); }
+    void addWorkByGroup(){ loadAddWindow("/harvest/ui/harvest/set_harvest_work.fxml", "Add group work"); }
     @FXML
     void addFarmSeason(){ loadAddWindow("/harvest/ui/farm/add_farm.fxml", "Add farm/season"); }
     @FXML

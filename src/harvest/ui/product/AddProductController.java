@@ -51,7 +51,7 @@ public class AddProductController implements Initializable {
         observeSelectProduct();
     }
 
-    //fill the ChoiceBox by employee list
+    //fill the ChoiceBox by product list
     private void getProductList() {
         observableProductList.clear();
         mProductMap.clear();
@@ -113,11 +113,11 @@ public class AddProductController implements Initializable {
         }else if (isEditProduct){
             EditProduct(mProduct);
         }else {
-            handleAddProductOperation();
+            addNewProduct();
         }
     }
 
-    private void handleAddProductOperation() {
+    private void addNewProduct() {
         if (Validation.isEmpty(fxProductNameComboBox.getEditor().getText(),
                 fxProductTypeComboBox.getEditor().getText(),
                 fxProductCode.getText(),
@@ -161,7 +161,6 @@ public class AddProductController implements Initializable {
         productDetail.setPriceEmployee(Double.parseDouble(fxProductPriceEmployee.getText().trim()));
         productDetail.setPriceCompany(Double.parseDouble(fxProductPriceCompany.getText().trim()));
         alert.updateItem("Product", mProductDetailDAO.editData(productDetail));
-        isEditProduct = false;
         handleClearButton();
         mProductDetailDAO.updateLiveData(productDetail.getProduct());
         handleCancelButton();
@@ -170,7 +169,6 @@ public class AddProductController implements Initializable {
     private void EditProduct(Product product) {
         product.setProductName(fxProductNameComboBox.getSelectionModel().getSelectedItem());
         alert.updateItem("Product", mProductDAO.editData(product));
-        isEditDetail = false;
         mProductDAO.updateLiveData();
         handleClearButton();
         handleCancelButton();
@@ -178,6 +176,8 @@ public class AddProductController implements Initializable {
 
     @FXML
     private void handleCancelButton() {
+        isEditProduct = false;
+        isEditDetail = false;
         Stage stage = (Stage) fxAddProductUI.getScene().getWindow();
         stage.close();
     }

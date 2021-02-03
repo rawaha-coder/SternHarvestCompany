@@ -1,6 +1,6 @@
-package harvest.util;
+package harvest.database;
 
-public class Constant {
+public class ConstantDAO {
 
     //*************************************
     //Database table columns name for harvest hours UI and model
@@ -103,6 +103,15 @@ public class Constant {
     public static final String COLUMN_FARM_ID = "id";
     public static final String COLUMN_FARM_NAME = "name";
     public static final String COLUMN_FARM_ADDRESS = "address";
+
+    //*************************************
+    //Database table columns name for farm UI and model
+    //*************************************
+    public static final String TABLE_SEASON = "season";
+    public static final String COLUMN_SEASON_ID = "id";
+    public static final String COLUMN_SEASON_DATE_PLANTING = "planting";
+    public static final String COLUMN_SEASON_DATE_HARVEST = "harvest";
+    public static final String COLUMN_SEASON_FARM_ID = "farm_id";
 
     //*************************************
     //Product table Database  columns names

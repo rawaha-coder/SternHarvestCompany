@@ -1,6 +1,5 @@
 package harvest.database;
 
-import harvest.model.Employee;
 import harvest.model.Transport;
 
 import java.sql.PreparedStatement;
@@ -10,7 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import static harvest.util.Constant.*;
+import static harvest.database.ConstantDAO.*;
 import static harvest.ui.credit.DisplayCrdTrsController.TRANSPORT_LIST_LIVE_DATA;
 
 public class TransportDAO extends DAO{
