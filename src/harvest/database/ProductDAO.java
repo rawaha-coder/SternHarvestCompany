@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import static harvest.ui.product.DisplayProductController.PRODUCT_NAME_LIVE_DATA;
-import static harvest.util.Constant.*;
+import static harvest.database.ConstantDAO.*;
 
 public class ProductDAO extends DAO{
 
@@ -47,7 +47,7 @@ public class ProductDAO extends DAO{
         }
     }
 
-    //Get all data product
+    //Get data product as map by product name
     public Map<String, Product> getProductMap() throws Exception {
         Map<String, Product> mProductMap = new LinkedHashMap<>();
         String sqlStmt = "SELECT * FROM " + TABLE_PRODUCT + " ORDER BY " + COLUMN_PRODUCT_NAME + " ASC;";

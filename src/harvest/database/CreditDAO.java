@@ -1,7 +1,6 @@
 package harvest.database;
 
 import harvest.model.Credit;
-import harvest.util.Validation;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,7 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import static harvest.util.Constant.*;
+import static harvest.database.ConstantDAO.*;
 import static harvest.ui.credit.DisplayCrdTrsController.CREDIT_LIST_LIVE_DATA;
 
 public class CreditDAO extends DAO{

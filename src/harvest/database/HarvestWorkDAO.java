@@ -3,7 +3,7 @@ import harvest.model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.sql.*;
-import static harvest.util.Constant.*;
+import static harvest.database.ConstantDAO.*;
 import static harvest.ui.harvest.SetHarvestWork.HARVEST_WORK_LIVE_LIST;
 
 public class HarvestWorkDAO extends DAO {

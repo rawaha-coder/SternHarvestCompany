@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static harvest.ui.product.DisplayProductController.PRODUCT_DETAIL_LIVE_DATA;
-import static harvest.util.Constant.*;
+import static harvest.database.ConstantDAO.*;
 
 public class ProductDetailDAO extends DAO{
 
