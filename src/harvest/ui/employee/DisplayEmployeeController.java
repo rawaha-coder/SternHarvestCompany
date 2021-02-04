@@ -1,6 +1,5 @@
 package harvest.ui.employee;
 
-import harvest.database.CommonDAO;
 import harvest.model.Employee;
 import harvest.util.AlertMaker;
 import harvest.database.EmployeeDAO;
@@ -39,7 +38,6 @@ public class DisplayEmployeeController implements Initializable {
 
     private final AlertMaker alert = new AlertMaker();
     private final EmployeeDAO mEmployeeDAO = EmployeeDAO.getInstance();
-    private final CommonDAO mCommonDAO = CommonDAO.getInstance();
     public AnchorPane fxEmployeeTableUI;
     public MenuItem fxEditEmployee;
     public MenuItem fxDeleteEmployee;
@@ -138,12 +136,10 @@ public class DisplayEmployeeController implements Initializable {
             return;
         }
         AlertMaker alertDelete = new AlertMaker();
-
         Optional<ButtonType> result = alertDelete.deleteConfirmation("Employee");
-
         assert result.isPresent();
         if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
-            if (mCommonDAO.deleteAllEmployeeDataById(employee.getEmployeeId())) {
+            if (mEmployeeDAO.deleteEmployee(employee)) {
                 mEmployeeDAO.updateLiveData();
                 alert.deleteItem("Employee", true);
             } else {

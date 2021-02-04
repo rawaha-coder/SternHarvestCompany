@@ -1,6 +1,5 @@
 package harvest.ui.supplier;
 
-import harvest.database.CommonDAO;
 import harvest.database.SupplierDAO;
 import harvest.database.SupplyDAO;
 import harvest.model.Supplier;
@@ -30,20 +29,13 @@ public class DisplaySupplierController implements Initializable {
     public static ObservableList<Supplier> SUPPLIER_LIST_LIVE_DATA = FXCollections.observableArrayList();
     public static ObservableList<Supply> SUPPLY_LIST_LIVE_DATA = FXCollections.observableArrayList();
 
-    @FXML
-    private TableView<Supplier> fxSupplierTable;
-    @FXML
-    private TableColumn<Supplier, String> fxSupplierName;
-    @FXML
-    private TableColumn<Supplier, String> fxSupplierFirstName;
-    @FXML
-    private TableColumn<Supplier, String> fxSupplierLastName;
-    @FXML
-    private TableView<Supply> fxSupplyTable;
-    @FXML
-    private TableColumn<Supply, String> fxSupplyFarm;
-    @FXML
-    private TableColumn<Supply, String> fxSupplyProduct;
+    @FXML private TableView<Supplier> fxSupplierTable;
+    @FXML private TableColumn<Supplier, String> fxSupplierName;
+    @FXML private TableColumn<Supplier, String> fxSupplierFirstName;
+    @FXML private TableColumn<Supplier, String> fxSupplierLastName;
+    @FXML private TableView<Supply> fxSupplyTable;
+    @FXML private TableColumn<Supply, String> fxSupplyFarm;
+    @FXML private TableColumn<Supply, String> fxSupplyProduct;
 
     private final AlertMaker alert = new AlertMaker();
     private final SupplierDAO mSupplierDAO = SupplierDAO.getInstance();
@@ -58,7 +50,6 @@ public class DisplaySupplierController implements Initializable {
         fxSupplyTable.setItems(SUPPLY_LIST_LIVE_DATA);
         observeSelectSupplier();
         fxSupplierTable.getSelectionModel().selectFirst();
-
     }
 
     private void initColumns() {
@@ -108,20 +99,19 @@ public class DisplaySupplierController implements Initializable {
     void deleteSupplier() {
         Supplier supplier = fxSupplierTable.getSelectionModel().getSelectedItem();
         if (supplier == null) {
-            alert.selectDeleteItem("Supplier");
+            alert.selectDeleteItem("Fournisseur");
             return;
         }
-        CommonDAO commonDAO = CommonDAO.getInstance();
         AlertMaker alertDelete = new AlertMaker();
-        Optional<ButtonType> result = alertDelete.deleteConfirmation("Supplier");
+        Optional<ButtonType> result = alertDelete.deleteConfirmation("Fournisseur");
         assert result.isPresent();
         if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
-            if (commonDAO.deleteAllEmployeeDataById(supplier.getSupplierId())){
+            if (mSupplierDAO.deleteSupplierData(supplier)){
                 mSupplierDAO.updateLiveData();
                 mSupplyDAO.updateLiveData();
-                alert.deleteItem("Supplier", true);
+                alert.deleteItem("Fournisseur", true);
             }else {
-                alert.deleteItem("Supplier", false);
+                alert.deleteItem("Fournisseur", false);
             }
         } else {
             alert.cancelOperation("Delete");
@@ -132,7 +122,7 @@ public class DisplaySupplierController implements Initializable {
     public void editSupply() {
         Supply supply = fxSupplyTable.getSelectionModel().getSelectedItem();
         if (supply == null) {
-            alert.selectEditItem("Supply");
+            alert.selectEditItem("Champ");
             return;
         }
         try {
@@ -141,7 +131,7 @@ public class DisplaySupplierController implements Initializable {
             Parent parent = loader.load();
             AddSupplierController controller = loader.getController();
             controller.inflateSupplyUI(supply);
-            stage.setTitle("Supply Edition");
+            stage.setTitle("Champ Edition");
             stage.setScene(new Scene(parent));
             stage.show();
         } catch (IOException e) {
@@ -153,20 +143,20 @@ public class DisplaySupplierController implements Initializable {
     public void deleteSupply() {
         Supply supply = fxSupplyTable.getSelectionModel().getSelectedItem();
         if (supply == null) {
-            alert.selectDeleteItem("Supply");
+            alert.selectDeleteItem("Champ");
             return;
         }
         AlertMaker alertDelete = new AlertMaker();
 
-        Optional<ButtonType> result = alertDelete.deleteConfirmation("Supply");
+        Optional<ButtonType> result = alertDelete.deleteConfirmation("Champ");
         assert result.isPresent();
         if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
             if (mSupplyDAO.deleteDataById(supply.getSupplyId())){
                 mSupplierDAO.updateLiveData();
                 mSupplyDAO.updateLiveData();
-                alert.deleteItem("Supply", true);
+                alert.deleteItem("Champ", true);
             }else {
-                alert.deleteItem("Supply", false);
+                alert.deleteItem("Champ", false);
             }
         } else {
             alert.cancelOperation("Delete");

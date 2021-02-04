@@ -12,6 +12,7 @@
 	-fx-border-c : #4A4A4A;
 	-fx-clearButton-color : #ACBAC1;
 	-fx-sideButton-color : #f84005;
+	-fx-wit-color : white;
 	-fx-org-color : orange;
 	-fx-ylw-color : yellow;
 	-fx-grn-color : green;
@@ -59,7 +60,7 @@
 }
 
 .topButton:focused{
-     -fx-background-color: white;
+     -fx-background-color: -fx-wit-color;
      -fx-text-fill: black;
      -fx-border-color: rgba(255,255,255,1);
       -fx-translate-y: -7;
@@ -70,7 +71,7 @@
     -fx-font-family: "Times New Roman";
     -fx-text-alignment: center;
     -fx-font-size: 1.3em;
-    -fx-text-fill: white;
+    -fx-text-fill: -fx-wit-color;
     -fx-cursor:hand;
     -fx-background-color:  #f84005;
     -fx-background-radius: 7 7 7 7;
@@ -137,7 +138,7 @@
 .addWindowsLabel {
         -fx-background-color: transparent;
         -fx-font-weight:bold;
-        -fx-text-fill: white;
+        -fx-text-fill: -fx-wit-color;
         -fx-font-family: "Verdana";
         -fx-text-size: 0.9em;
 }
@@ -146,13 +147,14 @@
     -fx-background-color: -fx-clearButton-color;
     -fx-background-radius: 7 7 7 7;
     -fx-border-radius: 7 7 7 7;
+    -fx-border-color: -fx-wit-color;
     -fx-text-fill: black;
     -fx-font-family: "Verdana";
     -fx-text-size: 0.9em;
 }
 
 .text-field:focused{
-    -fx-background-color: white;
+    -fx-background-color: -fx-wit-color;
 }
 
 /* Style of date picker */
@@ -167,7 +169,7 @@
 
 .date-picker:focused > .text-field,
 .date-picker > .text-field:focused {
-    -fx-background-color: white;
+    -fx-background-color: -fx-wit-color;
     -fx-background-insets: 0 0 0 0;
     -fx-background-radius: 7 0 0 7;
     -fx-border-radius: 7 0 0 7;
@@ -184,20 +186,41 @@
        -fx-background-color: -fx-org-color;
        -fx-font-family: "Andalus";
        -fx-font-size: 16.0;
-       -fx-text-fill: white;
+       -fx-text-fill: -fx-wit-color;
 }
 
 .date-cell:hover {
        -fx-background-color: -fx-grn-color;
        -fx-font-family: "Andalus";
        -fx-font-size: 16.0;
-       -fx-text-fill: white;
+       -fx-text-fill: -fx-wit-color;
 }
-.date-cell.selected {
+.date-cell:selected {
        -fx-background-color: -fx-sideButton-color;
        -fx-font-family: "Andalus";
        -fx-font-size: 16.0;
-       -fx-text-fill: white;
+       -fx-text-fill: -fx-wit-color;
+}
+
+/* Style of ChoiceBox */
+.choice-box {
+    -fx-background-color: -fx-clearButton-color;
+    -fx-background-insets: 0 0 0 0;
+    -fx-background-radius: 7 7 7 7;
+    -fx-border-radius: 7 7 7 7;
+    -fx-border-color: -fx-wit-color;
+    -fx-font-weight:bold;
+    -fx-font-size: 1.3em;
+}
+
+.combo-box {
+    -fx-background-color: -fx-clearButton-color;
+    -fx-background-insets: 0 0 0 0;
+    -fx-background-radius: 7 7 7 7;
+    -fx-border-radius: 7 7 7 7;
+    -fx-border-border: -fx-wit-color;
+    -fx-font-weight:bold;
+    -fx-font-size: 1.3em;
 }
 
 .clearButton{
