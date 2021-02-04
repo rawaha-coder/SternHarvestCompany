@@ -1,11 +1,17 @@
 package harvest.database;
 
+import harvest.model.Farm;
 import harvest.model.Supplier;
+import harvest.model.Supply;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
+import static harvest.database.SupplyDAO.*;
+import static harvest.database.SupplyDAO.COLUMN_SUPPLY_FRGN_KEY_PRODUCT_ID;
 import static harvest.ui.supplier.DisplaySupplierController.*;
 import static harvest.database.ConstantDAO.*;
 
@@ -23,12 +29,6 @@ public class SupplierDAO extends DAO{
         }
         return sSupplierDAO;
     }
-
-//    public static final String TABLE_SUPPLIER = "supplier";
-//    public static final String COLUMN_SUPPLIER_ID = "id";
-//    public static final String COLUMN_SUPPLIER_NAME = "company_name";
-//    public static final String COLUMN_SUPPLIER_FIRSTNAME = "firstname";
-//    public static final String COLUMN_SUPPLIER_LASTNAME = "lastname";
 
     //Get all supplier data
     public List<Supplier> getData() throws Exception {
@@ -52,6 +52,27 @@ public class SupplierDAO extends DAO{
         }
     }
 
+    //Get data farm as map by farm name
+    public Map<String, Supplier> getSupplierMap() throws Exception {
+        Map<String, Supplier> mSupplierMap = new LinkedHashMap<>();
+        String sqlStmt = "SELECT * FROM " + TABLE_SUPPLIER + " ORDER BY " + COLUMN_SUPPLIER_NAME + " ASC;";
+        try (Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(sqlStmt)){
+            while (resultSet.next()) {
+                Supplier supplier = new Supplier();
+                supplier.setSupplierId(resultSet.getInt(1));
+                supplier.setSupplierName(resultSet.getString(2));
+                supplier.setSupplierFirstname(resultSet.getString(3));
+                supplier.setSupplierLastname(resultSet.getString(4));
+                mSupplierMap.put(supplier.getSupplierName(), supplier);
+            }
+            return mSupplierMap;
+        } catch (SQLException e) {
+            System.out.println("SQL select operation has been failed: " + e);
+            throw e;
+        }finally {
+            dbDisConnect();
+        }
+    }
 
     public boolean addData(Supplier supplier) {
         PreparedStatement preparedStatement;
@@ -72,6 +93,66 @@ public class SupplierDAO extends DAO{
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.print("Error occurred while INSERT Operation: " + e.getMessage());
+            return false;
+        }finally {
+            dbDisConnect();
+        }
+    }
+
+    //*************************************************************
+    //Add data to Supplier and Supply tables
+    //*************************************************************
+    public boolean addSupplierSupplyData(Supply supply){
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        String insertSupplier = "INSERT INTO " + TABLE_SUPPLIER + " ("
+                + COLUMN_SUPPLIER_NAME + ", "
+                + COLUMN_SUPPLIER_FIRSTNAME + ", "
+                + COLUMN_SUPPLIER_LASTNAME + ") "
+                + " VALUES (?,?,?);";
+
+        String sqlGetLastId = "SELECT last_insert_rowid() FROM " + TABLE_SUPPLIER + " ;";
+
+        String insertSupply = "INSERT INTO " + TABLE_SUPPLY + " ("
+                + COLUMN_SUPPLY_FRGN_KEY_SUPPLIER_ID + ", "
+                + COLUMN_SUPPLY_FRGN_KEY_FARM_ID + ", "
+                + COLUMN_SUPPLY_FRGN_KEY_PRODUCT_ID + ") "
+                + "VALUES (?,?,?);";
+
+        try {
+            connection = dbGetConnect();
+            connection.setAutoCommit(false);
+
+            preparedStatement = connection.prepareStatement(insertSupplier);
+            preparedStatement.setString(1, supply.getSupplier().getSupplierName());
+            preparedStatement.setString(2, supply.getSupplier().getSupplierFirstname());
+            preparedStatement.setString(3, supply.getSupplier().getSupplierLastname());
+            preparedStatement.execute();
+
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sqlGetLastId);
+            int id = resultSet.getInt(1);
+
+            preparedStatement = connection.prepareStatement(insertSupply);
+            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(2, supply.getFarm().getFarmId());
+            preparedStatement.setInt(3, supply.getProduct().getProductId());
+            preparedStatement.execute();
+
+            connection.commit();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.print("Error occurred while INSERT Operation: " + e.getMessage());
+            assert connection != null;
+            assert preparedStatement != null;
+            try {
+                connection.rollback();
+                preparedStatement.close();
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
             return false;
         }finally {
             dbDisConnect();
@@ -100,6 +181,46 @@ public class SupplierDAO extends DAO{
             System.out.println("Error occurred while UPDATE Operation: " + e.getMessage());
             return false;
         }finally {
+            dbDisConnect();
+        }
+    }
+
+    //Delete Employee data from all tables
+    public boolean deleteSupplierData(Supplier supplier){
+        Connection connection = null;
+        Statement statement = null;
+        String deleteSupplier = "DELETE FROM " + TABLE_SUPPLIER   + " WHERE " + COLUMN_EMPLOYEE_ID + " ="+ supplier.getSupplierId() +" ;";
+        String deleteSupply = "DELETE FROM " + TABLE_SUPPLY + " WHERE " + COLUMN_SUPPLY_FRGN_KEY_SUPPLIER_ID + " ="+ supplier.getSupplierId() +" ;";
+        try {
+            connection = dbGetConnect();
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            statement.execute(deleteSupplier);
+            statement = connection.createStatement();
+            statement.execute(deleteSupply);
+            connection.commit();
+            return true;
+        } catch (SQLException ex1) {
+            assert connection != null;
+            try {
+                connection.rollback();
+            }catch (SQLException ex2){
+                ex2.printStackTrace();
+                System.out.print("Error occurred while rollback Operation: " + ex2.getMessage());
+            }
+            ex1.printStackTrace();
+            return false;
+        }finally {
+            if (statement != null){
+                try {
+                    statement.close();
+                }catch (SQLException e){/**/}
+            }
+            if (connection != null){
+                try {
+                    connection.close();
+                }catch (SQLException e){/**/}
+            }
             dbDisConnect();
         }
     }

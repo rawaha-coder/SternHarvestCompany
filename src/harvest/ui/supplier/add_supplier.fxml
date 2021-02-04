@@ -7,23 +7,23 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="fxAddItemUI" prefHeight="664.0" prefWidth="496.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.ui.supplier.AddSupplierController">
+<AnchorPane fx:id="fxAddItemUI" maxHeight="650.0" maxWidth="450.0" prefHeight="650.0" prefWidth="400.0" stylesheets="@../../main_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.ui.supplier.AddSupplierController">
 
     <children>
 
-        <Label layoutX="84.0" layoutY="26.0" prefHeight="20.0" prefWidth="101.0" text="Supplier" />
-        <ComboBox fx:id="fxChoiceSupplier" editable="true" layoutX="84.0" layoutY="46.0" prefHeight="40.0" prefWidth="300.0" promptText="Supplier" />
-        <Label layoutX="84.0" layoutY="113.0" prefHeight="20.0" prefWidth="101.0" text="First name" />
-        <TextField fx:id="fxSupplierFirstname" layoutX="84.0" layoutY="133.0" prefHeight="40.0" prefWidth="300.0" promptText="Firstname" />
-        <Label layoutX="84.0" layoutY="195.0" prefHeight="20.0" prefWidth="101.0" text="Last name" />
-        <TextField fx:id="fxSupplierLastname" layoutX="84.0" layoutY="213.0" prefHeight="40.0" prefWidth="300.0" promptText="Lastname" />
-        <Label layoutX="86.0" layoutY="277.0" prefHeight="20.0" prefWidth="101.0" text="Farm" />
-        <ChoiceBox fx:id="fxChoiceFarm" layoutX="84.0" layoutY="296.0" prefHeight="40.0" prefWidth="300.0" />
-        <Label layoutX="84.0" layoutY="362.0" prefHeight="20.0" prefWidth="101.0" text="Product" />
-        <ChoiceBox fx:id="fxChoiceProduct" layoutX="84.0" layoutY="381.0" prefHeight="40.0" prefWidth="300.0" />
-        <Button layoutX="248.0" layoutY="500.0" mnemonicParsing="false" onAction="#handleClearButton" prefHeight="40.0" prefWidth="140.0" text="Clear Fields" />
-        <Button layoutX="84.0" layoutY="500.0" mnemonicParsing="false" onAction="#handleSaveButton" prefHeight="40.0" prefWidth="140.0" text="Save" />
-        <Button layoutX="88.0" layoutY="581.0" mnemonicParsing="false" onAction="#handleCloseButton" prefHeight="40.0" prefWidth="300.0" text="Close" />
+        <Label layoutX="75.0" layoutY="27.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Fournisseur:" />
+        <ComboBox fx:id="fxChoiceSupplier" editable="true" layoutX="75.0" layoutY="57.0" prefHeight="34.0" prefWidth="250.0" />
+        <Label layoutX="75.0" layoutY="114.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Prénom:" />
+        <TextField fx:id="fxSupplierFirstname" layoutX="75.0" layoutY="144.0" prefHeight="34.0" prefWidth="250.0" />
+        <Label layoutX="75.0" layoutY="196.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Nom:" />
+        <TextField fx:id="fxSupplierLastname" layoutX="75.0" layoutY="226.0" prefHeight="34.0" prefWidth="250.0" />
+        <Label layoutX="77.0" layoutY="278.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Champ:" />
+        <ChoiceBox fx:id="fxChoiceFarm" layoutX="75.0" layoutY="308.0" prefHeight="34.0" prefWidth="250.0" stylesheets="@../../main_style.css" />
+        <Label layoutX="75.0" layoutY="363.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Produit:" />
+        <ChoiceBox fx:id="fxChoiceProduct" layoutX="75.0" layoutY="393.0" prefHeight="34.0" prefWidth="250.0" />
+        <Button layoutX="238.0" layoutY="460.0" mnemonicParsing="false" onAction="#handleClearButton" prefHeight="30.0" prefWidth="120.0" styleClass="clearButton" text="Vider" />
+        <Button layoutX="44.0" layoutY="541.0" mnemonicParsing="false" onAction="#handleSaveButton" prefHeight="40.0" prefWidth="140.0" styleClass="sideButton" text="Save" />
+        <Button layoutX="230.0" layoutY="541.0" mnemonicParsing="false" onAction="#handleCloseButton" prefHeight="40.0" prefWidth="140.0" styleClass="sideButton" text="Close" />
 
     </children>
 

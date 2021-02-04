@@ -58,7 +58,7 @@
                                  <ToggleButton fx:id="fxGetWorkBtn" onAction="#getWork" prefHeight="30" prefWidth="150.0" text="Harvest Work" toggleGroup="$topMenu" styleClass="topButton" />
                                  <ToggleButton fx:id="fxTransportCreditMenuBtn" onAction="#getCredit" prefHeight="30" prefWidth="150.0" text="Transport / Credit" toggleGroup="$topMenu" styleClass="topButton" />
                                  <ToggleButton fx:id="fxEmployeeMenuBtn" onAction="#getEmployee" prefHeight="30" prefWidth="150.0" text="Employees" toggleGroup="$topMenu" styleClass="topButton" />
-                                 <ToggleButton fx:id="fxSupplierMenuBtn" onAction="#getSupplier" prefHeight="30" prefWidth="150.0" text="Supplier" toggleGroup="$topMenu" styleClass="topButton" />
+                                 <ToggleButton fx:id="fxSupplierMenuBtn" onAction="#getSupplier" prefHeight="30" prefWidth="150.0" text="Fournisseur" toggleGroup="$topMenu" styleClass="topButton" />
                                  <ToggleButton fx:id="fxFarmSeasonMenuBtn" onAction="#getFarmSeason" prefHeight="30" prefWidth="150.0" text="Champs" toggleGroup="$topMenu" styleClass="topButton" />
                                  <ToggleButton fx:id="fxProductMenuBtn" onAction="#getProduct" prefHeight="30" prefWidth="150.0" text="Produits" toggleGroup="$topMenu" styleClass="topButton" />
                              </children>

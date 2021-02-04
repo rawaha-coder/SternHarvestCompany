@@ -140,9 +140,9 @@ public class AddFarmController implements Initializable {
         SeasonDAO seasonDAO = SeasonDAO.getInstance();
         if (seasonDAO.editSeasonData(season)) {
             seasonDAO.updateSeasonListByFarm(season.getSeasonFarm());
-            alert.updateItem("Season", true);
+            alert.updateItem("Saison", true);
         }else {
-            alert.updateItem("Season", false);
+            alert.updateItem("Saison", false);
         }
         handleCancelButton();
     }

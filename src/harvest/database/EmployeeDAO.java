@@ -158,7 +158,6 @@ public class EmployeeDAO extends DAO{
     //UPDATE Employee status in database
     //*************************************
     public boolean updateEmployeeStatusById(int employeeId, boolean employeeStatus) {
-        System.out.println(employeeId + " " + employeeStatus);
         String updateStmt = "UPDATE " + TABLE_EMPLOYEE + " SET " + COLUMN_EMPLOYEE_STATUS + " =?  WHERE " + COLUMN_EMPLOYEE_ID + " = " + employeeId + " ;";
         try( PreparedStatement preparedStatement = dbGetConnect().prepareStatement(updateStmt)) {
             System.out.println(employeeId + " " + employeeStatus);
@@ -171,6 +170,73 @@ public class EmployeeDAO extends DAO{
             System.out.println("Error occurred while UPDATE Operation: " + e.getMessage());
             return false;
         }finally {
+            dbDisConnect();
+        }
+    }
+
+    //*************************************************************
+    //Delete Credit Data
+    //*************************************************************
+    //@Override
+    public boolean deleteEmployee(Employee employee) {
+        String deleteEmployee = "DELETE FROM " + TABLE_EMPLOYEE  + " WHERE " + COLUMN_EMPLOYEE_ID + " ="+ employee.getEmployeeId() +" ;";
+        try {
+            Statement statement = dbGetConnect().createStatement();
+            statement.execute(deleteEmployee);
+            statement.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.print("Error occurred while DELETE Operation: " + e.getMessage());
+            return false;
+        }finally {
+            dbDisConnect();
+        }
+    }
+
+    //Delete Employee data from all tables
+    public boolean deleteAllEmployeeDataById(int id){
+        Connection connection = null;
+        Statement statement = null;
+        String deleteFromEmployee = "DELETE FROM " + TABLE_EMPLOYEE  + " WHERE " + COLUMN_EMPLOYEE_ID + " ="+id+" ;";
+        String deleteFromCredit = "DELETE FROM " + TABLE_CREDIT + " WHERE " + COLUMN_CREDIT_EMPLOYEE_ID + " ="+id+" ;";
+        String deleteFromTransport = "DELETE FROM " + TABLE_TRANSPORT  + " WHERE " + COLUMN_TRANSPORT_EMPLOYEE_ID + " ="+id+" ;";
+
+        try {
+            connection = dbGetConnect();
+            connection.setAutoCommit(false);
+
+            statement = connection.createStatement();
+            statement.execute(deleteFromEmployee);
+
+            statement = connection.createStatement();
+            statement.execute(deleteFromCredit);
+
+            statement = connection.createStatement();
+            statement.execute(deleteFromTransport);
+
+            connection.commit();
+            return true;
+        } catch (SQLException ex1) {
+            assert connection != null;
+            try {
+                connection.rollback();
+            }catch (SQLException ex2){
+                ex2.printStackTrace();
+                System.out.print("Error occurred while rollback Operation: " + ex2.getMessage());
+            }
+            ex1.printStackTrace();
+            return false;
+        }finally {
+            if (statement != null){
+                try {
+                    statement.close();
+                }catch (SQLException e){/**/}
+            }
+            if (connection != null){
+                try {
+                    connection.close();
+                }catch (SQLException e){/**/}
+            }
             dbDisConnect();
         }
     }
