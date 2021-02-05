@@ -75,3 +75,18 @@
     -fx-padding: 5px 5px 5px 10px;
     -fx-border-color: -fx-border-c;
 }
+
+/*PieChart style*/
+
+.data0.chart-pie{
+    -fx-pie-color: #E26435;
+}
+
+.data1.chart-pie{
+    -fx-pie-color: #EBA12A;
+}
+
+.chart-pie-label{
+    -fx-pie-color: white;
+    -fx-padding-bottom: 10px;
+}

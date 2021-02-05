@@ -6,66 +6,37 @@ import harvest.util.Validation;
 import harvest.database.EmployeeDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.scene.control.Alert.AlertType;
+
 import java.net.URL;
 import java.sql.Date;
 import java.util.ResourceBundle;
-
 
 public class AddEmployeeController implements Initializable {
 
     private final Employee mEmployee = new Employee();
     private final AlertMaker alert = new AlertMaker();
     private final EmployeeDAO mEmployeeDAO = EmployeeDAO.getInstance();
-    public Button fxSaveButton;
-    @FXML
-    private TextField fxFirstName;
-    @FXML
-    private TextField fxLastName;
-    @FXML
-    private DatePicker fxHireDate;
-    @FXML
-    private DatePicker fxFireDate;
-    @FXML
-    private DatePicker fxPermissionDate;
-    @FXML
-    private CheckBox fxEmployeeStatus;
-    @FXML
-    private AnchorPane fxAddEmployeeUI;
+
+    @FXML private TextField fxFirstName;
+    @FXML private TextField fxLastName;
+    @FXML private DatePicker fxHireDate;
+    @FXML private DatePicker fxFireDate;
+    @FXML private DatePicker fxPermissionDate;
+    @FXML private CheckBox fxEmployeeStatus;
+    @FXML private AnchorPane fxAddEmployeeUI;
     private boolean isEditStatus = false;
 
     @FXML
     void handleSaveButton() {
-        Employee employee = new Employee();
-        if (Validation.isEmpty(fxFirstName.getText(), fxLastName.getText(), fxHireDate.getEditor().getText(), fxFireDate.getEditor().getText(), fxPermissionDate.getEditor().getText()))
-        {
-            alert.missingInfo("Employee");
-            return;
-        }
-
         if (isEditStatus) {
             handleEditOperation(mEmployee);
         }else {
-            employee.setEmployeeStatus(fxEmployeeStatus.isSelected());
-            employee.setEmployeeFirstName(fxFirstName.getText());
-            employee.setEmployeeLastName(fxLastName.getText());
-            employee.setEmployeeHireDate(Date.valueOf(fxHireDate.getValue()));
-            employee.setEmployeeFireDate(Date.valueOf(fxFireDate.getValue()));
-            employee.setEmployeePermissionDate(Date.valueOf(fxPermissionDate.getValue()));
-            if (mEmployeeDAO.addData(employee))
-            {
-                mEmployeeDAO.updateLiveData();
-                handleClearFieldsButton();
-                alert.saveItem("Employee", true);
-            } else {
-                alert.saveItem("Employee", false);
-            }
+            handleAddOperation();
         }
     }
 
@@ -77,24 +48,47 @@ public class AddEmployeeController implements Initializable {
         employee.setEmployeeFireDate(Date.valueOf(fxFireDate.getValue()));
         employee.setEmployeePermissionDate(Date.valueOf(fxPermissionDate.getValue()));
         if (mEmployeeDAO.editData(employee)) {
-            handleClearFieldsButton();
+            clearFieldsButton();
             mEmployeeDAO.updateLiveData();
             alert.updateItem("Employee", true);
         } else {
             alert.updateItem("Employee", false);
         }
-        isEditStatus = Boolean.FALSE;
         handleCancelButton();
+    }
+
+    private void handleAddOperation() {
+        if (Validation.isEmpty(fxFirstName.getText(), fxLastName.getText(), fxHireDate.getEditor().getText(), fxFireDate.getEditor().getText(), fxPermissionDate.getEditor().getText()))
+        {
+            alert.missingInfo("Employee");
+            return;
+        }
+        Employee employee = new Employee();
+        employee.setEmployeeStatus(fxEmployeeStatus.isSelected());
+        employee.setEmployeeFirstName(fxFirstName.getText());
+        employee.setEmployeeLastName(fxLastName.getText());
+        employee.setEmployeeHireDate(Date.valueOf(fxHireDate.getValue()));
+        employee.setEmployeeFireDate(Date.valueOf(fxFireDate.getValue()));
+        employee.setEmployeePermissionDate(Date.valueOf(fxPermissionDate.getValue()));
+        if (mEmployeeDAO.addData(employee))
+        {
+            mEmployeeDAO.updateLiveData();
+            clearFieldsButton();
+            alert.saveItem("Employee", true);
+        } else {
+            alert.saveItem("Employee", false);
+        }
     }
 
     @FXML
     private void handleCancelButton() {
+        isEditStatus = false;
         Stage stage = (Stage) fxAddEmployeeUI.getScene().getWindow();
         stage.close();
     }
 
     @FXML
-    void handleClearFieldsButton() {
+    void clearFieldsButton() {
         fxFirstName.setText("");
         fxLastName.setText("");
         fxHireDate.getEditor().setText("");

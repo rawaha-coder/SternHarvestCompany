@@ -4,7 +4,6 @@ import harvest.model.Employee;
 import harvest.util.AlertMaker;
 import harvest.database.EmployeeDAO;
 
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -41,24 +40,16 @@ public class DisplayEmployeeController implements Initializable {
     public AnchorPane fxEmployeeTableUI;
     public MenuItem fxEditEmployee;
     public MenuItem fxDeleteEmployee;
-    @FXML
-    private TableView<Employee> fxEmployeeTable;
-    @FXML
-    private TableColumn<Employee, Boolean> fxEmployeeSelectColumn;
-    @FXML
-    private TableColumn<Employee, String> fxEmployeeFullNameColumn;
-    @FXML
-    private TableColumn<Employee, String> fxEmployeeFirstNameColumn;
-    @FXML
-    private TableColumn<Employee, String> fxEmployeeLastNameColumn;
-    @FXML
-    private TableColumn<Employee, Date> fxEmployeeHireDateColumn;
-    @FXML
-    private TableColumn<Employee, Date> fxEmployeeFireDateColumn;
-    @FXML
-    private TableColumn<Employee, Date> fxEmployeePermissionDaleColumn;
-    @FXML
-    private PieChart employeePieChat;
+
+    @FXML private TableView<Employee> fxEmployeeTable;
+    @FXML private TableColumn<Employee, Boolean> fxEmployeeSelectColumn;
+    @FXML private TableColumn<Employee, String> fxEmployeeFullNameColumn;
+    @FXML private TableColumn<Employee, String> fxEmployeeFirstNameColumn;
+    @FXML private TableColumn<Employee, String> fxEmployeeLastNameColumn;
+    @FXML private TableColumn<Employee, Date> fxEmployeeHireDateColumn;
+    @FXML private TableColumn<Employee, Date> fxEmployeeFireDateColumn;
+    @FXML private TableColumn<Employee, Date> fxEmployeePermissionDaleColumn;
+    @FXML private PieChart employeePieChat;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -69,12 +60,11 @@ public class DisplayEmployeeController implements Initializable {
 
     //Initialization PieChart
     private void initEmployeeGraph() {
-        //employeePieChat.setAnimated(false);
+        employeePieChat.setAnimated(false);
         employeePieChat.getData().clear();
         employeePieChat.setLabelsVisible(true);
         employeePieChat.setData(EMPLOYEE_GRAPH_LIVE_DATA);
     }
-
 
     //Initialization employee table Columns
     private void initEmployeeTable() {
@@ -89,21 +79,19 @@ public class DisplayEmployeeController implements Initializable {
         fxEmployeeTable.setItems(EMPLOYEE_LIST_LIVE_DATA);
     }
 
-
     //Add CheckBox To EmployeeSelectColumn and observe the change
     private void observeEmployeeSelectColumn() {
         fxEmployeeSelectColumn.setCellFactory(column -> new CheckBoxTableCell<>());
         fxEmployeeSelectColumn.setCellValueFactory(cellData -> {
             Employee employee = cellData.getValue();
-            BooleanProperty booleanProperty = employee.employeeStatusProperty();
-            booleanProperty.addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
+            employee.employeeStatusProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
                 if (mEmployeeDAO.updateEmployeeStatusById(employee.getEmployeeId(), employee.isEmployeeStatus())) {
                     mEmployeeDAO.updateLiveData();
                 } else {
                     alert.show("Error", "something wrong happened", AlertType.ERROR);
                 }
             });
-            return booleanProperty;
+            return employee.employeeStatusProperty();
         });
     }
 

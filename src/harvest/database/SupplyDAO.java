@@ -27,33 +27,8 @@ public class SupplyDAO extends DAO{
         return sSupplyDAO;
     }
 
-    public static final String TABLE_SUPPLY = "supply";
-    public static final String COLUMN_SUPPLY_ID = "id";
-    public static final String COLUMN_SUPPLY_FRGN_KEY_SUPPLIER_ID = "supplier_id";
-    public static final String COLUMN_SUPPLY_FRGN_KEY_FARM_ID = "farm_id";
-    public static final String COLUMN_SUPPLY_FRGN_KEY_PRODUCT_ID = "product_id";
-
-///    public void createSupplyTable() throws SQLException {
-//        try {
-//            Statement statement = dbGetConnect().createStatement();
-//            statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_SUPPLY  + "("
-//                    + COLUMN_SUPPLY_ID + " INTEGER PRIMARY KEY, "
-//                    + COLUMN_SUPPLY_FRGN_KEY_SUPPLIER_ID +" INTEGER NOT NULL, "
-//                    + COLUMN_SUPPLY_FRGN_KEY_FARM_ID +" INTEGER NOT NULL, "
-//                    + COLUMN_SUPPLY_FRGN_KEY_PRODUCT_ID +" INTEGER NOT NULL, "
-//                    + "FOREIGN KEY (" + COLUMN_SUPPLY_FRGN_KEY_SUPPLIER_ID + ") REFERENCES " + TABLE_SUPPLIER + " (" + COLUMN_SUPPLIER_ID + "), "
-//                    + "FOREIGN KEY (" + COLUMN_SUPPLY_FRGN_KEY_FARM_ID + ") REFERENCES " + TABLE_FARM + " (" + COLUMN_FARM_ID + "), "
-//                    + "FOREIGN KEY (" + COLUMN_SUPPLY_FRGN_KEY_PRODUCT_ID + ") REFERENCES " + TABLE_PRODUCT + " (" + COLUMN_PRODUCT_ID + ") "
-//                    + ")");
-//        }catch (SQLException e){
-//            e.printStackTrace();
-//            throw e;
-//        }
-//    }
-
     //Get all supplier data
     public List<Supply> getData() throws Exception {
-        //Declare a SELECT statement
         String sqlStmt = "SELECT "
                 + TABLE_SUPPLY + "." + COLUMN_SUPPLY_ID + ", "
                 + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_ID + ", "
@@ -103,7 +78,6 @@ public class SupplyDAO extends DAO{
                 + COLUMN_SUPPLY_FRGN_KEY_FARM_ID + ", "
                 + COLUMN_SUPPLY_FRGN_KEY_PRODUCT_ID + ") "
                 + " VALUES (?,?,?);";
-
         try {
             preparedStatement = dbGetConnect().prepareStatement(insertStmt);
             preparedStatement.setInt(1, supply.getSupplier().getSupplierId());
@@ -222,4 +196,22 @@ public class SupplyDAO extends DAO{
             e.printStackTrace();
         }
     }
+
+    ///    public void createSupplyTable() throws SQLException {
+//        try {
+//            Statement statement = dbGetConnect().createStatement();
+//            statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_SUPPLY  + "("
+//                    + COLUMN_SUPPLY_ID + " INTEGER PRIMARY KEY, "
+//                    + COLUMN_SUPPLY_FRGN_KEY_SUPPLIER_ID +" INTEGER NOT NULL, "
+//                    + COLUMN_SUPPLY_FRGN_KEY_FARM_ID +" INTEGER NOT NULL, "
+//                    + COLUMN_SUPPLY_FRGN_KEY_PRODUCT_ID +" INTEGER NOT NULL, "
+//                    + "FOREIGN KEY (" + COLUMN_SUPPLY_FRGN_KEY_SUPPLIER_ID + ") REFERENCES " + TABLE_SUPPLIER + " (" + COLUMN_SUPPLIER_ID + "), "
+//                    + "FOREIGN KEY (" + COLUMN_SUPPLY_FRGN_KEY_FARM_ID + ") REFERENCES " + TABLE_FARM + " (" + COLUMN_FARM_ID + "), "
+//                    + "FOREIGN KEY (" + COLUMN_SUPPLY_FRGN_KEY_PRODUCT_ID + ") REFERENCES " + TABLE_PRODUCT + " (" + COLUMN_PRODUCT_ID + ") "
+//                    + ")");
+//        }catch (SQLException e){
+//            e.printStackTrace();
+//            throw e;
+//        }
+//    }
 }

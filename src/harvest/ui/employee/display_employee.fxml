@@ -3,50 +3,44 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane fx:id="fxEmployeeTableUI" prefHeight="690.0" prefWidth="1200.0" stylesheets="@../../style.css"
-            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="harvest.ui.employee.DisplayEmployeeController">
+<AnchorPane fx:id="fxEmployeeTableUI" prefHeight="700.0" prefWidth="1100.0" stylesheets="@../../sub_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.ui.employee.DisplayEmployeeController">
 
-    <HBox layoutX="14.0" layoutY="15.0" prefHeight="600.0" prefWidth="1180.0" AnchorPane.leftAnchor="5.0"
-          AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
-        <TableView fx:id="fxEmployeeTable" editable="true" prefHeight="500.0" maxHeight="600.0" prefWidth="962.0">
+    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="14.0" prefHeight="30.0" prefWidth="1060.0" styleClass="tableName" text="Tableau des fournisseurs" textAlignment="CENTER" />
+    <HBox alignment="TOP_CENTER" layoutX="25.0" layoutY="50.0" prefHeight="500.0" prefWidth="1067.0">
+        <TableView fx:id="fxEmployeeTable" editable="true" maxHeight="600.0" prefHeight="500.0" prefWidth="840.0">
             <columnResizePolicy>
-                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
             </columnResizePolicy>
             <columns>
-                <TableColumn fx:id="fxEmployeeSelectColumn" minWidth="20.0" prefWidth="60.0" text="Select"/>
-                <TableColumn fx:id="fxEmployeeFullNameColumn" minWidth="160.0" prefWidth="200.0" text="Employee"/>
-                <TableColumn fx:id="fxEmployeeFirstNameColumn" minWidth="80.0" prefWidth="100.0" text="First Name"/>
-                <TableColumn fx:id="fxEmployeeLastNameColumn" minWidth="80.0" prefWidth="100.0" text="Last Name"/>
-                <TableColumn fx:id="fxEmployeeHireDateColumn" minWidth="80.0" prefWidth="100.0" text="Staring Date"/>
-                <TableColumn fx:id="fxEmployeeFireDateColumn" minWidth="80.0" prefWidth="100.0" text="Ending Date"/>
-                <TableColumn fx:id="fxEmployeePermissionDaleColumn" minWidth="80.0" prefWidth="100.0"
-                             text="Date Permission"/>
+                <TableColumn fx:id="fxEmployeeSelectColumn" maxWidth="60.0" minWidth="20.0" prefWidth="60.0" text="Select" />
+                <TableColumn fx:id="fxEmployeeFullNameColumn" maxWidth="200.0" minWidth="160.0" prefWidth="200.0" text="Employee" />
+                <TableColumn fx:id="fxEmployeeFirstNameColumn" maxWidth="100.0" minWidth="80.0" prefWidth="100.0" text="Prenom" />
+                <TableColumn fx:id="fxEmployeeLastNameColumn" maxWidth="100.0" minWidth="80.0" prefWidth="100.0" text="Nom" />
+                <TableColumn fx:id="fxEmployeeHireDateColumn" maxWidth="120.0" minWidth="80.0" prefWidth="120.0" text="Debut CTR" />
+                <TableColumn fx:id="fxEmployeeFireDateColumn" maxWidth="120.0" minWidth="80.0" prefWidth="120.0" text="Fin CTR" />
+                <TableColumn fx:id="fxEmployeePermissionDaleColumn" maxWidth="120.0" minWidth="80.0" prefWidth="120.0" text="SCDZ PRMSS" />
             </columns>
             <contextMenu>
                 <ContextMenu>
                     <items>
-                        <MenuItem fx:id="fxEditEmployee" mnemonicParsing="false" onAction="#editEmployee" text="Edit"/>
-                        <MenuItem fx:id="fxDeleteEmployee" mnemonicParsing="false" onAction="#deleteEmployee"
-                                  text="Delete"/>
+                        <MenuItem fx:id="fxEditEmployee" mnemonicParsing="false" onAction="#editEmployee" text="Edit" />
+                        <MenuItem fx:id="fxDeleteEmployee" mnemonicParsing="false" onAction="#deleteEmployee" text="Delete" />
                     </items>
                 </ContextMenu>
             </contextMenu>
             <HBox.margin>
-                <Insets/>
+                <Insets />
             </HBox.margin>
         </TableView>
-        <AnchorPane prefHeight="500.0" maxHeight="600.0" prefWidth="221.0">
-            <PieChart fx:id="employeePieChat" labelLineLength="15.0" layoutX="-7.0" layoutY="-3.0" legendSide="TOP"
-                      prefHeight="500.0" maxHeight="600.0" prefWidth="240.0" title="Employees Status"
-                      AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                      AnchorPane.topAnchor="0.0"/>
+        <AnchorPane maxHeight="600.0" prefHeight="500.0" prefWidth="220.0">
+            <PieChart fx:id="employeePieChat" labelLineLength="15.0" layoutX="16.0" layoutY="14.0" legendSide="TOP" maxHeight="600.0" prefHeight="500.0" prefWidth="240.0" title="Employee Static" />
         </AnchorPane>
     </HBox>
 </AnchorPane>
