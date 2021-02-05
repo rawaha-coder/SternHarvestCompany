@@ -196,7 +196,6 @@ public class AddSupplierController implements Initializable {
         fxSupplierLastname.setText(supplier.getSupplierLastname());
         fxChoiceFarm.setDisable(true);
         fxChoiceProduct.setDisable(true);
-        //getProductList();
         operation = 1;
         mSupplier.setSupplierId(supplier.getSupplierId());
     }
@@ -218,7 +217,6 @@ public class AddSupplierController implements Initializable {
         fxSupplierFirstname.setText("");
         fxSupplierLastname.setText("");
         fxChoiceSupplier.setItems(null);
-        operation = 0;
         initList();
     }
 

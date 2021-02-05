@@ -1,6 +1,5 @@
 package harvest.database;
 
-import harvest.model.Farm;
 import harvest.model.Supplier;
 import harvest.model.Supply;
 
@@ -10,8 +9,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static harvest.database.SupplyDAO.*;
-import static harvest.database.SupplyDAO.COLUMN_SUPPLY_FRGN_KEY_PRODUCT_ID;
 import static harvest.ui.supplier.DisplaySupplierController.*;
 import static harvest.database.ConstantDAO.*;
 
@@ -69,31 +66,6 @@ public class SupplierDAO extends DAO{
         } catch (SQLException e) {
             System.out.println("SQL select operation has been failed: " + e);
             throw e;
-        }finally {
-            dbDisConnect();
-        }
-    }
-
-    public boolean addData(Supplier supplier) {
-        PreparedStatement preparedStatement;
-        String insertStmt = "INSERT INTO " + TABLE_SUPPLIER + " ("
-                + COLUMN_SUPPLIER_NAME + ", "
-                + COLUMN_SUPPLIER_FIRSTNAME + ", "
-                + COLUMN_SUPPLIER_LASTNAME + ") "
-                + " VALUES (?,?,?);";
-
-        try {
-            preparedStatement = dbGetConnect().prepareStatement(insertStmt);
-            preparedStatement.setString(1, supplier.getSupplierName());
-            preparedStatement.setString(2, supplier.getSupplierFirstname());
-            preparedStatement.setString(3, supplier.getSupplierLastname());
-            preparedStatement.execute();
-            updateLiveData();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.print("Error occurred while INSERT Operation: " + e.getMessage());
-            return false;
         }finally {
             dbDisConnect();
         }
@@ -159,7 +131,6 @@ public class SupplierDAO extends DAO{
         }
     }
 
-
     public boolean editData(Supplier supplier) {
         PreparedStatement preparedStatement;
         String updateStmt = "UPDATE " + TABLE_SUPPLIER + " SET "
@@ -194,10 +165,13 @@ public class SupplierDAO extends DAO{
         try {
             connection = dbGetConnect();
             connection.setAutoCommit(false);
+
             statement = connection.createStatement();
             statement.execute(deleteSupplier);
+
             statement = connection.createStatement();
             statement.execute(deleteSupply);
+
             connection.commit();
             return true;
         } catch (SQLException ex1) {
@@ -250,4 +224,27 @@ public class SupplierDAO extends DAO{
     }
 */
 
+//    public boolean addData(Supplier supplier) {
+//        PreparedStatement preparedStatement;
+//        String insertStmt = "INSERT INTO " + TABLE_SUPPLIER + " ("
+//                + COLUMN_SUPPLIER_NAME + ", "
+//                + COLUMN_SUPPLIER_FIRSTNAME + ", "
+//                + COLUMN_SUPPLIER_LASTNAME + ") "
+//                + " VALUES (?,?,?);";
+//        try {
+//            preparedStatement = dbGetConnect().prepareStatement(insertStmt);
+//            preparedStatement.setString(1, supplier.getSupplierName());
+//            preparedStatement.setString(2, supplier.getSupplierFirstname());
+//            preparedStatement.setString(3, supplier.getSupplierLastname());
+//            preparedStatement.execute();
+//            updateLiveData();
+//            return true;
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            System.out.print("Error occurred while INSERT Operation: " + e.getMessage());
+//            return false;
+//        }finally {
+//            dbDisConnect();
+//        }
+//    }
 }

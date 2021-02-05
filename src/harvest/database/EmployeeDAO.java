@@ -17,7 +17,6 @@ public class EmployeeDAO extends DAO{
 
     private static EmployeeDAO sEmployeeDAO = new EmployeeDAO();
 
-    //private Constructor
     private EmployeeDAO(){ }
 
     public static EmployeeDAO getInstance(){
@@ -26,21 +25,6 @@ public class EmployeeDAO extends DAO{
             return sEmployeeDAO;
         }
         return sEmployeeDAO;
-    }
-
-    //*************************************
-    //Update Live data
-    //*************************************
-    //@Override
-    public void updateLiveData() {
-        EMPLOYEE_LIST_LIVE_DATA.clear();
-        EMPLOYEE_GRAPH_LIVE_DATA.clear();
-        try {
-            EMPLOYEE_LIST_LIVE_DATA.setAll(getData());
-            EMPLOYEE_GRAPH_LIVE_DATA.addAll(employeeStatusGraph());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     //*******************************
@@ -76,7 +60,7 @@ public class EmployeeDAO extends DAO{
     //*******************************
     public List<Employee> getData() throws Exception {
         List<Employee> employeeList = new ArrayList<>();
-        String sqlStmt = "SELECT * FROM " + TABLE_EMPLOYEE + " ORDER BY " + COLUMN_EMPLOYEE_ID + " DESC;";
+        String sqlStmt = "SELECT * FROM " + TABLE_EMPLOYEE + " ORDER BY " + COLUMN_EMPLOYEE_FIRST_NAME + " ASC;";
         try(Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(sqlStmt)) {
             while (resultSet.next()) {
                 Employee employee = new Employee();
@@ -95,9 +79,9 @@ public class EmployeeDAO extends DAO{
             throw e;
         }
     }
-
-
-    //Add Employee
+    //*******************************
+    //Add Employee to database
+    //*******************************
     public boolean addData(Employee employee) {
         String insertStmt = "INSERT INTO " + TABLE_EMPLOYEE + " ("
                 + COLUMN_EMPLOYEE_STATUS + ", "
@@ -125,7 +109,9 @@ public class EmployeeDAO extends DAO{
         }
     }
 
-    //Edit Employee
+    //*******************************
+    //Edit Employee in database
+    //*******************************
     public boolean editData(Employee employee) {
         String updateStmt = "UPDATE " + TABLE_EMPLOYEE + " SET " +
                 "" + COLUMN_EMPLOYEE_STATUS + " =?, " +
@@ -160,7 +146,6 @@ public class EmployeeDAO extends DAO{
     public boolean updateEmployeeStatusById(int employeeId, boolean employeeStatus) {
         String updateStmt = "UPDATE " + TABLE_EMPLOYEE + " SET " + COLUMN_EMPLOYEE_STATUS + " =?  WHERE " + COLUMN_EMPLOYEE_ID + " = " + employeeId + " ;";
         try( PreparedStatement preparedStatement = dbGetConnect().prepareStatement(updateStmt)) {
-            System.out.println(employeeId + " " + employeeStatus);
             preparedStatement.setBoolean(1, employeeStatus);
             preparedStatement.execute();
             preparedStatement.close();
@@ -175,9 +160,8 @@ public class EmployeeDAO extends DAO{
     }
 
     //*************************************************************
-    //Delete Credit Data
+    //Delete Employee from database
     //*************************************************************
-    //@Override
     public boolean deleteEmployee(Employee employee) {
         String deleteEmployee = "DELETE FROM " + TABLE_EMPLOYEE  + " WHERE " + COLUMN_EMPLOYEE_ID + " ="+ employee.getEmployeeId() +" ;";
         try {
@@ -193,51 +177,17 @@ public class EmployeeDAO extends DAO{
         }
     }
 
-    //Delete Employee data from all tables
-    public boolean deleteAllEmployeeDataById(int id){
-        Connection connection = null;
-        Statement statement = null;
-        String deleteFromEmployee = "DELETE FROM " + TABLE_EMPLOYEE  + " WHERE " + COLUMN_EMPLOYEE_ID + " ="+id+" ;";
-        String deleteFromCredit = "DELETE FROM " + TABLE_CREDIT + " WHERE " + COLUMN_CREDIT_EMPLOYEE_ID + " ="+id+" ;";
-        String deleteFromTransport = "DELETE FROM " + TABLE_TRANSPORT  + " WHERE " + COLUMN_TRANSPORT_EMPLOYEE_ID + " ="+id+" ;";
-
+    //*************************************
+    //Update Live data
+    //*************************************
+    public void updateLiveData() {
+        EMPLOYEE_LIST_LIVE_DATA.clear();
+        EMPLOYEE_GRAPH_LIVE_DATA.clear();
         try {
-            connection = dbGetConnect();
-            connection.setAutoCommit(false);
-
-            statement = connection.createStatement();
-            statement.execute(deleteFromEmployee);
-
-            statement = connection.createStatement();
-            statement.execute(deleteFromCredit);
-
-            statement = connection.createStatement();
-            statement.execute(deleteFromTransport);
-
-            connection.commit();
-            return true;
-        } catch (SQLException ex1) {
-            assert connection != null;
-            try {
-                connection.rollback();
-            }catch (SQLException ex2){
-                ex2.printStackTrace();
-                System.out.print("Error occurred while rollback Operation: " + ex2.getMessage());
-            }
-            ex1.printStackTrace();
-            return false;
-        }finally {
-            if (statement != null){
-                try {
-                    statement.close();
-                }catch (SQLException e){/**/}
-            }
-            if (connection != null){
-                try {
-                    connection.close();
-                }catch (SQLException e){/**/}
-            }
-            dbDisConnect();
+            EMPLOYEE_LIST_LIVE_DATA.setAll(getData());
+            EMPLOYEE_GRAPH_LIVE_DATA.setAll(employeeStatusGraph());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

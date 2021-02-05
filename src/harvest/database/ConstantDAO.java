@@ -97,6 +97,15 @@ public class ConstantDAO {
     public static final String COLUMN_SUPPLIER_LASTNAME = "lastname";
 
     //*************************************
+    //Database table columns name for supplier UI and model
+    //*************************************
+    public static final String TABLE_SUPPLY = "supply";
+    public static final String COLUMN_SUPPLY_ID = "id";
+    public static final String COLUMN_SUPPLY_FRGN_KEY_SUPPLIER_ID = "supplier_id";
+    public static final String COLUMN_SUPPLY_FRGN_KEY_FARM_ID = "farm_id";
+    public static final String COLUMN_SUPPLY_FRGN_KEY_PRODUCT_ID = "product_id";
+
+    //*************************************
     //Database table columns name for farm UI and model
     //*************************************
     public static final String TABLE_FARM = "farm";

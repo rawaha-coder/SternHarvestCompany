@@ -55,17 +55,17 @@ public class MainController implements Initializable {
     @FXML
     void addWorkByGroup(){ loadAddWindow("/harvest/ui/harvest/set_harvest_work.fxml", "Add group work"); }
     @FXML
-    void addFarmSeason(){ loadAddWindow("/harvest/ui/farm/add_farm.fxml", "Add farm/season"); }
+    void addFarmSeason(){ loadAddWindow("/harvest/ui/farm/add_farm.fxml", "Add Champ"); }
     @FXML
-    void addCredit(){ loadAddWindow("/harvest/ui/credit/add_credit.fxml", "Add credit"); }
+    void addCredit(){ loadAddWindow("/harvest/ui/credit/add_credit.fxml", "Add Credit"); }
     @FXML
-    void addTransport(){ loadAddWindow("/harvest/ui/credit/add_transport.fxml", "Add transport"); }
+    void addTransport(){ loadAddWindow("/harvest/ui/credit/add_transport.fxml", "Add Transport"); }
     @FXML
-    void addEmployee(){ loadAddWindow("/harvest/ui/employee/add_employee.fxml", "Add employee"); }
+    void addEmployee(){ loadAddWindow("/harvest/ui/employee/add_employee.fxml", "Add Employee"); }
     @FXML
-    void addSupplier(){ loadAddWindow("/harvest/ui/supplier/add_supplier.fxml", "Add supplier"); }
+    void addSupplier(){ loadAddWindow("/harvest/ui/supplier/add_supplier.fxml", "Add Fournisseur"); }
     @FXML
-    void addProduct(){ loadAddWindow("/harvest/ui/product/add_product.fxml", "Add production"); }
+    void addProduct(){ loadAddWindow("/harvest/ui/product/add_product.fxml", "Add Produit"); }
 
     private void loadAddWindow(String location, String title){
         Stage subStage = new Stage(StageStyle.DECORATED);

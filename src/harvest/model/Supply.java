@@ -22,22 +22,8 @@ public class Supply {
         this.productName = new SimpleStringProperty();
     }
 
-    public Supply(Supplier supplier, Farm farm, Product product){
-        this.supplyId = new SimpleIntegerProperty();;
-        this.mSupplier = supplier;
-        this.mFarm = farm;
-        this.mProduct = product;
-        this.supplierName = new SimpleStringProperty(mSupplier.getSupplierName());
-        this.farmName = new SimpleStringProperty(mFarm.getFarmName());
-        this.productName = new SimpleStringProperty(mProduct.getProductName());
-    }
-
     public int getSupplyId() {
         return supplyId.get();
-    }
-
-    public SimpleIntegerProperty supplyIdProperty() {
-        return supplyId;
     }
 
     public void setSupplyId(int supplyId) {
@@ -81,35 +67,11 @@ public class Supply {
         return supplierName.get();
     }
 
-    public SimpleStringProperty supplierNameProperty() {
-        return supplierName;
-    }
-
-    public void setSupplierName(String supplierName) {
-        this.supplierName.set(supplierName);
-    }
-
     public String getFarmName() {
         return farmName.get();
     }
 
-    public SimpleStringProperty farmNameProperty() {
-        return farmName;
-    }
-
-    public void setFarmName(String farmName) {
-        this.farmName.set(farmName);
-    }
-
     public String getProductName() {
         return productName.get();
-    }
-
-    public SimpleStringProperty productNameProperty() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName.set(productName);
     }
 }
