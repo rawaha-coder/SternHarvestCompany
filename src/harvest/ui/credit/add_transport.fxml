@@ -7,20 +7,20 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="fxAddItemUI" prefHeight="684.0" prefWidth="465.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.ui.credit.AddTransportController">
+<AnchorPane fx:id="fxAddItemUI" prefHeight="600.0" prefWidth="400.0" stylesheets="@../../main_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.ui.credit.AddTransportController">
 
     <children>
-      <Label layoutX="78.0" layoutY="43.0" prefHeight="20.0" prefWidth="240.0" text="Date" />
-        <DatePicker fx:id="fxTransportDate" layoutX="78.0" layoutY="63.0" prefHeight="40.0" prefWidth="300.0" />
-      <Label layoutX="78.0" layoutY="137.0" prefHeight="20.0" prefWidth="240.0" text="Employee" />
-        <ChoiceBox fx:id="fxEmployeeList" layoutX="78.0" layoutY="157.0" prefHeight="40.0" prefWidth="300.0" />
-      <Label layoutX="78.0" layoutY="235.0" prefHeight="20.0" prefWidth="240.0" text="Amount" />
-        <TextField fx:id="fxTransportAmount" layoutX="78.0" layoutY="255.0" prefHeight="40.0" prefWidth="300.0" promptText="Amount" />
-        <ChoiceBox fx:id="fxFarmList" layoutX="78.0" layoutY="357.0" prefHeight="40.0" prefWidth="300.0" />
-        <Button layoutX="239.0" layoutY="499.0" mnemonicParsing="false" onAction="#handleClearButton" prefHeight="40.0" prefWidth="140.0" text="Clear" />
-        <Button layoutX="78.0" layoutY="499.0" mnemonicParsing="false" onAction="#handleSaveButton" prefHeight="40.0" prefWidth="140.0" text="Save" />
-        <Button layoutX="78.0" layoutY="594.0" mnemonicParsing="false" onAction="#handleCloseButton" prefHeight="40.0" prefWidth="300.0" text="Close" />
-      <Label layoutX="78.0" layoutY="337.0" prefHeight="20.0" prefWidth="240.0" text="Farm" />
+      <Label layoutX="72.0" layoutY="43.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Date:" />
+        <DatePicker fx:id="fxTransportDate" layoutX="72.0" layoutY="73.0" prefHeight="34.0" prefWidth="250.0" />
+      <Label layoutX="72.0" layoutY="137.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Employee:" />
+        <ChoiceBox fx:id="fxEmployeeList" layoutX="72.0" layoutY="167.0" prefHeight="34.0" prefWidth="250.0" />
+      <Label layoutX="72.0" layoutY="235.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Montant:" />
+        <TextField fx:id="fxTransportAmount" layoutX="72.0" layoutY="265.0" prefHeight="34.0" prefWidth="250.0" />
+        <ChoiceBox fx:id="fxFarmList" layoutX="72.0" layoutY="367.0" prefHeight="34.0" prefWidth="250.0" />
+        <Button layoutX="218.0" layoutY="443.0" mnemonicParsing="false" onAction="#handleClearButton" prefHeight="30.0" prefWidth="120.0" styleClass="clearButton" text="Vider" />
+        <Button layoutX="32.0" layoutY="528.0" mnemonicParsing="false" onAction="#handleSaveButton" prefHeight="40.0" prefWidth="140.0" styleClass="sideButton" text="Save" />
+        <Button layoutX="213.0" layoutY="528.0" mnemonicParsing="false" onAction="#handleCloseButton" prefHeight="40.0" prefWidth="149.0" styleClass="sideButton" text="Cancel" />
+      <Label layoutX="72.0" layoutY="337.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Champ:" />
     </children>
 
 </AnchorPane>

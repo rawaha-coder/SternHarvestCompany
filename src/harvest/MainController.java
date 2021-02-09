@@ -1,11 +1,14 @@
 package harvest;
 
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -14,10 +17,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MainController implements Initializable {
+public class MainController{
 
     @FXML AnchorPane fxMainStage;
     @FXML private AnchorPane mainCenterPane;
+    @FXML AnchorPane fxProgressPane;
+    @FXML HBox fxProgressHBox;
+    ProgressBar pBar = new ProgressBar();
 
     @FXML
     public void getProduction() { displayCenterView("/harvest/ui/harvest/get_harvest_production.fxml"); }
@@ -37,7 +43,6 @@ public class MainController implements Initializable {
     void getProduct(){ displayCenterView("/harvest/ui/product/display_product.fxml"); }
 
     public void displayCenterView(String location){
-
         try{
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainController.class.getResource(location));
@@ -82,8 +87,14 @@ public class MainController implements Initializable {
         }
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+//    private void showProgress(){
+//        pBar.setMinWidth(fxProgressHBox.getWidth());
+//        fxProgressHBox.getChildren().setAll(pBar);
+//    }
+//
+//    private void hideProgress(){
+//        pBar.setMinWidth(fxProgressHBox.getWidth());
+//        fxProgressHBox.getChildren().removeAll(pBar);
+//    }
 
-    }
 }

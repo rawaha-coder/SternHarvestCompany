@@ -83,8 +83,6 @@
      -fx-background-color: -fx-ylw-color;
      -fx-text-fill: black;
      -fx-border-color: rgba(255,255,255,1);
-     -fx-rotate: -5;
-     -fx-translate-x: 5;
 }
 
 .sideButton:focused{
@@ -226,6 +224,11 @@
 .clearButton{
         -fx-background-color: -fx-clearButton-color;
         -fx-text-fill: black;
+}
+
+.progress-bar > .track {
+  -fx-text-box-border: forestgreen;
+  -fx-control-inner-background: palegreen;
 }
 
 

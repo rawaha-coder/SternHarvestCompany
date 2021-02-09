@@ -76,7 +76,9 @@ public class ConstantDAO {
     public static final String COLUMN_TRANSPORT_DATE = "date";
     public static final String COLUMN_TRANSPORT_AMOUNT = "amount";
     public static final String COLUMN_TRANSPORT_EMPLOYEE_ID = "employee_id";
+    public static final String COLUMN_TRANSPORT_EMPLOYEE_NAME = "employee_name";
     public static final String COLUMN_TRANSPORT_FARM_ID = "farm_id";
+    public static final String COLUMN_TRANSPORT_FARM_NAME = "farm_name";
 
     //*************************************
     //Database table columns name for credit UI and model
@@ -86,6 +88,7 @@ public class ConstantDAO {
     public static final String COLUMN_CREDIT_DATE = "date";
     public static final String COLUMN_CREDIT_AMOUNT = "amount";
     public static final String COLUMN_CREDIT_EMPLOYEE_ID = "employee_id";
+    public static final String COLUMN_CREDIT_EMPLOYEE_NAME = "employee_name";
 
     //*************************************
     //Database table columns name for supplier UI and model

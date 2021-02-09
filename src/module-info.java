@@ -5,6 +5,7 @@ module SternHarvestCompany {
     requires java.sql;
     requires com.jfoenix;
 
+
     opens harvest.ui.employee;
     opens harvest.ui.product;
     opens harvest.ui.credit;

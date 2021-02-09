@@ -44,7 +44,7 @@ public class Farm {
     }
 
     public String getFarmName() {
-        return farmName.get();
+        return farmName.get().toUpperCase();
     }
 
     public SimpleStringProperty farmNameProperty() {
@@ -56,7 +56,7 @@ public class Farm {
     }
 
     public String getFarmAddress() {
-        return farmAddress.get();
+        return farmAddress.get().toUpperCase();
     }
 
     public void setFarmAddress(String farmAddress) {
