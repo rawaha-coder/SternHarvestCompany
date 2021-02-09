@@ -20,61 +20,51 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.*;
 
 public class AddTransportController implements Initializable {
 
-    private final Map<String, Employee> employeeMap = new LinkedHashMap<>();
-    private final Map<String, Farm> farmMap = new LinkedHashMap<>();
-
-    @FXML
-    private AnchorPane fxAddItemUI;
-
-    @FXML
-    private DatePicker fxTransportDate;
-
-    @FXML
-    private ChoiceBox<String> fxEmployeeList;
-
-    @FXML
-    private TextField fxTransportAmount;
-
-    @FXML
-    private ChoiceBox<String> fxFarmList;
-
-    private Boolean isEditStatus = Boolean.FALSE;
     private final AlertMaker alert = new AlertMaker();
-    private final Transport mTransport = new Transport();
     private final TransportDAO mTransportDAO = TransportDAO.getInstance();
     private final EmployeeDAO mEmployeeDAO = EmployeeDAO.getInstance();
     private final FarmDAO mFarmDAO = FarmDAO.getInstance();
 
+    private Map<String, Employee> employeeMap = new LinkedHashMap<>();
+    private Map<String, Farm> farmMap = new LinkedHashMap<>();
+    private boolean isEditStatus = false;
+    private Transport mTransport;
+
+    @FXML private AnchorPane fxAddItemUI;
+    @FXML private DatePicker fxTransportDate;
+    @FXML private ChoiceBox<String> fxEmployeeList;
+    @FXML private TextField fxTransportAmount;
+    @FXML private ChoiceBox<String> fxFarmList;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        employeeList();
-        farmList();
+        mTransport = new Transport();
+        fxTransportDate.setValue(LocalDate.now());
+        fxTransportDate.setEditable(false);
+        setEmployeeList();
+        setFarmList();
     }
 
-    private void farmList(){
+    //fill the ChoiceBox by Farm list
+    private void setFarmList() {
         ObservableList<String> observableList = FXCollections.observableArrayList();
-
+        farmMap.clear();
         try {
-            List<Farm> list = new ArrayList<>(mFarmDAO.getFarmData());
-            for (Farm farm : list){
-                observableList.add(farm.getFarmAddress());
-                farmMap.put(farm.getFarmAddress(), farm);
-            }
-        }catch (Exception e){
-            e.printStackTrace();
+            farmMap = mFarmDAO.getFarmMap();
+            observableList.setAll(farmMap.keySet());
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
         fxFarmList.setItems(observableList);
-
     }
 
     private void employeeList() {
         ObservableList<String> observableList = FXCollections.observableArrayList();
-
         try {
             List<Employee> list = new ArrayList<>(mEmployeeDAO.getData());
             for (Employee employee : list){
@@ -87,10 +77,22 @@ public class AddTransportController implements Initializable {
         fxEmployeeList.setItems(observableList);
     }
 
+    private void setEmployeeList() {
+        ObservableList<String> employeeNameList = FXCollections.observableArrayList();
+        employeeMap.clear();
+        try {
+            employeeMap = mEmployeeDAO.getEmployeeMap();
+            employeeNameList.setAll(employeeMap.keySet());
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        fxEmployeeList.setItems(employeeNameList);
+    }
+
     @FXML
     void handleSaveButton() {
         if (isEditStatus){
-            handleEditOperation(mTransport);
+            handleEditOperation();
         }else {
             handleAddOperation();
         }
@@ -110,8 +112,10 @@ public class AddTransportController implements Initializable {
         Transport transport = new Transport();
         transport.setTransportDate(Date.valueOf(fxTransportDate.getValue()));
         transport.setTransportAmount(Double.parseDouble(fxTransportAmount.getText()));
-        transport.getEmployee().setEmployeeId(employeeMap.get(fxEmployeeList.getValue()).getEmployeeId());
-        transport.getFarm().setFarmId(farmMap.get(fxFarmList.getValue()).getFarmId());
+        transport.setEmployeeId(employeeMap.get(fxEmployeeList.getValue()).getEmployeeId());
+        transport.setEmployeeName(employeeMap.get(fxEmployeeList.getValue()).getEmployeeFullName());
+        transport.setFarmId(farmMap.get(fxFarmList.getValue()).getFarmId());
+        transport.setFarmName(farmMap.get(fxFarmList.getValue()).getFarmName());
         if (mTransportDAO.addData(transport)){
             mTransportDAO.updateLiveData();
             alert.saveItem("Transport", true);
@@ -121,18 +125,19 @@ public class AddTransportController implements Initializable {
         handleClearButton();
     }
 
-    public void handleEditOperation(Transport transport) {
-        transport.setTransportDate(Date.valueOf(fxTransportDate.getValue()));
-        transport.getEmployee().setEmployeeId(employeeMap.get(fxEmployeeList.getValue()).getEmployeeId());
-        transport.getFarm().setFarmId(farmMap.get(fxFarmList.getValue()).getFarmId());
-        transport.setTransportAmount(Double.parseDouble(fxTransportAmount.getText()));
-        if (mTransportDAO.editData(transport)){
+    public void handleEditOperation() {
+        mTransport.setTransportDate(Date.valueOf(fxTransportDate.getValue()));
+        mTransport.setEmployeeId(employeeMap.get(fxEmployeeList.getValue()).getEmployeeId());
+        mTransport.setEmployeeName(employeeMap.get(fxEmployeeList.getValue()).getEmployeeFullName());
+        mTransport.setFarmId(farmMap.get(fxFarmList.getValue()).getFarmId());
+        mTransport.setFarmName(farmMap.get(fxFarmList.getValue()).getFarmName());
+        mTransport.setTransportAmount(Double.parseDouble(fxTransportAmount.getText()));
+        if (mTransportDAO.editData(mTransport)){
             mTransportDAO.updateLiveData();
             alert.updateItem("Transport", true);
         }else {
             alert.updateItem("Transport", false);
         }
-        isEditStatus = false;
         handleCloseButton();
     }
 
@@ -141,24 +146,28 @@ public class AddTransportController implements Initializable {
         fxTransportDate.getEditor().setText("");
         employeeList();
         fxTransportAmount.setText("");
-        farmList();
+        setFarmList();
     }
 
     @FXML
     void handleCloseButton() {
+        isEditStatus = false;
         Stage stage = (Stage) fxAddItemUI.getScene().getWindow();
         stage.close();
-        System.out.println("Cancel...");
     }
 
     public void inflateUI(Transport transport) {
-        fxTransportDate.setValue(transport.getTransportDate().toLocalDate());
         employeeList();
-        fxEmployeeList.setValue(transport.getEmployeeName());
+        setFarmList();
+        fxTransportDate.setValue(transport.getTransportDate().toLocalDate());
+        fxEmployeeList.getSelectionModel().select(transport.getEmployeeName());
         fxTransportAmount.setText(String.valueOf(transport.getTransportAmount()));
-        farmList();
-        fxFarmList.setValue(transport.getFarm().getFarmAddress());
+        fxFarmList.getSelectionModel().select(transport.getFarmName());
         isEditStatus = true;
         mTransport.setTransportId(transport.getTransportId());
+        mTransport.setEmployeeId(transport.getEmployeeId());
+        mTransport.setEmployeeName(transport.getEmployeeName());
+        mTransport.setFarmId(transport.getFarmId());
+        mTransport.setFarmName(transport.getFarmName());
     }
 }

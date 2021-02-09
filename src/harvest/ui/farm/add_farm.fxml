@@ -9,13 +9,13 @@
 
 <AnchorPane fx:id="fxUIAddItem" maxHeight="680.0" maxWidth="480.0" minHeight="600.0" minWidth="400.0" prefHeight="650.0" prefWidth="400.0" stylesheets="@../../main_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.ui.farm.AddFarmController">
 
-    <Label layoutX="67.0" layoutY="50.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" stylesheets="@../../main_style.css" text="Champ" />
+    <Label layoutX="67.0" layoutY="50.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" stylesheets="@../../main_style.css" text="Champ:" />
     <ComboBox fx:id="fxFarmComboBox" editable="true" layoutX="67.0" layoutY="80.0" prefHeight="34.0" prefWidth="250.0" />
-   <Label layoutX="67.0" layoutY="141.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" stylesheets="@../../main_style.css" text="Adresse" />
+   <Label layoutX="67.0" layoutY="141.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" stylesheets="@../../main_style.css" text="Adresse:" />
     <TextField fx:id="fxFarmAddress" layoutX="67.0" layoutY="171.0" prefHeight="34.0" prefWidth="250.0" />
-   <Label layoutX="67.0" layoutY="243.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" stylesheets="@../../main_style.css" text="Plantation" />
+   <Label layoutX="67.0" layoutY="243.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" stylesheets="@../../main_style.css" text="Plantation:" />
     <DatePicker fx:id="fxPlantingDate" layoutX="67.0" layoutY="273.0" prefHeight="34.0" prefWidth="250.0" />
-    <Label layoutX="67.0" layoutY="338.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" stylesheets="@../../main_style.css" text="Récolte" />
+    <Label layoutX="67.0" layoutY="338.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" stylesheets="@../../main_style.css" text="Récolte:" />
     <DatePicker fx:id="fxHarvestDate" layoutX="67.0" layoutY="368.0" prefHeight="34.0" prefWidth="250.0" />
     <Button fx:id="fxClearFarmButton" layoutX="214.0" layoutY="465.0" mnemonicParsing="false" onAction="#handleClearButton" prefHeight="30.0" prefWidth="120.0" styleClass="clearButton" text="Vider" />
     <Button fx:id="fxSaveFarmButton" layoutX="39.0" layoutY="562.0" mnemonicParsing="false" onAction="#handleSaveButton" prefHeight="40.0" prefWidth="140.0" styleClass="sideButton" text="Save" />

@@ -1,13 +1,16 @@
 package harvest.database;
 
 import harvest.model.Employee;
+import harvest.model.Farm;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import static harvest.ui.employee.DisplayEmployeeController.EMPLOYEE_GRAPH_LIVE_DATA;
 import static harvest.ui.employee.DisplayEmployeeController.EMPLOYEE_LIST_LIVE_DATA;
@@ -79,6 +82,34 @@ public class EmployeeDAO extends DAO{
             throw e;
         }
     }
+
+    //*******************************
+    //Get all employees data
+    //*******************************
+    public Map<String, Employee> getEmployeeMap() throws Exception {
+        Map<String, Employee> itemMap = new LinkedHashMap<>();
+        String sqlStmt = "SELECT * FROM " + TABLE_EMPLOYEE + " ORDER BY " + COLUMN_EMPLOYEE_FIRST_NAME + " ASC;";
+        try (Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(sqlStmt)){
+            while (resultSet.next()) {
+                Employee employee = new Employee();
+                employee.setEmployeeId(resultSet.getInt(1));
+                employee.setEmployeeStatus(resultSet.getBoolean(2));
+                employee.setEmployeeFirstName(resultSet.getString(3));
+                employee.setEmployeeLastName(resultSet.getString(4));
+                employee.setEmployeeHireDate(resultSet.getDate(5));
+                employee.setEmployeeFireDate(resultSet.getDate(6));
+                employee.setEmployeePermissionDate(resultSet.getDate(7));
+                itemMap.put(employee.getEmployeeFullName(), employee);
+            }
+            return itemMap;
+        } catch (SQLException e) {
+            System.out.println("SQL select operation has been failed: " + e);
+            throw e;
+        }finally {
+            dbDisConnect();
+        }
+    }
+
     //*******************************
     //Add Employee to database
     //*******************************

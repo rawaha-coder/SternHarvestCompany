@@ -6,7 +6,6 @@ public class DAO {
 
     private Connection connection = null;
 
-
     //Connect to Database
     public Connection dbGetConnect() throws SQLException{
         String DB_NAME = "database.db";

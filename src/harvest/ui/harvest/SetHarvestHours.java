@@ -335,7 +335,7 @@ public class SetHarvestHours implements Initializable {
                     item.setEndNoon(Time.valueOf(fxEndNoonTime.getText()));
                     item.setEmployeeType(getEmployeeType());
                     item.getHarvestProduction().setHarvestProductionID(mHarvestProduction.getHarvestProductionID());
-                    item.getTransport().getFarm().setFarmId(mHarvestProduction.getFarm().getFarmId());
+                    item.getTransport().setFarmId(mHarvestProduction.getFarm().getFarmId());
                     if (harvestHoursDAO.addHarvesters(item)){
                         count ++;
                     }

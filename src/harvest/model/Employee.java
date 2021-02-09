@@ -35,7 +35,7 @@ public class Employee {
     }
 
     public String getEmployeeFirstName() {
-        return employeeFirstName.get();
+        return employeeFirstName.get().toUpperCase();
     }
 
     public void setEmployeeFirstName(String employeeFirstName) {
@@ -43,7 +43,7 @@ public class Employee {
     }
 
     public String getEmployeeLastName() {
-        return employeeLastName.get();
+        return employeeLastName.get().toUpperCase();
     }
 
     public void setEmployeeLastName(String employeeLastName) {
@@ -52,7 +52,7 @@ public class Employee {
 
     public String getEmployeeFullName() {
         this.employeeFullName.set(getEmployeeFirstName() + " " + getEmployeeLastName());
-        return employeeFullName.get();
+        return employeeFullName.get().toUpperCase();
     }
 
     public SimpleStringProperty employeeFullNameProperty() {

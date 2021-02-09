@@ -36,24 +36,15 @@ public class DisplayCrdTrsController implements Initializable {
     public MenuItem fxEditTransport;
     public MenuItem fxDeleteTransport;
 
-    @FXML
-    private TableView<Credit> fxCreditTable;
-    @FXML
-    private TableColumn<Credit, String> fxCreditDateColumn;
-    @FXML
-    private TableColumn<Credit, String> fxCreditEmployeeColumn;
-    @FXML
-    private TableColumn<Credit, Double> fxCreditAmountColumn;
-    @FXML
-    private TableView<Transport> fxTransportTable;
-    @FXML
-    private TableColumn<Transport, String> fxTransportDateColumn;
-    @FXML
-    private TableColumn<Transport, String> fxTransportEmployeeColumn;
-    @FXML
-    private TableColumn<Transport, Double> fxTransportAmountColumn;
-    @FXML
-    private TableColumn<Transport, String> fxTransportFarmColumn;
+    @FXML private TableView<Credit> fxCreditTable;
+    @FXML private TableColumn<Credit, String> fxCreditDateColumn;
+    @FXML private TableColumn<Credit, String> fxCreditEmployeeColumn;
+    @FXML private TableColumn<Credit, Double> fxCreditAmountColumn;
+    @FXML private TableView<Transport> fxTransportTable;
+    @FXML private TableColumn<Transport, String> fxTransportDateColumn;
+    @FXML private TableColumn<Transport, String> fxTransportEmployeeColumn;
+    @FXML private TableColumn<Transport, Double> fxTransportAmountColumn;
+    @FXML private TableColumn<Transport, String> fxTransportFarmColumn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -62,11 +53,11 @@ public class DisplayCrdTrsController implements Initializable {
     }
 
     //*********************************************************************************************
-    //Credit table model section
+    //Credit View model section
     //*********************************************************************************************
     public void initCreditColumns() {
         fxCreditDateColumn.setCellValueFactory(new PropertyValueFactory<>("creditDate"));
-        fxCreditEmployeeColumn.setCellValueFactory(new PropertyValueFactory<>("creditEmployee"));
+        fxCreditEmployeeColumn.setCellValueFactory(new PropertyValueFactory<>("employeeName"));
         fxCreditAmountColumn.setCellValueFactory(new PropertyValueFactory<>("creditAmount"));
         mCreditDAO.updateLiveData();
         fxCreditTable.setItems(CREDIT_LIST_LIVE_DATA);
@@ -102,12 +93,10 @@ public class DisplayCrdTrsController implements Initializable {
             return;
         }
         AlertMaker alertDelete = new AlertMaker();
-
         Optional<ButtonType> result = alertDelete.deleteConfirmation("Credit");
-
         assert result.isPresent();
         if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
-            if (mCreditDAO.deleteDataById(credit.getCreditId())) {
+            if (mCreditDAO.deleteData(credit)) {
                 mCreditDAO.updateLiveData();
                 alert.deleteItem("Credit", true);
             } else {
@@ -159,12 +148,11 @@ public class DisplayCrdTrsController implements Initializable {
             alert.missingInfo("Transport");
             return;
         }
-
         AlertMaker alertDelete = new AlertMaker();
         Optional<ButtonType> result = alertDelete.deleteConfirmation("Transport");
         assert result.isPresent();
         if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
-            if (mTransportDAO.deleteDataById(transport.getTransportId())){
+            if (mTransportDAO.deleteData(transport)){
                 mTransportDAO.updateLiveData();
                 alert.deleteItem("Transport",  true);
             }else {

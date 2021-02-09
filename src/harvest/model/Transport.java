@@ -9,18 +9,18 @@ public class Transport {
     private final SimpleIntegerProperty transportId;
     private final ObjectProperty<Date> transportDate;
     private final SimpleDoubleProperty transportAmount;
-    private Employee employee;
+    private final SimpleIntegerProperty employeeId;
     private final StringProperty employeeName;
-    private Farm farm;
+    private final SimpleIntegerProperty farmId;
     private final StringProperty farmName;
 
     public Transport() {
         this.transportId = new SimpleIntegerProperty();
         this.transportDate = new SimpleObjectProperty<>();
-        this.employee = new Employee();
+        this.employeeId = new SimpleIntegerProperty();
         this.employeeName = new SimpleStringProperty();
         this.transportAmount = new SimpleDoubleProperty();
-        this.farm = new Farm();
+        this.farmId = new SimpleIntegerProperty();
         this.farmName = new SimpleStringProperty();
     }
 
@@ -44,29 +44,39 @@ public class Transport {
         return transportAmount.get();
     }
 
-    public SimpleDoubleProperty transportAmountProperty() {
-        return transportAmount;
-    }
-
     public void setTransportAmount(double transportAmount) {
         this.transportAmount.set(transportAmount);
     }
 
-    public Employee getEmployee() {
-        return employee;
-    }
-
     public String getEmployeeName() {
-        employeeName.set(employee.getEmployeeFullName());
-        return employeeName.get();
+        return employeeName.get().toUpperCase();
     }
 
-    public Farm getFarm() {
-        return farm;
+    public void setEmployeeName(String employeeName) {
+        this.employeeName.set(employeeName);
     }
 
     public String getFarmName() {
-        this.farmName.set(farm.getFarmName());
-        return farmName.get();
+        return farmName.get().toUpperCase();
+    }
+
+    public void setFarmName(String farmName) {
+        this.farmName.set(farmName);
+    }
+
+    public int getEmployeeId() {
+        return employeeId.get();
+    }
+
+    public void setEmployeeId(int employeeId) {
+        this.employeeId.set(employeeId);
+    }
+
+    public int getFarmId() {
+        return farmId.get();
+    }
+
+    public void setFarmId(int farmId) {
+        this.farmId.set(farmId);
     }
 }

@@ -49,18 +49,18 @@
                         </MenuBar>
                          <HBox fx:id="fxHBoxTopMenu" alignment="CENTER_LEFT" fillHeight="true" prefHeight="30.0" prefWidth="1300.0" styleClass="secondMenu">
                              <children>
-                                 <ToggleButton fx:id="fxGetProductionBtn" alignment="CENTER_LEFT" onAction="#getProduction" prefHeight="30.0" prefWidth="160.0" text="Harvest Production" styleClass="topButton">
+                                 <ToggleButton fx:id="fxGetProductionBtn" alignment="CENTER_LEFT" onAction="#getProduction" prefHeight="30.0" prefWidth="160.0" styleClass="topButton" text="Harvest Production">
                                      <toggleGroup>
                                          <ToggleGroup fx:id="topMenu" />
                                      </toggleGroup>
                                  </ToggleButton>
-                                 <ToggleButton fx:id="fxHarvestHoursMenuBtn" onAction="#getHours" prefHeight="30" prefWidth="150.0" text="Harvest Hours" toggleGroup="$topMenu" styleClass="topButton" />
-                                 <ToggleButton fx:id="fxGetWorkBtn" onAction="#getWork" prefHeight="30" prefWidth="150.0" text="Harvest Work" toggleGroup="$topMenu" styleClass="topButton" />
-                                 <ToggleButton fx:id="fxTransportCreditMenuBtn" onAction="#getCredit" prefHeight="30" prefWidth="150.0" text="Transport / Credit" toggleGroup="$topMenu" styleClass="topButton" />
-                                 <ToggleButton fx:id="fxEmployeeMenuBtn" onAction="#getEmployee" prefHeight="30" prefWidth="150.0" text="Employees" toggleGroup="$topMenu" styleClass="topButton" />
-                                 <ToggleButton fx:id="fxSupplierMenuBtn" onAction="#getSupplier" prefHeight="30" prefWidth="150.0" text="Fournisseur" toggleGroup="$topMenu" styleClass="topButton" />
-                                 <ToggleButton fx:id="fxFarmSeasonMenuBtn" onAction="#getFarmSeason" prefHeight="30" prefWidth="150.0" text="Champs" toggleGroup="$topMenu" styleClass="topButton" />
-                                 <ToggleButton fx:id="fxProductMenuBtn" onAction="#getProduct" prefHeight="30" prefWidth="150.0" text="Produits" toggleGroup="$topMenu" styleClass="topButton" />
+                                 <ToggleButton fx:id="fxHarvestHoursMenuBtn" onAction="#getHours" prefHeight="30" prefWidth="150.0" styleClass="topButton" text="Harvest Hours" toggleGroup="$topMenu" />
+                                 <ToggleButton fx:id="fxGetWorkBtn" onAction="#getWork" prefHeight="30" prefWidth="150.0" styleClass="topButton" text="Harvest Work" toggleGroup="$topMenu" />
+                                 <ToggleButton fx:id="fxTransportCreditMenuBtn" onAction="#getCredit" prefHeight="30" prefWidth="150.0" styleClass="topButton" text="Transport / Credit" toggleGroup="$topMenu" />
+                                 <ToggleButton fx:id="fxEmployeeMenuBtn" onAction="#getEmployee" prefHeight="30" prefWidth="150.0" styleClass="topButton" text="Employees" toggleGroup="$topMenu" />
+                                 <ToggleButton fx:id="fxSupplierMenuBtn" onAction="#getSupplier" prefHeight="30" prefWidth="150.0" styleClass="topButton" text="Fournisseur" toggleGroup="$topMenu" />
+                                 <ToggleButton fx:id="fxFarmSeasonMenuBtn" onAction="#getFarmSeason" prefHeight="30" prefWidth="150.0" styleClass="topButton" text="Champs" toggleGroup="$topMenu" />
+                                 <ToggleButton fx:id="fxProductMenuBtn" onAction="#getProduct" prefHeight="30" prefWidth="150.0" styleClass="topButton" text="Produits" toggleGroup="$topMenu" />
                              </children>
                          </HBox>
                      </children>
@@ -76,7 +76,7 @@
             </ScrollPane>
          </center>
           <right>
-              <VBox prefWidth="131.0" spacing="20.0" BorderPane.alignment="CENTER" styleClass="rightSide">
+              <VBox prefWidth="131.0" spacing="20.0" styleClass="rightSide" BorderPane.alignment="CENTER">
                   <children>
                           <ToggleButton onAction="#addWorkByGroup" prefHeight="30.0" prefWidth="150.0" styleClass="sideButton" text="Group">
                               <toggleGroup>
@@ -100,6 +100,11 @@
                </padding>
               </VBox>
           </right>
+         <bottom>
+            <AnchorPane fx:id="fxProgressPane" prefHeight="15.0" prefWidth="1300.0" BorderPane.alignment="CENTER">
+                <HBox fx:id="fxProgressHBox" minWidth="-Infinity" prefHeight="15.0" prefWidth="1300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            </AnchorPane>
+         </bottom>
       </BorderPane>
    </children>
 </AnchorPane>

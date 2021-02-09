@@ -15,7 +15,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.scene.control.Alert.AlertType;
+
 import java.net.URL;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -23,48 +23,43 @@ import java.util.*;
 
 public class AddCreditController implements Initializable {
 
-    private final Map<String, Integer> employeeNameId = new LinkedHashMap<>();
+    private Map<String, Employee> mapNameEmployee = new LinkedHashMap<>();
     private final Credit mCredit = new Credit();
     private final AlertMaker alert = new AlertMaker();
     private final CreditDAO mCreditDAO = CreditDAO.getInstance();
 
-    @FXML
-    private AnchorPane fxAddItemUI;
-    @FXML
-    private DatePicker fxCreditDate;
-    @FXML
-    private ChoiceBox<String> fxEmployeeList;
-    @FXML
-    private TextField fxCreditAmount;
-    private Boolean isEditStatus = Boolean.FALSE;
+    @FXML private AnchorPane fxAddItemUI;
+    @FXML private DatePicker fxCreditDate;
+    @FXML private ChoiceBox<String> fxEmployeeList;
+    @FXML private TextField fxCreditAmount;
+
+    private boolean isEditStatus = false;
     private final EmployeeDAO mEmployeeDAO = EmployeeDAO.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         fxCreditDate.setValue(LocalDate.now());
         fxCreditDate.setEditable(false);
-        getEmployeeList();
+        getEmployeeName();
     }
 
     //fill the ChoiceBox by employee list
-    private void getEmployeeList() {
-        ObservableList<String> stringObservableList = FXCollections.observableArrayList();
+    private void getEmployeeName() {
+        ObservableList<String> employeeNameList = FXCollections.observableArrayList();
+        mapNameEmployee.clear();
         try {
-            List<Employee> mList = new ArrayList<>(mEmployeeDAO.getData());
-            for (Employee employee : mList) {
-                stringObservableList.add(employee.getEmployeeFullName());
-                employeeNameId.put(employee.getEmployeeFullName(), employee.getEmployeeId());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            mapNameEmployee = mEmployeeDAO.getEmployeeMap();
+            employeeNameList.setAll(mapNameEmployee.keySet());
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
-        fxEmployeeList.setItems(stringObservableList);
+        fxEmployeeList.setItems(employeeNameList);
     }
 
     @FXML
-    void handleClearFieldsButton() {
+    void handleClearButton() {
         fxCreditDate.getEditor().setText("");
-        getEmployeeList();
+        getEmployeeName();
         fxCreditAmount.setText("");
     }
 
@@ -85,9 +80,10 @@ public class AddCreditController implements Initializable {
             Credit credit = new Credit();
             credit.setCreditDate(Date.valueOf(fxCreditDate.getValue()));
             credit.setCreditAmount(Double.parseDouble(fxCreditAmount.getText()));
-            credit.setEmployeeId(employeeNameId.get(fxEmployeeList.getValue()));
+            credit.setEmployeeId(mapNameEmployee.get(fxEmployeeList.getValue()).getEmployeeId());
+            credit.setEmployeeName(mapNameEmployee.get(fxEmployeeList.getValue()).getEmployeeFullName());
             if (mCreditDAO.addData(credit)) {
-                handleClearFieldsButton();
+                handleClearButton();
                 mCreditDAO.updateLiveData();
                 alert.saveItem("Credit", true);
             } else {
@@ -105,7 +101,7 @@ public class AddCreditController implements Initializable {
         } else {
             alert.updateItem ("Credit", false);
         }
-        isEditStatus = Boolean.FALSE;
+        isEditStatus = false;
         Stage stage = (Stage) fxAddItemUI.getScene().getWindow();
         stage.close();
     }
@@ -119,12 +115,12 @@ public class AddCreditController implements Initializable {
 
     public void inflateUI(Credit credit) {
         fxCreditDate.setValue(credit.getCreditDate().toLocalDate());
-        getEmployeeList();
-        fxEmployeeList.getSelectionModel().select(credit.getCreditEmployee());
+        getEmployeeName();
+        fxEmployeeList.getSelectionModel().select(credit.getEmployeeName());
         fxCreditAmount.setText(String.valueOf(credit.getCreditAmount()));
-        isEditStatus = Boolean.TRUE;
+        isEditStatus = true;
         fxEmployeeList.setDisable(true);
         mCredit.setCreditId(credit.getCreditId());
-
+        mCredit.setEmployeeName(credit.getEmployeeName());
     }
 }

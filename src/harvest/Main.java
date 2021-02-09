@@ -1,6 +1,7 @@
 package harvest;
 
-import harvest.database.ProductDetailDAO;
+import harvest.database.CreditDAO;
+import harvest.database.TransportDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,7 +11,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     //EmployeeDAO mEmployeeDAO = EmployeeDAO.getInstance();
-   // CreditDAO mCreditDAO = CreditDAO.getInstance();
+    //CreditDAO mCreditDAO = CreditDAO.getInstance();
     //FarmDAO mFarmDAO = FarmDAO.getInstance();
     //SeasonDAO mSeasonDAO = SeasonDAO.getInstance();
     //ProductDAO mProductDAO = ProductDAO.getInstance();
@@ -26,13 +27,6 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
-        // Create a ScrollPane
-        //ScrollPane scrollPane = new ScrollPane();
-        //scrollPane.setStyle("style.css");
-        // Set content for ScrollPane
-        //scrollPane.setContent(root);
-        //scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        //scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         primaryStage.setTitle("Stern harvest Company");
         primaryStage.setScene(new Scene(root, 1300, 700));
         primaryStage.show();

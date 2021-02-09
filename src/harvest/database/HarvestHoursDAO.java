@@ -108,7 +108,7 @@ public class HarvestHoursDAO extends DAO {
             harvestHours.getEmployee().setEmployeeFirstName(resultSet.getString(9));
             harvestHours.getEmployee().setEmployeeLastName(resultSet.getString(10));
             harvestHours.getTransport().setTransportId(resultSet.getInt(11));
-            harvestHours.getTransport().getFarm().setFarmId(resultSet.getInt(12));
+            harvestHours.getTransport().setFarmId(resultSet.getInt(12));
             harvestHours.getTransport().setTransportAmount(resultSet.getDouble(13));
             harvestHours.getCredit().setCreditId(resultSet.getInt(14));
             harvestHours.getCredit().setCreditAmount(resultSet.getDouble(15));
@@ -187,7 +187,7 @@ public class HarvestHoursDAO extends DAO {
                 preparedStatement.setDate(1, harvestHours.getHarvestDate());
                 preparedStatement.setDouble(2, harvestHours.getTransport().getTransportAmount());
                 preparedStatement.setInt(3, harvestHours.getEmployee().getEmployeeId());
-                preparedStatement.setInt(4, harvestHours.getTransport().getFarm().getFarmId());
+                preparedStatement.setInt(4, harvestHours.getTransport().getFarmId());
                 preparedStatement.execute();
                 preparedStatement.close();
             }
