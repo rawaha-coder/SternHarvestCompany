@@ -4,30 +4,17 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Supplier {
-    private final SimpleIntegerProperty supplierId;
-    private final SimpleStringProperty supplierName;
-    private final SimpleStringProperty supplierFirstname;
-    private final SimpleStringProperty supplierLastname;
+    private final SimpleIntegerProperty supplierId = new SimpleIntegerProperty();
+    private final SimpleStringProperty supplierName = new SimpleStringProperty();
+    private final SimpleStringProperty supplierFirstname = new SimpleStringProperty();
+    private final SimpleStringProperty supplierLastname = new SimpleStringProperty();
 
     public Supplier() {
-        this.supplierId = new SimpleIntegerProperty();
-        this.supplierName = new SimpleStringProperty();
-        this.supplierFirstname = new SimpleStringProperty();
-        this.supplierLastname = new SimpleStringProperty();
     }
 
-    public Supplier(int i) {
-        this.supplierId = new SimpleIntegerProperty(i);
-        this.supplierName = new SimpleStringProperty();
-        this.supplierFirstname = new SimpleStringProperty();
-        this.supplierLastname = new SimpleStringProperty();
-    }
-
-    public Supplier(int i, String s) {
-        this.supplierId = new SimpleIntegerProperty(i);
-        this.supplierName = new SimpleStringProperty(s);
-        this.supplierFirstname = new SimpleStringProperty();
-        this.supplierLastname = new SimpleStringProperty();
+    public Supplier(int id, String name) {
+        this.supplierId.set(id);
+        this.supplierName.set(name);
     }
 
     public int getSupplierId() {
@@ -39,7 +26,7 @@ public class Supplier {
     }
 
     public String getSupplierName() {
-        return supplierName.get();
+        return supplierName.get().toUpperCase();
     }
 
     public void setSupplierName(String supplierName) {
@@ -51,18 +38,18 @@ public class Supplier {
     }
 
     public String getSupplierFirstname() {
-        return supplierFirstname.get();
+        return supplierFirstname.get().toUpperCase();
     }
 
     public void setSupplierFirstname(String supplierFirstname) {
-        this.supplierFirstname.set(supplierFirstname);
+        this.supplierFirstname.set(supplierFirstname.toUpperCase());
     }
 
     public String getSupplierLastname() {
-        return supplierLastname.get();
+        return supplierLastname.get().toUpperCase();
     }
 
     public void setSupplierLastname(String supplierLastname) {
-        this.supplierLastname.set(supplierLastname);
+        this.supplierLastname.set(supplierLastname.toUpperCase());
     }
 }

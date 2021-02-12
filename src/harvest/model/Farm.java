@@ -4,32 +4,22 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Farm {
-    private final SimpleIntegerProperty farmId;
-    private final SimpleStringProperty farmName;
-    private final SimpleStringProperty farmAddress;
+    private final SimpleIntegerProperty farmId = new SimpleIntegerProperty();
+    private final SimpleStringProperty farmName = new SimpleStringProperty();
+    private final SimpleStringProperty farmAddress = new SimpleStringProperty();
 
-    public Farm() {
-        this.farmId = new SimpleIntegerProperty();
-        this.farmName = new SimpleStringProperty();
-        this.farmAddress = new SimpleStringProperty();
-    }
+    public Farm(){ }
 
     public Farm(int i) {
-        this.farmId = new SimpleIntegerProperty(i);
-        this.farmName = new SimpleStringProperty();
-        this.farmAddress = new SimpleStringProperty();
+        this.farmId.set(i);
     }
 
-    public Farm(int i, String s) {
-        this.farmId = new SimpleIntegerProperty(i);
-        this.farmName = new SimpleStringProperty(s);
-        this.farmAddress = new SimpleStringProperty();
+    public Farm(int id, String name) {
+        this.farmId.set(id);
+        this.farmName.set(name);
     }
 
     public Farm(int farmId, String farmName, String farmAddress) {
-        this.farmId = new SimpleIntegerProperty();
-        this.farmName = new SimpleStringProperty();
-        this.farmAddress = new SimpleStringProperty();
         this.farmId.set(farmId);
         this.farmName.set(farmName);
         this.farmAddress.set(farmAddress);

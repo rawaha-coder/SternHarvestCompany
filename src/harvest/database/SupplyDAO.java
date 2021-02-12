@@ -27,7 +27,9 @@ public class SupplyDAO extends DAO{
         return sSupplyDAO;
     }
 
-    //Get all supplier data
+    //*************************************************************
+    //Get all supply data
+    //*************************************************************
     public List<Supply> getData() throws Exception {
         String sqlStmt = "SELECT "
                 + TABLE_SUPPLY + "." + COLUMN_SUPPLY_ID + ", "
@@ -57,6 +59,39 @@ public class SupplyDAO extends DAO{
         }
     }
 
+    //*************************************************************
+    //Get all supply data by Supplier
+    //*************************************************************
+    public List<Supply> getSupplyDataBySupplier(Supplier supplier) throws Exception {
+        String sqlStmt = "SELECT "
+                + TABLE_SUPPLY + "." + COLUMN_SUPPLY_ID + ", "
+                + TABLE_SUPPLY + "." + COLUMN_SUPPLY_FRGN_KEY_SUPPLIER_ID + ", "
+                + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_NAME + ", "
+                + TABLE_FARM + "." + COLUMN_FARM_ID + ", "
+                + TABLE_FARM + "." + COLUMN_FARM_NAME + ", "
+                + TABLE_PRODUCT + "." + COLUMN_PRODUCT_ID + ", "
+                + TABLE_PRODUCT + "." + COLUMN_PRODUCT_NAME + " "
+                + " FROM " + TABLE_SUPPLY + " "
+                + "LEFT JOIN " + TABLE_SUPPLIER + " "
+                + " ON " + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_ID  + " = " + TABLE_SUPPLY + "." + COLUMN_SUPPLY_FRGN_KEY_SUPPLIER_ID + " "
+                + "LEFT JOIN " + TABLE_FARM + " "
+                + " ON " + TABLE_FARM + "." + COLUMN_FARM_ID  + " = " + TABLE_SUPPLY + "." + COLUMN_SUPPLY_FRGN_KEY_FARM_ID + " "
+                + "LEFT JOIN " + TABLE_PRODUCT  + " "
+                + " ON " + TABLE_PRODUCT + "." + COLUMN_PRODUCT_ID  + " = " + TABLE_SUPPLY + "." + COLUMN_SUPPLY_FRGN_KEY_PRODUCT_ID + " "
+                + " WHERE " + TABLE_SUPPLY + "." + COLUMN_SUPPLY_FRGN_KEY_SUPPLIER_ID + " = " + supplier.getSupplierId() + " "
+                + " ORDER BY " + TABLE_FARM + "." + COLUMN_FARM_NAME + " ASC;";
+        try {
+            Statement statement = dbGetConnect().createStatement();
+            ResultSet resultSet = statement.executeQuery(sqlStmt);
+            return getDataFromResultSet(resultSet);
+        } catch (SQLException e) {
+            System.out.println("SQL select operation has been failed: " + e);
+            throw e;
+        }finally {
+            dbDisConnect();
+        }
+    }
+
     private List<Supply> getDataFromResultSet(ResultSet resultSet) throws SQLException {
         List<Supply> supplyList = new ArrayList<>();
         while (resultSet.next()){
@@ -70,7 +105,9 @@ public class SupplyDAO extends DAO{
         return supplyList;
     }
 
-
+    //*************************************************************
+    //Add supply data
+    //*************************************************************
     public boolean addData(Supply supply){
         PreparedStatement preparedStatement;
         String insertStmt = "INSERT INTO " + TABLE_SUPPLY + " ("
@@ -93,49 +130,9 @@ public class SupplyDAO extends DAO{
         }
     }
 
-    public List<Supply> getSupplyDataBySupplier(Supplier supplier) throws Exception {
-        //Declare a SELECT statement
-        String sqlStmt = "SELECT "
-                + TABLE_SUPPLY + "." + COLUMN_SUPPLY_ID + ", "
-                + TABLE_SUPPLY + "." + COLUMN_SUPPLY_FRGN_KEY_SUPPLIER_ID + ", "
-                + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_NAME + ", "
-                + TABLE_FARM + "." + COLUMN_FARM_ID + ", "
-                + TABLE_FARM + "." + COLUMN_FARM_NAME + ", "
-                + TABLE_PRODUCT + "." + COLUMN_PRODUCT_ID + ", "
-                + TABLE_PRODUCT + "." + COLUMN_PRODUCT_NAME + " "
-                + " FROM " + TABLE_SUPPLY + " "
-                + "LEFT JOIN " + TABLE_SUPPLIER + " "
-                + " ON " + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_ID  + " = " + TABLE_SUPPLY + "." + COLUMN_SUPPLY_FRGN_KEY_SUPPLIER_ID + " "
-                + "LEFT JOIN " + TABLE_FARM + " "
-                + " ON " + TABLE_FARM + "." + COLUMN_FARM_ID  + " = " + TABLE_SUPPLY + "." + COLUMN_SUPPLY_FRGN_KEY_FARM_ID + " "
-                + "LEFT JOIN " + TABLE_PRODUCT  + " "
-                + " ON " + TABLE_PRODUCT + "." + COLUMN_PRODUCT_ID  + " = " + TABLE_SUPPLY + "." + COLUMN_SUPPLY_FRGN_KEY_PRODUCT_ID + " "
-                + " WHERE " + TABLE_SUPPLY + "." + COLUMN_SUPPLY_FRGN_KEY_SUPPLIER_ID + " = " + supplier.getSupplierId() + " "
-                + " ORDER BY " + TABLE_FARM + "." + COLUMN_FARM_NAME + " ASC;";
-        try {
-            Statement statement = dbGetConnect().createStatement();
-            ResultSet resultSet = statement.executeQuery(sqlStmt);
-            List<Supply> supplyList = new ArrayList<>();
-            while (resultSet.next()){
-                Supply supply = new Supply();
-                supply.setSupplyId(resultSet.getInt(1));
-                supply.setSupplier(new Supplier(resultSet.getInt(2), resultSet.getString(3)));
-                System.out.println(resultSet.getInt(2) + " " + resultSet.getString(3));
-                supply.setFarm(new Farm(resultSet.getInt(4), resultSet.getString(5)));
-                System.out.println(resultSet.getInt(4) + " " + resultSet.getString(5));
-                supply.setProduct(new Product(resultSet.getInt(6), resultSet.getString(7)));
-                System.out.println(resultSet.getInt(6) + " " + resultSet.getString(7));
-                supplyList.add(supply);
-            }
-            return supplyList;
-        } catch (SQLException e) {
-            System.out.println("SQL select operation has been failed: " + e);
-            throw e;
-        }finally {
-            dbDisConnect();
-        }
-    }
-
+    //*************************************************************
+    //Edit supply data
+    //*************************************************************
     public boolean editData(Supply supply) {
         PreparedStatement preparedStatement;
         String updateStmt = "UPDATE " + TABLE_SUPPLY + " SET "
@@ -161,8 +158,8 @@ public class SupplyDAO extends DAO{
         }
     }
 
-    public boolean deleteDataById(int Id) {
-        String deleteSupply = "DELETE FROM " + TABLE_SUPPLY + " WHERE " + COLUMN_SUPPLY_ID + " = " + Id + " ;";
+    public boolean deleteDataById(Supply supply) {
+        String deleteSupply = "DELETE FROM " + TABLE_SUPPLY + " WHERE " + COLUMN_SUPPLY_ID + " = " + supply.getSupplyId() + " ;";
         try {
             Statement statement = dbGetConnect().createStatement();
             statement.execute(deleteSupply);
@@ -189,6 +186,7 @@ public class SupplyDAO extends DAO{
     }
 
     public void updateLiveData(Supplier supplier) {
+        System.out.println(supplier.getSupplierFirstname());
         SUPPLY_LIST_LIVE_DATA.clear();
         try {
             SUPPLY_LIST_LIVE_DATA.setAll(getSupplyDataBySupplier(supplier));
