@@ -151,7 +151,7 @@ public class DisplaySupplierController implements Initializable {
         Optional<ButtonType> result = alertDelete.deleteConfirmation("Champ");
         assert result.isPresent();
         if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
-            if (mSupplyDAO.deleteDataById(supply.getSupplyId())){
+            if (mSupplyDAO.deleteDataById(supply)){
                 mSupplierDAO.updateLiveData();
                 mSupplyDAO.updateLiveData();
                 alert.deleteItem("Champ", true);

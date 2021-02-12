@@ -24,10 +24,6 @@ public class Season {
         return seasonId.get();
     }
 
-    public SimpleIntegerProperty seasonIdProperty() {
-        return seasonId;
-    }
-
     public void setSeasonId(int seasonId) {
         this.seasonId.set(seasonId);
     }
@@ -36,20 +32,12 @@ public class Season {
         return farmPlantingDate.get();
     }
 
-    public ObjectProperty<Date> farmPlantingDateProperty() {
-        return farmPlantingDate;
-    }
-
     public void setFarmPlantingDate(Date farmPlantingDate) {
         this.farmPlantingDate.set(farmPlantingDate);
     }
 
     public Date getFarmHarvestDate() {
         return farmHarvestDate.get();
-    }
-
-    public ObjectProperty<Date> farmHarvestDateProperty() {
-        return farmHarvestDate;
     }
 
     public void setFarmHarvestDate(Date farmHarvestDate) {
