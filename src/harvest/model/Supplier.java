@@ -12,16 +12,10 @@ public class Supplier {
     public Supplier() {
     }
 
-    public Supplier(int id) {
-        this.supplierId.set(id);
-    }
-
     public Supplier(int id, String name) {
         this.supplierId.set(id);
         this.supplierName.set(name);
     }
-
-
 
     public int getSupplierId() {
         return supplierId.get();

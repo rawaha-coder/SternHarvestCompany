@@ -110,10 +110,10 @@ public class AddSupplierController implements Initializable {
     void handleSaveButton() {
             switch (operation){
                 case 1:
-                    editSupplierOperation(mSupplier);
+                    editSupplier();
                     break;
                 case 2:
-                    editSupplyOperation(mSupply);
+                    editSupply();
                     break;
                 default:
                     addSupplierOperation();
@@ -162,11 +162,11 @@ public class AddSupplierController implements Initializable {
         }
     }
 
-    private void editSupplierOperation(Supplier supplier){
-        supplier.setSupplierName(fxChoiceSupplier.getValue());
-        supplier.setSupplierFirstname(fxSupplierFirstname.getText());
-        supplier.setSupplierLastname(fxSupplierLastname.getText());
-        if (mSupplierDAO.editData(supplier)){
+    private void editSupplier(){
+        mSupplier.setSupplierName(fxChoiceSupplier.getValue());
+        mSupplier.setSupplierFirstname(fxSupplierFirstname.getText());
+        mSupplier.setSupplierLastname(fxSupplierLastname.getText());
+        if (mSupplierDAO.editData(mSupplier)){
             alert.updateItem("Fournisseur", true);
             mSupplierDAO.updateLiveData();
         }else {
@@ -175,11 +175,11 @@ public class AddSupplierController implements Initializable {
         handleCloseButton();
     }
 
-    public void editSupplyOperation(Supply supply){
-        supply.setSupplier(mSupplierMap.get(fxChoiceSupplier.getValue()));
-        supply.setFarm(mFarmMap.get(fxChoiceFarm.getValue()));
-        supply.setProduct(mProductMap.get(fxChoiceProduct.getValue()));
-        if (mSupplyDAO.editData(supply)){
+    public void editSupply(){
+        mSupply.setSupplier(mSupplierMap.get(fxChoiceSupplier.getValue()));
+        mSupply.setFarm(mFarmMap.get(fxChoiceFarm.getValue()));
+        mSupply.setProduct(mProductMap.get(fxChoiceProduct.getValue()));
+        if (mSupplyDAO.editData(mSupply)){
             mSupplierDAO.updateLiveData();
             mSupplyDAO.updateLiveData(mSupplierMap.get(fxChoiceSupplier.getValue()));
             alert.saveItem("Champ", true );

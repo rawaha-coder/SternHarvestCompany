@@ -5,15 +5,14 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class Supply {
     private final SimpleIntegerProperty supplyId = new SimpleIntegerProperty();
-    private final Supplier mSupplier = new Supplier();
-    private final Farm mFarm = new Farm();
-    private final Product mProduct = new Product();
+    private Supplier mSupplier = new Supplier();
+    private Farm mFarm = new Farm();
+    private Product mProduct = new Product();
     private final SimpleStringProperty supplierName = new SimpleStringProperty();
     private final SimpleStringProperty farmName = new SimpleStringProperty();
     private final SimpleStringProperty productName = new SimpleStringProperty();
 
-    public Supply() {
-    }
+    public Supply(){ }
 
     public int getSupplyId() {
         return supplyId.get();
@@ -28,10 +27,7 @@ public class Supply {
     }
 
     public void setSupplier(Supplier supplier){
-        this.mSupplier.setSupplierId(supplier.getSupplierId());
-        this.mSupplier.setSupplierName(supplier.getSupplierName());
-        //this.mSupplier.setSupplierFirstname(supplier.getSupplierFirstname().toUpperCase());
-        //this.mSupplier.setSupplierLastname(supplier.getSupplierLastname().toUpperCase());
+        this.mSupplier = supplier;
         this.supplierName.set(supplier.getSupplierName().toUpperCase());
     }
 
@@ -40,8 +36,7 @@ public class Supply {
     }
 
     public void setFarm(Farm farm){
-        this.mFarm.setFarmId(farm.getFarmId());
-        this.mFarm.setFarmName(farm.getFarmName());
+        this.mFarm = farm;
         this.farmName.set(farm.getFarmName());
     }
 
@@ -50,8 +45,7 @@ public class Supply {
     }
 
     public void setProduct(Product product){
-        this.mProduct.setProductId(product.getProductId());
-        this.mProduct.setProductName(product.getProductName());
+        this.mProduct = product;
         this.productName.set(product.getProductName());
     }
 

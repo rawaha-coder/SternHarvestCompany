@@ -83,15 +83,17 @@
      -fx-background-color: -fx-ylw-color;
      -fx-text-fill: black;
      -fx-border-color: rgba(255,255,255,1);
+     -fx-rotate: -5;
+     -fx-translate-x: 5;
 }
-
+/*
 .sideButton:focused{
      -fx-background-color: -fx-ylw-color;
      -fx-text-fill: black;
      -fx-border-color: rgba(255,255,255,1);
      -fx-rotate: -5;
      -fx-translate-x: 5;
-}
+}*/
 
 .mainCenter {
 	-fx-background-color: -fx-bg-color;

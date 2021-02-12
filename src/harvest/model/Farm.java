@@ -8,8 +8,7 @@ public class Farm {
     private final SimpleStringProperty farmName = new SimpleStringProperty();
     private final SimpleStringProperty farmAddress = new SimpleStringProperty();
 
-    public Farm() {
-    }
+    public Farm(){ }
 
     public Farm(int i) {
         this.farmId.set(i);

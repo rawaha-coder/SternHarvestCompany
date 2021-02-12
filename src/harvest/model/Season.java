@@ -11,7 +11,7 @@ public class Season {
     private final SimpleIntegerProperty seasonId;
     private final ObjectProperty<Date> farmPlantingDate;
     private final ObjectProperty<Date> farmHarvestDate;
-    private final Farm seasonFarm;
+    private Farm seasonFarm;
 
     public Season() {
         this.seasonId = new SimpleIntegerProperty();
@@ -49,8 +49,6 @@ public class Season {
     }
 
     public void setSeasonFarm(Farm farm){
-        this.seasonFarm.setFarmId(farm.getFarmId());
-        this.seasonFarm.setFarmName(farm.getFarmName());
-        this.seasonFarm.setFarmAddress(farm.getFarmAddress());
+        this.seasonFarm = farm;
     }
 }
