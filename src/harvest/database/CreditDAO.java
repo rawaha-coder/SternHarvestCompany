@@ -136,7 +136,7 @@ public class CreditDAO extends DAO {
         }
     }
 
-    /*public void createCreditTable() throws SQLException {
+    /* /public void createCreditTable() throws SQLException {
         try {
             Statement statement = dbGetConnect().createStatement();
             statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_CREDIT + "("

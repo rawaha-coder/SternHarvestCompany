@@ -16,7 +16,6 @@ public class SupplierDAO extends DAO{
 
     private static SupplierDAO sSupplierDAO = new SupplierDAO();
 
-    //private Constructor
     private SupplierDAO(){ }
 
     public static SupplierDAO getInstance(){

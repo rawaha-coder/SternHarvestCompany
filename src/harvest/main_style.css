@@ -233,4 +233,17 @@
   -fx-control-inner-background: palegreen;
 }
 
+ /* Style of checkbox */
+.check-box .box {
+ -fx-background-color: -fx-clearButton-color;
+ -fx-border-color:-fx-border-c;
+ -fx-border-radius:3px;
+}
 
+.check-box:selected .mark {
+ -fx-background-color: white;
+}
+
+.check-box:selected .box {
+ -fx-background-color: #28a3f4;
+}
