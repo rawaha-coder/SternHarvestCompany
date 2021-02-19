@@ -109,8 +109,12 @@ public class ProductionDAO extends DAO {
                 + COLUMN_PRODUCTION_FARM_NAME + ", "
                 + COLUMN_PRODUCTION_PRODUCT_ID + ", "
                 + COLUMN_PRODUCTION_PRODUCT_NAME + ", "
-                + COLUMN_PRODUCTION_PRODUCT_CODE + ") "
-                + " VALUES (?,?,?,?,?,?,?,?);";
+                + COLUMN_PRODUCTION_PRODUCT_CODE + ", "
+                + COLUMN_PRODUCTION_TOTAL_EMPLOYEES + ", "
+                + COLUMN_PRODUCTION_GOOD_QUANTITY + ", "
+                + COLUMN_PRODUCTION_PRICE + ", "
+                + COLUMN_PRODUCTION_COST + ") "
+                + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
         try (PreparedStatement preparedStatement = dbGetConnect().prepareStatement(insertHarvestHours)) {
             preparedStatement.setDate(1, production.getProductionDate());
             preparedStatement.setInt(2, production.getSupplierID());
@@ -120,6 +124,10 @@ public class ProductionDAO extends DAO {
             preparedStatement.setInt(6, production.getProductID());
             preparedStatement.setString(7, production.getProductName());
             preparedStatement.setString(8, production.getProductCode());
+            preparedStatement.setInt(9, production.getTotalEmployee());
+            preparedStatement.setDouble(10, production.getGoodQuantity());
+            preparedStatement.setDouble(11, production.getProductionPrice());
+            preparedStatement.setDouble(12, production.getProductionCost());
             preparedStatement.execute();
             preparedStatement.close();
             return true;

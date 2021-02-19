@@ -84,7 +84,6 @@ public class PreferencesDAO extends DAO{
         return price;
     }
 
-
      public void createPreferencesTable() throws SQLException {
          try {
              Statement statement = dbGetConnect().createStatement();

@@ -4,6 +4,7 @@ import harvest.database.*;
 import harvest.model.*;
 import harvest.util.AlertMaker;
 import harvest.util.Validation;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,11 +13,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
-
-import java.sql.Date;
+import javafx.scene.control.cell.TextFieldTableCell;
 
 import java.net.URL;
 import java.util.*;
+import java.sql.Date;
 
 public class AddGroupController implements Initializable {
 
@@ -34,13 +35,15 @@ public class AddGroupController implements Initializable {
     private final ProductDAO mProductDAO = ProductDAO.getInstance();
     private final ProductDetailDAO mProductDetailDAO = ProductDetailDAO.getInstance();
     private final PreferencesDAO mPreferencesDAO = PreferencesDAO.getInstance();
+    private final ProductionDAO mProductionDAO = ProductionDAO.getInstance();
 
     @FXML private DatePicker fxHarvestDate;
     @FXML private ChoiceBox<String> fxSupplierList;
     @FXML private ChoiceBox<String> fxFarmList;
     @FXML private ChoiceBox<String> fxProductList;
     @FXML private ChoiceBox<String> fxProductCodeList;
-    @FXML private TextField fxQuantityByGroup;
+    @FXML private TextField fxAllQuantityByG;
+    @FXML private TextField fxBadQuantityByG;
     @FXML private Button fxClearButton;
     @FXML private Button fxSaveButton;
     @FXML private TableView<Harvest> fxHarvestWorkTable;
@@ -50,7 +53,7 @@ public class AddGroupController implements Initializable {
     @FXML private TableColumn<Harvest, Double> fxGoodQuantityColumn;
     @FXML private TableColumn<Harvest, Double> fxPriceColumn;
     @FXML private TableColumn<Harvest, Boolean> fxTransportStatusColumn;
-    @FXML private TableColumn<Harvest, Double> fxCreditColumn;
+    @FXML private TableColumn<Harvest, String> fxCreditColumn;
     @FXML private TableColumn<Harvest, Double> fxAmountPayableColumn;
     @FXML private TableColumn<Harvest, String> fxRemarqueColumn;
     @FXML private TextField fxTotalAllQuantity;
@@ -72,6 +75,8 @@ public class AddGroupController implements Initializable {
         updateLiveData();
         initTable();
         observeTransportStatus();
+        observeCreditColumn();
+        observeRemarqueColumn();
     }
 
     //Initialization employee table Columns
@@ -175,17 +180,67 @@ public class AddGroupController implements Initializable {
         return observableProductCode;
     }
 
+    //Observe and update Credit Column Change
+    private void observeCreditColumn() {
+        fxCreditColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        fxCreditColumn.setCellValueFactory(cellData -> {
+            Harvest harvest = cellData.getValue();
+            fxCreditColumn.setOnEditCommit(
+                    (TableColumn.CellEditEvent<Harvest, String> t) ->
+                    {
+                        if (Validation.isDouble(t.getNewValue())){
+                            harvest.setCreditAmount(Double.parseDouble(t.getNewValue()));
+                        }else {
+                            alert.missingInfo("Error");
+                            observeCreditColumn();
+                        }
+                    }
+            );
+            return new SimpleStringProperty(String.valueOf(harvest.getCreditAmount()));
+        });
+    }
+
+    //Observe and update Remarque Column Change
+    private void observeRemarqueColumn() {
+        fxRemarqueColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        fxRemarqueColumn.setCellValueFactory(cellData -> {
+            Harvest harvest = cellData.getValue();
+            fxRemarqueColumn.setOnEditCommit(
+                    (TableColumn.CellEditEvent<Harvest, String> t) ->
+                    {
+                        harvest.setRemarque(t.getNewValue());
+                    }
+            );
+            return harvest.remarqueProperty();
+        });
+    }
+
     @FXML void clearButton() {
         fxSupplierList.setItems(getSupplierList());
         fxFarmList.setItems(getFarmList());
         fxProductList.setItems(getProductList());
         fxProductCodeList.setItems(FXCollections.emptyObservableList());
         fxHarvestDate.getEditor().setText("");
-        fxQuantityByGroup.setText("");
+        fxAllQuantityByG.setText("");
     }
 
     @FXML
     void applyButton() {
+        Production production = new Production();
+        production.setProductionDate(Date.valueOf(fxHarvestDate.getValue()));
+        production.setSupplierID(mSupplierMap.get(fxSupplierList.getValue()).getSupplierId());
+        production.setSupplierName(mSupplierMap.get(fxSupplierList.getValue()).getSupplierName());
+        production.setFarmID(mFarmMap.get(fxFarmList.getValue()).getFarmId());
+        production.setFarmName(mFarmMap.get(fxFarmList.getValue()).getFarmName());
+        production.setProductID(mProductMap.get(fxProductList.getValue()).getProductId());
+        production.setProductName(mProductMap.get(fxProductList.getValue()).getProductName());
+        production.setProductCode(mProductDetailMap.get(fxProductCodeList.getValue()).getProductCode());
+        production.setProductionPrice(mProductDetailMap.get(fxProductCodeList.getValue()).getPriceCompany());
+        production.setTotalEmployee(HARVEST_WORK_LIVE_LIST.size());
+        production.setGoodQuantity(Double.parseDouble(fxTotalGoodQuantity.getText()));
+        production.setProductionCost(Double.parseDouble(fxCompanyCharge.getText()));
+
+            alert.saveItem("Production" , mProductionDAO.addProduction(production));
 
     }
 
@@ -201,20 +256,42 @@ public class AddGroupController implements Initializable {
     }
 
     private void validateInput() {
-        Harvest harvest = new Harvest();
-        harvest.setHarvestDate(Date.valueOf(fxHarvestDate.getValue()));
-        harvest.setAllQuantity(100);
+        double allQuantity = Double.parseDouble(fxAllQuantityByG.getText());
+        double badQuantity = Double.parseDouble(fxBadQuantityByG.getText());
+        double allQuantityEmp = allQuantity / HARVEST_WORK_LIVE_LIST.size();
+        double badQuantityEmp = badQuantity / HARVEST_WORK_LIVE_LIST.size();
+        double priceCompany = mProductDetailMap.get(fxProductCodeList.getValue()).getPriceCompany();
+        double totalTransport = 0.0;
+        double totalCredit = 0.0;
+        for(Harvest harvest: HARVEST_WORK_LIVE_LIST){
+            harvest.setAllQuantity(allQuantityEmp);
+            harvest.setBadQuantity(badQuantityEmp);
+            harvest.setGoodQuantity(allQuantityEmp - badQuantityEmp);
+            harvest.setProductPrice(mProductDetailMap.get(fxProductCodeList.getValue()).getPriceEmployee());
+            harvest.setAmountPayable((harvest.getGoodQuantity() * harvest.getProductPrice()) - (harvest.getTransportAmount() + harvest.getCreditAmount()));
+            totalTransport += harvest.getTransportAmount();
+            totalCredit += harvest.getCreditAmount();
+            System.out.println(harvest.getRemarque());
 
+        }
+        fxTotalEmployee.setText(String.valueOf(HARVEST_WORK_LIVE_LIST.size()));
+        fxTotalAllQuantity.setText(String.valueOf(allQuantity));
+        fxTotalBadQuantity.setText(String.valueOf(badQuantity));
+        fxTotalGoodQuantity.setText(String.valueOf(allQuantity - badQuantity));
+        fxProductPriceCompany.setText(String.valueOf(priceCompany));
+        fxTotalTransport.setText(String.valueOf(totalTransport));
+        fxTotalCredit.setText(String.valueOf(totalCredit));
+        fxCompanyCharge.setText(String.valueOf(((allQuantity - badQuantity) * priceCompany) - (totalTransport + totalCredit)));
     }
 
     private boolean checkInput(){
-        return (
-                fxHarvestDate.getValue() == null ||
+        return (fxHarvestDate.getValue() == null ||
                         fxSupplierList.getValue() == null ||
                         fxFarmList.getValue() == null ||
                         fxProductList.getValue() == null ||
                         fxProductCodeList.getValue() == null ||
-                        !Validation.isDouble(fxQuantityByGroup.getText())
+                        !Validation.isDouble(fxAllQuantityByG.getText()) ||
+                        !Validation.isDouble(fxAllQuantityByG.getText())
         );
     }
 
