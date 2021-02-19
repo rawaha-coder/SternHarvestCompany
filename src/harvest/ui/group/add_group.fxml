@@ -29,7 +29,7 @@
                <Label layoutX="863.0" layoutY="14.0" prefHeight="30.0" prefWidth="100.0" text="Quantity:" />
                <TextField fx:id="fxQuantityByGroup" layoutX="863.0" layoutY="40.0" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: green;" />
                <Button fx:id="fxClearButton" layoutX="973.0" layoutY="42.0" mnemonicParsing="false" onAction="#clearButton" prefHeight="25.0" prefWidth="60.0" text="Vider" />
-               <Button fx:id="fxSaveButton" layoutX="1056.0" layoutY="35.0" mnemonicParsing="false" onAction="#handleSaveButton" prefHeight="40.0" prefWidth="120.0" text="Valider" />
+               <Button fx:id="fxSaveButton" layoutX="1056.0" layoutY="35.0" mnemonicParsing="false" onAction="#validateButton" prefHeight="40.0" prefWidth="120.0" text="Valider" />
                 </AnchorPane>
           </top>
           <center>
@@ -38,14 +38,14 @@
                      <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                  </columnResizePolicy>
                  <columns>
-                     <TableColumn fx:id="fxEmployeeNameColumn" minWidth="130.0" prefWidth="180.0" text="Employee" />
-                     <TableColumn fx:id="fxAllQuantityColumn" editable="true" minWidth="80.0" prefWidth="120.0" text="All QNT" />
-                     <TableColumn fx:id="fxBadQuantityColumn" editable="true" minWidth="80.0" prefWidth="120.0" text="Bad QLT" />
-                     <TableColumn fx:id="fxGoodQuantityColumn" editable="true" minWidth="80.0" prefWidth="120.0" text="Good QLT" />
-                     <TableColumn fx:id="fxPriceColumn" editable="true" minWidth="80.0" prefWidth="120.0" text="Price" />
-                     <TableColumn fx:id="fxTransportSelectColumn" editable="true" minWidth="80.0" prefWidth="100.0" text="Transport" />
-                     <TableColumn fx:id="fxCreditColumn" editable="true" minWidth="80.0" prefWidth="100.0" text="Credit" />
-                     <TableColumn fx:id="fxAmountPayableColumn" editable="true" minWidth="80.0" prefWidth="100.0" text="Net" />
+                     <TableColumn fx:id="fxEmployeeNameColumn" maxWidth="220.0" minWidth="200.0" prefWidth="200.0" text="Employee" />
+                     <TableColumn fx:id="fxAllQuantityColumn" editable="true" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="All QNT" />
+                     <TableColumn fx:id="fxBadQuantityColumn" editable="true" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Bad QLT" />
+                     <TableColumn fx:id="fxGoodQuantityColumn" editable="true" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Good QLT" />
+                     <TableColumn fx:id="fxPriceColumn" editable="true" maxWidth="120.0" minWidth="100.0" prefWidth="120.0" text="Price" />
+                     <TableColumn fx:id="fxTransportStatusColumn" editable="true" maxWidth="80.0" minWidth="80.0" text="Transport" />
+                     <TableColumn fx:id="fxCreditColumn" editable="true" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Credit" />
+                     <TableColumn fx:id="fxAmountPayableColumn" editable="true" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Net" />
                      <TableColumn fx:id="fxRemarqueColumn" editable="true" minWidth="140.0" prefWidth="220.0" text="Remarque" />
                  </columns>
              </TableView>
@@ -92,7 +92,7 @@
                      <Insets left="5.0" />
                   </padding>
                </Label>
-               <Button fx:id="fxApplyButton" layoutX="1055.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleApplyButton" prefHeight="30.0" prefWidth="120.0" text="Appliquer" />
+               <Button fx:id="fxApplyButton" layoutX="1055.0" layoutY="47.0" mnemonicParsing="false" onAction="#applyButton" prefHeight="30.0" prefWidth="120.0" text="Appliquer" />
              </AnchorPane>
          </bottom>
       </BorderPane>

@@ -5,7 +5,9 @@ import harvest.model.ProductDetail;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import static harvest.ui.product.DisplayProductController.PRODUCT_DETAIL_LIVE_DATA;
 import static harvest.database.ConstantDAO.*;
@@ -52,6 +54,32 @@ public class ProductDetailDAO extends DAO{
         } catch (SQLException e) {
             System.out.println("SQL select operation has been failed: " + e);
             //Return exception
+            throw e;
+        }finally {
+            dbDisConnect();
+        }
+    }
+
+    //Get product detail by product
+    public Map<String, ProductDetail> getProductDetailMap(Product product) throws Exception {
+        Map<String, ProductDetail> map = new LinkedHashMap<>();
+        String sqlStmt = "SELECT * FROM " + TABLE_PRODUCT_DETAIL
+                + " WHERE " + COLUMN_FOREIGN_KEY_PRODUCT_ID + " = " + product.getProductId()
+                + " ORDER BY " + COLUMN_PRODUCT_TYPE + " ASC;";
+        try(Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(sqlStmt)) {
+            while (resultSet.next()) {
+                ProductDetail productDetail = new ProductDetail();
+                productDetail.setProductDetailId(resultSet.getInt(1));
+                productDetail.setProductType(resultSet.getString(2));
+                productDetail.setProductCode(resultSet.getString(3));
+                productDetail.setPriceEmployee(resultSet.getDouble(4));
+                productDetail.setPriceCompany(resultSet.getDouble(5));
+                productDetail.setProduct(product);
+                map.put(productDetail.getProductCode(), productDetail);
+            }
+            return map;
+        } catch (SQLException e) {
+            System.out.println("SQL select operation has been failed: " + e);
             throw e;
         }finally {
             dbDisConnect();
