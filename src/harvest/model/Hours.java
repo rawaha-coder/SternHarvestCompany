@@ -5,7 +5,7 @@ import javafx.beans.property.*;
 import java.sql.Date;
 import java.sql.Time;
 
-public class HarvestHours {
+public class Hours {
     private final IntegerProperty harvestHoursID = new SimpleIntegerProperty();
     private final ObjectProperty<Date> harvestDate = new SimpleObjectProperty<>();
     private final ObjectProperty<Time> startMorning = new SimpleObjectProperty<>();
@@ -15,7 +15,7 @@ public class HarvestHours {
     private final LongProperty totalHours = new SimpleLongProperty();
     private final IntegerProperty employeeType = new SimpleIntegerProperty();
     private final StringProperty harvestRemarque = new SimpleStringProperty();
-    private final HarvestProduction harvestProduction = new HarvestProduction();
+    //private final HarvestProduction harvestProduction = new HarvestProduction();
     private final Employee employee = new Employee();
     private final Transport transport = new Transport();
     private final SimpleStringProperty transportAmount = new SimpleStringProperty();
@@ -23,9 +23,9 @@ public class HarvestHours {
     private final Credit credit = new Credit();
     private final SimpleStringProperty creditAmount = new SimpleStringProperty();
 
-    public HarvestProduction getHarvestProduction() {
-        return harvestProduction;
-    }
+//    public HarvestProduction getHarvestProduction() {
+//        //return harvestProduction;
+//    }
 
     public Employee getEmployee() {
         return employee;

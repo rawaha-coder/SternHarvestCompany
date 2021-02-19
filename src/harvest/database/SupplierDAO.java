@@ -21,7 +21,6 @@ public class SupplierDAO extends DAO{
     public static SupplierDAO getInstance(){
         if(sSupplierDAO == null){
             sSupplierDAO = new SupplierDAO();
-            return sSupplierDAO;
         }
         return sSupplierDAO;
     }

@@ -1,9 +1,7 @@
 package harvest;
 
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ProgressBar;
@@ -14,8 +12,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class MainController{
 
@@ -26,21 +22,21 @@ public class MainController{
     ProgressBar pBar = new ProgressBar();
 
     @FXML
-    public void getProduction() { displayCenterView("/harvest/ui/harvest/get_harvest_production.fxml"); }
+    public void displayProduction() { /*displayCenterView("/individual/ui/production/display_production.fxml");*/ }
     @FXML
-    public void getHours() { displayCenterView("/harvest/ui/harvest/get_harvest_hours.fxml"); }
+    public void displayHours() { /*displayCenterView("/individual/ui/individual/display_hours.fxml");*/ }
     @FXML
-    void getWork() { displayCenterView("/harvest/ui/harvest/get_harvest_work.fxml"); }
+    public void displayGroup() { displayCenterView("/harvest/ui/group/display_group.fxml"); }
     @FXML
-    void getFarmSeason(){ displayCenterView("/harvest/ui/farm/display_farm_season.fxml"); }
+    public void displayFarmSeason(){ displayCenterView("/harvest/ui/farm/display_farm_season.fxml"); }
     @FXML
-    void getCredit() { displayCenterView("/harvest/ui/credit/display_credit.fxml"); }
+    public void displayCredit() { displayCenterView("/harvest/ui/credit/display_credit.fxml"); }
     @FXML
-    void getEmployee() { displayCenterView("/harvest/ui/employee/display_employee.fxml"); }
+    public void displayEmployee() { displayCenterView("/harvest/ui/employee/display_employee.fxml"); }
     @FXML
-    void getSupplier(){ displayCenterView("/harvest/ui/supplier/display_supplier.fxml"); }
+    public void displaySupplier(){ displayCenterView("/harvest/ui/supplier/display_supplier.fxml"); }
     @FXML
-    void getProduct(){ displayCenterView("/harvest/ui/product/display_product.fxml"); }
+    public void displayProduct(){ displayCenterView("/harvest/ui/product/display_product.fxml"); }
 
     public void displayCenterView(String location){
         try{
@@ -54,11 +50,7 @@ public class MainController{
     }
 
     @FXML
-    void addWorkByHours(){ loadAddWindow("/harvest/ui/harvest/set_harvest_hours.fxml", "Add hours work"); }
-    @FXML
-    void addWorkByIndividual(){ loadAddWindow("/harvest/ui/harvest/set_harvest_work.fxml", "Add individual work "); }
-    @FXML
-    void addWorkByGroup(){ loadAddWindow("/harvest/ui/harvest/set_harvest_work.fxml", "Add group work"); }
+    void addGroupWork(){ loadAddWindow("/harvest/ui/group/add_group.fxml", "Add individual work"); }
     @FXML
     void addFarmSeason(){ loadAddWindow("/harvest/ui/farm/add_farm.fxml", "Add Champ"); }
     @FXML
@@ -85,6 +77,10 @@ public class MainController{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void handlePreferences() {
+        loadAddWindow("/harvest/ui/menu/preferences.fxml", "Preferences");
     }
 
 //    private void showProgress(){

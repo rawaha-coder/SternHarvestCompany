@@ -1,7 +1,6 @@
-package harvest.ui.harvest;
+package harvest.ui.production;
 
 
-import harvest.database.HarvestProductionDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.AreaChart;
@@ -11,7 +10,6 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ResourceBundle;
@@ -30,7 +28,7 @@ public class HarvestChart implements Initializable {
     @FXML
     private NumberAxis fxHarvestChartQuantity;
 
-    HarvestProductionDAO mHarvestProductionDAO = HarvestProductionDAO.getInstance();
+    //HarvestProductionDAO mHarvestProductionDAO = HarvestProductionDAO.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -40,7 +38,7 @@ public class HarvestChart implements Initializable {
 
         XYChart.Series series = new XYChart.Series();
         try {
-            series = mHarvestProductionDAO.harvestProductionGraph(Date.valueOf(d2), Date.valueOf(d1));
+            //series = mHarvestProductionDAO.harvestProductionGraph(Date.valueOf(d2), Date.valueOf(d1));
         }catch (Exception e){
             e.printStackTrace();
         }

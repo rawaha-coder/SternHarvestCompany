@@ -1,30 +1,7 @@
-package harvest.ui.harvest;
+package harvest.ui.individual;
 
-import harvest.MainController;
-import harvest.database.HarvestProductionDAO;
-import harvest.database.HarvestWorkDAO;
-import harvest.model.HarvestProduction;
-import harvest.model.HarvestWork;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.net.URL;
-import java.sql.Date;
-import java.time.LocalDate;
-import java.time.Period;
-import java.util.ResourceBundle;
-
-public class GetHarvestProduction implements Initializable {
+public class GetHarvestProduction {
+/*
 
     public static ObservableList<HarvestProduction> HARVEST_PRODUCTION_LIVE_LIST = FXCollections.observableArrayList();
     HarvestProductionDAO mHarvestProductionDAO = HarvestProductionDAO.getInstance();
@@ -108,7 +85,7 @@ public class GetHarvestProduction implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/main.fxml"));
             loader.load();
             MainController controller = loader.getController();
-            controller.getProduction();
+            controller.displayProduction();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -204,14 +181,15 @@ public class GetHarvestProduction implements Initializable {
     void harvestChart(){
         final Stage stage = new Stage();
         try {
-            String location = "/harvest/ui/harvest/harvest_chart.fxml";
+            String location = "/harvest/ui/production/harvest_chart.fxml";
             Parent parent = FXMLLoader.load(GetHarvestProduction.class.getResource(location));
-            stage.setTitle("harvest Chart Production");
+            stage.setTitle("individual Chart Production");
             stage.setScene(new Scene(parent));
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+*/
 
 }
