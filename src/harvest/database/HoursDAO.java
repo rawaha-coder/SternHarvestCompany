@@ -1,6 +1,6 @@
 package harvest.database;
 
-import harvest.model.HarvestHours;
+import harvest.model.Hours;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -9,21 +9,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static harvest.database.ConstantDAO.*;
-import static harvest.ui.harvest.GetHarvestHours.HARVEST_HOURS_LIVE_LIST;
+import static harvest.ui.hours.DisplayHoursController.HARVEST_HOURS_LIVE_LIST;
 
-public class HarvestHoursDAO extends DAO {
+public class HoursDAO extends DAO {
 
-    private static HarvestHoursDAO sHarvestHoursDAO = new HarvestHoursDAO();
+    private static HoursDAO sHoursDAO = new HoursDAO();
 
-    private HarvestHoursDAO() {
+    private HoursDAO() {
     }
 
-    public static HarvestHoursDAO getInstance() {
-        if (sHarvestHoursDAO == null) {
-            sHarvestHoursDAO = new HarvestHoursDAO();
-            return sHarvestHoursDAO;
+    public static HoursDAO getInstance() {
+        if (sHoursDAO == null) {
+            sHoursDAO = new HoursDAO();
+            return sHoursDAO;
         }
-        return sHarvestHoursDAO;
+        return sHoursDAO;
     }
 
     public void createHarvestTable() throws SQLException {
@@ -40,7 +40,7 @@ public class HarvestHoursDAO extends DAO {
                 + COLUMN_HARVEST_HOURS_EMPLOYEE_ID + " INTEGER NOT NULL, "
                 + COLUMN_HARVEST_HOURS_CREDIT_ID + " INTEGER NOT NULL, "
                 + COLUMN_HARVEST_HOURS_TRANSPORT_ID + " INTEGER NOT NULL, "
-                + " FOREIGN KEY (" + COLUMN_HARVEST_HOURS_HARVEST_ID + ") REFERENCES " + TABLE_HARVEST_PRODUCTION + " (" + COLUMN_HARVEST_PRODUCTION_ID + ")"
+                + " FOREIGN KEY (" + COLUMN_HARVEST_HOURS_HARVEST_ID + ") REFERENCES " + TABLE_PRODUCTION + " (" + COLUMN_PRODUCTION_ID + ")"
                 + " FOREIGN KEY (" + COLUMN_HARVEST_HOURS_EMPLOYEE_ID + ") REFERENCES " + TABLE_EMPLOYEE + " (" + COLUMN_EMPLOYEE_ID + ")"
                 + " FOREIGN KEY (" + COLUMN_HARVEST_HOURS_CREDIT_ID + ") REFERENCES " + TABLE_CREDIT + " (" + COLUMN_CREDIT_ID + ")"
                 + " FOREIGN KEY (" + COLUMN_HARVEST_HOURS_TRANSPORT_ID + ") REFERENCES " + TABLE_TRANSPORT + " (" + COLUMN_TRANSPORT_ID + ")"
@@ -53,7 +53,7 @@ public class HarvestHoursDAO extends DAO {
         }
     }
 
-    public List<HarvestHours> getData(Date date) throws SQLException{
+    public List<Hours> getData(Date date) throws SQLException{
         Statement statement;
         ResultSet resultSet;
         String select = "SELECT "
@@ -93,26 +93,26 @@ public class HarvestHoursDAO extends DAO {
         }
     }
 
-    private ObservableList<HarvestHours> getHarvestHoursFromResultSet(ResultSet resultSet) throws SQLException {
-        ObservableList<HarvestHours> list = FXCollections.observableArrayList();
+    private ObservableList<Hours> getHarvestHoursFromResultSet(ResultSet resultSet) throws SQLException {
+        ObservableList<Hours> list = FXCollections.observableArrayList();
         while (resultSet.next()) {
-            HarvestHours harvestHours = new HarvestHours();
-            harvestHours.setHarvestHoursID(resultSet.getInt(1));
-            harvestHours.setHarvestDate(resultSet.getDate(2));
-            harvestHours.setStartMorning(resultSet.getTime(3));
-            harvestHours.setEndMorning(resultSet.getTime(4));
-            harvestHours.setStartNoon(resultSet.getTime(5));
-            harvestHours.setEndNoon(resultSet.getTime(6));
-            harvestHours.setHarvestRemarque(resultSet.getString(7));
-            harvestHours.getEmployee().setEmployeeId(resultSet.getInt(8));
-            harvestHours.getEmployee().setEmployeeFirstName(resultSet.getString(9));
-            harvestHours.getEmployee().setEmployeeLastName(resultSet.getString(10));
-            harvestHours.getTransport().setTransportId(resultSet.getInt(11));
-            harvestHours.getTransport().setFarmId(resultSet.getInt(12));
-            harvestHours.getTransport().setTransportAmount(resultSet.getDouble(13));
-            harvestHours.getCredit().setCreditId(resultSet.getInt(14));
-            harvestHours.getCredit().setCreditAmount(resultSet.getDouble(15));
-            list.add(harvestHours);
+            Hours hours = new Hours();
+            hours.setHarvestHoursID(resultSet.getInt(1));
+            hours.setHarvestDate(resultSet.getDate(2));
+            hours.setStartMorning(resultSet.getTime(3));
+            hours.setEndMorning(resultSet.getTime(4));
+            hours.setStartNoon(resultSet.getTime(5));
+            hours.setEndNoon(resultSet.getTime(6));
+            hours.setHarvestRemarque(resultSet.getString(7));
+            hours.getEmployee().setEmployeeId(resultSet.getInt(8));
+            hours.getEmployee().setEmployeeFirstName(resultSet.getString(9));
+            hours.getEmployee().setEmployeeLastName(resultSet.getString(10));
+            hours.getTransport().setTransportId(resultSet.getInt(11));
+            hours.getTransport().setFarmId(resultSet.getInt(12));
+            hours.getTransport().setTransportAmount(resultSet.getDouble(13));
+            hours.getCredit().setCreditId(resultSet.getInt(14));
+            hours.getCredit().setCreditAmount(resultSet.getDouble(15));
+            list.add(hours);
         }
         return list;
     }
@@ -128,7 +128,7 @@ public class HarvestHoursDAO extends DAO {
     }
 
     //add list of harvesters
-    public boolean addHarvesters(HarvestHours harvestHours) {
+    public boolean addHarvesters(Hours hours) {
 
         Connection connection;
         PreparedStatement preparedStatement;
@@ -164,10 +164,10 @@ public class HarvestHoursDAO extends DAO {
                 + COLUMN_HARVEST_HOURS_TRANSPORT_ID + ") "
                 + " VALUES (" +
                 " ?, " +
-                " julianday('" + harvestHours.getStartMorning() + "'), " +
-                " julianday('" + harvestHours.getEndMorning() + "'), " +
-                " julianday('" + harvestHours.getStartNoon() + "'), " +
-                " julianday('" + harvestHours.getEndNoon() + "'), " +
+                " julianday('" + hours.getStartMorning() + "'), " +
+                " julianday('" + hours.getEndMorning() + "'), " +
+                " julianday('" + hours.getStartNoon() + "'), " +
+                " julianday('" + hours.getEndNoon() + "'), " +
                 " ?, " +
                 " ?, " +
                 " ?, " +
@@ -182,26 +182,26 @@ public class HarvestHoursDAO extends DAO {
             int transportId = 0;
             int CreditId = 0;
 
-            if (harvestHours.isTransportStatus()){
+            if (hours.isTransportStatus()){
                 preparedStatement = dbGetConnect().prepareStatement(insertTransport);
-                preparedStatement.setDate(1, harvestHours.getHarvestDate());
-                preparedStatement.setDouble(2, harvestHours.getTransport().getTransportAmount());
-                preparedStatement.setInt(3, harvestHours.getEmployee().getEmployeeId());
-                preparedStatement.setInt(4, harvestHours.getTransport().getFarmId());
+                preparedStatement.setDate(1, hours.getHarvestDate());
+                preparedStatement.setDouble(2, hours.getTransport().getTransportAmount());
+                preparedStatement.setInt(3, hours.getEmployee().getEmployeeId());
+                preparedStatement.setInt(4, hours.getTransport().getFarmId());
                 preparedStatement.execute();
                 preparedStatement.close();
             }
 
-            if (harvestHours.getCredit().getCreditAmount() > 0.0){
+            if (hours.getCredit().getCreditAmount() > 0.0){
                 preparedStatement = dbGetConnect().prepareStatement(insertCredit);
-                preparedStatement.setDate(1, harvestHours.getHarvestDate());
-                preparedStatement.setDouble(2, harvestHours.getCredit().getCreditAmount());
-                preparedStatement.setInt(3, harvestHours.getEmployee().getEmployeeId());
+                preparedStatement.setDate(1, hours.getHarvestDate());
+                preparedStatement.setDouble(2, hours.getCredit().getCreditAmount());
+                preparedStatement.setInt(3, hours.getEmployee().getEmployeeId());
                 preparedStatement.execute();
                 preparedStatement.close();
             }
 
-            if (harvestHours.isTransportStatus()){
+            if (hours.isTransportStatus()){
                 Statement statement1 = connection.createStatement();
                 ResultSet resultSet1 = statement1.executeQuery(getTransportId);
                 transportId = resultSet1.getInt(1);
@@ -209,7 +209,7 @@ public class HarvestHoursDAO extends DAO {
                 statement1.close();
             }
 
-            if (harvestHours.getCredit().getCreditAmount() > 0.0){
+            if (hours.getCredit().getCreditAmount() > 0.0){
                 Statement statement2 = connection.createStatement();
                 ResultSet resultSet2 = statement2.executeQuery(getCreditId);
                 CreditId = resultSet2.getInt(1);
@@ -218,11 +218,11 @@ public class HarvestHoursDAO extends DAO {
             }
 
             preparedStatement = connection.prepareStatement(insertHarvestHours);
-            preparedStatement.setDate(1, harvestHours.getHarvestDate());
-            preparedStatement.setInt(2, harvestHours.getEmployeeType());
-            preparedStatement.setString(3, harvestHours.getHarvestRemarque());
-            preparedStatement.setInt(4, harvestHours.getHarvestProduction().getHarvestProductionID());
-            preparedStatement.setInt(5, harvestHours.getEmployee().getEmployeeId());
+            preparedStatement.setDate(1, hours.getHarvestDate());
+            preparedStatement.setInt(2, hours.getEmployeeType());
+            preparedStatement.setString(3, hours.getHarvestRemarque());
+            //preparedStatement.setInt(4, hours.getHarvestProduction().getHarvestProductionID());
+            preparedStatement.setInt(5, hours.getEmployee().getEmployeeId());
             preparedStatement.setInt(6, CreditId);
             preparedStatement.setInt(7, transportId);
             preparedStatement.execute();
@@ -242,20 +242,20 @@ public class HarvestHoursDAO extends DAO {
     //*******************************
     //Get all employees data
     //*******************************
-    public List<HarvestHours> getHarvestHoursData() throws Exception {
-        List<HarvestHours> harvestHoursList = new ArrayList<>();
+    public List<Hours> getHarvestHoursData() throws Exception {
+        List<Hours> hoursList = new ArrayList<>();
         String sqlStmt = "SELECT * FROM " + TABLE_EMPLOYEE + " ORDER BY " + COLUMN_EMPLOYEE_ID + " DESC;";
 
         try(Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(sqlStmt)) {
             while (resultSet.next()) {
-                HarvestHours harvestHours = new HarvestHours();
-                harvestHours.getEmployee().setEmployeeId(resultSet.getInt(1));
-                harvestHours.getEmployee().setEmployeeStatus(resultSet.getBoolean(2));
-                harvestHours.getEmployee().setEmployeeFirstName(resultSet.getString(3));
-                harvestHours.getEmployee().setEmployeeLastName(resultSet.getString(4));
-                harvestHoursList.add(harvestHours);
+                Hours hours = new Hours();
+                hours.getEmployee().setEmployeeId(resultSet.getInt(1));
+                hours.getEmployee().setEmployeeStatus(resultSet.getBoolean(2));
+                hours.getEmployee().setEmployeeFirstName(resultSet.getString(3));
+                hours.getEmployee().setEmployeeLastName(resultSet.getString(4));
+                hoursList.add(hours);
             }
-            return harvestHoursList;
+            return hoursList;
         } catch (SQLException e) {
             System.out.println("SQL select operation has been failed: " + e);
             throw e;

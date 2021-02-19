@@ -1,7 +1,6 @@
 package harvest.database;
 
 import harvest.model.Employee;
-import harvest.model.Farm;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;

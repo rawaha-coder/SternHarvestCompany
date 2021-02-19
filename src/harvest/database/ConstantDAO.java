@@ -3,7 +3,7 @@ package harvest.database;
 public class ConstantDAO {
 
     //*************************************
-    //Database table columns name for harvest hours UI and model
+    //Database table columns name for individual hours UI and model
     //*************************************
     public static final String TABLE_HARVEST_HOURS = "harvest_hours";
     public static final String COLUMN_HARVEST_HOURS_ID = "id";
@@ -20,9 +20,9 @@ public class ConstantDAO {
     public static final String COLUMN_HARVEST_REMARQUE = "remarque";
 
     //*************************************
-    //Database table columns name for harvest work UI and model
+    //Database table columns name for individual work UI and model
     //*************************************
-    public static final String TABLE_HARVEST_WORK = "harvest_individual";
+    /*public static final String TABLE_HARVEST_WORK = "harvest_individual";
     public static final String COLUMN_HARVEST_WORK_ID = "id";
     public static final String COLUMN_HARVEST_WORK_DATE = "date";
     public static final String COLUMN_HARVEST_WORK_AQ = "all_quantity";
@@ -35,26 +35,50 @@ public class ConstantDAO {
     public static final String COLUMN_HARVEST_WORK_EMPLOYEE_ID = "employee_id";
     public static final String COLUMN_HARVEST_WORK_CREDIT_ID = "credit_id";
     public static final String COLUMN_HARVEST_WORK_TRANSPORT_ID = "transport_id";
-    public static final String COLUMN_HARVEST_WORK_REMARQUE = "remarque";
-
+    public static final String COLUMN_HARVEST_WORK_REMARQUE = "remarque";*/
 
     //*************************************
-    //Database table columns name for harvest production UI and model
+    //Database table columns name for group work UI and model
     //*************************************
-    public static final String TABLE_HARVEST_PRODUCTION = "harvest_production";
-    public static final String COLUMN_HARVEST_PRODUCTION_ID = "id";
-    public static final String COLUMN_HARVEST_PRODUCTION_DATE = "date";
-    public static final String COLUMN_HARVEST_PRODUCTION_TYPE = "harvest_type";
-    public static final String COLUMN_HARVEST_PRODUCTION_TE  = "total_employees";
-    public static final String COLUMN_HARVEST_PRODUCTION_TH = "total_hours";
-    public static final String COLUMN_HARVEST_PRODUCTION_TQ  = "total_quantity";
-    public static final String COLUMN_HARVEST_PRODUCTION_TA  = "total_amount";
-    public static final String COLUMN_HARVEST_PRODUCTION_TT = "total_transports";
-    public static final String COLUMN_HARVEST_PRODUCTION_TC  = "total_credits";
-    public static final String COLUMN_HARVEST_PRODUCTION_SUPPLIER_ID = "supplier_id";
-    public static final String COLUMN_HARVEST_PRODUCTION_PRODUCT_ID = "product_id";
-    public static final String COLUMN_HARVEST_PRODUCTION_PRODUCT_DETAIL_ID = "product_detail_id";
-    public static final String COLUMN_HARVEST_PRODUCTION_FARM_ID = "farm_id";
+    public static final String TABLE_HARVEST = "harvest";
+    public static final String COLUMN_HARVEST_ID = "id";
+    public static final String COLUMN_HARVEST_DATE = "date";
+    public static final String COLUMN_HARVEST_AQ = "all_quantity";
+    public static final String COLUMN_HARVEST_BQ = "bad_quantity";
+    public static final String COLUMN_HARVEST_PQ = "penalty_qty";
+    public static final String COLUMN_HARVEST_GPQ = "general_plt_qty";
+    public static final String COLUMN_HARVEST_GQ = "good_quantity";
+    public static final String COLUMN_HARVEST_PRICE = "price";
+    public static final String COLUMN_HARVEST_EMPLOYEE_ID = "employee_id";
+    public static final String COLUMN_HARVEST_EMPLOYEE_NAME = "employee_name";
+    public static final String COLUMN_HARVEST_TRANSPORT_ID = "transport_id";
+    public static final String COLUMN_HARVEST_TRANSPORT_AMOUNT = "transport_amount";
+    public static final String COLUMN_HARVEST_CREDIT_ID = "credit_id";
+    public static final String COLUMN_HARVEST_CREDIT_AMOUNT = "credit_amount";
+    public static final String COLUMN_HARVEST_FARM_ID = "credit_id";
+    public static final String COLUMN_HARVEST_FARM_NAME = "credit_amount";
+    public static final String COLUMN_HARVEST_NET_AMOUNT = "net_amount";
+    public static final String COLUMN_HARVEST_HARVEST_REMARQUE = "remarque";
+    public static final String COLUMN_HARVEST_TYPE = "harvest_type";
+    public static final String COLUMN_HARVEST_PRODUCTION_ID = "production_id";
+
+    //*************************************
+    //Database table columns name for production UI and model
+    //*************************************
+    public static final String TABLE_PRODUCTION = "production";
+    public static final String COLUMN_PRODUCTION_ID = "id";
+    public static final String COLUMN_PRODUCTION_DATE = "date";
+    public static final String COLUMN_PRODUCTION_SUPPLIER_ID = "supplier_id";
+    public static final String COLUMN_PRODUCTION_SUPPLIER_NAME = "supplier_name";
+    public static final String COLUMN_PRODUCTION_FARM_ID = "farm_id";
+    public static final String COLUMN_PRODUCTION_FARM_NAME = "farm_name";
+    public static final String COLUMN_PRODUCTION_PRODUCT_ID = "product_id";
+    public static final String COLUMN_PRODUCTION_PRODUCT_NAME = "product_name";
+    public static final String COLUMN_PRODUCTION_PRODUCT_CODE = "product_code";
+    public static final String COLUMN_PRODUCTION_TOTAL_EMPLOYEES = "total_employees";
+    public static final String COLUMN_PRODUCTION_GOOD_QUANTITY = "good_quantity";
+    public static final String COLUMN_PRODUCTION_PRICE = "production_price";
+    public static final String COLUMN_PRODUCTION_COST = "production_cost";
 
     //*************************************
     //Database table columns name for employee UI and model
@@ -142,4 +166,13 @@ public class ConstantDAO {
     public static final String COLUMN_PRODUCT_PRICE_EMPLOYEE = "price_employee";
     public static final String COLUMN_PRODUCT_PRICE_COMPANY = "price_company";
     public static final String COLUMN_FOREIGN_KEY_PRODUCT_ID = "product_id";
+
+    //*************************************
+    //Database table columns name for product detail UI and model
+    //*************************************
+    public static final String TABLE_PREFERENCE = "preferences";
+    public static final String COLUMN_PENALTY = "penalty";
+    public static final String COLUMN_GENERAL_PENALTY = "general_penalty";
+    public static final String COLUMN_HOUR_PRICE = "hour_price";
+
 }

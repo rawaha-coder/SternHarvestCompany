@@ -139,7 +139,7 @@ public class TransportDAO extends DAO{
         }
     }
 
-    /*public void createTransportTable() throws SQLException {
+    /* /public void createTransportTable() throws SQLException {
         try {
             Statement statement = dbGetConnect().createStatement();
             statement.execute("CREATE TABLE IF NOT EXISTS "+ TABLE_TRANSPORT

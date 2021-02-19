@@ -1,9 +1,7 @@
 package harvest.util;
 
 import java.sql.Time;
-import java.text.ParseException;
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
 public class Validation {
     public static boolean isEmpty(String... text){
@@ -23,10 +21,6 @@ public class Validation {
             return false;
         }
     }
-
-//    public static String getFullName(String first, String last){
-//        return first + " " + last;
-//    }
 
     public void Duree(){
         Duration duration = Duration.ofSeconds(3000);

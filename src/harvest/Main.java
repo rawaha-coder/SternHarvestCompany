@@ -1,6 +1,8 @@
 package harvest;
 
 import harvest.database.CreditDAO;
+import harvest.database.PreferencesDAO;
+import harvest.database.ProductionDAO;
 import harvest.database.TransportDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -23,11 +25,13 @@ public class Main extends Application {
     //HarvestHoursDAO mHarvestHoursDAO = HarvestHoursDAO.getInstance();
     //HarvestProductionDAO mHarvestProductionDAO = HarvestProductionDAO.getInstance();
     //HarvestIndividualDAO mHarvestIndividualDAO = HarvestIndividualDAO.getInstance();
+    //PreferencesDAO mPreferencesDAO = PreferencesDAO.getInstance();
+    //ProductionDAO mProductionDAO = ProductionDAO.getInstance();
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
-        primaryStage.setTitle("Stern harvest Company");
+        primaryStage.setTitle("Stern individual Company");
         primaryStage.setScene(new Scene(root, 1300, 700));
         primaryStage.show();
         //mCreditDAO.createCreditTable();
@@ -43,6 +47,8 @@ public class Main extends Application {
         //mHarvestHoursDAO.createHarvestTable();
         //mHarvestProductionDAO.createHarvestTable();
         //mHarvestIndividualDAO.createHarvestTable();
+        //mPreferencesDAO.createPreferencesTable();
+        //mProductionDAO.createProductionTable();
     }
 
     public static void main(String[] args) {

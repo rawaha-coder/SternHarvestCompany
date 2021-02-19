@@ -20,16 +20,20 @@
                <children>
                   <VBox>
                      <children>
-                        <MenuBar prefHeight="30.0" prefWidth="1300.0" styleClass="firstMenu">
+                        <MenuBar prefHeight="30.0" prefWidth="1300.0" styleClass="topMenu">
                           <menus>
                             <Menu mnemonicParsing="false" text="File">
                               <items>
-                                <MenuItem mnemonicParsing="false" text="Close" />
+                                <MenuItem mnemonicParsing="false" text="Save all" />
+                                    <MenuItem fx:id="fxPreferences" mnemonicParsing="false" onAction="#handlePreferences" text="Preferences" />
+                                    <MenuItem mnemonicParsing="false" text="Import" />
+                                    <MenuItem mnemonicParsing="false" text="Export" />
+                                    <MenuItem mnemonicParsing="false" text="Close" />
                               </items>
                             </Menu>
                             <Menu mnemonicParsing="false" text="Add">
-                                <MenuItem mnemonicParsing="false" onAction="#addWorkByHours" text="Add Harvest  Hours" />
-                                <MenuItem mnemonicParsing="false" onAction="#addWorkByGroup" text="Add Harvest Work" />
+                                <MenuItem mnemonicParsing="false"  text="Add Harvest  Hours" />
+                                <MenuItem mnemonicParsing="false"  text="Add Harvest Work" />
                                 <MenuItem mnemonicParsing="false" onAction="#addFarmSeason" text="Add Farm /Season" />
                                 <MenuItem mnemonicParsing="false" onAction="#addCredit" text="Add Credit" />
                                 <MenuItem mnemonicParsing="false" onAction="#addTransport" text="Add Transport" />
@@ -49,18 +53,19 @@
                         </MenuBar>
                          <HBox fx:id="fxHBoxTopMenu" alignment="CENTER_LEFT" fillHeight="true" prefHeight="30.0" prefWidth="1300.0" styleClass="secondMenu">
                              <children>
-                                 <ToggleButton fx:id="fxGetProductionBtn" alignment="CENTER_LEFT" onAction="#getProduction" prefHeight="30.0" prefWidth="160.0" styleClass="topButton" text="Harvest Production">
+                                 <ToggleButton fx:id="fxGetProductionMenuBtn" alignment="CENTER_LEFT" onAction="#displayProduction" prefHeight="30.0" prefWidth="160.0" styleClass="topButton" text="Production">
                                      <toggleGroup>
                                          <ToggleGroup fx:id="topMenu" />
                                      </toggleGroup>
                                  </ToggleButton>
-                                 <ToggleButton fx:id="fxHarvestHoursMenuBtn" onAction="#getHours" prefHeight="30" prefWidth="150.0" styleClass="topButton" text="Harvest Hours" toggleGroup="$topMenu" />
-                                 <ToggleButton fx:id="fxGetWorkBtn" onAction="#getWork" prefHeight="30" prefWidth="150.0" styleClass="topButton" text="Harvest Work" toggleGroup="$topMenu" />
-                                 <ToggleButton fx:id="fxTransportCreditMenuBtn" onAction="#getCredit" prefHeight="30" prefWidth="150.0" styleClass="topButton" text="Transport / Credit" toggleGroup="$topMenu" />
-                                 <ToggleButton fx:id="fxEmployeeMenuBtn" onAction="#getEmployee" prefHeight="30" prefWidth="150.0" styleClass="topButton" text="Employees" toggleGroup="$topMenu" />
-                                 <ToggleButton fx:id="fxSupplierMenuBtn" onAction="#getSupplier" prefHeight="30" prefWidth="150.0" styleClass="topButton" text="Fournisseur" toggleGroup="$topMenu" />
-                                 <ToggleButton fx:id="fxFarmSeasonMenuBtn" onAction="#getFarmSeason" prefHeight="30" prefWidth="150.0" styleClass="topButton" text="Champs" toggleGroup="$topMenu" />
-                                 <ToggleButton fx:id="fxProductMenuBtn" onAction="#getProduct" prefHeight="30" prefWidth="150.0" styleClass="topButton" text="Produits" toggleGroup="$topMenu" />
+                                 <ToggleButton fx:id="fxGroupMenuBtn" onAction="#displayGroup" prefHeight="30" prefWidth="150.0" styleClass="topButton" text="Group" toggleGroup="$topMenu" />
+                                 <ToggleButton fx:id="fxIndividualMenuBtn" onAction="#displayHours" prefHeight="30" prefWidth="150.0" styleClass="topButton" text="Individual" toggleGroup="$topMenu" />
+                                 <ToggleButton fx:id="fxHoursMenuBtn" onAction="#displayHours" prefHeight="30" prefWidth="150.0" styleClass="topButton" text="Hours" toggleGroup="$topMenu" />
+                                 <ToggleButton fx:id="fxTransportCreditMenuBtn" onAction="#displayCredit" prefHeight="30" prefWidth="150.0" styleClass="topButton" text="Transport / Credit" toggleGroup="$topMenu" />
+                                 <ToggleButton fx:id="fxEmployeeMenuBtn" onAction="#displayEmployee" prefHeight="30" prefWidth="150.0" styleClass="topButton" text="Employees" toggleGroup="$topMenu" />
+                                 <ToggleButton fx:id="fxSupplierMenuBtn" onAction="#displaySupplier" prefHeight="30" prefWidth="150.0" styleClass="topButton" text="Fournisseur" toggleGroup="$topMenu" />
+                                 <ToggleButton fx:id="fxFarmSeasonMenuBtn" onAction="#displayFarmSeason" prefHeight="30" prefWidth="150.0" styleClass="topButton" text="Champs" toggleGroup="$topMenu" />
+                                 <ToggleButton fx:id="fxProductMenuBtn" onAction="#displayProduct" prefHeight="30" prefWidth="150.0" styleClass="topButton" text="Produits" toggleGroup="$topMenu" />
                              </children>
                          </HBox>
                      </children>
@@ -78,13 +83,13 @@
           <right>
               <VBox prefWidth="131.0" spacing="20.0" styleClass="rightSide" BorderPane.alignment="CENTER">
                   <children>
-                          <ToggleButton onAction="#addWorkByGroup" prefHeight="30.0" prefWidth="150.0" styleClass="sideButton" text="Group">
+                          <ToggleButton onAction="#addGroupWork" prefHeight="30.0" prefWidth="150.0" styleClass="sideButton" text="Group">
                               <toggleGroup>
                                   <ToggleGroup fx:id="sideMenu" />
                               </toggleGroup>
                           </ToggleButton>
-                          <ToggleButton onAction="#addWorkByHours" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Hours" toggleGroup="$sideMenu" />
-                          <ToggleButton onAction="#addWorkByIndividual" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Individuel " toggleGroup="$sideMenu" />
+                          <ToggleButton  prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Hours" toggleGroup="$sideMenu" />
+                          <ToggleButton  prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Individuel " toggleGroup="$sideMenu" />
                           <ToggleButton onAction="#addCredit" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Crédit" toggleGroup="$sideMenu" />
                           <ToggleButton onAction="#addTransport" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Transport" toggleGroup="$sideMenu" />
                           <ToggleButton onAction="#addEmployee" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Employée" toggleGroup="$sideMenu" />

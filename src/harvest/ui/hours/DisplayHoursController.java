@@ -1,7 +1,7 @@
-package harvest.ui.harvest;
+package harvest.ui.hours;
 
-import harvest.database.HarvestHoursDAO;
-import harvest.model.HarvestHours;
+import harvest.database.HoursDAO;
+import harvest.model.Hours;
 import harvest.util.Validation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,31 +17,31 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 //This class will show Harvest working hours by day for every employee
-public class GetHarvestHours implements Initializable {
+public class DisplayHoursController implements Initializable {
 
-    public static ObservableList<HarvestHours> HARVEST_HOURS_LIVE_LIST = FXCollections.observableArrayList();
-    HarvestHoursDAO mHarvestHoursDAO = HarvestHoursDAO.getInstance();
+    public static ObservableList<Hours> HARVEST_HOURS_LIVE_LIST = FXCollections.observableArrayList();
+    HoursDAO mHoursDAO = HoursDAO.getInstance();
 
     @FXML
-    private TableView<HarvestHours> fxHarvestHoursTable;
+    private TableView<Hours> fxHarvestHoursTable;
     @FXML
-    private TableColumn<HarvestHours, String> fxEmployee;
+    private TableColumn<Hours, String> fxEmployee;
     @FXML
-    private TableColumn<HarvestHours, Time> fxStartMorning;
+    private TableColumn<Hours, Time> fxStartMorning;
     @FXML
-    private TableColumn<HarvestHours, Time> fxEndMorning;
+    private TableColumn<Hours, Time> fxEndMorning;
     @FXML
-    private TableColumn<HarvestHours, Time> fxStartNoon;
+    private TableColumn<Hours, Time> fxStartNoon;
     @FXML
-    private TableColumn<HarvestHours, Time> fxEndNoon;
+    private TableColumn<Hours, Time> fxEndNoon;
     @FXML
-    private TableColumn<HarvestHours, Time> fxTotalHours;
+    private TableColumn<Hours, Time> fxTotalHours;
     @FXML
-    private TableColumn<HarvestHours, String> fxTransport;
+    private TableColumn<Hours, String> fxTransport;
     @FXML
-    private TableColumn<HarvestHours, String> fxCredit;
+    private TableColumn<Hours, String> fxCredit;
     @FXML
-    private TableColumn<HarvestHours, String> fxRemarque;
+    private TableColumn<Hours, String> fxRemarque;
     @FXML
     private DatePicker fxDatePicker;
     @FXML
@@ -54,7 +54,7 @@ public class GetHarvestHours implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         LocalDate date = LocalDate.now();
-        mHarvestHoursDAO.updateLiveData(Date.valueOf(date));
+        mHoursDAO.updateLiveData(Date.valueOf(date));
         fxDatePicker.setValue(date);
         initTable();
         observeDatePicker();
@@ -79,7 +79,7 @@ public class GetHarvestHours implements Initializable {
 
     private void observeDatePicker(){
         fxDatePicker.valueProperty().addListener((ob, ov, nv) -> {
-            mHarvestHoursDAO.updateLiveData(Date.valueOf(nv));
+            mHoursDAO.updateLiveData(Date.valueOf(nv));
             fxTotalWorkingHours.setText(getTotalHours());
             fxTotalTransport.setText(getTotalTransport());
             fxTotalCredit.setText(getTotalCredit());
@@ -88,7 +88,7 @@ public class GetHarvestHours implements Initializable {
 
     private String getTotalHours(){
         long hours = 0;
-                for (HarvestHours harvestHours : HARVEST_HOURS_LIVE_LIST){
+                for (Hours harvestHours : HARVEST_HOURS_LIVE_LIST){
                     hours += harvestHours.getTotalHours() ;
                 }
         return Validation.timeToStringTime(hours);
@@ -96,8 +96,8 @@ public class GetHarvestHours implements Initializable {
 
     private String getTotalTransport(){
         double d = 0.0;
-        for (HarvestHours harvestHours : HARVEST_HOURS_LIVE_LIST){
-            d += harvestHours.getTransport().getTransportAmount();
+        for (Hours hours : HARVEST_HOURS_LIVE_LIST){
+            d += hours.getTransport().getTransportAmount();
         }
         System.out.println(d);
         return String.valueOf(d);
@@ -105,8 +105,8 @@ public class GetHarvestHours implements Initializable {
 
     private String getTotalCredit(){
         double d = 0.0;
-        for (HarvestHours harvestHours : HARVEST_HOURS_LIVE_LIST){
-            d += harvestHours.getCredit().getCreditAmount();
+        for (Hours hours : HARVEST_HOURS_LIVE_LIST){
+            d += hours.getCredit().getCreditAmount();
         }
         return String.valueOf(d);
     }

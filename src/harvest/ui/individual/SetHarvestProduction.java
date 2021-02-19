@@ -1,4 +1,4 @@
-package harvest.ui.harvest;
+package harvest.ui.individual;
 
 public class SetHarvestProduction {
 }

@@ -1,7 +1,6 @@
 package harvest.database;
 
 import harvest.model.Farm;
-import harvest.model.Product;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -22,7 +21,6 @@ public class FarmDAO extends DAO{
     public static FarmDAO getInstance(){
         if (sFarmDAO == null ){
             sFarmDAO = new FarmDAO();
-            return sFarmDAO;
         }
         return sFarmDAO;
     }
