@@ -13,9 +13,14 @@ import java.util.ResourceBundle;
 
 public class PreferencesController implements Initializable {
 
-    @FXML TextField fxPenalty;
-    @FXML TextField fxGeneralPenalty;
-    @FXML TextField fxHourPrice;
+    @FXML
+    private TextField fxPenalty;
+    @FXML
+    private TextField fxGeneralPenalty;
+    @FXML
+    private TextField fxHourPrice;
+    @FXML
+    private TextField fxTransportPrice;
     AlertMaker alertMaker = new AlertMaker();
     PreferencesDAO preferencesDAO = PreferencesDAO.getInstance();
 
@@ -25,7 +30,7 @@ public class PreferencesController implements Initializable {
     }
 
     private void initFields(){
-        double[] values = new  double[3];
+        double[] values = new double[4];
         try {
             values = preferencesDAO.getData();
         } catch (SQLException sqlException) {
@@ -34,10 +39,11 @@ public class PreferencesController implements Initializable {
         fxPenalty.setText(String.valueOf(values[0]));
         fxGeneralPenalty.setText(String.valueOf(values[1]));
         fxHourPrice.setText(String.valueOf(values[2]));
+        fxTransportPrice.setText(String.valueOf(values[3]));
     }
 
     public void handlePreferencesBtn() {
-        if (!Validation.isDouble(fxPenalty.getText())  || !Validation.isDouble(fxGeneralPenalty.getText())  || !Validation.isDouble(fxHourPrice.getText()) ){
+        if (!Validation.isDouble(fxPenalty.getText()) || !Validation.isDouble(fxGeneralPenalty.getText()) || !Validation.isDouble(fxHourPrice.getText()) ){
             alertMaker.missingInfo("Value");
             return;
         }
@@ -45,7 +51,8 @@ public class PreferencesController implements Initializable {
                 preferencesDAO.editData(
                         Double.valueOf(fxPenalty.getText()),
                         Double.valueOf(fxGeneralPenalty.getText()),
-                        Double.valueOf(fxHourPrice.getText()))
+                        Double.valueOf(fxHourPrice.getText()),
+                        Double.valueOf(fxTransportPrice.getText()))
         );
     }
 }

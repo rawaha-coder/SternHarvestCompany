@@ -171,8 +171,9 @@ public class ConstantDAO {
     //Database table columns name for product detail UI and model
     //*************************************
     public static final String TABLE_PREFERENCE = "preferences";
-    public static final String COLUMN_PENALTY = "penalty";
-    public static final String COLUMN_GENERAL_PENALTY = "general_penalty";
-    public static final String COLUMN_HOUR_PRICE = "hour_price";
+    public static final String COLUMN_PREFERENCE_PENALTY = "penalty_quantity";
+    public static final String COLUMN_PREFERENCE_GENERAL_PENALTY = "general_penalty_quantity";
+    public static final String COLUMN_PREFERENCE_HOUR_PRICE = "hour_price";
+    public static final String COLUMN_PREFERENCE_TRANSPORT_PRICE = "transport_price";
 
 }

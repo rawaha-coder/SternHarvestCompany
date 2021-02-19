@@ -1,4 +1,8 @@
 package harvest.database;
+import harvest.model.Harvest;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.sql.*;
 import static harvest.database.ConstantDAO.*;
 
@@ -49,6 +53,32 @@ public class HarvestDAO extends DAO {
         }
     }
 
+    //*******************************
+    //Get selected employees Names and ID
+    //*******************************
+    public ObservableList<Harvest> getHarvestData() throws Exception {
+        ObservableList<Harvest> list = FXCollections.observableArrayList();
+        String sqlStmt = "SELECT "
+                + COLUMN_EMPLOYEE_ID + ", "
+                + COLUMN_EMPLOYEE_FIRST_NAME + ", "
+                + COLUMN_EMPLOYEE_LAST_NAME
+                + " FROM " + TABLE_EMPLOYEE
+                + " WHERE " + COLUMN_EMPLOYEE_STATUS + " = " + 1
+                + " ORDER BY " + COLUMN_EMPLOYEE_FIRST_NAME + " ASC;";
 
-
+        try(Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(sqlStmt)) {
+            while (resultSet.next()) {
+                Harvest harvest = new Harvest();
+                harvest.setEmployeeID(resultSet.getInt(1));
+                harvest.setEmployeeName(resultSet.getString(2) + " " + resultSet.getString(3));
+                list.add(harvest);
+            }
+            return list;
+        } catch (SQLException e) {
+            System.out.println("SQL select operation has been failed: " + e);
+            throw e;
+        }finally {
+            dbDisConnect();
+        }
+    }
 }
