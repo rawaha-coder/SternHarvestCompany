@@ -101,7 +101,7 @@ public class ProductionDAO extends DAO {
     //Add production data
     //*******************************
     public boolean addProduction(Production production) {
-        String insertHarvestHours = "INSERT INTO " + TABLE_PRODUCTION + " ("
+        String insertProduction = "INSERT INTO " + TABLE_PRODUCTION + " ("
                 + COLUMN_PRODUCTION_DATE + ", "
                 + COLUMN_PRODUCTION_SUPPLIER_ID + ", "
                 + COLUMN_PRODUCTION_SUPPLIER_NAME + ", "
@@ -115,7 +115,7 @@ public class ProductionDAO extends DAO {
                 + COLUMN_PRODUCTION_PRICE + ", "
                 + COLUMN_PRODUCTION_COST + ") "
                 + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
-        try (PreparedStatement preparedStatement = dbGetConnect().prepareStatement(insertHarvestHours)) {
+        try (PreparedStatement preparedStatement = dbGetConnect().prepareStatement(insertProduction)) {
             preparedStatement.setDate(1, production.getProductionDate());
             preparedStatement.setInt(2, production.getSupplierID());
             preparedStatement.setString(3, production.getSupplierName());
@@ -194,17 +194,53 @@ public class ProductionDAO extends DAO {
 
     public int getProductionId(Production production) {
         int value = -1;
-        String stmt = "SELECT EXISTS (SELECT " + COLUMN_PRODUCTION_ID + " FROM " + TABLE_PRODUCTION + " WHERE  "
-                + COLUMN_PRODUCTION_DATE + " = " + production.getProductionDate().getTime() + " AND "
-                + COLUMN_PRODUCTION_SUPPLIER_ID + " = " + production.getSupplierID() + " AND "
-                + COLUMN_PRODUCTION_FARM_ID + " = " + production.getFarmID() + " AND "
-                + COLUMN_PRODUCTION_PRODUCT_ID + " = " + production.getProductID() + " AND "
-                + COLUMN_PRODUCTION_PRODUCT_CODE + " = " + production.getProductCode()
-                + " )";
-        try (Statement statement = dbGetConnect().createStatement()) {
-            ResultSet resultSet = statement.executeQuery(stmt);
-            value = resultSet.getInt(1);
-            System.out.println(value);
+        Connection connection;
+        PreparedStatement preparedStatement;
+
+        String insertProduction = "INSERT INTO " + TABLE_PRODUCTION + " ("
+                + COLUMN_PRODUCTION_DATE + ", "
+                + COLUMN_PRODUCTION_SUPPLIER_ID + ", "
+                + COLUMN_PRODUCTION_SUPPLIER_NAME + ", "
+                + COLUMN_PRODUCTION_FARM_ID + ", "
+                + COLUMN_PRODUCTION_FARM_NAME + ", "
+                + COLUMN_PRODUCTION_PRODUCT_ID + ", "
+                + COLUMN_PRODUCTION_PRODUCT_NAME + ", "
+                + COLUMN_PRODUCTION_PRODUCT_CODE + ", "
+                + COLUMN_PRODUCTION_TOTAL_EMPLOYEES + ", "
+                + COLUMN_PRODUCTION_GOOD_QUANTITY + ", "
+                + COLUMN_PRODUCTION_PRICE + ", "
+                + COLUMN_PRODUCTION_COST + ") "
+                + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
+
+        String getProductionId = "SELECT MAX(id) FROM " + TABLE_PRODUCTION + " ;";
+
+        try {
+            connection = dbGetConnect();
+            connection.setAutoCommit(false);
+
+            preparedStatement = dbGetConnect().prepareStatement(insertProduction);
+            preparedStatement.setDate(1, production.getProductionDate());
+            preparedStatement.setInt(2, production.getSupplierID());
+            preparedStatement.setString(3, production.getSupplierName());
+            preparedStatement.setInt(4, production.getFarmID());
+            preparedStatement.setString(5, production.getFarmName());
+            preparedStatement.setInt(6, production.getProductID());
+            preparedStatement.setString(7, production.getProductName());
+            preparedStatement.setString(8, production.getProductCode());
+            preparedStatement.setInt(9, production.getTotalEmployee());
+            preparedStatement.setDouble(10, production.getGoodQuantity());
+            preparedStatement.setDouble(11, production.getProductionPrice());
+            preparedStatement.setDouble(12, production.getProductionCost());
+            preparedStatement.execute();
+            preparedStatement.close();
+
+            Statement statement0 = connection.createStatement();
+            ResultSet resultSet0 = statement0.executeQuery(getProductionId);
+            value = resultSet0.getInt(1);
+            System.out.println("productionId " + resultSet0.getInt(1));
+            statement0.close();
+
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

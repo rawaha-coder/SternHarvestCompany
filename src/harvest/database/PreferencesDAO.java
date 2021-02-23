@@ -1,5 +1,7 @@
 package harvest.database;
 
+import harvest.model.Preferences;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -126,4 +128,32 @@ public class PreferencesDAO extends DAO{
              dbDisConnect();
          }
      }
+
+    public Preferences getPreferences() throws SQLException{
+        String selectStmt = "SELECT * FROM " + TABLE_PREFERENCE ;
+        try(Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(selectStmt)) {
+            return getPreferencesSet(resultSet);
+        }catch (SQLException e){
+            e.printStackTrace();
+            throw e;
+        }finally {
+            dbDisConnect();
+        }
+    }
+
+    private Preferences getPreferencesSet(ResultSet resultSet) throws SQLException {
+        Preferences preferences = new Preferences();
+        try {
+            while (resultSet.next()){
+                preferences.setPenaltyEmployee(resultSet.getDouble(1));
+                preferences.setPenaltyGeneral(resultSet.getDouble(2));
+                preferences.setHourPrice(resultSet.getDouble(3));
+                preferences.setTransportPrice(resultSet.getDouble(4));
+            }
+            return preferences;
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }
+    }
 }

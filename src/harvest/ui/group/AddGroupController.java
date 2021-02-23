@@ -16,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.*;
 import java.sql.Date;
 
@@ -27,7 +28,9 @@ public class AddGroupController implements Initializable {
     private Map<String, Farm> mFarmMap = new LinkedHashMap<>();
     private Map<String, Product> mProductMap = new LinkedHashMap<>();
     private Map<String, ProductDetail> mProductDetailMap = new LinkedHashMap<>();
+
     private final AlertMaker alert = new AlertMaker();
+
     private final EmployeeDAO mEmployeeDAO = EmployeeDAO.getInstance();
     private final HarvestDAO mHarvestDAO = HarvestDAO.getInstance();
     private final SupplierDAO mSupplierDAO = SupplierDAO.getInstance();
@@ -36,6 +39,8 @@ public class AddGroupController implements Initializable {
     private final ProductDetailDAO mProductDetailDAO = ProductDetailDAO.getInstance();
     private final PreferencesDAO mPreferencesDAO = PreferencesDAO.getInstance();
     private final ProductionDAO mProductionDAO = ProductionDAO.getInstance();
+
+    Production production = new Production();
 
     @FXML private DatePicker fxHarvestDate;
     @FXML private ChoiceBox<String> fxSupplierList;
@@ -226,7 +231,7 @@ public class AddGroupController implements Initializable {
 
     @FXML
     void applyButton() {
-        Production production = new Production();
+
         production.setProductionDate(Date.valueOf(fxHarvestDate.getValue()));
         production.setSupplierID(mSupplierMap.get(fxSupplierList.getValue()).getSupplierId());
         production.setSupplierName(mSupplierMap.get(fxSupplierList.getValue()).getSupplierName());
@@ -240,10 +245,24 @@ public class AddGroupController implements Initializable {
         production.setGoodQuantity(Double.parseDouble(fxTotalGoodQuantity.getText()));
         production.setProductionCost(Double.parseDouble(fxCompanyCharge.getText()));
 
-            alert.saveItem("Production" , mProductionDAO.addProduction(production));
-
+        if (mProductionDAO.getProductionId(production) != -1){
+            production.setProductionID(mProductionDAO.getProductionId(production));
+            alert.saveItem("Production" , addHarvestEmployeeWork());
+        }
     }
 
+    private boolean addHarvestEmployeeWork() {
+        boolean trackInsert = false;
+        if (production.getProductionID() > 0){
+            for (Harvest item : HARVEST_WORK_LIVE_LIST){
+                    item.setHarvestDate(production.getProductionDate());
+                    item.setProductionID(production.getProductionID());
+                    trackInsert = mHarvestDAO.addHarvesters(item);
+                    if (!trackInsert) break;
+            }
+        }
+        return trackInsert;
+    }
 
 
     @FXML
@@ -261,18 +280,24 @@ public class AddGroupController implements Initializable {
         double allQuantityEmp = allQuantity / HARVEST_WORK_LIVE_LIST.size();
         double badQuantityEmp = badQuantity / HARVEST_WORK_LIVE_LIST.size();
         double priceCompany = mProductDetailMap.get(fxProductCodeList.getValue()).getPriceCompany();
+        double penaltyEmployee = getPreferences().getPenaltyEmployee();
+        double penaltyGeneral = getPreferences().getPenaltyGeneral();
         double totalTransport = 0.0;
         double totalCredit = 0.0;
         for(Harvest harvest: HARVEST_WORK_LIVE_LIST){
             harvest.setAllQuantity(allQuantityEmp);
             harvest.setBadQuantity(badQuantityEmp);
+            harvest.setPenaltyQuality(penaltyEmployee);
+            harvest.setGeneralPenaltyQuality(penaltyGeneral);
             harvest.setGoodQuantity(allQuantityEmp - badQuantityEmp);
             harvest.setProductPrice(mProductDetailMap.get(fxProductCodeList.getValue()).getPriceEmployee());
+            harvest.setFarmID(mFarmMap.get(fxFarmList.getValue()).getFarmId());
+            harvest.setFarmName(mFarmMap.get(fxFarmList.getValue()).getFarmName());
             harvest.setAmountPayable((harvest.getGoodQuantity() * harvest.getProductPrice()) - (harvest.getTransportAmount() + harvest.getCreditAmount()));
+            harvest.setHarvestType(1);
             totalTransport += harvest.getTransportAmount();
             totalCredit += harvest.getCreditAmount();
             System.out.println(harvest.getRemarque());
-
         }
         fxTotalEmployee.setText(String.valueOf(HARVEST_WORK_LIVE_LIST.size()));
         fxTotalAllQuantity.setText(String.valueOf(allQuantity));
@@ -295,5 +320,14 @@ public class AddGroupController implements Initializable {
         );
     }
 
-
+    private Preferences getPreferences(){
+        PreferencesDAO preferencesDAO = PreferencesDAO.getInstance();
+        Preferences preferences = new Preferences();
+        try {
+            preferences = preferencesDAO.getPreferences();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return preferences;
+    }
 }

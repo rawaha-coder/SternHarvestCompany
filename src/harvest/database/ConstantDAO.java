@@ -55,8 +55,8 @@ public class ConstantDAO {
     public static final String COLUMN_HARVEST_TRANSPORT_AMOUNT = "transport_amount";
     public static final String COLUMN_HARVEST_CREDIT_ID = "credit_id";
     public static final String COLUMN_HARVEST_CREDIT_AMOUNT = "credit_amount";
-    public static final String COLUMN_HARVEST_FARM_ID = "credit_id";
-    public static final String COLUMN_HARVEST_FARM_NAME = "credit_amount";
+    public static final String COLUMN_HARVEST_FARM_ID = "farm_id";
+    public static final String COLUMN_HARVEST_FARM_NAME = "farm_name";
     public static final String COLUMN_HARVEST_NET_AMOUNT = "net_amount";
     public static final String COLUMN_HARVEST_HARVEST_REMARQUE = "remarque";
     public static final String COLUMN_HARVEST_TYPE = "harvest_type";
