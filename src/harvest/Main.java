@@ -1,9 +1,6 @@
 package harvest;
 
-import harvest.database.CreditDAO;
-import harvest.database.PreferencesDAO;
-import harvest.database.ProductionDAO;
-import harvest.database.TransportDAO;
+import harvest.database.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
