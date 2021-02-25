@@ -89,7 +89,7 @@ public class AddGroupController implements Initializable {
         fxHarvestWorkTable.setItems(HARVEST_WORK_LIVE_LIST);
         fxEmployeeNameColumn.setCellValueFactory(new PropertyValueFactory<>("employeeName"));
         fxAllQuantityColumn.setCellValueFactory(new PropertyValueFactory<>("allQuantity"));
-        fxBadQuantityColumn.setCellValueFactory(new PropertyValueFactory<>("badQuantity"));
+        fxBadQuantityColumn.setCellValueFactory(new PropertyValueFactory<>("defectiveQuantity"));
         fxGoodQuantityColumn.setCellValueFactory(new PropertyValueFactory<>("goodQuantity"));
         fxPriceColumn.setCellValueFactory(new PropertyValueFactory<>("productPrice"));
         fxTransportStatusColumn.setCellValueFactory(new PropertyValueFactory<>("transportStatus"));
@@ -264,7 +264,6 @@ public class AddGroupController implements Initializable {
         return trackInsert;
     }
 
-
     @FXML
     void validateButton() {
         if (checkInput()) {
@@ -280,15 +279,15 @@ public class AddGroupController implements Initializable {
         double allQuantityEmp = allQuantity / HARVEST_WORK_LIVE_LIST.size();
         double badQuantityEmp = badQuantity / HARVEST_WORK_LIVE_LIST.size();
         double priceCompany = mProductDetailMap.get(fxProductCodeList.getValue()).getPriceCompany();
-        double penaltyEmployee = getPreferences().getPenaltyEmployee();
-        double penaltyGeneral = getPreferences().getPenaltyGeneral();
+        double penaltyEmployee = getPreferences().getPenaltyGeneral();
+        double penaltyGeneral = getPreferences().getDefectiveGeneral();
         double totalTransport = 0.0;
         double totalCredit = 0.0;
         for(Harvest harvest: HARVEST_WORK_LIVE_LIST){
             harvest.setAllQuantity(allQuantityEmp);
-            harvest.setBadQuantity(badQuantityEmp);
-            harvest.setPenaltyQuality(penaltyEmployee);
-            harvest.setGeneralPenaltyQuality(penaltyGeneral);
+            harvest.setDefectiveQuantity(badQuantityEmp);
+            harvest.setPenaltyGeneral(penaltyEmployee);
+            harvest.setDefectiveGeneral(penaltyGeneral);
             harvest.setGoodQuantity(allQuantityEmp - badQuantityEmp);
             harvest.setProductPrice(mProductDetailMap.get(fxProductCodeList.getValue()).getPriceEmployee());
             harvest.setFarmID(mFarmMap.get(fxFarmList.getValue()).getFarmId());

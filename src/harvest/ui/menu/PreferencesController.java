@@ -14,13 +14,14 @@ import java.util.ResourceBundle;
 public class PreferencesController implements Initializable {
 
     @FXML
-    private TextField fxPenalty;
+    private TextField fxPenaltyGeneral;
     @FXML
-    private TextField fxGeneralPenalty;
+    private TextField fxDefectiveGeneral;
     @FXML
     private TextField fxHourPrice;
     @FXML
     private TextField fxTransportPrice;
+
     AlertMaker alertMaker = new AlertMaker();
     PreferencesDAO preferencesDAO = PreferencesDAO.getInstance();
 
@@ -36,21 +37,25 @@ public class PreferencesController implements Initializable {
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
-        fxPenalty.setText(String.valueOf(values[0]));
-        fxGeneralPenalty.setText(String.valueOf(values[1]));
+        fxPenaltyGeneral.setText(String.valueOf(values[0]));
+        fxDefectiveGeneral.setText(String.valueOf(values[1]));
         fxHourPrice.setText(String.valueOf(values[2]));
         fxTransportPrice.setText(String.valueOf(values[3]));
     }
 
     public void handlePreferencesBtn() {
-        if (!Validation.isDouble(fxPenalty.getText()) || !Validation.isDouble(fxGeneralPenalty.getText()) || !Validation.isDouble(fxHourPrice.getText()) ){
+        if (!Validation.isDouble(fxPenaltyGeneral.getText()) ||
+                !Validation.isDouble(fxDefectiveGeneral.getText()) ||
+                !Validation.isDouble(fxHourPrice.getText()) ||
+                !Validation.isDouble(fxTransportPrice.getText())
+        ){
             alertMaker.missingInfo("Value");
             return;
         }
         alertMaker.updateItem("Value",
                 preferencesDAO.editData(
-                        Double.valueOf(fxPenalty.getText()),
-                        Double.valueOf(fxGeneralPenalty.getText()),
+                        Double.valueOf(fxPenaltyGeneral.getText()),
+                        Double.valueOf(fxDefectiveGeneral.getText()),
                         Double.valueOf(fxHourPrice.getText()),
                         Double.valueOf(fxTransportPrice.getText()))
         );

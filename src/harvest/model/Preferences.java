@@ -2,18 +2,10 @@ package harvest.model;
 
 public class Preferences {
 
-    private Double penaltyEmployee = 0.0;
     private Double penaltyGeneral = 0.0;
+    private Double defectiveGeneral = 0.0;
     private Double hourPrice = 1.0;
     private Double transportPrice = 0.0;
-
-    public Double getPenaltyEmployee() {
-        return penaltyEmployee;
-    }
-
-    public void setPenaltyEmployee(Double penaltyEmployee) {
-        this.penaltyEmployee = penaltyEmployee;
-    }
 
     public Double getPenaltyGeneral() {
         return penaltyGeneral;
@@ -21,6 +13,14 @@ public class Preferences {
 
     public void setPenaltyGeneral(Double penaltyGeneral) {
         this.penaltyGeneral = penaltyGeneral;
+    }
+
+    public Double getDefectiveGeneral() {
+        return defectiveGeneral;
+    }
+
+    public void setDefectiveGeneral(Double defectiveGeneral) {
+        this.defectiveGeneral = defectiveGeneral;
     }
 
     public Double getHourPrice() {

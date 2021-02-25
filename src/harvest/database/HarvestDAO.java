@@ -1,10 +1,10 @@
 package harvest.database;
 import harvest.model.Harvest;
-import harvest.model.Production;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
+
 import static harvest.database.ConstantDAO.*;
 
 public class HarvestDAO extends DAO {
@@ -46,9 +46,9 @@ public class HarvestDAO extends DAO {
         String insertHarvest = "INSERT INTO " + TABLE_HARVEST + " ("
                 + COLUMN_HARVEST_DATE + ", "
                 + COLUMN_HARVEST_AQ + ", "
-                + COLUMN_HARVEST_BQ + ", "
-                + COLUMN_HARVEST_PQ + ", "
-                + COLUMN_HARVEST_GPQ + ", "
+                + COLUMN_HARVEST_DQ + ", "
+                + COLUMN_HARVEST_PG + ", "
+                + COLUMN_HARVEST_DG + ", "
                 + COLUMN_HARVEST_GQ + ", "
                 + COLUMN_HARVEST_PRICE + ", "
                 + COLUMN_HARVEST_EMPLOYEE_ID + ", "
@@ -115,9 +115,9 @@ public class HarvestDAO extends DAO {
             preparedStatement = connection.prepareStatement(insertHarvest);
             preparedStatement.setDate(1, harvest.getHarvestDate());
             preparedStatement.setDouble(2, harvest.getAllQuantity());
-            preparedStatement.setDouble(3, harvest.getBadQuantity());
-            preparedStatement.setDouble(4, harvest.getPenaltyQuality());
-            preparedStatement.setDouble(5, harvest.getGeneralPenaltyQuality());
+            preparedStatement.setDouble(3, harvest.getDefectiveQuantity());
+            preparedStatement.setDouble(4, harvest.getPenaltyGeneral());
+            preparedStatement.setDouble(5, harvest.getDefectiveGeneral());
             preparedStatement.setDouble(6, harvest.getGoodQuantity());
             preparedStatement.setDouble(7, harvest.getProductPrice());
             preparedStatement.setInt(8, harvest.getEmployeeID());
@@ -157,9 +157,9 @@ public class HarvestDAO extends DAO {
                 + COLUMN_HARVEST_ID + " INTEGER PRIMARY KEY, "
                 + COLUMN_HARVEST_DATE + " DATE NOT NULL, "
                 + COLUMN_HARVEST_AQ + " REAL, "
-                + COLUMN_HARVEST_BQ + " REAL , "
-                + COLUMN_HARVEST_PQ + " REAL, "
-                + COLUMN_HARVEST_GPQ + " REAL, "
+                + COLUMN_HARVEST_DQ + " REAL , "
+                + COLUMN_HARVEST_PG + " REAL, "
+                + COLUMN_HARVEST_DG + " REAL, "
                 + COLUMN_HARVEST_GQ + " REAL, "
                 + COLUMN_HARVEST_PRICE + " REAL, "
                 + COLUMN_HARVEST_EMPLOYEE_ID + " INTEGER NOT NULL, "
@@ -215,5 +215,69 @@ public class HarvestDAO extends DAO {
         }finally {
             dbDisConnect();
         }
+    }
+
+    //*******************************
+    //Get Harvest Group Data
+    //*******************************
+    public ObservableList<Harvest> getHarvestGroupData(Date date) throws Exception {
+        String sqlStmt = "SELECT * FROM " + TABLE_HARVEST
+                + " WHERE " + COLUMN_HARVEST_TYPE + " = " + 1
+                + " AND " + COLUMN_HARVEST_DATE + " = " + date.getTime()
+                + " ORDER BY " + COLUMN_HARVEST_DATE + " DESC;";
+        try(Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(sqlStmt)) {
+            return getHarvestGroupDataFromResultSet(resultSet);
+        } catch (SQLException e) {
+            System.out.println("SQL select operation has been failed: " + e);
+            throw e;
+        }finally {
+            dbDisConnect();
+        }
+    }
+
+
+    public ObservableList<Harvest> getHarvestGroupByDate(Date dateFrom, Date dateTo) throws Exception{
+        String sqlStmt = "SELECT * FROM " + TABLE_HARVEST
+                + " WHERE " + COLUMN_HARVEST_TYPE + " = " + 1
+                + " AND " + COLUMN_HARVEST_DATE + " >= " + dateFrom.getTime()
+                + " AND " + COLUMN_HARVEST_DATE + " <= " + dateTo.getTime()
+                + " ORDER BY " + COLUMN_HARVEST_DATE + " DESC;";
+        try(Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(sqlStmt)) {
+            return getHarvestGroupDataFromResultSet(resultSet);
+        } catch (SQLException e) {
+            System.out.println("SQL select operation has been failed: " + e);
+            throw e;
+        }finally {
+            dbDisConnect();
+        }
+    }
+
+    private ObservableList<Harvest> getHarvestGroupDataFromResultSet(ResultSet resultSet) throws SQLException{
+        ObservableList<Harvest> list = FXCollections.observableArrayList();
+        while (resultSet.next()) {
+            Harvest harvest = new Harvest();
+            harvest.setHarvestID(resultSet.getInt(1));
+            harvest.setHarvestDate(resultSet.getDate(2));
+            harvest.setAllQuantity(resultSet.getDouble(3));
+            harvest.setDefectiveQuantity(resultSet.getDouble(4));
+            harvest.setPenaltyGeneral(resultSet.getDouble(5));
+            harvest.setDefectiveGeneral(resultSet.getDouble(6));
+            harvest.setGoodQuantity(resultSet.getDouble(7));
+            harvest.setProductPrice(resultSet.getDouble(8));
+            harvest.setEmployeeID(resultSet.getInt(9));
+            harvest.setEmployeeName(resultSet.getString(10));
+            harvest.setTransportID(resultSet.getInt(11));
+            harvest.setTransportAmount(resultSet.getDouble(12));
+            harvest.setCreditID(resultSet.getInt(13));
+            harvest.setCreditAmount(resultSet.getDouble(14));
+            harvest.setFarmID(resultSet.getInt(15));
+            harvest.setFarmName(resultSet.getString(16));
+            harvest.setAmountPayable(resultSet.getDouble(17));
+            harvest.setRemarque(resultSet.getString(18));
+            harvest.setHarvestType(resultSet.getInt(19));
+            harvest.setProductionID(resultSet.getInt(20));
+            list.add(harvest);
+        }
+        return list;
     }
 }

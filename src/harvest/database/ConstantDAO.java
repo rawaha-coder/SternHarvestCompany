@@ -44,9 +44,9 @@ public class ConstantDAO {
     public static final String COLUMN_HARVEST_ID = "id";
     public static final String COLUMN_HARVEST_DATE = "date";
     public static final String COLUMN_HARVEST_AQ = "all_quantity";
-    public static final String COLUMN_HARVEST_BQ = "bad_quantity";
-    public static final String COLUMN_HARVEST_PQ = "penalty_qty";
-    public static final String COLUMN_HARVEST_GPQ = "general_plt_qty";
+    public static final String COLUMN_HARVEST_DQ = "defective_quantity";
+    public static final String COLUMN_HARVEST_PG = "penalty_general";
+    public static final String COLUMN_HARVEST_DG = "defective_general";
     public static final String COLUMN_HARVEST_GQ = "good_quantity";
     public static final String COLUMN_HARVEST_PRICE = "price";
     public static final String COLUMN_HARVEST_EMPLOYEE_ID = "employee_id";
@@ -171,8 +171,8 @@ public class ConstantDAO {
     //Database table columns name for product detail UI and model
     //*************************************
     public static final String TABLE_PREFERENCE = "preferences";
-    public static final String COLUMN_PREFERENCE_PENALTY = "penalty_quantity";
-    public static final String COLUMN_PREFERENCE_GENERAL_PENALTY = "general_penalty_quantity";
+    public static final String COLUMN_PREFERENCE_PENALTY_GENERAL = "penalty_general";
+    public static final String COLUMN_PREFERENCE_DEFECTIVE_GENERAL = "defective_general";
     public static final String COLUMN_PREFERENCE_HOUR_PRICE = "hour_price";
     public static final String COLUMN_PREFERENCE_TRANSPORT_PRICE = "transport_price";
 

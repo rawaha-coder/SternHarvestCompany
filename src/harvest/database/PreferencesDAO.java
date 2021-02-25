@@ -53,8 +53,8 @@ public class PreferencesDAO extends DAO{
     //Edit product
     public boolean editData(Double p, Double gp, Double hp, Double tp) {
         String updateStmt = "UPDATE " + TABLE_PREFERENCE + " SET "
-                + COLUMN_PREFERENCE_PENALTY + " =?, "
-                + COLUMN_PREFERENCE_GENERAL_PENALTY + " =?, "
+                + COLUMN_PREFERENCE_PENALTY_GENERAL + " =?, "
+                + COLUMN_PREFERENCE_DEFECTIVE_GENERAL + " =?, "
                 + COLUMN_PREFERENCE_HOUR_PRICE + " =?, "
                 + COLUMN_PREFERENCE_TRANSPORT_PRICE + " =? ";
         try(PreparedStatement preparedStatement = dbGetConnect().prepareStatement(updateStmt)) {
@@ -90,8 +90,8 @@ public class PreferencesDAO extends DAO{
          try {
              Statement statement = dbGetConnect().createStatement();
              statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_PREFERENCE
-                     +"("+ COLUMN_PREFERENCE_PENALTY +" REAL NOT NULL, "
-                     + COLUMN_PREFERENCE_GENERAL_PENALTY +" REAL NOT NULL, "
+                     +"("+ COLUMN_PREFERENCE_PENALTY_GENERAL +" REAL NOT NULL, "
+                     + COLUMN_PREFERENCE_DEFECTIVE_GENERAL +" REAL NOT NULL, "
                      + COLUMN_PREFERENCE_HOUR_PRICE +" REAL NOT NULL, "
                      + COLUMN_PREFERENCE_TRANSPORT_PRICE +" REAL NOT NULL "
                      + ")");
@@ -99,35 +99,31 @@ public class PreferencesDAO extends DAO{
              e.printStackTrace();
              throw e;
          }
-         initPreferencesTable();
      }
 
      //init Preferences Table
-     public boolean initPreferencesTable() {
-         String initPreferences = "INSERT INTO " + TABLE_PREFERENCE + " ("
-                 + COLUMN_PREFERENCE_PENALTY + ", "
-                 + COLUMN_PREFERENCE_GENERAL_PENALTY + ", "
-                 + COLUMN_PREFERENCE_HOUR_PRICE + ", "
-                 + COLUMN_PREFERENCE_TRANSPORT_PRICE + ") "
-                 + "VALUES (?,?,?,?);";
-
-         try {
-             PreparedStatement preparedStatement = dbGetConnect().prepareStatement(initPreferences);
-             preparedStatement.setDouble(1, 0);
-             preparedStatement.setDouble(2, 0);
-             preparedStatement.setDouble(3, 0);
-             preparedStatement.setDouble(4, 0);
-
-             preparedStatement.execute();
-             return true;
-         } catch (Exception e) {
-             e.printStackTrace();
-             System.out.print("Error occurred while INSERT Operation: " + e.getMessage());
-             return false;
-         }finally {
-             dbDisConnect();
-         }
-     }
+//     public void initPreferencesTable() {
+//         String initPreferences = "INSERT INTO " + TABLE_PREFERENCE + " ("
+//                 + COLUMN_PREFERENCE_PENALTY_GENERAL + ", "
+//                 + COLUMN_PREFERENCE_DEFECTIVE_GENERAL + ", "
+//                 + COLUMN_PREFERENCE_HOUR_PRICE + ", "
+//                 + COLUMN_PREFERENCE_TRANSPORT_PRICE + ") "
+//                 + "VALUES (?,?,?,?);";
+//
+//         try {
+//             PreparedStatement preparedStatement = dbGetConnect().prepareStatement(initPreferences);
+//             preparedStatement.setDouble(1, 0);
+//             preparedStatement.setDouble(2, 0);
+//             preparedStatement.setDouble(3, 0);
+//             preparedStatement.setDouble(4, 0);
+//             preparedStatement.execute();
+//         } catch (Exception e) {
+//             e.printStackTrace();
+//             System.out.print("Error occurred while INSERT Operation: " + e.getMessage());
+//         }finally {
+//             dbDisConnect();
+//         }
+//     }
 
     public Preferences getPreferences() throws SQLException{
         String selectStmt = "SELECT * FROM " + TABLE_PREFERENCE ;
@@ -145,8 +141,8 @@ public class PreferencesDAO extends DAO{
         Preferences preferences = new Preferences();
         try {
             while (resultSet.next()){
-                preferences.setPenaltyEmployee(resultSet.getDouble(1));
-                preferences.setPenaltyGeneral(resultSet.getDouble(2));
+                preferences.setPenaltyGeneral(resultSet.getDouble(1));
+                preferences.setDefectiveGeneral(resultSet.getDouble(2));
                 preferences.setHourPrice(resultSet.getDouble(3));
                 preferences.setTransportPrice(resultSet.getDouble(4));
             }

@@ -45,6 +45,7 @@ public class Main extends Application {
         //mHarvestProductionDAO.createHarvestTable();
         //mHarvestIndividualDAO.createHarvestTable();
         //mPreferencesDAO.createPreferencesTable();
+        //mPreferencesDAO.initPreferencesTable();
         //mProductionDAO.createProductionTable();
     }
 
