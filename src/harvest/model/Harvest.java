@@ -9,9 +9,9 @@ public class Harvest {
     private final SimpleIntegerProperty harvestID = new SimpleIntegerProperty();
     private final ObjectProperty<Date> harvestDate = new SimpleObjectProperty<>();
     private final SimpleDoubleProperty allQuantity = new SimpleDoubleProperty();
-    private final SimpleDoubleProperty badQuantity = new SimpleDoubleProperty();
-    private final SimpleDoubleProperty penaltyQuality = new SimpleDoubleProperty();
-    private final SimpleDoubleProperty generalPenaltyQuality = new SimpleDoubleProperty();
+    private final SimpleDoubleProperty defectiveQuantity = new SimpleDoubleProperty();
+    private final SimpleDoubleProperty penaltyGeneral = new SimpleDoubleProperty();
+    private final SimpleDoubleProperty defectiveGeneral = new SimpleDoubleProperty();
     private final SimpleDoubleProperty goodQuantity = new SimpleDoubleProperty();
     private final SimpleDoubleProperty productPrice = new SimpleDoubleProperty();
     private final SimpleIntegerProperty employeeID = new SimpleIntegerProperty();
@@ -64,40 +64,40 @@ public class Harvest {
         this.allQuantity.set(allQuantity);
     }
 
-    public double getBadQuantity() {
-        return badQuantity.get();
+    public double getDefectiveQuantity() {
+        return defectiveQuantity.get();
     }
 
-    public SimpleDoubleProperty badQuantityProperty() {
-        return badQuantity;
+    public SimpleDoubleProperty defectiveQuantityProperty() {
+        return defectiveQuantity;
     }
 
-    public void setBadQuantity(double badQuantity) {
-        this.badQuantity.set(badQuantity);
+    public void setDefectiveQuantity(double defectiveQuantity) {
+        this.defectiveQuantity.set(defectiveQuantity);
     }
 
-    public double getPenaltyQuality() {
-        return penaltyQuality.get();
+    public double getPenaltyGeneral() {
+        return penaltyGeneral.get();
     }
 
-    public SimpleDoubleProperty penaltyQualityProperty() {
-        return penaltyQuality;
+    public SimpleDoubleProperty penaltyGeneralProperty() {
+        return penaltyGeneral;
     }
 
-    public void setPenaltyQuality(double penaltyQuality) {
-        this.penaltyQuality.set(penaltyQuality);
+    public void setPenaltyGeneral(double penaltyGeneral) {
+        this.penaltyGeneral.set(penaltyGeneral);
     }
 
-    public double getGeneralPenaltyQuality() {
-        return generalPenaltyQuality.get();
+    public double getDefectiveGeneral() {
+        return defectiveGeneral.get();
     }
 
-    public SimpleDoubleProperty generalPenaltyQualityProperty() {
-        return generalPenaltyQuality;
+    public SimpleDoubleProperty defectiveGeneralProperty() {
+        return defectiveGeneral;
     }
 
-    public void setGeneralPenaltyQuality(double generalPenaltyQuality) {
-        this.generalPenaltyQuality.set(generalPenaltyQuality);
+    public void setDefectiveGeneral(double defectiveGeneral) {
+        this.defectiveGeneral.set(defectiveGeneral);
     }
 
     public double getGoodQuantity() {
