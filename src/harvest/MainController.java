@@ -22,9 +22,9 @@ public class MainController{
     ProgressBar pBar = new ProgressBar();
 
     @FXML
-    public void displayProduction() { /*displayCenterView("/individual/ui/production/display_production.fxml");*/ }
+    public void displayProduction() { displayCenterView("/harvest/ui/production/display_production.fxml"); }
     @FXML
-    public void displayHours() { /*displayCenterView("/individual/ui/individual/display_hours.fxml");*/ }
+    public void displayHours() { /*displayCenterView("/harvest/ui/individual/display_hours.fxml");*/ }
     @FXML
     public void displayGroup() { displayCenterView("/harvest/ui/group/display_group.fxml"); }
     @FXML
