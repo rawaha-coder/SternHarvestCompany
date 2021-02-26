@@ -3,6 +3,7 @@ package harvest.database;
 import harvest.model.Production;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.chart.XYChart;
 
 import java.sql.*;
 
@@ -23,14 +24,11 @@ public class ProductionDAO extends DAO {
         return mProductionDAO;
     }
 
-
-
     //*******************************
     //Get all production data
     //*******************************
     public ObservableList<Production> getData() throws Exception {
-        String select = "SELECT * FROM " + TABLE_PRODUCTION + " WHERE " +
-                " ORDER BY " + COLUMN_PRODUCTION_DATE + " DESC ;";
+        String select = "SELECT * FROM " + TABLE_PRODUCTION + " ORDER BY " + COLUMN_PRODUCTION_DATE + " DESC ;";
         try (Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(select)) {
             return getProductionFromResultSet(resultSet);
         } catch (SQLException e) {
@@ -274,6 +272,33 @@ public class ProductionDAO extends DAO {
         } catch (SQLException e) {
             e.printStackTrace();
             throw e;
+        }
+    }
+
+    //*******************************
+    //Get selected employees as graphic
+    //*******************************
+    public XYChart.Series<String, Number> harvestProductionGraph(Date fromDate, Date  toDate) throws SQLException {
+        var data = new XYChart.Series<String, Number>();
+        String q1 = "SELECT "
+                + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_DATE + ", "
+                + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_GOOD_QUANTITY
+                + " FROM " + TABLE_PRODUCTION
+                + " WHERE " + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_DATE  + " >= " + fromDate.getTime()
+                + " AND " + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_DATE + " <= " + toDate.getTime()
+                + " ORDER BY " + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_DATE + " ASC ;";
+        try(Statement statement = dbGetConnect().createStatement()) {
+            ResultSet resultSet = statement.executeQuery(q1);
+            while (resultSet.next()) {
+                data.getData().add(new XYChart.Data<String , Number>(resultSet.getDate(1).toString(), resultSet.getDouble(2)));
+            }
+            resultSet.close();
+            return data;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }finally {
+            dbDisConnect();
         }
     }
 }

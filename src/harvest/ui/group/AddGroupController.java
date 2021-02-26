@@ -231,7 +231,6 @@ public class AddGroupController implements Initializable {
 
     @FXML
     void applyButton() {
-
         production.setProductionDate(Date.valueOf(fxHarvestDate.getValue()));
         production.setSupplierID(mSupplierMap.get(fxSupplierList.getValue()).getSupplierId());
         production.setSupplierName(mSupplierMap.get(fxSupplierList.getValue()).getSupplierName());
@@ -244,9 +243,9 @@ public class AddGroupController implements Initializable {
         production.setTotalEmployee(HARVEST_WORK_LIVE_LIST.size());
         production.setGoodQuantity(Double.parseDouble(fxTotalGoodQuantity.getText()));
         production.setProductionCost(Double.parseDouble(fxCompanyCharge.getText()));
-
-        if (mProductionDAO.getProductionId(production) != -1){
-            production.setProductionID(mProductionDAO.getProductionId(production));
+        int productionId = mProductionDAO.getProductionId(production);
+        if (productionId != -1){
+            production.setProductionID(productionId);
             alert.saveItem("Production" , addHarvestEmployeeWork());
         }
     }
