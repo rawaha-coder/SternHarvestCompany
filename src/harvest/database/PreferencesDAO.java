@@ -86,6 +86,19 @@ public class PreferencesDAO extends DAO{
         return price;
     }
 
+    public double getHourPrice() {
+        double price = -1;
+        String selectStmt = "SELECT " + COLUMN_PREFERENCE_HOUR_PRICE + " FROM " + TABLE_PREFERENCE ;
+        try(Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(selectStmt)) {
+            price =  resultSet.getDouble(1);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            dbDisConnect();
+        }
+        return price;
+    }
+
      public void createPreferencesTable() throws SQLException {
          try {
              Statement statement = dbGetConnect().createStatement();
@@ -152,4 +165,6 @@ public class PreferencesDAO extends DAO{
             throw e;
         }
     }
+
+
 }

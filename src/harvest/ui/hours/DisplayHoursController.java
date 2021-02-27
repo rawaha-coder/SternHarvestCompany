@@ -70,9 +70,9 @@ public class DisplayHoursController implements Initializable {
         fxStartNoon.setCellValueFactory(new PropertyValueFactory<>("startNoon"));
         fxEndNoon.setCellValueFactory(new PropertyValueFactory<>("endNoon"));
         fxTotalHours.setCellValueFactory(new PropertyValueFactory<>("totalHours"));
-        fxEmployee.setCellValueFactory(it -> it.getValue().getEmployee().employeeFullNameProperty());
-        fxTransport.setCellValueFactory(it -> it.getValue().transportAmountProperty());
-        fxCredit.setCellValueFactory(it -> it.getValue().creditAmountProperty());
+//        fxEmployee.setCellValueFactory(it -> it.getValue().getEmployee().employeeFullNameProperty());
+//        fxTransport.setCellValueFactory(it -> it.getValue().transportAmountProperty());
+//        fxCredit.setCellValueFactory(it -> it.getValue().creditAmountProperty());
         fxRemarque.setCellValueFactory(new PropertyValueFactory<>("harvestRemarque"));
         fxHarvestHoursTable.setItems(HARVEST_HOURS_LIVE_LIST);
     }
@@ -88,26 +88,26 @@ public class DisplayHoursController implements Initializable {
 
     private String getTotalHours(){
         long hours = 0;
-                for (Hours harvestHours : HARVEST_HOURS_LIVE_LIST){
-                    hours += harvestHours.getTotalHours() ;
-                }
+//                for (Hours harvestHours : HARVEST_HOURS_LIVE_LIST){
+//                    hours += harvestHours.getTotalHours() ;
+//                }
         return Validation.timeToStringTime(hours);
     }
 
     private String getTotalTransport(){
         double d = 0.0;
-        for (Hours hours : HARVEST_HOURS_LIVE_LIST){
-            d += hours.getTransport().getTransportAmount();
-        }
+//        for (Hours hours : HARVEST_HOURS_LIVE_LIST){
+//            d += hours.getTransport().getTransportAmount();
+//        }
         System.out.println(d);
         return String.valueOf(d);
     }
 
     private String getTotalCredit(){
         double d = 0.0;
-        for (Hours hours : HARVEST_HOURS_LIVE_LIST){
-            d += hours.getCredit().getCreditAmount();
-        }
+//        for (Hours hours : HARVEST_HOURS_LIVE_LIST){
+//            d += hours.getCredit().getCreditAmount();
+//        }
         return String.valueOf(d);
     }
 }
