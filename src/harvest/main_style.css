@@ -290,3 +290,8 @@
     -fx-font-size: 1.3em;
     -fx-text-fill: black;
 }
+
+.hourCalculation {
+-fx-border-width: 2;
+-fx-border-color: -fx-border-c;
+}

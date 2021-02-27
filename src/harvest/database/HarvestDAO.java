@@ -60,7 +60,7 @@ public class HarvestDAO extends DAO {
                 + COLUMN_HARVEST_FARM_ID + ", "
                 + COLUMN_HARVEST_FARM_NAME + ", "
                 + COLUMN_HARVEST_NET_AMOUNT + ", "
-                + COLUMN_HARVEST_HARVEST_REMARQUE + ", "
+                + COLUMN_HARVEST_REMARQUE + ", "
                 + COLUMN_HARVEST_TYPE + ", "
                 + COLUMN_HARVEST_PRODUCTION_ID + ") "
                 + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ;";
@@ -171,7 +171,7 @@ public class HarvestDAO extends DAO {
                 + COLUMN_HARVEST_FARM_ID + " INTEGER NOT NULL, "
                 + COLUMN_HARVEST_FARM_NAME + " TEXT, "
                 + COLUMN_HARVEST_NET_AMOUNT + " REAL, "
-                + COLUMN_HARVEST_HARVEST_REMARQUE + " TEXT, "
+                + COLUMN_HARVEST_REMARQUE + " TEXT, "
                 + COLUMN_HARVEST_TYPE + " INTEGER NOT NULL, "
                 + COLUMN_HARVEST_PRODUCTION_ID + " INTEGER NOT NULL, "
                 + " FOREIGN KEY (" + COLUMN_HARVEST_PRODUCTION_ID+ ") REFERENCES " + TABLE_PRODUCTION + " (" + COLUMN_PRODUCTION_ID + ")"
