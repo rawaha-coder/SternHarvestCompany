@@ -1,6 +1,7 @@
 package harvest.database;
 
 import harvest.model.Employee;
+import harvest.model.Harvest;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
@@ -218,6 +219,35 @@ public class EmployeeDAO extends DAO{
             EMPLOYEE_GRAPH_LIVE_DATA.setAll(employeeStatusGraph());
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    //*******************************
+    //Get selected employees Names and ID
+    //*******************************
+    public List<Harvest> getHarvesters() throws Exception {
+        List<Harvest> list = new ArrayList<>();
+        String sqlStmt = "SELECT "
+                + COLUMN_EMPLOYEE_ID + ", "
+                + COLUMN_EMPLOYEE_FIRST_NAME + ", "
+                + COLUMN_EMPLOYEE_LAST_NAME
+                + " FROM " + TABLE_EMPLOYEE
+                + " WHERE " + COLUMN_EMPLOYEE_STATUS + " = " + 1
+                + " ORDER BY " + COLUMN_EMPLOYEE_ID + " ASC;";
+
+        try(Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(sqlStmt)) {
+            while (resultSet.next()) {
+                Harvest harvest = new Harvest();
+                harvest.setEmployeeID(resultSet.getInt(1));
+                harvest.setEmployeeName(resultSet.getString(2) + " " + resultSet.getString(3));
+                list.add(harvest);
+            }
+            return list;
+        } catch (SQLException e) {
+            System.out.println("SQL select operation has been failed: " + e);
+            throw e;
+        }finally {
+            dbDisConnect();
         }
     }
 
