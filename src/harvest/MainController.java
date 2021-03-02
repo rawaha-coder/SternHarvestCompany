@@ -52,6 +52,8 @@ public class MainController{
     @FXML
     void addGroupWork(){ loadAddWindow("/harvest/ui/group/add_group.fxml", "Add group work"); }
     @FXML
+    void addIndividualWork(){ loadAddWindow("/harvest/ui/individual/add_individual.fxml", "Add Individual Work"); }
+    @FXML
     void addWorkHours(){ loadAddWindow("/harvest/ui/hours/add_hours.fxml", "Add work hours"); }
     @FXML
     void addFarmSeason(){ loadAddWindow("/harvest/ui/farm/add_farm.fxml", "Add Champ"); }

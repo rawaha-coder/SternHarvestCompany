@@ -72,7 +72,6 @@ public class HarvestDAO extends DAO {
             int creditId = 0;
 
             if (harvest.isTransportStatus()){
-                System.out.println("inside the loop Transport: " +harvest.isTransportStatus());
                 preparedStatement = dbGetConnect().prepareStatement(insertTransport);
                 preparedStatement.setDate(1, harvest.getHarvestDate());
                 preparedStatement.setDouble(2, harvest.getTransportAmount());
@@ -86,7 +85,6 @@ public class HarvestDAO extends DAO {
 
 
             if (harvest.getCreditAmount() > 0.0){
-                System.out.println("inside the loop Credit: " + harvest.getCreditAmount());
                 preparedStatement = dbGetConnect().prepareStatement(insertCredit);
                 preparedStatement.setDate(1, harvest.getHarvestDate());
                 preparedStatement.setDouble(2, harvest.getCreditAmount());
@@ -100,7 +98,6 @@ public class HarvestDAO extends DAO {
                 Statement statement1 = connection.createStatement();
                 ResultSet resultSet1 = statement1.executeQuery(getTransportId);
                 transportId = resultSet1.getInt(1);
-                System.out.println("transportId " + resultSet1.getInt(1));
                 statement1.close();
             }
 
@@ -108,7 +105,6 @@ public class HarvestDAO extends DAO {
                 Statement statement2 = connection.createStatement();
                 ResultSet resultSet2 = statement2.executeQuery(getCreditId);
                 creditId = resultSet2.getInt(1);
-                System.out.println("CreditId " + resultSet2.getInt(1));
                 statement2.close();
             }
 

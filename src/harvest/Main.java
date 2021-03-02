@@ -24,6 +24,7 @@ public class Main extends Application {
     //HarvestIndividualDAO mHarvestIndividualDAO = HarvestIndividualDAO.getInstance();
     //PreferencesDAO mPreferencesDAO = PreferencesDAO.getInstance();
     //ProductionDAO mProductionDAO = ProductionDAO.getInstance();
+    //HoursDAO mHoursDAO = HoursDAO.getInstance();
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -47,6 +48,7 @@ public class Main extends Application {
         //mPreferencesDAO.createPreferencesTable();
         //mPreferencesDAO.initPreferencesTable();
         //mProductionDAO.createProductionTable();
+        //mHoursDAO.createTable();
     }
 
     public static void main(String[] args) {

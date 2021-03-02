@@ -31,23 +31,6 @@ public class ConstantDAO {
     public static final String COLUMN_HARVEST_HOURS_NET_AMOUNT = "net_amount";
     public static final String COLUMN_HARVEST_HOURS_REMARQUE = "remarque";
 
-    //*************************************
-    //Database table columns name for individual work UI and model
-    //*************************************
-    /*public static final String TABLE_HARVEST_WORK = "harvest_individual";
-    public static final String COLUMN_HARVEST_WORK_ID = "id";
-    public static final String COLUMN_HARVEST_WORK_DATE = "date";
-    public static final String COLUMN_HARVEST_WORK_AQ = "all_quantity";
-    public static final String COLUMN_HARVEST_WORK_BQ = "bad_quantity";
-    public static final String COLUMN_HARVEST_WORK_GQ = "good_quantity";
-    public static final String COLUMN_HARVEST_WORK_PRICE = "price";
-    public static final String COLUMN_HARVEST_WORK_NET_AMOUNT = "net_amount";
-    public static final String COLUMN_HARVEST_WORK_HARVEST_ID = "harvest_id";
-    public static final String COLUMN_HARVEST_WORK_TYPE = "harvest_type";
-    public static final String COLUMN_HARVEST_WORK_EMPLOYEE_ID = "employee_id";
-    public static final String COLUMN_HARVEST_WORK_CREDIT_ID = "credit_id";
-    public static final String COLUMN_HARVEST_WORK_TRANSPORT_ID = "transport_id";
-    public static final String COLUMN_HARVEST_WORK_REMARQUE = "remarque";*/
 
     //*************************************
     //Database table columns name for group work UI and model

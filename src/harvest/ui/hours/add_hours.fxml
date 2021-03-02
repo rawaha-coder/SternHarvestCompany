@@ -58,7 +58,7 @@
             <TableColumn fx:id="fxEndMorningColumn" minWidth="70.0" text="E.M" />
             <TableColumn fx:id="fxStartNoonColumn" minWidth="70.0" text="S.N" />
             <TableColumn fx:id="fxEndNoonColumn" minWidth="70.0" text="E.N" />
-            <TableColumn fx:id="fxDurationColumn" minWidth="70.0" prefWidth="100.0" text="Duree" />
+            <TableColumn fx:id="fxDurationColumn" minWidth="70.0" prefWidth="100.0" text="Duree(m)" />
             <TableColumn fx:id="fxPriceColumn" minWidth="70.0" prefWidth="100.0" text="Price" />
             <TableColumn fx:id="fxTransportSelectColumn" editable="true" minWidth="60.0" text="Trans" />
             <TableColumn fx:id="fxCreditColumn" editable="true" minWidth="70.0" text="Credit" />
@@ -67,7 +67,7 @@
     </TableView>
     <AnchorPane layoutY="589.0" prefHeight="100.0" prefWidth="1200.0" styleClass="hourCalculation">
         <children>
-            <Label alignment="CENTER" layoutX="307.0" layoutY="20.0" prefHeight="30.0" prefWidth="100.0" text="Total Hours" />
+            <Label alignment="CENTER" layoutX="307.0" layoutY="20.0" prefHeight="30.0" prefWidth="100.0" text="Total Minutes" />
             <TextField fx:id="fxTotalHours" layoutX="307.0" layoutY="50.0" prefHeight="30.0" prefWidth="100.0" />
             <Label alignment="CENTER" layoutX="698.0" layoutY="20.0" prefHeight="30.0" prefWidth="100.0" text="Total Credit" />
             <TextField fx:id="fxTotalCredit" layoutX="698.0" layoutY="50.0" prefHeight="30.0" prefWidth="100.0" />

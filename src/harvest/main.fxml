@@ -89,7 +89,7 @@
                               </toggleGroup>
                           </ToggleButton>
                           <ToggleButton onAction="#addWorkHours" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Hours" toggleGroup="$sideMenu" />
-                          <ToggleButton  prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Individuel " toggleGroup="$sideMenu" />
+                          <ToggleButton onAction="#addIndividualWork" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Individuel " toggleGroup="$sideMenu" />
                           <ToggleButton onAction="#addCredit" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Crédit" toggleGroup="$sideMenu" />
                           <ToggleButton onAction="#addTransport" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Transport" toggleGroup="$sideMenu" />
                           <ToggleButton onAction="#addEmployee" prefHeight="30" prefWidth="150.0" styleClass="sideButton" text="Employée" toggleGroup="$sideMenu" />

@@ -16,4 +16,12 @@ public class Calculation {
     {
         return ((allQuantity - defectiveQuantity - penaltyGeneral - defectiveGeneral) * price) - (totalCredit + totalTransport);
     }
+
+    public static double hoursCharge(double totalMinute,
+                                        double price,
+                                        double totalCredit,
+                                        double totalTransport)
+    {
+        return ((totalMinute * price) - (totalCredit + totalTransport));
+    }
 }

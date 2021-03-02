@@ -3,6 +3,7 @@ package harvest.ui.hours;
 import harvest.database.*;
 import harvest.model.*;
 import harvest.util.AlertMaker;
+import harvest.util.Calculation;
 import harvest.util.TimeTextField;
 import harvest.util.Validation;
 import javafx.beans.property.SimpleStringProperty;
@@ -17,12 +18,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 
 import java.net.URL;
+import java.sql.Date;
 import java.sql.Time;
 import java.util.*;
 
 public class AddHoursController implements Initializable {
 
     public static ObservableList<Hours> HARVEST_HOURS_LIVE_LIST = FXCollections.observableArrayList();
+    public TextField fxCalculateResult;
 
     private Map<String, Supplier> mSupplierMap = new LinkedHashMap<>();
     private Map<String, Farm> mFarmMap = new LinkedHashMap<>();
@@ -228,8 +231,6 @@ public class AddHoursController implements Initializable {
         });
     }
 
-
-
     @FXML
     void handleValidButton() {
         if (checkInput()) {
@@ -250,14 +251,37 @@ public class AddHoursController implements Initializable {
     private void validateInput() {
         PreferencesDAO preferencesDAO = PreferencesDAO.getInstance();
         double price = preferencesDAO.getHourPrice();
+        double totalMinute = 0.0;
+        double totalTransport = 0.0;
+        double totalCredit = 0.0;
         for(Hours hours: HARVEST_HOURS_LIVE_LIST){
+            hours.setHarvestDate(Date.valueOf(fxHarvestDate.getValue()));
+            hours.setSupplierID(mSupplierMap.get(fxSupplierList.getValue()).getSupplierId());
+            hours.setSupplierName(mSupplierMap.get(fxSupplierList.getValue()).getSupplierName());
+            hours.setFarmID(mFarmMap.get(fxFarmList.getValue()).getFarmId());
+            hours.setFarmName(mFarmMap.get(fxFarmList.getValue()).getFarmName());
+            hours.setProductID(mProductMap.get(fxProductList.getValue()).getProductId());
+            hours.setProductName(mProductMap.get(fxProductList.getValue()).getProductName());
+            hours.setProductCode(mProductDetailMap.get(fxProductCodeList.getValue()).getProductCode());
+
             hours.setStartMorning(Time.valueOf(fxStartMorningTime.getText()));
             hours.setEndMorning(Time.valueOf(fxEndMorningTime.getText()));
             hours.setStartNoon(Time.valueOf(fxStartNoonTime.getText()));
             hours.setEndNoon(Time.valueOf(fxEndNoonTime.getText()));
+
             hours.setTotalHours(hours.getTotalMinute());
             hours.setHourPrice(price);
+            hours.setEmployeeType(getEmployeeType());
+            totalMinute += hours.getTotalHours();
+            totalTransport += hours.getTransportAmount();
+            totalCredit += hours.getCreditAmount();
         }
+        fxTotalEmployee.setText(String.valueOf(HARVEST_HOURS_LIVE_LIST.size()));
+        fxTotalHours.setText(String.valueOf(totalMinute));
+        fxHourPrice.setText(String.valueOf(price));
+        fxTotalTransport.setText(String.valueOf(totalTransport));
+        fxTotalCredit.setText(String.valueOf(totalCredit));
+        fxCalculateResult.setText(String.valueOf(Calculation.hoursCharge(totalMinute, price, totalCredit, totalTransport)));
     }
 
     @FXML
@@ -266,14 +290,22 @@ public class AddHoursController implements Initializable {
                 || fxTotalTransport.getText().isEmpty()
                 || fxTotalEmployee.getText().isEmpty()
                 || fxTotalHours.getText().isEmpty()) {
-            alert.missingInfo("Harvest");
+            alert.missingInfo("Hours");
             return;
         }
+        alert.saveItem("Production" , addHarvestHoursWork());
 
-        addHarvestHoursWork();
     }
 
-    private void addHarvestHoursWork() {
+    private boolean addHarvestHoursWork() {
+        boolean trackInsert = false;
+
+            for (Hours item : HARVEST_HOURS_LIVE_LIST){
+                trackInsert = mHoursDAO.addHarvestHours(item);
+                if (!trackInsert) break;
+            }
+
+        return trackInsert;
     }
 
 
