@@ -1,8 +1,6 @@
 package harvest.util;
 
-import harvest.model.Employee;
 import harvest.model.Harvest;
-import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -18,10 +16,11 @@ import java.util.TreeMap;
 public class WriteExcelFile {
 
     public void writeHarvesters(List<Harvest> harvestList, String pathName) {
+
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet("Harvesters work");
 
-        XSSFRow rowHead = sheet.createRow((short)0);
+        XSSFRow rowHead = sheet.createRow((short) 0);
 
         Cell cellId = rowHead.createCell(0);
         cellId.setCellStyle(headCellStyle(workbook));
@@ -35,10 +34,8 @@ public class WriteExcelFile {
         cellQuantity.setCellStyle(headCellStyle(workbook));
         cellQuantity.setCellValue("Quantity Total");
 
-
-
-        for (int i=0; i < harvestList.size(); i++){
-            XSSFRow row = sheet.createRow(i+1);
+        for (int i = 0; i < harvestList.size(); i++) {
+            XSSFRow row = sheet.createRow(i + 1);
             row.createCell(0).setCellValue(harvestList.get(i).getEmployeeID());
             row.createCell(1).setCellValue(harvestList.get(i).getEmployeeName());
             row.createCell(2).setCellType(CellType.NUMERIC);
@@ -71,7 +68,6 @@ public class WriteExcelFile {
             i++;
         }
 
-
         Set<String> keySet = harvestTreeMap.keySet();
         int rowNum = 0;
         for (String key : keySet) {
@@ -98,14 +94,14 @@ public class WriteExcelFile {
         }
     }
 
-    private CellStyle headCellStyle(XSSFWorkbook wb){
+    private CellStyle headCellStyle(XSSFWorkbook wb) {
         CellStyle style = wb.createCellStyle(); // Creating Style
         style.setFillBackgroundColor(IndexedColors.GREEN.getIndex());
         style.setFillPattern(FillPatternType.FINE_DOTS);
         style.setAlignment(HorizontalAlignment.CENTER);
         style.setWrapText(true);
         Font font = wb.createFont();
-        font.setFontHeightInPoints((short)13);
+        font.setFontHeightInPoints((short) 13);
         font.setFontName("Times New Roman");
         font.setBold(true);
         style.setFont(font);
