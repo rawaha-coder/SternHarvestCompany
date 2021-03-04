@@ -7,8 +7,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -18,11 +16,6 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.FormulaEvaluator;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.*;
 import java.net.URL;
@@ -32,8 +25,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class AddIndividualController implements Initializable {
 
@@ -320,8 +311,7 @@ public class AddIndividualController implements Initializable {
         File sheetFile = file.showOpenDialog(stage);
         if (sheetFile != null){
             ReadExcelFile reader = new ReadExcelFile ();
-            //reader.readSheet(sheetFile);
-            HARVEST_INDIVIDUAL_LIVE_LIST.setAll(reader.readHarvestWork(sheetFile));
+            HARVEST_INDIVIDUAL_LIVE_LIST.setAll(reader.readHarvestFile(sheetFile));
         }
 
     }
