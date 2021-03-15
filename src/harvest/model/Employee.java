@@ -4,11 +4,11 @@ import javafx.beans.property.*;
 import java.sql.Date;
 
 public class Employee {
+
     private final SimpleIntegerProperty employeeId = new SimpleIntegerProperty();
     private final SimpleBooleanProperty employeeStatus = new SimpleBooleanProperty();
     private final SimpleStringProperty employeeFirstName = new SimpleStringProperty();
     private final SimpleStringProperty employeeLastName = new SimpleStringProperty();
-    private final SimpleStringProperty employeeFullName = new SimpleStringProperty();
     private final ObjectProperty<Date> employeeHireDate = new SimpleObjectProperty<>();
     private final ObjectProperty<Date> employeeFireDate = new SimpleObjectProperty<>();
     private final ObjectProperty<Date> employeePermissionDate = new SimpleObjectProperty<>();
@@ -51,13 +51,7 @@ public class Employee {
     }
 
     public String getEmployeeFullName() {
-        this.employeeFullName.set(getEmployeeFirstName() + " " + getEmployeeLastName());
-        return employeeFullName.get().toUpperCase();
-    }
-
-    public SimpleStringProperty employeeFullNameProperty() {
-        this.employeeFullName.set((getEmployeeFirstName() + " " + getEmployeeLastName()).toUpperCase());
-        return employeeFullName;
+        return getEmployeeFirstName() + " " + getEmployeeLastName();
     }
 
     public Date getEmployeeHireDate() {

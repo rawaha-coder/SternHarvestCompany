@@ -86,6 +86,7 @@ public class ConstantDAO {
     public static final String COLUMN_EMPLOYEE_HIRE_DATE = "hire_date";
     public static final String COLUMN_EMPLOYEE_FIRE_DATE = "fire_date";
     public static final String COLUMN_EMPLOYEE_PERMISSION_DATE = "permission_date";
+    public static final String COLUMN_EMPLOYEE_HIRE_STATUS = "fire_status";
 
     //*************************************
     //Database table columns name for transport UI and model

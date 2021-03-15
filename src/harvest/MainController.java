@@ -32,7 +32,7 @@ public class MainController{
     @FXML
     public void displayCredit() { displayCenterView("/harvest/ui/credit/display_credit.fxml"); }
     @FXML
-    public void displayEmployee() { displayCenterView("/harvest/ui/employee/display_employee.fxml"); }
+    public void displayEmployee() { displayCenterView("/harvest/res/layout/display_employee.fxml"); }
     @FXML
     public void displaySupplier(){ displayCenterView("/harvest/ui/supplier/display_supplier.fxml"); }
     @FXML
@@ -62,7 +62,7 @@ public class MainController{
     @FXML
     void addTransport(){ loadAddWindow("/harvest/ui/credit/add_transport.fxml", "Add Transport"); }
     @FXML
-    void addEmployee(){ loadAddWindow("/harvest/ui/employee/add_employee.fxml", "Add Employee"); }
+    void addEmployee(){ loadAddWindow("/harvest/res/layout/add_employee.fxml", "Add Employee"); }
     @FXML
     void addSupplier(){ loadAddWindow("/harvest/ui/supplier/add_supplier.fxml", "Add Fournisseur"); }
     @FXML

@@ -9,7 +9,9 @@
 
 <AnchorPane fx:id="fxAddProductUI" maxHeight="660.0" maxWidth="450.0" minHeight="600.0" minWidth="400.0" prefHeight="650.0" prefWidth="440.0"
             stylesheets="@../../main_style.css"
-            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.ui.product.AddProductController">
+            xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="harvest.ui.product.AddProductController">
    <Label layoutX="95.0" layoutY="28.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Produit:">
       <padding>
          <Insets left="10.0" />

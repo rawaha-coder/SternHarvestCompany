@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane fx:id="fxEmployeeTableUI" prefHeight="700.0" prefWidth="1100.0" stylesheets="@../../sub_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.ui.employee.DisplayEmployeeController">
+<AnchorPane fx:id="fxEmployeeTableUI" prefHeight="700.0" prefWidth="1100.0" stylesheets="@../../sub_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.controller.DisplayEmployeeController">
 
     <Label alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="14.0" prefHeight="30.0" prefWidth="1060.0" styleClass="tableName" text="Tableau des fournisseurs" textAlignment="CENTER" />
     <HBox alignment="TOP_CENTER" layoutX="25.0" layoutY="50.0" prefHeight="500.0" prefWidth="1067.0">
@@ -20,12 +20,13 @@
             </columnResizePolicy>
             <columns>
                 <TableColumn fx:id="fxEmployeeSelectColumn" maxWidth="60.0" minWidth="20.0" prefWidth="60.0" text="Select" />
+            <TableColumn fx:id="fxEmployeeIdColumn" maxWidth="60.0" minWidth="20.0" prefWidth="60.0" text="ID" />
                 <TableColumn fx:id="fxEmployeeFullNameColumn" maxWidth="200.0" minWidth="160.0" prefWidth="200.0" text="Employee" />
-                <TableColumn fx:id="fxEmployeeFirstNameColumn" maxWidth="100.0" minWidth="80.0" prefWidth="100.0" text="Prenom" />
+                <TableColumn fx:id="fxEmployeeFirstNameColumn" maxWidth="100.0" minWidth="80.0" prefWidth="100.0" text="Prénom" />
                 <TableColumn fx:id="fxEmployeeLastNameColumn" maxWidth="100.0" minWidth="80.0" prefWidth="100.0" text="Nom" />
                 <TableColumn fx:id="fxEmployeeHireDateColumn" maxWidth="120.0" minWidth="80.0" prefWidth="120.0" text="Debut CTR" />
                 <TableColumn fx:id="fxEmployeeFireDateColumn" maxWidth="120.0" minWidth="80.0" prefWidth="120.0" text="Fin CTR" />
-                <TableColumn fx:id="fxEmployeePermissionDaleColumn" maxWidth="120.0" minWidth="80.0" prefWidth="120.0" text="SCDZ PRMSS" />
+                <TableColumn fx:id="fxEmployeePermissionDaleColumn" maxWidth="120.0" minWidth="80.0" prefWidth="120.0" text="SCDZ" />
             </columns>
             <contextMenu>
                 <ContextMenu>
