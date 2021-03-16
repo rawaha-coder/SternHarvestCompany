@@ -1,6 +1,5 @@
 package harvest.controller;
 
-import harvest.controller.AddEmployeeController;
 import harvest.model.Employee;
 import harvest.util.AlertMaker;
 import harvest.database.EmployeeDAO;
@@ -130,7 +129,7 @@ public class DisplayEmployeeController implements Initializable {
         Optional<ButtonType> result = alertDelete.deleteConfirmation("Employee");
         assert result.isPresent();
         if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
-            if (mEmployeeDAO.fireEmployee(employee)) {
+            if (mEmployeeDAO.deleteEmployeeById(employee)) {
                 mEmployeeDAO.updateLiveData();
                 alert.deleteItem("Employee", true);
             } else {

@@ -62,7 +62,7 @@
                                  <ToggleButton fx:id="fxIndividualMenuBtn" onAction="#displayHours" prefHeight="30" prefWidth="150.0" styleClass="topButton" text="Individual" toggleGroup="$topMenu" />
                                  <ToggleButton fx:id="fxHoursMenuBtn" onAction="#displayHours" prefHeight="30" prefWidth="150.0" styleClass="topButton" text="Hours" toggleGroup="$topMenu" />
                                  <ToggleButton fx:id="fxTransportCreditMenuBtn" onAction="#displayCredit" prefHeight="30" prefWidth="150.0" styleClass="topButton" text="Transport / Credit" toggleGroup="$topMenu" />
-                                 <ToggleButton fx:id="fxEmployeeMenuBtn" onAction="#displayEmployee" prefHeight="30" prefWidth="150.0" styleClass="topButton" text="Employees" toggleGroup="$topMenu" />
+                                 <ToggleButton fx:id="fxEmployeeMenuBtn" onAction="#displayEmployee" prefHeight="30" prefWidth="150.0" styleClass="topButton" text="Employées" toggleGroup="$topMenu" />
                                  <ToggleButton fx:id="fxSupplierMenuBtn" onAction="#displaySupplier" prefHeight="30" prefWidth="150.0" styleClass="topButton" text="Fournisseur" toggleGroup="$topMenu" />
                                  <ToggleButton fx:id="fxFarmSeasonMenuBtn" onAction="#displayFarmSeason" prefHeight="30" prefWidth="150.0" styleClass="topButton" text="Champs" toggleGroup="$topMenu" />
                                  <ToggleButton fx:id="fxProductMenuBtn" onAction="#displayProduct" prefHeight="30" prefWidth="150.0" styleClass="topButton" text="Produits" toggleGroup="$topMenu" />

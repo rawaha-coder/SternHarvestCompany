@@ -12,7 +12,7 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="harvest.controller.AddEmployeeController">
 
-    <Label layoutX="71.0" layoutY="14.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Prenom:" />
+    <Label layoutX="71.0" layoutY="14.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Prénom:" />
      <TextField fx:id="fxFirstName" layoutX="71.0" layoutY="45.0" prefHeight="34.0" prefWidth="250.0" />
      <Label layoutX="71.0" layoutY="97.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Nom:" />
      <TextField fx:id="fxLastName" layoutX="71.0" layoutY="127.0" prefHeight="34.0" prefWidth="250.0" />
@@ -20,7 +20,7 @@
      <DatePicker fx:id="fxHireDate" layoutX="71.0" layoutY="207.0" prefHeight="34.0" prefWidth="250.0" />
      <Label layoutX="71.0" layoutY="259.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Fin CTR:" />
      <DatePicker fx:id="fxFireDate" layoutX="71.0" layoutY="289.0" prefHeight="34.0" prefWidth="250.0" />
-     <Label layoutX="71.0" layoutY="343.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="SCDZ PRMSS:" />
+     <Label layoutX="71.0" layoutY="343.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="SCDZP:" />
      <DatePicker fx:id="fxPermissionDate" layoutX="71.0" layoutY="373.0" prefHeight="34.0" prefWidth="250.0" />
       <CheckBox id="cssEmployeeStatus" fx:id="fxEmployeeStatus" layoutX="75.0" layoutY="426.0" text="Etat" />
 

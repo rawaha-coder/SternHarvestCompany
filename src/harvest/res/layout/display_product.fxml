@@ -8,9 +8,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1100.0" stylesheets="@../../sub_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.ui.product.DisplayProductController">
+<AnchorPane prefHeight="700.0" prefWidth="1100.0" stylesheets="@../../sub_style.css"
+            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="harvest.controller.DisplayProductController">
 
-    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="14.0" prefHeight="30.0" prefWidth="900.0" text="Tableau des produits" textAlignment="CENTER" styleClass="tableName"/>
+    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="14.0" prefHeight="30.0" prefWidth="900.0"
+           text="TABLEAU DES PRODUITS" textAlignment="CENTER" styleClass="tableName"/>
 
     <HBox layoutX="32.0" layoutY="86.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="50.0">
         <TableView fx:id="fxProductTable" maxHeight="600.0" prefHeight="500.0" prefWidth="200.0">

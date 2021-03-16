@@ -73,4 +73,7 @@ public class ProductDetail {
         this.product.setProductId(product.getProductId());
         this.product.setProductName(product.getProductName());
     }
+    public void setProductID(int id){
+        this.product.setProductId(id);
+    }
 }

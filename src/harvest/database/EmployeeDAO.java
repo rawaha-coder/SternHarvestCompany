@@ -37,10 +37,10 @@ public class EmployeeDAO extends DAO{
         ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
         String q1 = "SELECT COUNT (" + COLUMN_EMPLOYEE_ID + ") FROM " + TABLE_EMPLOYEE
                 + " WHERE " + COLUMN_EMPLOYEE_STATUS + " = " + 1
-                + " AND " + COLUMN_EMPLOYEE_HIRE_STATUS + " = " + 1 + " ";
+                + " AND " + COLUMN_EMPLOYEE_IS_EXIST + " = " + 1 + " ";
         String q2 = "SELECT COUNT (" + COLUMN_EMPLOYEE_ID + ") FROM " + TABLE_EMPLOYEE
                 + " WHERE " + COLUMN_EMPLOYEE_STATUS + " = " + 0
-                + " AND " + COLUMN_EMPLOYEE_HIRE_STATUS + " = " + 1 + " ";
+                + " AND " + COLUMN_EMPLOYEE_IS_EXIST + " = " + 1 + " ";
         try(Statement statement = dbGetConnect().createStatement()) {
             ResultSet resultSet = statement.executeQuery(q1);
             if (resultSet.next()) {
@@ -68,7 +68,7 @@ public class EmployeeDAO extends DAO{
     public List<Employee> getData() throws Exception {
         List<Employee> employeeList = new ArrayList<>();
         String sqlStmt = "SELECT * FROM " + TABLE_EMPLOYEE
-                + " WHERE " + COLUMN_EMPLOYEE_HIRE_STATUS + " = " + 1
+                + " WHERE " + COLUMN_EMPLOYEE_IS_EXIST + " = " + 1
                 + " ORDER BY " + COLUMN_EMPLOYEE_FIRST_NAME + " ASC;";
         try(Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(sqlStmt)) {
             while (resultSet.next()) {
@@ -95,7 +95,7 @@ public class EmployeeDAO extends DAO{
     public Map<String, Employee> getEmployeeMap() throws Exception {
         Map<String, Employee> itemMap = new LinkedHashMap<>();
         String sqlStmt = "SELECT * FROM " + TABLE_EMPLOYEE
-                + " WHERE " + COLUMN_EMPLOYEE_HIRE_STATUS + " = " + 1
+                + " WHERE " + COLUMN_EMPLOYEE_IS_EXIST + " = " + 1
                 + " ORDER BY " + COLUMN_EMPLOYEE_FIRST_NAME + " ASC;";
         try (Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(sqlStmt)){
             while (resultSet.next()) {
@@ -129,7 +129,7 @@ public class EmployeeDAO extends DAO{
                 + COLUMN_EMPLOYEE_HIRE_DATE + ", "
                 + COLUMN_EMPLOYEE_FIRE_DATE + ", "
                 + COLUMN_EMPLOYEE_PERMISSION_DATE + ", "
-                + COLUMN_EMPLOYEE_HIRE_STATUS + ") "
+                + COLUMN_EMPLOYEE_IS_EXIST + ") "
                 + "VALUES (?,?,?,?,?,?,?);";
         try(PreparedStatement preparedStatement = dbGetConnect().prepareStatement(insertStmt)) {
             preparedStatement.setBoolean(1, employee.isEmployeeStatus());
@@ -201,10 +201,10 @@ public class EmployeeDAO extends DAO{
     }
 
     //*************************************************************
-    //Fire Employee
+    //Delete Employee
     //*************************************************************
-    public boolean fireEmployee(Employee employee) {
-        String fireEmployee = "UPDATE " + TABLE_EMPLOYEE + " SET " + COLUMN_EMPLOYEE_HIRE_STATUS + " = 0 "
+    public boolean deleteEmployeeById(Employee employee) {
+        String fireEmployee = "UPDATE " + TABLE_EMPLOYEE + " SET " + COLUMN_EMPLOYEE_IS_EXIST + " = 0 "
                 + " WHERE " + COLUMN_EMPLOYEE_ID + " = "+ employee.getEmployeeId() +" ;";
         try {
             Statement statement = dbGetConnect().createStatement();
@@ -244,7 +244,7 @@ public class EmployeeDAO extends DAO{
                 + COLUMN_EMPLOYEE_LAST_NAME
                 + " FROM " + TABLE_EMPLOYEE
                 + " WHERE " + COLUMN_EMPLOYEE_STATUS + " = " + 1
-                + " AND " + COLUMN_EMPLOYEE_HIRE_STATUS + " = " + 1
+                + " AND " + COLUMN_EMPLOYEE_IS_EXIST + " = " + 1
                 + " ORDER BY " + COLUMN_EMPLOYEE_ID + " ASC;";
 
         try(Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(sqlStmt)) {
@@ -263,28 +263,6 @@ public class EmployeeDAO extends DAO{
         }
     }
 
-
-/*
-
-     //*************************************************************
-    //Delete Employee from database
-    //*************************************************************
-    public boolean deleteEmployee(Employee employee) {
-        String deleteEmployee = "DELETE FROM " + TABLE_EMPLOYEE  + " WHERE " + COLUMN_EMPLOYEE_ID + " = "+ employee.getEmployeeId() +" ;";
-        try {
-            Statement statement = dbGetConnect().createStatement();
-            statement.execute(deleteEmployee);
-            statement.close();
-            return true;
-        } catch (SQLException e) {
-            System.out.print("Error occurred while DELETE Operation: " + e.getMessage());
-            return false;
-        }finally {
-            dbDisConnect();
-        }
-    }
-*/
-
 /*
         public void createEmployeeTable() throws SQLException {
         try {
@@ -297,7 +275,7 @@ public class EmployeeDAO extends DAO{
                     + COLUMN_EMPLOYEE_HIRE_DATE + " DATE, "
                     + COLUMN_EMPLOYEE_FIRE_DATE + " DATE, "
                     + COLUMN_EMPLOYEE_PERMISSION_DATE + " DATE, "
-                    + COLUMN_EMPLOYEE_HIRE_STATUS + " INTEGER DEFAULT 1)");
+                    + COLUMN_EMPLOYEE_IS_EXIST + " INTEGER DEFAULT 1)");
         } catch (SQLException e) {
             e.printStackTrace();
             throw e;

@@ -11,7 +11,7 @@
             stylesheets="@../../main_style.css"
             xmlns="http://javafx.com/javafx/11.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="harvest.ui.product.AddProductController">
+            fx:controller="harvest.controller.AddProductController">
    <Label layoutX="95.0" layoutY="28.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Produit:">
       <padding>
          <Insets left="10.0" />
@@ -30,7 +30,7 @@
       </padding>
    </Label>
      <ComboBox fx:id="fxProductTypeComboBox" editable="true" layoutX="95.0" layoutY="142.0" prefHeight="34.0" prefWidth="250.0" />
-   <Label layoutX="95.0" layoutY="297.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Price.E:">
+   <Label layoutX="95.0" layoutY="297.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Prix.E:">
       <padding>
          <Insets left="10.0" />
       </padding>
@@ -40,7 +40,7 @@
              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
      </TextField>
-   <Label layoutX="95.0" layoutY="383.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Price.C:">
+   <Label layoutX="95.0" layoutY="383.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Prix.C:">
       <padding>
          <Insets left="10.0" />
       </padding>

@@ -1,4 +1,4 @@
-package harvest.ui.product;
+package harvest.controller;
 
 import harvest.database.ProductDetailDAO;
 import harvest.model.Product;
@@ -10,11 +10,17 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
@@ -131,27 +137,43 @@ public class AddProductController implements Initializable {
             return;
         }
         Product product = mProductMap.get(fxProductNameComboBox.getValue());
+        ProductDetail productDetail = new ProductDetail();
+        productDetail.setProductType(fxProductTypeComboBox.getValue());
+        productDetail.setProductCode(fxProductCode.getText());
+        productDetail.setPriceEmployee(Double.parseDouble(fxProductPriceEmployee.getText().trim()));
+        productDetail.setPriceCompany(Double.parseDouble(fxProductPriceCompany.getText().trim()));
         if (product != null){
-            ProductDetail oldProductDetail = new ProductDetail();
-            oldProductDetail.setProductType(fxProductTypeComboBox.getValue());
-            oldProductDetail.setProductCode(fxProductCode.getText());
-            oldProductDetail.setPriceEmployee(Double.parseDouble(fxProductPriceEmployee.getText().trim()));
-            oldProductDetail.setPriceCompany(Double.parseDouble(fxProductPriceCompany.getText().trim()));
-            oldProductDetail.setProduct(product);
-            alert.saveItem("Product", mProductDetailDAO.addProductDetail(oldProductDetail));
+            productDetail.setProduct(product);
+            alert.saveItem("Product", mProductDetailDAO.addProductDetail(productDetail));
 
         }else{
-            ProductDetail newProductDetail = new ProductDetail();
-            newProductDetail.setProductType(fxProductTypeComboBox.getValue());
-            newProductDetail.setProductCode(fxProductCode.getText());
-            newProductDetail.setPriceEmployee(Double.parseDouble(fxProductPriceEmployee.getText().trim()));
-            newProductDetail.setPriceCompany(Double.parseDouble(fxProductPriceCompany.getText().trim()));
-            newProductDetail.setProduct(new Product(fxProductNameComboBox.getValue()));
-            alert.saveItem("Product", mProductDetailDAO.addNewProductData(newProductDetail));
+            Product newProduct = new Product();
+            newProduct.setProductName(fxProductNameComboBox.getValue());
+            productDetail.setProduct(newProduct);
+            boolean saved = false;
+            int id = mProductDetailDAO.addNewProductDetail(productDetail);
+            if (id != -1){
+                newProduct.setProductId(id);
+                saved = true;
+            }
+            alert.saveItem("Product", saved);
         }
         handleClearButton();
         mProductDAO.updateLiveData();
+        mProductDetailDAO.updateLiveData(productDetail.getProduct());
+        displayTable(productDetail.getProduct());
         getProductList();
+    }
+
+    void displayTable(Product product) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/res/layout/display_product.fxml"));
+            loader.load();
+            DisplayProductController controller = loader.getController();
+            controller.updateLiveData(product);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -203,4 +225,6 @@ public class AddProductController implements Initializable {
         fxProductPriceCompany.setDisable(true);
         mProduct.setProductId(product.getProductId());
     }
+
+
 }
