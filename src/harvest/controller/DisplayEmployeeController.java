@@ -30,7 +30,7 @@ import java.sql.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class DisplayEmployeeController implements Initializable {
+public class DisplayEmployeeController implements Initializable{
 
     public static ObservableList<Employee> EMPLOYEE_LIST_LIVE_DATA = FXCollections.observableArrayList();
     public static ObservableList<PieChart.Data> EMPLOYEE_GRAPH_LIVE_DATA = FXCollections.observableArrayList();

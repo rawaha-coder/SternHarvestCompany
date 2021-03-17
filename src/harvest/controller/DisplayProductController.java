@@ -137,7 +137,6 @@ public class DisplayProductController implements Initializable {
 
     @FXML
     void editProductDetail(){
-        //Product product = fxProductTable.getSelectionModel().getSelectedItem();
         ProductDetail productDetail = fxProductDetailTable.getSelectionModel().getSelectedItem();
         if (productDetail == null) {
             alert.selectEditItem("Product");

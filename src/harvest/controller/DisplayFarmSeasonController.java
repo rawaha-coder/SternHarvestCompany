@@ -1,4 +1,4 @@
-package harvest.ui.farm;
+package harvest.controller;
 
 import harvest.database.FarmDAO;
 import harvest.database.SeasonDAO;
@@ -25,7 +25,7 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class DisplayFarmSeasonController implements Initializable {
+public class DisplayFarmSeasonController implements Initializable{
 
     public static ObservableList<Farm> FARM_LIST_LIVE_DATA = FXCollections.observableArrayList();
     public static ObservableList<Season> SEASON_LIST_LIVE_DATA = FXCollections.observableArrayList();
@@ -41,16 +41,20 @@ public class DisplayFarmSeasonController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        mFarmDAO.updateLiveData();
+        initColumns();
+        observeSelectProduct();
+    }
+
+    private void initColumns(){
         fxFarmNameColumn.setCellValueFactory(new PropertyValueFactory<>("farmName"));
         fxFarmAddressColumn.setCellValueFactory(new PropertyValueFactory<>("farmAddress"));
         fxPlantingDateColumn.setCellValueFactory(new PropertyValueFactory<>("farmPlantingDate"));
         fxHarvestDateColumn.setCellValueFactory(new PropertyValueFactory<>("farmHarvestDate"));
-        mFarmDAO.updateLiveData();
         fxFarmTable.setItems(FARM_LIST_LIVE_DATA);
         fxFarmTable.getSelectionModel().selectFirst();
         fxSeasonTable.setItems(SEASON_LIST_LIVE_DATA);
         fxSeasonTable.getSelectionModel().selectFirst();
-        observeSelectProduct();
     }
 
     private void observeSelectProduct(){
@@ -99,7 +103,7 @@ public class DisplayFarmSeasonController implements Initializable {
             return;
         }
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/ui/farm/add_farm.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/res/layout/add_farm.fxml"));
             Stage stage = new Stage(StageStyle.DECORATED);
             Parent parent = loader.load();
             AddFarmController controller = loader.getController();
@@ -148,7 +152,7 @@ public class DisplayFarmSeasonController implements Initializable {
             return;
         }
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/ui/farm/add_farm.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/res/layout/add_farm.fxml"));
             Stage stage = new Stage(StageStyle.DECORATED);
             Parent parent = loader.load();
             AddFarmController controller = loader.getController();

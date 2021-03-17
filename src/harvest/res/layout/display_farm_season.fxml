@@ -8,9 +8,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1100.0" stylesheets="@../../sub_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.ui.farm.DisplayFarmSeasonController">
+<AnchorPane prefHeight="700.0" prefWidth="1100.0" stylesheets="@../../sub_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.controller.DisplayFarmSeasonController">
 
-    <Label alignment="CENTER" layoutX="25.0" layoutY="14.0" prefHeight="30.0" prefWidth="900.0" styleClass="tableName" stylesheets="@../../sub_style.css" text="Tableau des champs" />
+    <Label alignment="CENTER" layoutX="25.0" layoutY="14.0" prefHeight="30.0" prefWidth="900.0"
+           styleClass="tableName" stylesheets="@../../sub_style.css" text="TABLEAU DES CHAMPS" />
 
     <HBox layoutX="25.0" layoutY="50.0" prefHeight="500.0" prefWidth="1000.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="50.0">
         <TableView fx:id="fxFarmTable" maxHeight="600.0" prefHeight="500.0" prefWidth="600.0">

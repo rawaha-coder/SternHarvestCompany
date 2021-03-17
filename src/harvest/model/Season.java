@@ -8,17 +8,10 @@ import java.sql.Date;
 
 public class Season {
 
-    private final SimpleIntegerProperty seasonId;
-    private final ObjectProperty<Date> farmPlantingDate;
-    private final ObjectProperty<Date> farmHarvestDate;
-    private Farm seasonFarm;
-
-    public Season() {
-        this.seasonId = new SimpleIntegerProperty();
-        this.farmPlantingDate = new SimpleObjectProperty<>();
-        this.farmHarvestDate = new SimpleObjectProperty<>();
-        this.seasonFarm = new Farm();
-    }
+    private final SimpleIntegerProperty seasonId = new SimpleIntegerProperty();
+    private final ObjectProperty<Date> farmPlantingDate = new SimpleObjectProperty<>();
+    private final ObjectProperty<Date> farmHarvestDate = new SimpleObjectProperty<>();
+    private final Farm farm = new Farm();
 
     public int getSeasonId() {
         return seasonId.get();
@@ -44,11 +37,7 @@ public class Season {
         this.farmHarvestDate.set(farmHarvestDate);
     }
 
-    public Farm getSeasonFarm() {
-        return seasonFarm;
-    }
-
-    public void setSeasonFarm(Farm farm){
-        this.seasonFarm = farm;
+    public Farm getFarm() {
+        return farm;
     }
 }

@@ -8,8 +8,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static harvest.ui.farm.DisplayFarmSeasonController.FARM_LIST_LIVE_DATA;
-import static harvest.ui.farm.DisplayFarmSeasonController.SEASON_LIST_LIVE_DATA;
+import static harvest.controller.DisplayFarmSeasonController.FARM_LIST_LIVE_DATA;
+import static harvest.controller.DisplayFarmSeasonController.SEASON_LIST_LIVE_DATA;
 import static harvest.database.ConstantDAO.*;
 
 public class FarmDAO extends DAO{
@@ -25,10 +25,14 @@ public class FarmDAO extends DAO{
         return sFarmDAO;
     }
 
+    //*******************************
     //Get data farm
+    //*******************************
     public List<Farm> getFarmData() throws Exception {
         List<Farm> list = new ArrayList<>();
-        String sqlStmt = "SELECT * FROM " + TABLE_FARM + " ORDER BY " + COLUMN_FARM_NAME + " ASC;";
+        String sqlStmt = "SELECT * FROM " + TABLE_FARM
+                + " WHERE " + COLUMN_FARM_IS_EXIST + " = 1 "
+                + " ORDER BY " + COLUMN_FARM_NAME + " ASC;";
         try(Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(sqlStmt)) {
             while (resultSet.next()) {
                 Farm farm = new Farm();
@@ -46,10 +50,14 @@ public class FarmDAO extends DAO{
         }
     }
 
+    //*******************************
     //Get data farm as map by farm name
+    //*******************************
     public Map<String, Farm> getFarmMap() throws Exception {
         Map<String, Farm> mFarmMap = new LinkedHashMap<>();
-        String sqlStmt = "SELECT * FROM " + TABLE_FARM + " ORDER BY " + COLUMN_FARM_NAME + " ASC;";
+        String sqlStmt = "SELECT * FROM " + TABLE_FARM
+                + " WHERE " + COLUMN_FARM_IS_EXIST + " = 1 "
+                + " ORDER BY " + COLUMN_FARM_NAME + " ASC;";
         try (Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(sqlStmt)){
             while (resultSet.next()) {
                 Farm farm = new Farm();
@@ -67,15 +75,19 @@ public class FarmDAO extends DAO{
         }
     }
 
+    //*******************************
     //Add new farm
+    //*******************************
     public boolean addFarmData(Farm farm) {
         String sqlStmt = "INSERT INTO " + TABLE_FARM + " ("
                 + COLUMN_FARM_NAME + ", "
-                + COLUMN_FARM_ADDRESS + ") "
-                + "VALUES (?,?);";
+                + COLUMN_FARM_ADDRESS + ", "
+                + COLUMN_FARM_IS_EXIST + ") "
+                + "VALUES (?,?,?);";
         try(PreparedStatement preparedStatement = dbGetConnect().prepareStatement(sqlStmt)) {
             preparedStatement.setString(1, farm.getFarmName());
             preparedStatement.setString(2, farm.getFarmAddress());
+            preparedStatement.setInt(3, 1);
             preparedStatement.execute();
             updateFarmListByFarm(farm);
             return true;
@@ -107,18 +119,26 @@ public class FarmDAO extends DAO{
         }
     }
 
+    //*******************************************************
     //Delete data from farm and season
+    //*******************************************************
     public boolean deleteFarmData(Farm farm){
         Connection connection = null;
         Statement statement = null;
-        String deleteFarmStmt = "DELETE FROM " + TABLE_FARM + " WHERE " + COLUMN_FARM_ID + " ="+ farm.getFarmId() +" ;";
-        String deleteSeasonStmt = "DELETE FROM " + TABLE_SEASON + " WHERE " + COLUMN_SEASON_FARM_ID + " ="+ farm.getFarmId() +" ;";
+
+        String deleteFarm = "UPDATE " + TABLE_FARM
+                + " SET " + COLUMN_FARM_IS_EXIST + " = 0 "
+                + " WHERE " + COLUMN_FARM_ID + " = "+ farm.getFarmId() +" ;";
+
+        String deleteSeasonStmt = "DELETE FROM " + TABLE_SEASON
+                + " WHERE " + COLUMN_SEASON_FARM_ID + " = " + farm.getFarmId() +" ;";
+
         try {
             connection = dbGetConnect();
             connection.setAutoCommit(false);
 
             statement = connection.createStatement();
-            statement.execute(deleteFarmStmt);
+            statement.execute(deleteFarm);
 
             statement = connection.createStatement();
             statement.execute(deleteSeasonStmt);
@@ -152,7 +172,9 @@ public class FarmDAO extends DAO{
         }
     }
 
-    // update data
+    //*******************************************************
+    // update Farm and season data
+    //*******************************************************
     public void updateLiveData() {
         FARM_LIST_LIVE_DATA.clear();
         SEASON_LIST_LIVE_DATA.clear();
@@ -162,12 +184,14 @@ public class FarmDAO extends DAO{
                 SeasonDAO seasonDAO = SeasonDAO.getInstance();
                 SEASON_LIST_LIVE_DATA.setAll(seasonDAO.getSeasonByFarm(FARM_LIST_LIVE_DATA.get(0)));
             }
-
         }catch (Exception  e){
             e.printStackTrace();
         }
     }
 
+    //*******************************************************
+    // update Farm List data by farm
+    //*******************************************************
     public void updateFarmListByFarm(Farm farm) {
         FARM_LIST_LIVE_DATA.clear();
         SEASON_LIST_LIVE_DATA.clear();
@@ -180,6 +204,9 @@ public class FarmDAO extends DAO{
         }
     }
 
+    //*******************************************************
+    // update season data by farm
+    //*******************************************************
     public void updateSeasonListByFarm(Farm farm) {
         SEASON_LIST_LIVE_DATA.clear();
         SeasonDAO seasonDAO = SeasonDAO.getInstance();
@@ -197,7 +224,8 @@ public class FarmDAO extends DAO{
             statement.execute("CREATE TABLE IF NOT EXISTS "+ TABLE_FARM
                     +"("+ COLUMN_FARM_ID +" INTEGER PRIMARY KEY, "
                     + COLUMN_FARM_NAME +" TEXT NOT NULL, "
-                    + COLUMN_FARM_ADDRESS +" TEXT NOT NULL "
+                    + COLUMN_FARM_ADDRESS +" TEXT NOT NULL, "
+                    + COLUMN_PRODUCT_IS_EXIST +" INTEGER DEFAULT 1 "
                     + ")");
         }catch (SQLException e){
             e.printStackTrace();

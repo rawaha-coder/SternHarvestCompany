@@ -187,6 +187,7 @@ public class ProductDetailDAO extends DAO{
             preparedStatement.setDouble(4, productDetail.getPriceCompany());
             preparedStatement.setInt(5, newProductId);
             preparedStatement.setInt(6, 1);
+
             preparedStatement.execute();
             connection.commit();
         } catch (Exception e) {
