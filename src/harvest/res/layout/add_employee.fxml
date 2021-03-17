@@ -7,10 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="fxAddEmployeeUI" maxHeight="680.0" maxWidth="480.0" prefHeight="640.0" prefWidth="400.0" stylesheets="@../../main_style.css"
-            xmlns="http://javafx.com/javafx/11.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="harvest.controller.AddEmployeeController">
+<AnchorPane fx:id="fxAddEmployeeUI" maxHeight="640.0" maxWidth="400.0" minHeight="640.0" minWidth="400.0" prefHeight="640.0" prefWidth="400.0" stylesheets="@../../main_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.controller.AddEmployeeController">
 
     <Label layoutX="71.0" layoutY="14.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Prénom:" />
      <TextField fx:id="fxFirstName" layoutX="71.0" layoutY="45.0" prefHeight="34.0" prefWidth="250.0" />
