@@ -64,7 +64,9 @@ public class SupplyDAO extends DAO{
             Supply supply = new Supply();
             supply.setSupplyId(resultSet.getInt(1));
             supply.setSupplier(new Supplier(resultSet.getInt(2), resultSet.getString(3)));
-            supply.setFarm(new Farm(resultSet.getInt(4), resultSet.getString(5)));
+            supply.getFarm().setFarmId(resultSet.getInt(4));
+            supply.getFarm().setFarmName(resultSet.getString(5));
+            //supply.setFarm(new Farm(resultSet.getInt(4), resultSet.getString(5)));
             supply.getProduct().setProductId(resultSet.getInt(6));
             supply.getProduct().setProductName(resultSet.getString(7));
             supplyList.add(supply);

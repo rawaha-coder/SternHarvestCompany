@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static harvest.database.ConstantDAO.*;
-import static harvest.ui.farm.DisplayFarmSeasonController.SEASON_LIST_LIVE_DATA;
+import static harvest.controller.DisplayFarmSeasonController.SEASON_LIST_LIVE_DATA;
 
 public class SeasonDAO extends DAO{
 
@@ -35,7 +35,9 @@ public class SeasonDAO extends DAO{
                 season.setSeasonId(resultSet.getInt(1));
                 season.setFarmPlantingDate(resultSet.getDate(2));
                 season.setFarmHarvestDate(resultSet.getDate(3));
-                season.setSeasonFarm(farm);
+                season.getFarm().setFarmId(farm.getFarmId());
+                season.getFarm().setFarmName(farm.getFarmName());
+                season.getFarm().setFarmAddress(farm.getFarmAddress());
                 list.add(season);
             }
             return list;
@@ -56,9 +58,9 @@ public class SeasonDAO extends DAO{
         try(PreparedStatement preparedStatement = dbGetConnect().prepareStatement(sqlStmt)) {
             preparedStatement.setDate(1, season.getFarmPlantingDate());
             preparedStatement.setDate(2, season.getFarmHarvestDate());
-            preparedStatement.setInt(3, season.getSeasonFarm().getFarmId());
+            preparedStatement.setInt(3, season.getFarm().getFarmId());
             preparedStatement.execute();
-            updateSeasonListByFarm(season.getSeasonFarm());
+            updateSeasonListByFarm(season.getFarm());
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -73,6 +75,7 @@ public class SeasonDAO extends DAO{
     public boolean addFarmSeasonData(Season season){
         Connection connection = null;
         PreparedStatement preparedStatement = null;
+
         String sqlInsertFarmStmt = "INSERT INTO " + TABLE_FARM + " ("
                 + COLUMN_FARM_NAME + ", "
                 + COLUMN_FARM_ADDRESS + ") "
@@ -90,8 +93,8 @@ public class SeasonDAO extends DAO{
             connection = dbGetConnect();
             connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(sqlInsertFarmStmt);
-            preparedStatement.setString(1, season.getSeasonFarm().getFarmName());
-            preparedStatement.setString(2, season.getSeasonFarm().getFarmAddress());
+            preparedStatement.setString(1, season.getFarm().getFarmName());
+            preparedStatement.setString(2, season.getFarm().getFarmAddress());
             preparedStatement.execute();
 
             Statement statement = connection.createStatement();
@@ -102,6 +105,7 @@ public class SeasonDAO extends DAO{
             preparedStatement.setDate(1, season.getFarmPlantingDate());
             preparedStatement.setDate(2, season.getFarmHarvestDate());
             preparedStatement.setInt(3, id);
+
             preparedStatement.execute();
             connection.commit();
             return true;

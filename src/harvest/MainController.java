@@ -1,7 +1,5 @@
 package harvest;
 
-import harvest.controller.AddProductController;
-import harvest.model.Product;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -30,7 +28,7 @@ public class MainController{
     @FXML
     public void displayGroup() { displayCenterView("/harvest/ui/group/display_group.fxml"); }
     @FXML
-    public void displayFarmSeason(){ displayCenterView("/harvest/ui/farm/display_farm_season.fxml"); }
+    public void displayFarmSeason(){ displayCenterView("/harvest/res/layout/display_farm_season.fxml"); }
     @FXML
     public void displayCredit() { displayCenterView("/harvest/ui/credit/display_credit.fxml"); }
     @FXML
@@ -58,7 +56,7 @@ public class MainController{
     @FXML
     void addWorkHours(){ loadAddWindow("/harvest/ui/hours/add_hours.fxml", "Add work hours"); }
     @FXML
-    void addFarmSeason(){ loadAddWindow("/harvest/ui/farm/add_farm.fxml", "Add Champ"); }
+    void addFarmSeason(){ loadAddWindow("/harvest/res/layout/add_farm.fxml", "Add Champ"); }
     @FXML
     void addCredit(){ loadAddWindow("/harvest/ui/credit/add_credit.fxml", "Add Credit"); }
     @FXML

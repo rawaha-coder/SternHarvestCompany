@@ -58,7 +58,7 @@ public class AddEmployeeController implements Initializable {
     }
 
     private void handleAddOperation() {
-        if (Validation.isEmpty(fxFirstName.getText(), fxLastName.getText(), fxHireDate.getEditor().getText(), fxFireDate.getEditor().getText(), fxPermissionDate.getEditor().getText()))
+        if (validInput())
         {
             alert.missingInfo("Employee");
             return;
@@ -78,6 +78,15 @@ public class AddEmployeeController implements Initializable {
         } else {
             alert.saveItem("Employee", false);
         }
+    }
+
+    private boolean validInput(){
+        return Validation.isEmpty(
+                fxFirstName.getText(),
+                fxLastName.getText(),
+                fxHireDate.getEditor().getText(),
+                fxFireDate.getEditor().getText(),
+                fxPermissionDate.getEditor().getText());
     }
 
     @FXML

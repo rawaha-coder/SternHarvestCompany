@@ -35,10 +35,10 @@ public class Supply {
         return mFarm;
     }
 
-    public void setFarm(Farm farm){
-        this.mFarm = farm;
-        this.farmName.set(farm.getFarmName());
-    }
+//    public void setFarm(Farm farm){
+//        this.mFarm = farm;
+//        this.farmName.set(farm.getFarmName());
+//    }
 
     public Product getProduct() {
         return mProduct;

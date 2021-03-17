@@ -7,7 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="fxUIAddItem" maxHeight="680.0" maxWidth="480.0" minHeight="600.0" minWidth="400.0" prefHeight="650.0" prefWidth="400.0" stylesheets="@../../main_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.ui.farm.AddFarmController">
+<AnchorPane fx:id="fxUIAddItem" maxHeight="680.0" maxWidth="480.0" minHeight="600.0" minWidth="400.0" prefHeight="650.0" prefWidth="400.0" stylesheets="@../../main_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.controller.AddFarmController">
 
     <Label layoutX="67.0" layoutY="50.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" stylesheets="@../../main_style.css" text="Champ:" />
     <ComboBox fx:id="fxFarmComboBox" editable="true" layoutX="67.0" layoutY="80.0" prefHeight="34.0" prefWidth="250.0" />

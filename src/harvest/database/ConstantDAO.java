@@ -135,6 +135,7 @@ public class ConstantDAO {
     public static final String COLUMN_FARM_ID = "id";
     public static final String COLUMN_FARM_NAME = "name";
     public static final String COLUMN_FARM_ADDRESS = "address";
+    public static final String COLUMN_FARM_IS_EXIST = "is_exist";
 
     //*************************************
     //Database table columns name for farm UI and model

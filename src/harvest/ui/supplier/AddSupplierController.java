@@ -138,7 +138,10 @@ public class AddSupplierController implements Initializable {
             supplier.setSupplierLastname(fxSupplierLastname.getText());
             Supply supply = new Supply();
             supply.setSupplier(supplier);
-            supply.setFarm(mFarmMap.get(fxChoiceFarm.getValue()));
+            //supply.setFarm(mFarmMap.get(fxChoiceFarm.getValue()));
+            supply.getFarm().setFarmId(mFarmMap.get(fxChoiceFarm.getValue()).getFarmId());
+            supply.getFarm().setFarmName(mFarmMap.get(fxChoiceFarm.getValue()).getFarmName());
+            supply.getFarm().setFarmAddress(mFarmMap.get(fxChoiceFarm.getValue()).getFarmAddress());
             //supply.setProduct(mProductMap.get(fxChoiceProduct.getValue()));
             supply.getProduct().setProductId(mProductMap.get(fxChoiceProduct.getValue()).getProductId());
             supply.getProduct().setProductName(mProductMap.get(fxChoiceProduct.getValue()).getProductName());
@@ -146,7 +149,10 @@ public class AddSupplierController implements Initializable {
         }else{
             Supply supply = new Supply();
             supply.setSupplier(mSupplierMap.get(fxChoiceSupplier.getValue()));
-            supply.setFarm(mFarmMap.get(fxChoiceFarm.getValue()));
+            //supply.setFarm(mFarmMap.get(fxChoiceFarm.getValue()));
+            supply.getFarm().setFarmId(mFarmMap.get(fxChoiceFarm.getValue()).getFarmId());
+            supply.getFarm().setFarmName(mFarmMap.get(fxChoiceFarm.getValue()).getFarmName());
+            supply.getFarm().setFarmAddress(mFarmMap.get(fxChoiceFarm.getValue()).getFarmAddress());
             //supply.setProduct(mProductMap.get(fxChoiceProduct.getValue()));
             supply.getProduct().setProductId(mProductMap.get(fxChoiceProduct.getValue()).getProductId());
             supply.getProduct().setProductName(mProductMap.get(fxChoiceProduct.getValue()).getProductName());
@@ -181,7 +187,10 @@ public class AddSupplierController implements Initializable {
 
     public void editSupply(){
         mSupply.setSupplier(mSupplierMap.get(fxChoiceSupplier.getValue()));
-        mSupply.setFarm(mFarmMap.get(fxChoiceFarm.getValue()));
+        //mSupply.setFarm(mFarmMap.get(fxChoiceFarm.getValue()));
+        mSupply.getFarm().setFarmId(mFarmMap.get(fxChoiceFarm.getValue()).getFarmId());
+        mSupply.getFarm().setFarmName(mFarmMap.get(fxChoiceFarm.getValue()).getFarmName());
+        mSupply.getFarm().setFarmAddress(mFarmMap.get(fxChoiceFarm.getValue()).getFarmAddress());
         //mSupply.setProduct(mProductMap.get(fxChoiceProduct.getValue()));
         mSupply.getProduct().setProductId(mProductMap.get(fxChoiceProduct.getValue()).getProductId());
         mSupply.getProduct().setProductName(mProductMap.get(fxChoiceProduct.getValue()).getProductName());
