@@ -1,4 +1,4 @@
-package harvest.ui.product;
+package harvest.controller;
 
 import harvest.database.ProductDAO;
 import harvest.database.ProductDetailDAO;
@@ -30,21 +30,13 @@ public class DisplayProductController implements Initializable {
     public static ObservableList<Product> PRODUCT_NAME_LIVE_DATA = FXCollections.observableArrayList();
     public static ObservableList<ProductDetail> PRODUCT_DETAIL_LIVE_DATA = FXCollections.observableArrayList();
 
-    @FXML
-    private TableView<harvest.model.Product> fxProductTable;
-    @FXML
-    private TableColumn<harvest.model.Product, String> fxProductNameColumn;
-    @FXML
-    private TableView<ProductDetail> fxProductDetailTable;
-    @FXML
-    private TableColumn<ProductDetail, String> fxProductTypeColumn;
-    @FXML
-    private TableColumn<ProductDetail, String> fxProductCodeColumn;
-    @FXML
-    private TableColumn<ProductDetail, Double> fxProductPriceEmployeeColumn;
-    @FXML
-    private TableColumn<ProductDetail, Double> fxProductPriceCompanyColumn;
-
+    @FXML private TableView<harvest.model.Product> fxProductTable;
+    @FXML private TableColumn<harvest.model.Product, String> fxProductNameColumn;
+    @FXML private TableView<ProductDetail> fxProductDetailTable;
+    @FXML private TableColumn<ProductDetail, String> fxProductTypeColumn;
+    @FXML private TableColumn<ProductDetail, String> fxProductCodeColumn;
+    @FXML private TableColumn<ProductDetail, Double> fxProductPriceEmployeeColumn;
+    @FXML private TableColumn<ProductDetail, Double> fxProductPriceCompanyColumn;
 
     private final AlertMaker alert = new AlertMaker();
     private final ProductDAO mProductDAO = ProductDAO.getInstance();
@@ -52,14 +44,28 @@ public class DisplayProductController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        initColumns();
         updateLiveData();
+        initColumns();
         observeSelectProduct();
     }
 
     public void updateLiveData(){
         mProductDAO.updateLiveData();
-        mProductDetailDAO.updateLiveData(PRODUCT_NAME_LIVE_DATA.get(0));
+        if (PRODUCT_NAME_LIVE_DATA.size() > 0){
+            mProductDetailDAO.updateLiveData(PRODUCT_NAME_LIVE_DATA.get(0));
+        }
+    }
+
+    public void updateLiveData(Product product){
+        mProductDAO.updateLiveData();
+        if (product != null){
+            try{
+                mProductDetailDAO.updateLiveData(product);
+                fxProductDetailTable.getSelectionModel().selectFirst();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 
     public void initColumns() {
@@ -71,6 +77,7 @@ public class DisplayProductController implements Initializable {
         fxProductTable.setItems(PRODUCT_NAME_LIVE_DATA);
         fxProductDetailTable.setItems(PRODUCT_DETAIL_LIVE_DATA);
         fxProductTable.getSelectionModel().selectFirst();
+        fxProductDetailTable.getSelectionModel().selectFirst();
     }
 
     private void observeSelectProduct(){
@@ -95,7 +102,7 @@ public class DisplayProductController implements Initializable {
             return;
         }
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/ui/product/add_product.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/res/layout/add_product.fxml"));
             Stage stage = new Stage(StageStyle.DECORATED);
             Parent parent = loader.load();
             AddProductController controller = loader.getController();
@@ -119,23 +126,25 @@ public class DisplayProductController implements Initializable {
         Optional<ButtonType> result = alertDelete.deleteConfirmation("Product");
         assert result.isPresent();
         if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
-            alert.deleteItem("Product", mProductDAO.deleteProduct(product));
+            alert.deleteItem("Product", mProductDAO.deleteProductById(product));
         } else {
             alert.cancelOperation("Delete");
         }
         mProductDAO.updateLiveData();
+        mProductDetailDAO.updateLiveData(product);
         fxProductTable.getSelectionModel().selectFirst();
     }
 
     @FXML
     void editProductDetail(){
+        //Product product = fxProductTable.getSelectionModel().getSelectedItem();
         ProductDetail productDetail = fxProductDetailTable.getSelectionModel().getSelectedItem();
         if (productDetail == null) {
-            alert.selectEditItem("Product Detail");
+            alert.selectEditItem("Product");
             return;
         }
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/ui/product/add_product.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/res/layout/add_product.fxml"));
             Stage stage = new Stage(StageStyle.DECORATED);
             Parent parent = loader.load();
             AddProductController controller = loader.getController();
@@ -159,7 +168,7 @@ public class DisplayProductController implements Initializable {
         Optional<ButtonType> result = alertDelete.deleteConfirmation("Product Detail");
         assert result.isPresent();
         if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
-            alert.deleteItem("Product detail", mProductDetailDAO.deleteDataById(productDetail.getProductDetailId()));
+            alert.deleteItem("Product detail", mProductDetailDAO.deleteProductDetailById(productDetail));
         } else {
             alert.cancelOperation("Delete");
         }

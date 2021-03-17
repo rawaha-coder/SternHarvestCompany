@@ -7,7 +7,7 @@ public class Supply {
     private final SimpleIntegerProperty supplyId = new SimpleIntegerProperty();
     private Supplier mSupplier = new Supplier();
     private Farm mFarm = new Farm();
-    private Product mProduct = new Product();
+    private final Product mProduct = new Product();
     private final SimpleStringProperty supplierName = new SimpleStringProperty();
     private final SimpleStringProperty farmName = new SimpleStringProperty();
     private final SimpleStringProperty productName = new SimpleStringProperty();
@@ -44,10 +44,10 @@ public class Supply {
         return mProduct;
     }
 
-    public void setProduct(Product product){
-        this.mProduct = product;
-        this.productName.set(product.getProductName());
-    }
+//    public void setProduct(Product product){
+//        this.mProduct = product;
+//        this.productName.set(product.getProductName());
+//    }
 
     public String getSupplierName() {
         return supplierName.get();

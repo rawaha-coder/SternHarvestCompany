@@ -1,4 +1,4 @@
-package harvest.ui.employee;
+package harvest.controller;
 
 import harvest.model.Employee;
 import harvest.util.AlertMaker;
@@ -42,8 +42,8 @@ public class AddEmployeeController implements Initializable {
 
     private void handleEditOperation(Employee employee) {
         employee.setEmployeeStatus(fxEmployeeStatus.isSelected());
-        employee.setEmployeeFirstName(fxFirstName.getText());
-        employee.setEmployeeLastName(fxLastName.getText());
+        employee.setEmployeeFirstName(fxFirstName.getText().trim());
+        employee.setEmployeeLastName(fxLastName.getText().trim());
         employee.setEmployeeHireDate(Date.valueOf(fxHireDate.getValue()));
         employee.setEmployeeFireDate(Date.valueOf(fxFireDate.getValue()));
         employee.setEmployeePermissionDate(Date.valueOf(fxPermissionDate.getValue()));
@@ -65,8 +65,8 @@ public class AddEmployeeController implements Initializable {
         }
         Employee employee = new Employee();
         employee.setEmployeeStatus(fxEmployeeStatus.isSelected());
-        employee.setEmployeeFirstName(fxFirstName.getText());
-        employee.setEmployeeLastName(fxLastName.getText());
+        employee.setEmployeeFirstName(fxFirstName.getText().trim());
+        employee.setEmployeeLastName(fxLastName.getText().trim());
         employee.setEmployeeHireDate(Date.valueOf(fxHireDate.getValue()));
         employee.setEmployeeFireDate(Date.valueOf(fxFireDate.getValue()));
         employee.setEmployeePermissionDate(Date.valueOf(fxPermissionDate.getValue()));

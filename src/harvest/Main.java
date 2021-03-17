@@ -10,11 +10,11 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     //EmployeeDAO mEmployeeDAO = EmployeeDAO.getInstance();
+    //ProductDAO mProductDAO = ProductDAO.getInstance();
+    //ProductDetailDAO mProductDetailDAO = ProductDetailDAO.getInstance();
     //CreditDAO mCreditDAO = CreditDAO.getInstance();
     //FarmDAO mFarmDAO = FarmDAO.getInstance();
     //SeasonDAO mSeasonDAO = SeasonDAO.getInstance();
-    //ProductDAO mProductDAO = ProductDAO.getInstance();
-    //ProductDetailDAO mProductDetailDAO = ProductDetailDAO.getInstance();
     //SupplierDAO mSupplierDAO = SupplierDAO.getInstance();
     //SupplyDAO mSupplyDAO = SupplyDAO.getInstance();
     //TransportDAO mTransportDAO = TransportDAO.getInstance();

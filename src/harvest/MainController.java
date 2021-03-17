@@ -1,5 +1,7 @@
 package harvest;
 
+import harvest.controller.AddProductController;
+import harvest.model.Product;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -32,11 +34,11 @@ public class MainController{
     @FXML
     public void displayCredit() { displayCenterView("/harvest/ui/credit/display_credit.fxml"); }
     @FXML
-    public void displayEmployee() { displayCenterView("/harvest/ui/employee/display_employee.fxml"); }
+    public void displayEmployee() { displayCenterView("/harvest/res/layout/display_employee.fxml"); }
     @FXML
     public void displaySupplier(){ displayCenterView("/harvest/ui/supplier/display_supplier.fxml"); }
     @FXML
-    public void displayProduct(){ displayCenterView("/harvest/ui/product/display_product.fxml"); }
+    public void displayProduct(){ displayCenterView("/harvest/res/layout/display_product.fxml"); }
 
     public void displayCenterView(String location){
         try{
@@ -62,11 +64,11 @@ public class MainController{
     @FXML
     void addTransport(){ loadAddWindow("/harvest/ui/credit/add_transport.fxml", "Add Transport"); }
     @FXML
-    void addEmployee(){ loadAddWindow("/harvest/ui/employee/add_employee.fxml", "Add Employee"); }
+    void addEmployee(){ loadAddWindow("/harvest/res/layout/add_employee.fxml", "Add Employee"); }
     @FXML
     void addSupplier(){ loadAddWindow("/harvest/ui/supplier/add_supplier.fxml", "Add Fournisseur"); }
     @FXML
-    void addProduct(){ loadAddWindow("/harvest/ui/product/add_product.fxml", "Add Produit"); }
+    void addProduct(){ loadAddWindow("/harvest/res/layout/add_product.fxml", "Add Produit"); }
 
     private void loadAddWindow(String location, String title){
         Stage subStage = new Stage(StageStyle.DECORATED);
@@ -86,6 +88,7 @@ public class MainController{
     public void handlePreferences() {
         loadAddWindow("/harvest/ui/menu/preferences.fxml", "Preferences");
     }
+
 
 //    private void showProgress(){
 //        pBar.setMinWidth(fxProgressHBox.getWidth());

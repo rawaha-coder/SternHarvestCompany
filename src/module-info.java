@@ -19,12 +19,15 @@ module SternHarvestCompany {
     opens harvest.ui.supplier;
     opens harvest.model;
     opens harvest.ui.individual;
-    opens harvest.ui.employee;
     opens harvest.util;
     opens harvest.ui.menu;
     opens harvest.ui.group;
     opens harvest.ui.production;
     opens harvest.ui.hours;
+    opens harvest.ui.credit;
+    opens harvest.res.layout;
+    opens harvest.controller;
+
 
     opens harvest;
 }

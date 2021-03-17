@@ -8,16 +8,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static harvest.ui.product.DisplayProductController.PRODUCT_NAME_LIVE_DATA;
+import static harvest.controller.DisplayProductController.PRODUCT_NAME_LIVE_DATA;
 import static harvest.database.ConstantDAO.*;
 
 public class ProductDAO extends DAO{
 
     private static ProductDAO sProductDAO = new ProductDAO();
 
-    //private Constructor
-    private ProductDAO(){
-    }
+    private ProductDAO(){ }
 
     public static ProductDAO getInstance(){
         if (sProductDAO == null){
@@ -27,10 +25,14 @@ public class ProductDAO extends DAO{
         return sProductDAO;
     }
 
+    //*************************************************************
     //Get all data product
+    //*************************************************************
     public List<Product> getData() throws Exception {
         List<Product> list = new ArrayList<>();
-        String sqlStmt = "SELECT * FROM " + TABLE_PRODUCT + " ORDER BY " + COLUMN_PRODUCT_NAME + " ASC;";
+        String sqlStmt = "SELECT * FROM " + TABLE_PRODUCT
+                + " WHERE " + COLUMN_PRODUCT_IS_EXIST + " = " + 1
+                + " ORDER BY " + COLUMN_PRODUCT_NAME + " ASC;";
         try (Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(sqlStmt)){
             while (resultSet.next()) {
                 Product product = new Product();
@@ -47,10 +49,14 @@ public class ProductDAO extends DAO{
         }
     }
 
+    //*************************************************************
     //Get data product as map by product name
+    //*************************************************************
     public Map<String, Product> getProductMap() throws Exception {
         Map<String, Product> mProductMap = new LinkedHashMap<>();
-        String sqlStmt = "SELECT * FROM " + TABLE_PRODUCT + " ORDER BY " + COLUMN_PRODUCT_NAME + " ASC;";
+        String sqlStmt = "SELECT * FROM " + TABLE_PRODUCT
+                + " WHERE " + COLUMN_PRODUCT_IS_EXIST + " = " + 1
+                + " ORDER BY " + COLUMN_PRODUCT_NAME + " ASC;";
         try (Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(sqlStmt)){
             while (resultSet.next()) {
                 Product product = new Product();
@@ -67,7 +73,9 @@ public class ProductDAO extends DAO{
         }
     }
 
+    //*************************************************************
     //Edit product
+    //*************************************************************
     public boolean editData(Product product) {
         String updateStmt = "UPDATE " + TABLE_PRODUCT + " SET " + COLUMN_PRODUCT_NAME + " =? " +
                 " WHERE " + COLUMN_PRODUCT_ID + " = " + product.getProductId()+ " ;";
@@ -84,12 +92,21 @@ public class ProductDAO extends DAO{
         }
     }
 
+    //*************************************************************
     //Delete product
-    public boolean deleteProduct(Product product) {
+    //*************************************************************
+    public boolean deleteProductById(Product product) {
         Connection connection = null;
         Statement statement;
-        String deleteProduct = "DELETE FROM " + TABLE_PRODUCT + " WHERE " + COLUMN_PRODUCT_ID + " = " + product.getProductId() + " ;";
-        String deleteProductDetail = "DELETE FROM " + TABLE_PRODUCT_DETAIL + " WHERE " + COLUMN_FOREIGN_KEY_PRODUCT_ID + " = " + product.getProductId() +" ;";
+
+        String deleteProduct = "UPDATE " + TABLE_PRODUCT
+                + " SET " + COLUMN_PRODUCT_IS_EXIST + " = 0 "
+                + " WHERE " + COLUMN_PRODUCT_ID + " = "+ product.getProductId() +" ;";
+
+        String deleteProductDetail = "UPDATE " + TABLE_PRODUCT_DETAIL
+                + " SET " + COLUMN_PRODUCT_DETAIL_IS_EXIST + " = 0, "
+                + COLUMN_PRODUCT_CODE + " = null "
+                + " WHERE " + COLUMN_FOREIGN_KEY_PRODUCT_ID + " = "+ product.getProductId() +" ;";
 
         try {
             connection = dbGetConnect();
@@ -127,18 +144,19 @@ public class ProductDAO extends DAO{
         }
     }
 
-    /* Create table
-public void createProductTable() throws SQLException{
-        try {
-            Statement statement = dbGetConnect().createStatement();
-            statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_PRODUCT
-                    + "(" + COLUMN_PRODUCT_ID + " INTEGER PRIMARY KEY, "
-                    + COLUMN_PRODUCT_NAME + " TEXT NOT NULL)");
-        }catch (SQLException e){
-            e.printStackTrace();
-            throw e;
-        }
-    }
-*/
+     //Create Product table
+//    public void createProductTable() throws SQLException{
+//        try {
+//            Statement statement = dbGetConnect().createStatement();
+//            statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_PRODUCT
+//                    + "(" + COLUMN_PRODUCT_ID + " INTEGER PRIMARY KEY, "
+//                    + COLUMN_PRODUCT_NAME + " TEXT NOT NULL, "
+//                    + COLUMN_PRODUCT_IS_EXIST + " INTEGER DEFAULT 1)");
+//        }catch (SQLException e){
+//            e.printStackTrace();
+//            throw e;
+//        }
+//    }
+
 
 }

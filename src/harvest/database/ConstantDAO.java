@@ -86,6 +86,7 @@ public class ConstantDAO {
     public static final String COLUMN_EMPLOYEE_HIRE_DATE = "hire_date";
     public static final String COLUMN_EMPLOYEE_FIRE_DATE = "fire_date";
     public static final String COLUMN_EMPLOYEE_PERMISSION_DATE = "permission_date";
+    public static final String COLUMN_EMPLOYEE_IS_EXIST = "is_exist";
 
     //*************************************
     //Database table columns name for transport UI and model
@@ -150,6 +151,7 @@ public class ConstantDAO {
     public static final String TABLE_PRODUCT = "product";
     public static final String COLUMN_PRODUCT_ID = "id";
     public static final String COLUMN_PRODUCT_NAME = "name";
+    public static final String COLUMN_PRODUCT_IS_EXIST = "is_exist";
 
     //*************************************
     //Database table columns name for product detail UI and model
@@ -161,6 +163,7 @@ public class ConstantDAO {
     public static final String COLUMN_PRODUCT_PRICE_EMPLOYEE = "price_employee";
     public static final String COLUMN_PRODUCT_PRICE_COMPANY = "price_company";
     public static final String COLUMN_FOREIGN_KEY_PRODUCT_ID = "product_id";
+    public static final String COLUMN_PRODUCT_DETAIL_IS_EXIST = "is_exist";
 
     //*************************************
     //Database table columns name for product detail UI and model

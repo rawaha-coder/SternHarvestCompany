@@ -1,4 +1,4 @@
-package harvest.ui.employee;
+package harvest.controller;
 
 import harvest.model.Employee;
 import harvest.util.AlertMaker;
@@ -43,6 +43,7 @@ public class DisplayEmployeeController implements Initializable {
 
     @FXML private TableView<Employee> fxEmployeeTable;
     @FXML private TableColumn<Employee, Boolean> fxEmployeeSelectColumn;
+    @FXML private TableColumn<Employee, Integer> fxEmployeeIdColumn;
     @FXML private TableColumn<Employee, String> fxEmployeeFullNameColumn;
     @FXML private TableColumn<Employee, String> fxEmployeeFirstNameColumn;
     @FXML private TableColumn<Employee, String> fxEmployeeLastNameColumn;
@@ -69,6 +70,7 @@ public class DisplayEmployeeController implements Initializable {
     //Initialization employee table Columns
     private void initEmployeeTable() {
         fxEmployeeSelectColumn.setCellValueFactory(new PropertyValueFactory<>("employeeStatus"));
+        fxEmployeeIdColumn.setCellValueFactory(new PropertyValueFactory<>("employeeId"));
         fxEmployeeFirstNameColumn.setCellValueFactory(new PropertyValueFactory<>("employeeFirstName"));
         fxEmployeeLastNameColumn.setCellValueFactory(new PropertyValueFactory<>("employeeLastName"));
         fxEmployeeFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("employeeFullName"));
@@ -103,7 +105,7 @@ public class DisplayEmployeeController implements Initializable {
             return;
         }
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/ui/employee/add_employee.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/res/layout/add_employee.fxml"));
             Stage stage = new Stage(StageStyle.DECORATED);
             Parent parent = loader.load();
             AddEmployeeController controller = loader.getController();
@@ -127,7 +129,7 @@ public class DisplayEmployeeController implements Initializable {
         Optional<ButtonType> result = alertDelete.deleteConfirmation("Employee");
         assert result.isPresent();
         if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
-            if (mEmployeeDAO.deleteEmployee(employee)) {
+            if (mEmployeeDAO.deleteEmployeeById(employee)) {
                 mEmployeeDAO.updateLiveData();
                 alert.deleteItem("Employee", true);
             } else {
