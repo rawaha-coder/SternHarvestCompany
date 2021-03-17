@@ -139,13 +139,17 @@ public class AddSupplierController implements Initializable {
             Supply supply = new Supply();
             supply.setSupplier(supplier);
             supply.setFarm(mFarmMap.get(fxChoiceFarm.getValue()));
-            supply.setProduct(mProductMap.get(fxChoiceProduct.getValue()));
+            //supply.setProduct(mProductMap.get(fxChoiceProduct.getValue()));
+            supply.getProduct().setProductId(mProductMap.get(fxChoiceProduct.getValue()).getProductId());
+            supply.getProduct().setProductName(mProductMap.get(fxChoiceProduct.getValue()).getProductName());
             isAdded = mSupplierDAO.addSupplierSupplyData(supply);
         }else{
             Supply supply = new Supply();
             supply.setSupplier(mSupplierMap.get(fxChoiceSupplier.getValue()));
             supply.setFarm(mFarmMap.get(fxChoiceFarm.getValue()));
-            supply.setProduct(mProductMap.get(fxChoiceProduct.getValue()));
+            //supply.setProduct(mProductMap.get(fxChoiceProduct.getValue()));
+            supply.getProduct().setProductId(mProductMap.get(fxChoiceProduct.getValue()).getProductId());
+            supply.getProduct().setProductName(mProductMap.get(fxChoiceProduct.getValue()).getProductName());
             isAdded = mSupplyDAO.addData(supply);
         }
 
@@ -178,7 +182,9 @@ public class AddSupplierController implements Initializable {
     public void editSupply(){
         mSupply.setSupplier(mSupplierMap.get(fxChoiceSupplier.getValue()));
         mSupply.setFarm(mFarmMap.get(fxChoiceFarm.getValue()));
-        mSupply.setProduct(mProductMap.get(fxChoiceProduct.getValue()));
+        //mSupply.setProduct(mProductMap.get(fxChoiceProduct.getValue()));
+        mSupply.getProduct().setProductId(mProductMap.get(fxChoiceProduct.getValue()).getProductId());
+        mSupply.getProduct().setProductName(mProductMap.get(fxChoiceProduct.getValue()).getProductName());
         if (mSupplyDAO.editData(mSupply)){
             mSupplierDAO.updateLiveData();
             mSupplyDAO.updateLiveData(mSupplierMap.get(fxChoiceSupplier.getValue()));

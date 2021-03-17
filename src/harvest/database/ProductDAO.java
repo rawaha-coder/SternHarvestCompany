@@ -15,8 +15,7 @@ public class ProductDAO extends DAO{
 
     private static ProductDAO sProductDAO = new ProductDAO();
 
-    private ProductDAO(){
-    }
+    private ProductDAO(){ }
 
     public static ProductDAO getInstance(){
         if (sProductDAO == null){
@@ -26,7 +25,9 @@ public class ProductDAO extends DAO{
         return sProductDAO;
     }
 
+    //*************************************************************
     //Get all data product
+    //*************************************************************
     public List<Product> getData() throws Exception {
         List<Product> list = new ArrayList<>();
         String sqlStmt = "SELECT * FROM " + TABLE_PRODUCT
@@ -48,7 +49,9 @@ public class ProductDAO extends DAO{
         }
     }
 
+    //*************************************************************
     //Get data product as map by product name
+    //*************************************************************
     public Map<String, Product> getProductMap() throws Exception {
         Map<String, Product> mProductMap = new LinkedHashMap<>();
         String sqlStmt = "SELECT * FROM " + TABLE_PRODUCT
@@ -95,9 +98,11 @@ public class ProductDAO extends DAO{
     public boolean deleteProductById(Product product) {
         Connection connection = null;
         Statement statement;
+
         String deleteProduct = "UPDATE " + TABLE_PRODUCT
                 + " SET " + COLUMN_PRODUCT_IS_EXIST + " = 0 "
                 + " WHERE " + COLUMN_PRODUCT_ID + " = "+ product.getProductId() +" ;";
+
         String deleteProductDetail = "UPDATE " + TABLE_PRODUCT_DETAIL
                 + " SET " + COLUMN_PRODUCT_DETAIL_IS_EXIST + " = 0, "
                 + COLUMN_PRODUCT_CODE + " = null "

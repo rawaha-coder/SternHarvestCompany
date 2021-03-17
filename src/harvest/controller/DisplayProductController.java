@@ -30,21 +30,13 @@ public class DisplayProductController implements Initializable {
     public static ObservableList<Product> PRODUCT_NAME_LIVE_DATA = FXCollections.observableArrayList();
     public static ObservableList<ProductDetail> PRODUCT_DETAIL_LIVE_DATA = FXCollections.observableArrayList();
 
-    @FXML
-    private TableView<harvest.model.Product> fxProductTable;
-    @FXML
-    private TableColumn<harvest.model.Product, String> fxProductNameColumn;
-    @FXML
-    private TableView<ProductDetail> fxProductDetailTable;
-    @FXML
-    private TableColumn<ProductDetail, String> fxProductTypeColumn;
-    @FXML
-    private TableColumn<ProductDetail, String> fxProductCodeColumn;
-    @FXML
-    private TableColumn<ProductDetail, Double> fxProductPriceEmployeeColumn;
-    @FXML
-    private TableColumn<ProductDetail, Double> fxProductPriceCompanyColumn;
-
+    @FXML private TableView<harvest.model.Product> fxProductTable;
+    @FXML private TableColumn<harvest.model.Product, String> fxProductNameColumn;
+    @FXML private TableView<ProductDetail> fxProductDetailTable;
+    @FXML private TableColumn<ProductDetail, String> fxProductTypeColumn;
+    @FXML private TableColumn<ProductDetail, String> fxProductCodeColumn;
+    @FXML private TableColumn<ProductDetail, Double> fxProductPriceEmployeeColumn;
+    @FXML private TableColumn<ProductDetail, Double> fxProductPriceCompanyColumn;
 
     private final AlertMaker alert = new AlertMaker();
     private final ProductDAO mProductDAO = ProductDAO.getInstance();
@@ -139,15 +131,16 @@ public class DisplayProductController implements Initializable {
             alert.cancelOperation("Delete");
         }
         mProductDAO.updateLiveData();
-        fxProductDetailTable.refresh();
+        mProductDetailDAO.updateLiveData(product);
         fxProductTable.getSelectionModel().selectFirst();
     }
 
     @FXML
     void editProductDetail(){
+        //Product product = fxProductTable.getSelectionModel().getSelectedItem();
         ProductDetail productDetail = fxProductDetailTable.getSelectionModel().getSelectedItem();
         if (productDetail == null) {
-            alert.selectEditItem("Product Detail");
+            alert.selectEditItem("Product");
             return;
         }
         try {
@@ -175,7 +168,7 @@ public class DisplayProductController implements Initializable {
         Optional<ButtonType> result = alertDelete.deleteConfirmation("Product Detail");
         assert result.isPresent();
         if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
-            alert.deleteItem("Product detail", mProductDetailDAO.deleteProductDetailById(productDetail.getProductDetailId()));
+            alert.deleteItem("Product detail", mProductDetailDAO.deleteProductDetailById(productDetail));
         } else {
             alert.cancelOperation("Delete");
         }

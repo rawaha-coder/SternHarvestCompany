@@ -5,28 +5,9 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class Product {
 
-    private final SimpleIntegerProperty productId;
-    private final SimpleStringProperty productName;
+    private final SimpleIntegerProperty productId = new SimpleIntegerProperty();
+    private final SimpleStringProperty productName = new SimpleStringProperty();
 
-    public Product() {
-        this.productId = new SimpleIntegerProperty();
-        this.productName = new SimpleStringProperty();
-    }
-
-    public Product(int i) {
-        this.productId = new SimpleIntegerProperty(i);
-        this.productName = new SimpleStringProperty();
-    }
-
-    public Product(int productId, String productName) {
-        this.productId = new SimpleIntegerProperty(productId);
-        this.productName = new SimpleStringProperty(productName);
-    }
-
-    public Product(String productName) {
-        this.productId = new SimpleIntegerProperty();
-        this.productName = new SimpleStringProperty(productName);
-    }
 
     public int getProductId() {
         return productId.get();
@@ -38,10 +19,6 @@ public class Product {
 
     public String getProductName() {
         return productName.get();
-    }
-
-    public SimpleStringProperty productNameProperty() {
-        return productName;
     }
 
     public void setProductName(String productName) {
