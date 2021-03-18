@@ -118,6 +118,7 @@ public class ConstantDAO {
     public static final String COLUMN_SUPPLIER_NAME = "company_name";
     public static final String COLUMN_SUPPLIER_FIRSTNAME = "firstname";
     public static final String COLUMN_SUPPLIER_LASTNAME = "lastname";
+    public static final String COLUMN_SUPPLIER_IS_EXIST = "is_exist";
 
     //*************************************
     //Database table columns name for supplier UI and model

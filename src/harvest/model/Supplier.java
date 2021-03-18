@@ -4,18 +4,11 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Supplier {
+
     private final SimpleIntegerProperty supplierId = new SimpleIntegerProperty();
     private final SimpleStringProperty supplierName = new SimpleStringProperty();
     private final SimpleStringProperty supplierFirstname = new SimpleStringProperty();
     private final SimpleStringProperty supplierLastname = new SimpleStringProperty();
-
-    public Supplier() {
-    }
-
-    public Supplier(int id, String name) {
-        this.supplierId.set(id);
-        this.supplierName.set(name);
-    }
 
     public int getSupplierId() {
         return supplierId.get();
@@ -31,10 +24,6 @@ public class Supplier {
 
     public void setSupplierName(String supplierName) {
         this.supplierName.set(supplierName);
-    }
-
-    public SimpleStringProperty supplierNameProperty() {
-        return supplierName;
     }
 
     public String getSupplierFirstname() {

@@ -1,4 +1,4 @@
-package harvest.ui.supplier;
+package harvest.controller;
 
 import harvest.database.SupplierDAO;
 import harvest.database.SupplyDAO;
@@ -45,11 +45,8 @@ public class DisplaySupplierController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initColumns();
         mSupplierDAO.updateLiveData();
-        fxSupplierTable.setItems(SUPPLIER_LIST_LIVE_DATA);
         mSupplyDAO.updateLiveData();
-        fxSupplyTable.setItems(SUPPLY_LIST_LIVE_DATA);
         observeSelectSupplier();
-        fxSupplierTable.getSelectionModel().selectFirst();
     }
 
     private void initColumns() {
@@ -58,6 +55,9 @@ public class DisplaySupplierController implements Initializable {
         fxSupplierLastName.setCellValueFactory(new PropertyValueFactory<>("supplierLastname"));
         fxSupplyFarm.setCellValueFactory(new PropertyValueFactory<>("farmName"));
         fxSupplyProduct.setCellValueFactory(new PropertyValueFactory<>("productName"));
+        fxSupplierTable.setItems(SUPPLIER_LIST_LIVE_DATA);
+        fxSupplyTable.setItems(SUPPLY_LIST_LIVE_DATA);
+        fxSupplierTable.getSelectionModel().selectFirst();
     }
 
     private void observeSelectSupplier(){
@@ -82,7 +82,7 @@ public class DisplaySupplierController implements Initializable {
             return;
         }
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/ui/supplier/add_supplier.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/res/layout/add_supplier.fxml"));
             Stage stage = new Stage();
             Parent parent = loader.load();
             AddSupplierController controller = loader.getController();
@@ -126,7 +126,7 @@ public class DisplaySupplierController implements Initializable {
             return;
         }
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/ui/supplier/add_supplier.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/res/layout/add_supplier.fxml"));
             Stage stage = new Stage();
             Parent parent = loader.load();
             AddSupplierController controller = loader.getController();

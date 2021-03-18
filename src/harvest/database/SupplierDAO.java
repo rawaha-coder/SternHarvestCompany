@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static harvest.ui.supplier.DisplaySupplierController.*;
+import static harvest.controller.DisplaySupplierController.*;
 import static harvest.database.ConstantDAO.*;
 
 public class SupplierDAO extends DAO{
@@ -25,10 +25,14 @@ public class SupplierDAO extends DAO{
         return sSupplierDAO;
     }
 
+    //*************************************************************
     //Get all supplier data
+    //*************************************************************
     public List<Supplier> getData() throws Exception {
         List<Supplier> supplierList = new ArrayList<>();
-        String sqlStmt = "SELECT * FROM " + TABLE_SUPPLIER + " ORDER BY " + COLUMN_SUPPLIER_NAME + " ASC;";
+        String sqlStmt = "SELECT * FROM " + TABLE_SUPPLIER
+                + " WHERE " + COLUMN_SUPPLIER_IS_EXIST + " = 1 "
+                + " ORDER BY " + COLUMN_SUPPLIER_NAME + " ASC;";
         try(Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(sqlStmt)) {
             while (resultSet.next()){
                 Supplier supplier = new Supplier();
@@ -47,10 +51,14 @@ public class SupplierDAO extends DAO{
         }
     }
 
+    //*************************************************************
     //Get data farm as map by farm name
+    //*************************************************************
     public Map<String, Supplier> getSupplierMap() throws Exception {
         Map<String, Supplier> mSupplierMap = new LinkedHashMap<>();
-        String sqlStmt = "SELECT * FROM " + TABLE_SUPPLIER + " ORDER BY " + COLUMN_SUPPLIER_NAME + " ASC;";
+        String sqlStmt = "SELECT * FROM " + TABLE_SUPPLIER
+                + " WHERE " + COLUMN_SUPPLIER_IS_EXIST + " = 1 "
+                + " ORDER BY " + COLUMN_SUPPLIER_NAME + " ASC;";
         try (Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(sqlStmt)){
             while (resultSet.next()) {
                 Supplier supplier = new Supplier();
@@ -79,8 +87,9 @@ public class SupplierDAO extends DAO{
         String insertSupplier = "INSERT INTO " + TABLE_SUPPLIER + " ("
                 + COLUMN_SUPPLIER_NAME + ", "
                 + COLUMN_SUPPLIER_FIRSTNAME + ", "
-                + COLUMN_SUPPLIER_LASTNAME + ") "
-                + " VALUES (?,?,?);";
+                + COLUMN_SUPPLIER_LASTNAME + ", "
+                + COLUMN_SUPPLIER_IS_EXIST + ") "
+                + " VALUES (?,?,?,?);";
 
         String sqlGetLastId = "SELECT last_insert_rowid() FROM " + TABLE_SUPPLIER + " ;";
 
@@ -98,6 +107,7 @@ public class SupplierDAO extends DAO{
             preparedStatement.setString(1, supply.getSupplier().getSupplierName());
             preparedStatement.setString(2, supply.getSupplier().getSupplierFirstname());
             preparedStatement.setString(3, supply.getSupplier().getSupplierLastname());
+            preparedStatement.setInt(4,1);
             preparedStatement.execute();
 
             Statement statement = connection.createStatement();
@@ -129,6 +139,9 @@ public class SupplierDAO extends DAO{
         }
     }
 
+    //*************************************************************
+    //Edit supplier data
+    //*************************************************************
     public boolean editData(Supplier supplier) {
         PreparedStatement preparedStatement;
         String updateStmt = "UPDATE " + TABLE_SUPPLIER + " SET "
@@ -154,12 +167,19 @@ public class SupplierDAO extends DAO{
         }
     }
 
-    //Delete Employee data from all tables
+    //*************************************************************
+    //Delete Supplier data from all tables
+    //*************************************************************
     public boolean deleteSupplierData(Supplier supplier){
         Connection connection = null;
         Statement statement = null;
-        String deleteSupplier = "DELETE FROM " + TABLE_SUPPLIER   + " WHERE " + COLUMN_EMPLOYEE_ID + " ="+ supplier.getSupplierId() +" ;";
-        String deleteSupply = "DELETE FROM " + TABLE_SUPPLY + " WHERE " + COLUMN_SUPPLY_FRGN_KEY_SUPPLIER_ID + " ="+ supplier.getSupplierId() +" ;";
+
+        String deleteSupplier = "UPDATE " + TABLE_SUPPLIER
+                + " SET " + COLUMN_SUPPLIER_IS_EXIST + " = 0 "
+                + " WHERE " + COLUMN_SUPPLIER_ID + " = " + supplier.getSupplierId() +" ;";
+        String deleteSupply = "DELETE FROM " + TABLE_SUPPLY
+                + " WHERE " + COLUMN_SUPPLY_FRGN_KEY_SUPPLIER_ID + " = " + supplier.getSupplierId() +" ;";
+
         try {
             connection = dbGetConnect();
             connection.setAutoCommit(false);
@@ -197,6 +217,9 @@ public class SupplierDAO extends DAO{
         }
     }
 
+    //*************************************************************
+    //update Live Data
+    //*************************************************************
     public void updateLiveData() {
         SUPPLIER_LIST_LIVE_DATA.clear();
         try {
@@ -206,21 +229,20 @@ public class SupplierDAO extends DAO{
         }
     }
 
-/* **
-        public void createSupplierTable() throws SQLException{
+        /*public void createSupplierTable() throws SQLException{
         try {
             Statement statement = dbGetConnect().createStatement();
             statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_SUPPLIER + "("
                     + COLUMN_SUPPLIER_ID + " INTEGER PRIMARY KEY, "
-                    + COLUMN_SUPPLIER_NAME + " VARCHAR(32) UNIQUE NOT NULL, "
+                    + COLUMN_SUPPLIER_NAME + " VARCHAR(32) NOT NULL, "
                     + COLUMN_SUPPLIER_FIRSTNAME + " VARCHAR(16) NULL, "
-                    + COLUMN_SUPPLIER_LASTNAME + " VARCHAR(16) NULL)");
+                    + COLUMN_SUPPLIER_LASTNAME + " VARCHAR(16) NULL, "
+                    + COLUMN_SUPPLIER_IS_EXIST + " INTEGER DEFAULT 1 )");
         }catch (SQLException e){
             e.printStackTrace();
             throw e;
         }
-    }
-*/
+    }*/
 
 //    public boolean addData(Supplier supplier) {
 //        PreparedStatement preparedStatement;

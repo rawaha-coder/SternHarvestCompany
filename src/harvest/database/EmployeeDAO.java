@@ -37,10 +37,10 @@ public class EmployeeDAO extends DAO{
         ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
         String q1 = "SELECT COUNT (" + COLUMN_EMPLOYEE_ID + ") FROM " + TABLE_EMPLOYEE
                 + " WHERE " + COLUMN_EMPLOYEE_STATUS + " = " + 1
-                + " AND " + COLUMN_EMPLOYEE_IS_EXIST + " = " + 1 + " ";
+                + " AND " + COLUMN_EMPLOYEE_IS_EXIST + " = 1 ";
         String q2 = "SELECT COUNT (" + COLUMN_EMPLOYEE_ID + ") FROM " + TABLE_EMPLOYEE
                 + " WHERE " + COLUMN_EMPLOYEE_STATUS + " = " + 0
-                + " AND " + COLUMN_EMPLOYEE_IS_EXIST + " = " + 1 + " ";
+                + " AND " + COLUMN_EMPLOYEE_IS_EXIST + " = 1 ";
         try(Statement statement = dbGetConnect().createStatement()) {
             ResultSet resultSet = statement.executeQuery(q1);
             if (resultSet.next()) {
