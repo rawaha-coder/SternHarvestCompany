@@ -1,4 +1,4 @@
-package harvest.ui.credit;
+package harvest.controller;
 
 import harvest.database.CreditDAO;
 import harvest.database.TransportDAO;
@@ -71,7 +71,7 @@ public class DisplayCrdTrsController implements Initializable {
             return;
         }
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/ui/credit/add_credit.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/res/layout/add_credit.fxml"));
             Stage stage = new Stage(StageStyle.DECORATED);
             Parent parent = loader.load();
             AddCreditController controller = loader.getController();
@@ -127,7 +127,7 @@ public class DisplayCrdTrsController implements Initializable {
             return;
         }
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/ui/credit/add_transport.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/res/layout/add_transport.fxml"));
             Stage stage = new Stage();
             Parent parent = loader.load();
             AddTransportController controller = loader.getController();
@@ -152,7 +152,7 @@ public class DisplayCrdTrsController implements Initializable {
         Optional<ButtonType> result = alertDelete.deleteConfirmation("Transport");
         assert result.isPresent();
         if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
-            if (mTransportDAO.deleteData(transport)){
+            if (mTransportDAO.deleteTransport(transport)){
                 mTransportDAO.updateLiveData();
                 alert.deleteItem("Transport",  true);
             }else {

@@ -6,23 +6,11 @@ import java.sql.Date;
 
 public class Transport {
 
-    private final SimpleIntegerProperty transportId;
-    private final ObjectProperty<Date> transportDate;
-    private final SimpleDoubleProperty transportAmount;
-    private final SimpleIntegerProperty employeeId;
-    private final StringProperty employeeName;
-    private final SimpleIntegerProperty farmId;
-    private final StringProperty farmName;
-
-    public Transport() {
-        this.transportId = new SimpleIntegerProperty();
-        this.transportDate = new SimpleObjectProperty<>();
-        this.employeeId = new SimpleIntegerProperty();
-        this.employeeName = new SimpleStringProperty();
-        this.transportAmount = new SimpleDoubleProperty();
-        this.farmId = new SimpleIntegerProperty();
-        this.farmName = new SimpleStringProperty();
-    }
+    private final SimpleIntegerProperty transportId = new SimpleIntegerProperty();
+    private final ObjectProperty<Date> transportDate = new SimpleObjectProperty<>();
+    private final SimpleDoubleProperty transportAmount = new SimpleDoubleProperty();
+    private final Employee employee = new Employee();
+    private final Farm farm = new Farm();
 
     public int getTransportId() {
         return transportId.get();
@@ -48,35 +36,20 @@ public class Transport {
         this.transportAmount.set(transportAmount);
     }
 
-    public String getEmployeeName() {
-        return employeeName.get().toUpperCase();
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setEmployeeName(String employeeName) {
-        this.employeeName.set(employeeName);
+    public Farm getFarm() {
+        return farm;
+    }
+
+    public String getEmployeeName(){
+        return this.employee.getEmployeeFullName();
     }
 
     public String getFarmName() {
-        return farmName.get().toUpperCase();
+        return this.farm.getFarmName();
     }
 
-    public void setFarmName(String farmName) {
-        this.farmName.set(farmName);
-    }
-
-    public int getEmployeeId() {
-        return employeeId.get();
-    }
-
-    public void setEmployeeId(int employeeId) {
-        this.employeeId.set(employeeId);
-    }
-
-    public int getFarmId() {
-        return farmId.get();
-    }
-
-    public void setFarmId(int farmId) {
-        this.farmId.set(farmId);
-    }
 }

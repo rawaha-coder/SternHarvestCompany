@@ -6,20 +6,21 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.ComboBox?>
 
 <AnchorPane fx:id="fxAddItemUI" prefHeight="600.0" prefWidth="400.0" stylesheets="@../../main_style.css"
             xmlns="http://javafx.com/javafx/11.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="harvest.ui.credit.AddTransportController">
+            fx:controller="harvest.controller.AddTransportController">
 
     <children>
       <Label layoutX="72.0" layoutY="43.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Date:" />
         <DatePicker fx:id="fxTransportDate" layoutX="72.0" layoutY="73.0" prefHeight="34.0" prefWidth="250.0" />
       <Label layoutX="72.0" layoutY="137.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Employee:" />
-        <ChoiceBox fx:id="fxEmployeeList" layoutX="72.0" layoutY="167.0" prefHeight="34.0" prefWidth="250.0" />
+        <ComboBox fx:id="fxEmployeeList" layoutX="72.0" layoutY="167.0" prefHeight="34.0" prefWidth="250.0" />
       <Label layoutX="72.0" layoutY="235.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Montant:" />
         <TextField fx:id="fxTransportAmount" layoutX="72.0" layoutY="265.0" prefHeight="34.0" prefWidth="250.0" />
-        <ChoiceBox fx:id="fxFarmList" layoutX="72.0" layoutY="367.0" prefHeight="34.0" prefWidth="250.0" />
+        <ComboBox fx:id="fxFarmList" layoutX="72.0" layoutY="367.0" prefHeight="34.0" prefWidth="250.0" />
         <Button layoutX="218.0" layoutY="443.0" mnemonicParsing="false" onAction="#handleClearButton" prefHeight="30.0" prefWidth="120.0" styleClass="clearButton" text="Vider" />
         <Button layoutX="32.0" layoutY="528.0" mnemonicParsing="false" onAction="#handleSaveButton" prefHeight="40.0" prefWidth="140.0" styleClass="sideButton" text="Save" />
         <Button layoutX="213.0" layoutY="528.0" mnemonicParsing="false" onAction="#handleCloseButton" prefHeight="40.0" prefWidth="149.0" styleClass="sideButton" text="Cancel" />

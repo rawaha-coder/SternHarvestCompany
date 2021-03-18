@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Farm {
+
     private final SimpleIntegerProperty farmId = new SimpleIntegerProperty();
     private final SimpleStringProperty farmName = new SimpleStringProperty();
     private final SimpleStringProperty farmAddress = new SimpleStringProperty();

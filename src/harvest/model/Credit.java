@@ -6,19 +6,10 @@ import java.sql.Date;
 
 public class Credit {
 
-    private final SimpleIntegerProperty creditId;
-    private final ObjectProperty<Date> creditDate;
-    private final SimpleDoubleProperty creditAmount;
-    private final SimpleIntegerProperty employeeId;
-    private final SimpleStringProperty employeeName;
-
-    public Credit() {
-        this.creditId = new SimpleIntegerProperty();
-        this.creditDate = new SimpleObjectProperty<>();
-        this.creditAmount = new SimpleDoubleProperty();
-        this.employeeId = new SimpleIntegerProperty();
-        this.employeeName = new SimpleStringProperty();
-    }
+    private final SimpleIntegerProperty creditId = new SimpleIntegerProperty();
+    private final ObjectProperty<Date> creditDate = new SimpleObjectProperty<>();
+    private final SimpleDoubleProperty creditAmount = new SimpleDoubleProperty();
+    private final Employee employee = new Employee();
 
     public int getCreditId() {
         return creditId.get();
@@ -44,19 +35,11 @@ public class Credit {
         this.creditAmount.set(creditAmount);
     }
 
-    public int getEmployeeId() {
-        return employeeId.get();
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setEmployeeId(int employeeId) {
-        this.employeeId.set(employeeId);
-    }
-
-    public String getEmployeeName() {
-        return employeeName.get().toUpperCase();
-    }
-
-    public void setEmployeeName(String employeeName) {
-        this.employeeName.set(employeeName);
+    public String getEmployeeName(){
+        return this.employee.getEmployeeFullName();
     }
 }

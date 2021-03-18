@@ -22,7 +22,6 @@ module SternHarvestCompany {
     opens harvest.ui.group;
     opens harvest.ui.production;
     opens harvest.ui.hours;
-    opens harvest.ui.credit;
     opens harvest.res.layout;
     opens harvest.controller;
 
