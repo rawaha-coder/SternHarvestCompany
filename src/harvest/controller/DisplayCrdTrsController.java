@@ -1,5 +1,7 @@
-package harvest.ui.credit;
+package harvest.controller;
 
+import harvest.controller.AddCreditController;
+import harvest.controller.AddTransportController;
 import harvest.database.CreditDAO;
 import harvest.database.TransportDAO;
 import harvest.model.Credit;
@@ -71,7 +73,7 @@ public class DisplayCrdTrsController implements Initializable {
             return;
         }
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/ui/credit/add_credit.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/res/layout/add_credit.fxml"));
             Stage stage = new Stage(StageStyle.DECORATED);
             Parent parent = loader.load();
             AddCreditController controller = loader.getController();
@@ -127,7 +129,7 @@ public class DisplayCrdTrsController implements Initializable {
             return;
         }
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/ui/credit/add_transport.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/res/layout/add_transport.fxml"));
             Stage stage = new Stage();
             Parent parent = loader.load();
             AddTransportController controller = loader.getController();

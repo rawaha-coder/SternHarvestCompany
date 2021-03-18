@@ -1,4 +1,4 @@
-package harvest.ui.credit;
+package harvest.controller;
 
 import harvest.database.EmployeeDAO;
 import harvest.database.FarmDAO;

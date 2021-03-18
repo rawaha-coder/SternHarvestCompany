@@ -30,7 +30,7 @@ public class MainController{
     @FXML
     public void displayFarmSeason(){ displayCenterView("/harvest/res/layout/display_farm_season.fxml"); }
     @FXML
-    public void displayCredit() { displayCenterView("/harvest/ui/credit/display_credit.fxml"); }
+    public void displayCredit() { displayCenterView("/harvest/res/layout/display_credit.fxml"); }
     @FXML
     public void displayEmployee() { displayCenterView("/harvest/res/layout/display_employee.fxml"); }
     @FXML
@@ -58,9 +58,9 @@ public class MainController{
     @FXML
     void addFarmSeason(){ loadAddWindow("/harvest/res/layout/add_farm.fxml", "Add Champ"); }
     @FXML
-    void addCredit(){ loadAddWindow("/harvest/ui/credit/add_credit.fxml", "Add Credit"); }
+    void addCredit(){ loadAddWindow("/harvest/res/layout/add_credit.fxml", "Add Credit"); }
     @FXML
-    void addTransport(){ loadAddWindow("/harvest/ui/credit/add_transport.fxml", "Add Transport"); }
+    void addTransport(){ loadAddWindow("/harvest/res/layout/add_transport.fxml", "Add Transport"); }
     @FXML
     void addEmployee(){ loadAddWindow("/harvest/res/layout/add_employee.fxml", "Add Employee"); }
     @FXML
