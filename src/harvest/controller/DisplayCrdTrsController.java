@@ -1,7 +1,5 @@
 package harvest.controller;
 
-import harvest.controller.AddCreditController;
-import harvest.controller.AddTransportController;
 import harvest.database.CreditDAO;
 import harvest.database.TransportDAO;
 import harvest.model.Credit;
@@ -154,7 +152,7 @@ public class DisplayCrdTrsController implements Initializable {
         Optional<ButtonType> result = alertDelete.deleteConfirmation("Transport");
         assert result.isPresent();
         if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
-            if (mTransportDAO.deleteData(transport)){
+            if (mTransportDAO.deleteTransport(transport)){
                 mTransportDAO.updateLiveData();
                 alert.deleteItem("Transport",  true);
             }else {

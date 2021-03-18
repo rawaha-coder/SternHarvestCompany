@@ -27,9 +27,9 @@ public class HarvestDAO extends DAO {
                 + COLUMN_TRANSPORT_DATE + ", "
                 + COLUMN_TRANSPORT_AMOUNT + ", "
                 + COLUMN_TRANSPORT_EMPLOYEE_ID + ", "
-                + COLUMN_TRANSPORT_EMPLOYEE_NAME + ", "
+                //+ COLUMN_TRANSPORT_EMPLOYEE_NAME + ", "
                 + COLUMN_TRANSPORT_FARM_ID + ", "
-                + COLUMN_TRANSPORT_FARM_NAME + ") "
+                //+ COLUMN_TRANSPORT_FARM_NAME + ") "
                 + " VALUES (?,?,?,?,?,?) ";
 
         String getTransportId = "SELECT MAX(id) FROM " + TABLE_TRANSPORT + " ;";
@@ -37,7 +37,7 @@ public class HarvestDAO extends DAO {
         String insertCredit = "INSERT INTO " + TABLE_CREDIT + " ("
                 + COLUMN_CREDIT_DATE + ", "
                 + COLUMN_CREDIT_AMOUNT + ", "
-                + COLUMN_CREDIT_EMPLOYEE_NAME + ", "
+                //+ COLUMN_CREDIT_EMPLOYEE_NAME + ", "
                 + COLUMN_CREDIT_EMPLOYEE_ID + ") "
                 + "VALUES (?,?,?,?);";
 

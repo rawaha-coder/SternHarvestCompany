@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class ProductDetail {
+
     private final SimpleIntegerProperty productDetailId = new SimpleIntegerProperty();
     private final SimpleStringProperty productCode = new SimpleStringProperty();
     private final SimpleStringProperty productType = new SimpleStringProperty();
