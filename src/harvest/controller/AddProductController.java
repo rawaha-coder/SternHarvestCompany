@@ -11,7 +11,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -155,11 +154,7 @@ public class AddProductController implements Initializable {
     }
 
     private void EditProduct(Product product) {
-        if (productsNamesList.contains(fxProductNameComboBox.getSelectionModel().getSelectedItem())){
-            alert.show("Nom en double", "Le produit existe déjà choisissez un autre nom", Alert.AlertType.INFORMATION);
-            return;
-        }
-        product.setProductName(fxProductNameComboBox.getSelectionModel().getSelectedItem());
+        product.setProductName(fxProductNameComboBox.getValue());
         alert.updateItem("Product", mProductDAO.editData(product));
         refreshTable(product);
         handleClearButton();
@@ -193,7 +188,8 @@ public class AddProductController implements Initializable {
     }
 
     public void inflateProductUI(Product product){
-        fxProductNameComboBox.getSelectionModel().select(product.getProductName());
+        fxProductNameComboBox.setItems(null);
+        fxProductNameComboBox.setValue(product.getProductName());
         isEditProduct = true;
         fxProductTypeComboBox.setDisable(true);
         fxProductCode.setDisable(true);

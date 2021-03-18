@@ -10,7 +10,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -140,10 +139,6 @@ public class AddFarmController implements Initializable {
 
     //handle Edit Farm Data
     private void handleEditFarmData(Farm farm) {
-        if (observableFarmList.contains(fxFarmComboBox.getSelectionModel().getSelectedItem())){
-            alert.show("Nom en double", "Le champ existe déjà choisissez un autre nom", Alert.AlertType.INFORMATION);
-            return;
-        }
         farm.setFarmName(fxFarmComboBox.getValue());
         farm.setFarmAddress(fxFarmAddress.getText());
         alert.updateItem("Farm", mFarmDAO.editFarmData(farm));
@@ -182,7 +177,8 @@ public class AddFarmController implements Initializable {
     }
 
     public void inflateFarmUI(Farm farm) {
-        fxFarmComboBox.getEditor().setText(farm.getFarmName());
+        fxFarmComboBox.setItems(null);
+        fxFarmComboBox.setValue(farm.getFarmName());
         fxFarmAddress.setText(farm.getFarmAddress());
         fxPlantingDate.setDisable(true);
         fxHarvestDate.setDisable(true);
@@ -191,7 +187,7 @@ public class AddFarmController implements Initializable {
     }
 
     public void inflateSeasonUI(Season season) {
-        fxFarmComboBox.getEditor().setText(season.getFarm().getFarmName());
+        fxFarmComboBox.setValue(season.getFarm().getFarmName());
         fxFarmAddress.setText(season.getFarm().getFarmAddress());
         fxPlantingDate.setValue(season.getFarmPlantingDate().toLocalDate());
         fxHarvestDate.setValue(season.getFarmHarvestDate().toLocalDate());

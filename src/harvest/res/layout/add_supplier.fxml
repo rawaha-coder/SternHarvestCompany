@@ -7,7 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="fxAddItemUI" maxHeight="650.0" maxWidth="450.0" prefHeight="650.0" prefWidth="400.0" stylesheets="@../../main_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.ui.supplier.AddSupplierController">
+<AnchorPane fx:id="fxAddItemUI" maxHeight="650.0" maxWidth="450.0" prefHeight="650.0" prefWidth="400.0" stylesheets="@../../main_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.controller.AddSupplierController">
 
     <children>
 

@@ -9,10 +9,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane fx:id="fxTableUI" prefHeight="700.0" prefWidth="1100.0" stylesheets="@../../sub_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.ui.supplier.DisplaySupplierController">
+<AnchorPane fx:id="fxTableUI" prefHeight="700.0" prefWidth="1100.0" stylesheets="@../../sub_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.controller.DisplaySupplierController">
 
     <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="14.0" prefHeight="30.0" prefWidth="900.0" styleClass="tableName" text="Tableau des fournisseurs" textAlignment="CENTER" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="14.0" prefHeight="30.0" prefWidth="900.0"
+             styleClass="tableName" text="TABLEAU DES FOURNISSEURS" textAlignment="CENTER" />
       <HBox alignment="TOP_CENTER" layoutX="25.0" layoutY="50.0" prefHeight="500.0" prefWidth="1000.0">
          <children>
               <TableView fx:id="fxSupplierTable" maxHeight="600.0" prefHeight="500.0" prefWidth="600.0">

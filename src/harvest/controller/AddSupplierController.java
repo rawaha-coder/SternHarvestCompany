@@ -1,4 +1,4 @@
-package harvest.ui.supplier;
+package harvest.controller;
 
 import harvest.database.*;
 import harvest.model.Farm;
@@ -26,6 +26,7 @@ public class AddSupplierController implements Initializable {
     ObservableList<String> observableSupplierList = FXCollections.observableArrayList();
     ObservableList<String> observableFarmList = FXCollections.observableArrayList();
     ObservableList<String> observableProductList = FXCollections.observableArrayList();
+
     private Map<String, Supplier> mSupplierMap = new LinkedHashMap<>();
     private Map<String, Farm> mFarmMap = new LinkedHashMap<>();
     private Map<String, Product> mProductMap = new LinkedHashMap<>();
@@ -38,7 +39,7 @@ public class AddSupplierController implements Initializable {
     private final ProductDAO mProductDAO = ProductDAO.getInstance();
     private final Supplier mSupplier = new Supplier();
     private final Supply mSupply = new Supply();
-
+    
     @FXML private AnchorPane fxAddItemUI;
     @FXML private TextField fxSupplierFirstname;
     @FXML private TextField fxSupplierLastname;
@@ -59,6 +60,152 @@ public class AddSupplierController implements Initializable {
                 fxSupplierLastname.setText(mSupplierMap.get(new_val).getSupplierLastname());
             }
         });
+    }
+
+    @FXML
+    void handleSaveButton() {
+            switch (operation){
+                case 1:
+                    editSupplier();
+                    break;
+                case 2:
+                    editSupply();
+                    break;
+                default:
+                    addSupplierOperation();
+            }
+    }
+
+    private void addSupplierOperation(){
+        if (validateInput()) {
+            alert.missingInfo("Fournisseur");
+            return;
+        }
+        if (mSupplierMap.get(fxChoiceSupplier.getValue()) == null){
+            addSupplierCheck(addNewSupplier());
+        }else{
+            addSupplierCheck(addNewSupply());
+        }
+    }
+
+    private void addSupplierCheck(boolean isAdded){
+        if (isAdded) {
+            mSupplierDAO.updateLiveData();
+            mSupplyDAO.updateLiveData();
+            handleClearButton();
+            initList();
+            alert.saveItem("Fournisseur", true);
+        } else {
+            alert.saveItem("Fournisseur", false);
+        }
+    }
+
+    // add new supplier
+    private boolean addNewSupplier() {
+        Supply supply = new Supply();
+        supply.getSupplier().setSupplierName(fxChoiceSupplier.getValue());
+        supply.getSupplier().setSupplierFirstname(fxSupplierFirstname.getText());
+        supply.getSupplier().setSupplierLastname(fxSupplierLastname.getText());
+        supply.getFarm().setFarmId(mFarmMap.get(fxChoiceFarm.getValue()).getFarmId());
+        supply.getFarm().setFarmName(mFarmMap.get(fxChoiceFarm.getValue()).getFarmName());
+        supply.getFarm().setFarmAddress(mFarmMap.get(fxChoiceFarm.getValue()).getFarmAddress());
+        supply.getProduct().setProductId(mProductMap.get(fxChoiceProduct.getValue()).getProductId());
+        supply.getProduct().setProductName(mProductMap.get(fxChoiceProduct.getValue()).getProductName());
+        return mSupplierDAO.addSupplierSupplyData(supply);
+    }
+
+    // add new supply to supplier
+    private boolean addNewSupply() {
+        Supply supply = new Supply();
+        Supplier supplier = mSupplierMap.get(fxChoiceSupplier.getValue());
+        supply.getSupplier().setSupplierId(supplier.getSupplierId());
+        supply.getSupplier().setSupplierName(supplier.getSupplierName());
+        supply.getSupplier().setSupplierFirstname(supplier.getSupplierFirstname());
+        supply.getSupplier().setSupplierLastname(supplier.getSupplierLastname());
+        supply.getFarm().setFarmId(mFarmMap.get(fxChoiceFarm.getValue()).getFarmId());
+        supply.getFarm().setFarmName(mFarmMap.get(fxChoiceFarm.getValue()).getFarmName());
+        supply.getFarm().setFarmAddress(mFarmMap.get(fxChoiceFarm.getValue()).getFarmAddress());
+        supply.getProduct().setProductId(mProductMap.get(fxChoiceProduct.getValue()).getProductId());
+        supply.getProduct().setProductName(mProductMap.get(fxChoiceProduct.getValue()).getProductName());
+        return mSupplyDAO.addData(supply);
+    }
+
+    private boolean validateInput(){
+        return Validation.isEmpty(fxChoiceSupplier.getValue()
+                , fxSupplierFirstname.getText()
+                , fxSupplierLastname.getText()
+                , fxChoiceFarm.getValue()
+                , fxChoiceProduct.getValue());
+    }
+
+    private void editSupplier(){
+        mSupplier.setSupplierName(fxChoiceSupplier.getValue());
+        mSupplier.setSupplierFirstname(fxSupplierFirstname.getText());
+        mSupplier.setSupplierLastname(fxSupplierLastname.getText());
+        if (mSupplierDAO.editData(mSupplier)){
+            alert.updateItem("Fournisseur", true);
+            mSupplierDAO.updateLiveData();
+        }else {
+            alert.updateItem("Fournisseur", false);
+        }
+        handleCloseButton();
+    }
+
+    public void editSupply(){
+        mSupply.getSupplier().setSupplierId(mSupplierMap.get(fxChoiceSupplier.getValue()).getSupplierId());
+        mSupply.getSupplier().setSupplierName(mSupplierMap.get(fxChoiceSupplier.getValue()).getSupplierName());
+        mSupply.getSupplier().setSupplierFirstname(mSupplierMap.get(fxChoiceSupplier.getValue()).getSupplierFirstname());
+        mSupply.getSupplier().setSupplierLastname(mSupplierMap.get(fxChoiceSupplier.getValue()).getSupplierLastname());
+        mSupply.getFarm().setFarmId(mFarmMap.get(fxChoiceFarm.getValue()).getFarmId());
+        mSupply.getFarm().setFarmName(mFarmMap.get(fxChoiceFarm.getValue()).getFarmName());
+        mSupply.getFarm().setFarmAddress(mFarmMap.get(fxChoiceFarm.getValue()).getFarmAddress());
+        mSupply.getProduct().setProductId(mProductMap.get(fxChoiceProduct.getValue()).getProductId());
+        mSupply.getProduct().setProductName(mProductMap.get(fxChoiceProduct.getValue()).getProductName());
+        if (mSupplyDAO.editData(mSupply)){
+            mSupplierDAO.updateLiveData();
+            mSupplyDAO.updateLiveData(mSupplierMap.get(fxChoiceSupplier.getValue()));
+            alert.saveItem("Champ", true );
+        }else {
+            alert.saveItem("Champ", false);
+        }
+        handleCloseButton();
+    }
+
+    public void inflateSupplierUI(Supplier supplier) {
+        fxChoiceSupplier.setItems(null);
+        fxChoiceSupplier.setValue(supplier.getSupplierName());
+        fxSupplierFirstname.setText(supplier.getSupplierFirstname());
+        fxSupplierLastname.setText(supplier.getSupplierLastname());
+        fxChoiceFarm.setDisable(true);
+        fxChoiceProduct.setDisable(true);
+        operation = 1;
+        mSupplier.setSupplierId(supplier.getSupplierId());
+    }
+
+    public void inflateSupplyUI(Supply supply) {
+        fxChoiceSupplier.setValue(supply.getSupplierName());
+        fxChoiceSupplier.setDisable(true);
+        fxSupplierFirstname.setDisable(true);
+        fxSupplierLastname.setDisable(true);
+        fxChoiceFarm.setValue(supply.getFarmName());
+        fxChoiceProduct.setValue(supply.getProductName());
+        operation = 2;
+        mSupply.setSupplyId(supply.getSupplyId());
+    }
+
+    @FXML
+    void handleClearButton() {
+        fxSupplierFirstname.setText("");
+        fxSupplierLastname.setText("");
+        fxChoiceSupplier.setItems(null);
+        initList();
+    }
+
+    @FXML
+    void handleCloseButton() {
+        operation = 0;
+        Stage stage = (Stage) fxAddItemUI.getScene().getWindow();
+        stage.close();
     }
 
     private void initList(){
@@ -104,141 +251,5 @@ public class AddSupplierController implements Initializable {
             exception.printStackTrace();
         }
         fxChoiceProduct.setItems(observableProductList);
-    }
-
-    @FXML
-    void handleSaveButton() {
-            switch (operation){
-                case 1:
-                    editSupplier();
-                    break;
-                case 2:
-                    editSupply();
-                    break;
-                default:
-                    addSupplierOperation();
-            }
-    }
-
-    private void addSupplierOperation(){
-        if (Validation.isEmpty(fxChoiceSupplier.getValue()
-                , fxSupplierFirstname.getText()
-                , fxSupplierLastname.getText()
-                , fxChoiceFarm.getValue()
-                , fxChoiceProduct.getValue()))
-        {
-            alert.missingInfo("Fournisseur");
-            return;
-        }
-        boolean isAdded;
-        if (mSupplierMap.get(fxChoiceSupplier.getValue()) == null){
-            Supplier supplier = new Supplier();
-            supplier.setSupplierName(fxChoiceSupplier.getValue());
-            supplier.setSupplierFirstname(fxSupplierFirstname.getText());
-            supplier.setSupplierLastname(fxSupplierLastname.getText());
-            Supply supply = new Supply();
-            supply.setSupplier(supplier);
-            //supply.setFarm(mFarmMap.get(fxChoiceFarm.getValue()));
-            supply.getFarm().setFarmId(mFarmMap.get(fxChoiceFarm.getValue()).getFarmId());
-            supply.getFarm().setFarmName(mFarmMap.get(fxChoiceFarm.getValue()).getFarmName());
-            supply.getFarm().setFarmAddress(mFarmMap.get(fxChoiceFarm.getValue()).getFarmAddress());
-            //supply.setProduct(mProductMap.get(fxChoiceProduct.getValue()));
-            supply.getProduct().setProductId(mProductMap.get(fxChoiceProduct.getValue()).getProductId());
-            supply.getProduct().setProductName(mProductMap.get(fxChoiceProduct.getValue()).getProductName());
-            isAdded = mSupplierDAO.addSupplierSupplyData(supply);
-        }else{
-            Supply supply = new Supply();
-            supply.setSupplier(mSupplierMap.get(fxChoiceSupplier.getValue()));
-            //supply.setFarm(mFarmMap.get(fxChoiceFarm.getValue()));
-            supply.getFarm().setFarmId(mFarmMap.get(fxChoiceFarm.getValue()).getFarmId());
-            supply.getFarm().setFarmName(mFarmMap.get(fxChoiceFarm.getValue()).getFarmName());
-            supply.getFarm().setFarmAddress(mFarmMap.get(fxChoiceFarm.getValue()).getFarmAddress());
-            //supply.setProduct(mProductMap.get(fxChoiceProduct.getValue()));
-            supply.getProduct().setProductId(mProductMap.get(fxChoiceProduct.getValue()).getProductId());
-            supply.getProduct().setProductName(mProductMap.get(fxChoiceProduct.getValue()).getProductName());
-            isAdded = mSupplyDAO.addData(supply);
-        }
-
-        if (isAdded) {
-            mSupplierDAO.updateLiveData();
-            mSupplyDAO.updateLiveData();
-            handleClearButton();
-            getSupplierList();
-            getFarmList();
-            getProductList();
-            alert.saveItem("Fournisseur", true);
-        } else {
-            alert.saveItem("Fournisseur", false);
-        }
-    }
-
-    private void editSupplier(){
-        mSupplier.setSupplierName(fxChoiceSupplier.getValue());
-        mSupplier.setSupplierFirstname(fxSupplierFirstname.getText());
-        mSupplier.setSupplierLastname(fxSupplierLastname.getText());
-        if (mSupplierDAO.editData(mSupplier)){
-            alert.updateItem("Fournisseur", true);
-            mSupplierDAO.updateLiveData();
-        }else {
-            alert.updateItem("Fournisseur", false);
-        }
-        handleCloseButton();
-    }
-
-    public void editSupply(){
-        mSupply.setSupplier(mSupplierMap.get(fxChoiceSupplier.getValue()));
-        //mSupply.setFarm(mFarmMap.get(fxChoiceFarm.getValue()));
-        mSupply.getFarm().setFarmId(mFarmMap.get(fxChoiceFarm.getValue()).getFarmId());
-        mSupply.getFarm().setFarmName(mFarmMap.get(fxChoiceFarm.getValue()).getFarmName());
-        mSupply.getFarm().setFarmAddress(mFarmMap.get(fxChoiceFarm.getValue()).getFarmAddress());
-        //mSupply.setProduct(mProductMap.get(fxChoiceProduct.getValue()));
-        mSupply.getProduct().setProductId(mProductMap.get(fxChoiceProduct.getValue()).getProductId());
-        mSupply.getProduct().setProductName(mProductMap.get(fxChoiceProduct.getValue()).getProductName());
-        if (mSupplyDAO.editData(mSupply)){
-            mSupplierDAO.updateLiveData();
-            mSupplyDAO.updateLiveData(mSupplierMap.get(fxChoiceSupplier.getValue()));
-            alert.saveItem("Champ", true );
-        }else {
-            alert.saveItem("Champ", false);
-        }
-        handleCloseButton();
-    }
-
-    public void inflateSupplierUI(Supplier supplier) {
-        getSupplierList();
-        fxChoiceSupplier.setValue(supplier.getSupplierName());
-        fxSupplierFirstname.setText(supplier.getSupplierFirstname());
-        fxSupplierLastname.setText(supplier.getSupplierLastname());
-        fxChoiceFarm.setDisable(true);
-        fxChoiceProduct.setDisable(true);
-        operation = 1;
-        mSupplier.setSupplierId(supplier.getSupplierId());
-    }
-
-    public void inflateSupplyUI(Supply supply) {
-        initList();
-        fxChoiceSupplier.setValue(supply.getSupplierName());
-        fxChoiceSupplier.setDisable(true);
-        fxSupplierFirstname.setDisable(true);
-        fxSupplierLastname.setDisable(true);
-        fxChoiceFarm.setValue(supply.getFarmName());
-        fxChoiceProduct.setValue(supply.getProductName());
-        operation = 2;
-        mSupply.setSupplyId(supply.getSupplyId());
-    }
-
-    @FXML
-    void handleClearButton() {
-        fxSupplierFirstname.setText("");
-        fxSupplierLastname.setText("");
-        fxChoiceSupplier.setItems(null);
-        initList();
-    }
-
-    @FXML
-    void handleCloseButton() {
-        operation = 0;
-        Stage stage = (Stage) fxAddItemUI.getScene().getWindow();
-        stage.close();
     }
 }

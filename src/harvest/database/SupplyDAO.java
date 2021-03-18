@@ -1,7 +1,5 @@
 package harvest.database;
 
-import harvest.model.Farm;
-import harvest.model.Product;
 import harvest.model.Supplier;
 import harvest.model.Supply;
 
@@ -10,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static harvest.database.ConstantDAO.*;
-import static harvest.ui.supplier.DisplaySupplierController.*;
+import static harvest.controller.DisplaySupplierController.*;
 
 public class SupplyDAO extends DAO{
 
@@ -29,44 +27,44 @@ public class SupplyDAO extends DAO{
     //*************************************************************
     //Get all supply data
     //*************************************************************
-    public List<Supply> getData() throws Exception {
-        String sqlStmt = "SELECT "
-                + TABLE_SUPPLY + "." + COLUMN_SUPPLY_ID + ", "
-                + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_ID + ", "
-                + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_NAME + ", "
-                + TABLE_FARM + "." + COLUMN_FARM_ID + ", "
-                + TABLE_FARM + "." + COLUMN_FARM_NAME + ", "
-                + TABLE_PRODUCT + "." + COLUMN_PRODUCT_ID + ", "
-                + TABLE_PRODUCT + "." + COLUMN_PRODUCT_NAME + " "
-                + " FROM " + TABLE_SUPPLY + " "
-                + "LEFT JOIN " + TABLE_SUPPLIER + " "
-                + " ON " + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_ID  + " = " + TABLE_SUPPLY + "." + COLUMN_SUPPLY_FRGN_KEY_SUPPLIER_ID + " "
-                + "LEFT JOIN " + TABLE_FARM + " "
-                + " ON " + TABLE_FARM + "." + COLUMN_FARM_ID  + " = " + TABLE_SUPPLY + "." + COLUMN_SUPPLY_FRGN_KEY_FARM_ID + " "
-                + "LEFT JOIN " + TABLE_PRODUCT  + " "
-                + " ON " + TABLE_PRODUCT + "." + COLUMN_PRODUCT_ID  + " = " + TABLE_SUPPLY + "." + COLUMN_SUPPLY_FRGN_KEY_PRODUCT_ID + " "
-                + " ORDER BY " + COLUMN_SUPPLIER_NAME + " ASC;";
-        try {
-            Statement statement = dbGetConnect().createStatement();
-            ResultSet resultSet = statement.executeQuery(sqlStmt);
-            return getDataFromResultSet(resultSet);
-        } catch (SQLException e) {
-            System.out.println("SQL select operation has been failed: " + e);
-            throw e;
-        }finally {
-            dbDisConnect();
-        }
-    }
+//    public List<Supply> getData() throws Exception {
+//        String sqlStmt = "SELECT "
+//                + TABLE_SUPPLY + "." + COLUMN_SUPPLY_ID + ", "
+//                + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_ID + ", "
+//                + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_NAME + ", "
+//                + TABLE_FARM + "." + COLUMN_FARM_ID + ", "
+//                + TABLE_FARM + "." + COLUMN_FARM_NAME + ", "
+//                + TABLE_PRODUCT + "." + COLUMN_PRODUCT_ID + ", "
+//                + TABLE_PRODUCT + "." + COLUMN_PRODUCT_NAME + " "
+//                + " FROM " + TABLE_SUPPLY + " "
+//                + "LEFT JOIN " + TABLE_SUPPLIER + " "
+//                + " ON " + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_ID  + " = " + TABLE_SUPPLY + "." + COLUMN_SUPPLY_FRGN_KEY_SUPPLIER_ID + " "
+//                + "LEFT JOIN " + TABLE_FARM + " "
+//                + " ON " + TABLE_FARM + "." + COLUMN_FARM_ID  + " = " + TABLE_SUPPLY + "." + COLUMN_SUPPLY_FRGN_KEY_FARM_ID + " "
+//                + "LEFT JOIN " + TABLE_PRODUCT  + " "
+//                + " ON " + TABLE_PRODUCT + "." + COLUMN_PRODUCT_ID  + " = " + TABLE_SUPPLY + "." + COLUMN_SUPPLY_FRGN_KEY_PRODUCT_ID + " "
+//                + " ORDER BY " + COLUMN_SUPPLIER_NAME + " ASC;";
+//        try {
+//            Statement statement = dbGetConnect().createStatement();
+//            ResultSet resultSet = statement.executeQuery(sqlStmt);
+//            return getDataFromResultSet(resultSet);
+//        } catch (SQLException e) {
+//            System.out.println("SQL select operation has been failed: " + e);
+//            throw e;
+//        }finally {
+//            dbDisConnect();
+//        }
+//    }
 
     private List<Supply> getDataFromResultSet(ResultSet resultSet) throws SQLException {
         List<Supply> supplyList = new ArrayList<>();
         while (resultSet.next()){
             Supply supply = new Supply();
             supply.setSupplyId(resultSet.getInt(1));
-            supply.setSupplier(new Supplier(resultSet.getInt(2), resultSet.getString(3)));
+            supply.getSupplier().setSupplierId(resultSet.getInt(2));
+            supply.getSupplier().setSupplierName(resultSet.getString(3));
             supply.getFarm().setFarmId(resultSet.getInt(4));
             supply.getFarm().setFarmName(resultSet.getString(5));
-            //supply.setFarm(new Farm(resultSet.getInt(4), resultSet.getString(5)));
             supply.getProduct().setProductId(resultSet.getInt(6));
             supply.getProduct().setProductName(resultSet.getString(7));
             supplyList.add(supply);
@@ -127,6 +125,9 @@ public class SupplyDAO extends DAO{
         }
     }
 
+    //*************************************************************
+    //delete supply Data By Id
+    //*************************************************************
     public boolean deleteDataById(Supply supply) {
         String deleteSupply = "DELETE FROM " + TABLE_SUPPLY + " WHERE " + COLUMN_SUPPLY_ID + " = " + supply.getSupplyId() + " ;";
         try {
@@ -143,6 +144,9 @@ public class SupplyDAO extends DAO{
         }
     }
 
+    //*************************************************************
+    //Update supply Data
+    //*************************************************************
     public void updateLiveData() {
         SUPPLY_LIST_LIVE_DATA.clear();
         if (SUPPLIER_LIST_LIVE_DATA.size() > 0){
@@ -154,6 +158,9 @@ public class SupplyDAO extends DAO{
         }
     }
 
+    //*************************************************************
+    //Update supply Data by supplier
+    //*************************************************************
     public void updateLiveData(Supplier supplier) {
         SUPPLY_LIST_LIVE_DATA.clear();
         try {
@@ -169,7 +176,7 @@ public class SupplyDAO extends DAO{
     public List<Supply> getSupplyDataBySupplier(Supplier supplier) throws Exception {
         String sqlStmt = "SELECT "
                 + TABLE_SUPPLY + "." + COLUMN_SUPPLY_ID + ", "
-                + TABLE_SUPPLY + "." + COLUMN_SUPPLY_FRGN_KEY_SUPPLIER_ID + ", "
+                + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_ID + ", "
                 + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_NAME + ", "
                 + TABLE_FARM + "." + COLUMN_FARM_ID + ", "
                 + TABLE_FARM + "." + COLUMN_FARM_NAME + ", "

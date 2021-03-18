@@ -15,7 +15,6 @@ module SternHarvestCompany {
     requires org.apache.poi.ooxml;
 
 
-    opens harvest.ui.supplier;
     opens harvest.model;
     opens harvest.ui.individual;
     opens harvest.util;
