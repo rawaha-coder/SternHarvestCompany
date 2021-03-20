@@ -48,7 +48,7 @@ public class Main extends Application {
         //mPreferencesDAO.createPreferencesTable();
         //mPreferencesDAO.initPreferencesTable();
         //mProductionDAO.createProductionTable();
-        //mHoursDAO.createTable();
+        //mHoursDAO.createHoursTable();
     }
 
     public static void main(String[] args) {

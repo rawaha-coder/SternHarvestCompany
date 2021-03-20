@@ -1,4 +1,4 @@
-package harvest.ui.hours;
+package harvest.controller;
 
 import harvest.database.HoursDAO;
 import harvest.model.Hours;
@@ -16,40 +16,25 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-//This class will show Harvest working hours by day for every employee
 public class DisplayHoursController implements Initializable {
 
-    public static ObservableList<Hours> HARVEST_HOURS_LIVE_LIST = FXCollections.observableArrayList();
+    public static ObservableList<Hours> DISPLAY_HOURS_LIVE_DATA = FXCollections.observableArrayList();
     HoursDAO mHoursDAO = HoursDAO.getInstance();
 
-    @FXML
-    private TableView<Hours> fxHarvestHoursTable;
-    @FXML
-    private TableColumn<Hours, String> fxEmployee;
-    @FXML
-    private TableColumn<Hours, Time> fxStartMorning;
-    @FXML
-    private TableColumn<Hours, Time> fxEndMorning;
-    @FXML
-    private TableColumn<Hours, Time> fxStartNoon;
-    @FXML
-    private TableColumn<Hours, Time> fxEndNoon;
-    @FXML
-    private TableColumn<Hours, Time> fxTotalHours;
-    @FXML
-    private TableColumn<Hours, String> fxTransport;
-    @FXML
-    private TableColumn<Hours, String> fxCredit;
-    @FXML
-    private TableColumn<Hours, String> fxRemarque;
-    @FXML
-    private DatePicker fxDatePicker;
-    @FXML
-    private Label fxTotalWorkingHours;
-    @FXML
-    private Label fxTotalTransport;
-    @FXML
-    private Label fxTotalCredit;
+    @FXML private TableView<Hours> fxHarvestHoursTable;
+    @FXML private TableColumn<Hours, String> fxEmployee;
+    @FXML private TableColumn<Hours, Time> fxStartMorning;
+    @FXML private TableColumn<Hours, Time> fxEndMorning;
+    @FXML private TableColumn<Hours, Time> fxStartNoon;
+    @FXML private TableColumn<Hours, Time> fxEndNoon;
+    @FXML private TableColumn<Hours, Time> fxTotalHours;
+    @FXML private TableColumn<Hours, String> fxTransport;
+    @FXML private TableColumn<Hours, String> fxCredit;
+    @FXML private TableColumn<Hours, String> fxRemarque;
+    @FXML private DatePicker fxDatePicker;
+    @FXML private Label fxTotalWorkingHours;
+    @FXML private Label fxTotalTransport;
+    @FXML private Label fxTotalCredit;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -74,7 +59,7 @@ public class DisplayHoursController implements Initializable {
 //        fxTransport.setCellValueFactory(it -> it.getValue().transportAmountProperty());
 //        fxCredit.setCellValueFactory(it -> it.getValue().creditAmountProperty());
         fxRemarque.setCellValueFactory(new PropertyValueFactory<>("harvestRemarque"));
-        fxHarvestHoursTable.setItems(HARVEST_HOURS_LIVE_LIST);
+        fxHarvestHoursTable.setItems(DISPLAY_HOURS_LIVE_DATA);
     }
 
     private void observeDatePicker(){
