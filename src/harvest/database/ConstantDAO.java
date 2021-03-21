@@ -5,31 +5,23 @@ public class ConstantDAO {
     //*************************************
     //Database table columns name for individual hours UI and model
     //*************************************
-    public static final String TABLE_HARVEST_HOURS = "hours";
-    public static final String COLUMN_HARVEST_HOURS_ID = "id";
-    public static final String COLUMN_HARVEST_HOURS_DATE = "date";
-    public static final String COLUMN_HARVEST_HOURS_EMPLOYEE_ID = "employee_id";
-    public static final String COLUMN_HARVEST_HOURS_EMPLOYEE_NAME = "employee_name";
-    public static final String COLUMN_HARVEST_HOURS_SM = "start_morning";
-    public static final String COLUMN_HARVEST_HOURS_EM = "end_morning";
-    public static final String COLUMN_HARVEST_HOURS_SN = "start_noon";
-    public static final String COLUMN_HARVEST_HOURS_EN = "end_noon";
-    public static final String COLUMN_HARVEST_HOURS_TOTAL = "total_hours";
-    public static final String COLUMN_HARVEST_HOURS_EMPLOYEE_TYPE = "employee_type";
-    public static final String COLUMN_HARVEST_HOURS_TRANSPORT_ID = "transport_id";
-    public static final String COLUMN_HARVEST_HOURS_TRANSPORT_AMOUNT = "transport_amount";
-    public static final String COLUMN_HARVEST_HOURS_CREDIT_ID = "credit_id";
-    public static final String COLUMN_HARVEST_HOURS_CREDIT_AMOUNT = "credit_amount";
-    public static final String COLUMN_HARVEST_HOURS_PRICE = "hour_price";
-    public static final String COLUMN_HARVEST_HOURS_SUPPLIER_ID = "supplier_id";
-    public static final String COLUMN_HARVEST_HOURS_SUPPLIER_NAME = "supplier_name";
-    public static final String COLUMN_HARVEST_HOURS_FARM_ID = "farm_id";
-    public static final String COLUMN_HARVEST_HOURS_FARM_NAME = "farm_name";
-    public static final String COLUMN_HARVEST_HOURS_PRODUCT_ID = "product_id";
-    public static final String COLUMN_HARVEST_HOURS_PRODUCT_NAME = "product_name";
-    public static final String COLUMN_HARVEST_HOURS_PRODUCT_CODE = "product_code";
-    public static final String COLUMN_HARVEST_HOURS_NET_AMOUNT = "net_amount";
-    public static final String COLUMN_HARVEST_HOURS_REMARQUE = "remarque";
+    public static final String TABLE_HOURS = "hours";
+    public static final String COLUMN_HOURS_ID = "id";
+    public static final String COLUMN_HOURS_DATE = "date";
+    public static final String COLUMN_HOURS_SM = "start_morning";
+    public static final String COLUMN_HOURS_EM = "end_morning";
+    public static final String COLUMN_HOURS_SN = "start_noon";
+    public static final String COLUMN_HOURS_EN = "end_noon";
+    public static final String COLUMN_HOURS_EMPLOYEE_TYPE = "employee_type";
+    public static final String COLUMN_HOURS_EMPLOYEE_ID = "employee_id";
+    public static final String COLUMN_HOURS_TRANSPORT_ID = "transport_id";
+    public static final String COLUMN_HOURS_CREDIT_ID = "credit_id";
+    public static final String COLUMN_HOURS_PRICE = "hour_price";
+    public static final String COLUMN_HOURS_SUPPLIER_ID = "supplier_id";
+    public static final String COLUMN_HOURS_FARM_ID = "farm_id";
+    public static final String COLUMN_HOURS_PRODUCT_ID = "product_id";
+    public static final String COLUMN_HOURS_PRODUCT_DETAIL_ID = "product_code";
+    public static final String COLUMN_HOURS_REMARQUE = "remarque";
 
 
     //*************************************
