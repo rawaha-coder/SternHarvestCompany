@@ -2,50 +2,43 @@ package harvest.controller;
 
 import harvest.database.HoursDAO;
 import harvest.model.Hours;
-import harvest.util.Validation;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import harvest.presenter.DisplayHoursPresenter;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
-import java.sql.Date;
 import java.sql.Time;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
+
+import static harvest.presenter.DisplayHoursPresenter.DISPLAY_HOURS_LIVE_DATA;
 
 public class DisplayHoursController implements Initializable {
 
-    public static ObservableList<Hours> DISPLAY_HOURS_LIVE_DATA = FXCollections.observableArrayList();
-    HoursDAO mHoursDAO = HoursDAO.getInstance();
+    @FXML public TableView<Hours> fxHarvestHoursTable;
+    @FXML public TableColumn<Hours, String> fxEmployee;
+    @FXML public TableColumn<Hours, Time> fxStartMorning;
+    @FXML public TableColumn<Hours, Time> fxEndMorning;
+    @FXML public TableColumn<Hours, Time> fxStartNoon;
+    @FXML public TableColumn<Hours, Time> fxEndNoon;
+    @FXML public TableColumn<Hours, Time> fxTotalHours;
+    @FXML public TableColumn<Hours, String> fxTransport;
+    @FXML public TableColumn<Hours, String> fxCredit;
+    @FXML public TableColumn<Hours, String> fxCategory;
+    @FXML public TableColumn<Hours, String> fxRemarque;
+    @FXML public DatePicker fxDatePicker;
+    @FXML public Label fxTotalWorkingHours;
+    @FXML public Label fxTotalTransport;
+    @FXML public Label fxTotalCredit;
 
-    @FXML private TableView<Hours> fxHarvestHoursTable;
-    @FXML private TableColumn<Hours, String> fxEmployee;
-    @FXML private TableColumn<Hours, Time> fxStartMorning;
-    @FXML private TableColumn<Hours, Time> fxEndMorning;
-    @FXML private TableColumn<Hours, Time> fxStartNoon;
-    @FXML private TableColumn<Hours, Time> fxEndNoon;
-    @FXML private TableColumn<Hours, Time> fxTotalHours;
-    @FXML private TableColumn<Hours, String> fxTransport;
-    @FXML private TableColumn<Hours, String> fxCredit;
-    @FXML private TableColumn<Hours, String> fxRemarque;
-    @FXML private DatePicker fxDatePicker;
-    @FXML private Label fxTotalWorkingHours;
-    @FXML private Label fxTotalTransport;
-    @FXML private Label fxTotalCredit;
+    DisplayHoursPresenter mDisplayHoursPresenter;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        LocalDate date = LocalDate.now();
-        mHoursDAO.updateLiveData(Date.valueOf(date));
-        fxDatePicker.setValue(date);
         initTable();
-        observeDatePicker();
-        fxTotalWorkingHours.setText(getTotalHours());
-        fxTotalTransport.setText(getTotalTransport());
-        fxTotalCredit.setText(getTotalCredit());
+        mDisplayHoursPresenter = new DisplayHoursPresenter(this);
+        mDisplayHoursPresenter.initList();
     }
 
     //Initialization employee table Columns
@@ -54,45 +47,13 @@ public class DisplayHoursController implements Initializable {
         fxEndMorning.setCellValueFactory(new PropertyValueFactory<>("endMorning"));
         fxStartNoon.setCellValueFactory(new PropertyValueFactory<>("startNoon"));
         fxEndNoon.setCellValueFactory(new PropertyValueFactory<>("endNoon"));
-        fxTotalHours.setCellValueFactory(new PropertyValueFactory<>("totalHours"));
-//        fxEmployee.setCellValueFactory(it -> it.getValue().getEmployee().employeeFullNameProperty());
-//        fxTransport.setCellValueFactory(it -> it.getValue().transportAmountProperty());
-//        fxCredit.setCellValueFactory(it -> it.getValue().creditAmountProperty());
-        fxRemarque.setCellValueFactory(new PropertyValueFactory<>("harvestRemarque"));
+        fxTotalHours.setCellValueFactory(new PropertyValueFactory<>("totalMinutes"));
+        fxEmployee.setCellValueFactory(new PropertyValueFactory<>("EmployeeName"));
+        fxTransport.setCellValueFactory(new PropertyValueFactory<>("transportAmount"));
+        fxCredit.setCellValueFactory(new PropertyValueFactory<>("creditAmount"));
+        fxCategory.setCellValueFactory(new PropertyValueFactory<>("employeeCategory"));
+        fxRemarque.setCellValueFactory(new PropertyValueFactory<>("remarque"));
         fxHarvestHoursTable.setItems(DISPLAY_HOURS_LIVE_DATA);
     }
-
-    private void observeDatePicker(){
-        fxDatePicker.valueProperty().addListener((ob, ov, nv) -> {
-            mHoursDAO.updateLiveData(Date.valueOf(nv));
-            fxTotalWorkingHours.setText(getTotalHours());
-            fxTotalTransport.setText(getTotalTransport());
-            fxTotalCredit.setText(getTotalCredit());
-        });
-    }
-
-    private String getTotalHours(){
-        long hours = 0;
-//                for (Hours harvestHours : HARVEST_HOURS_LIVE_LIST){
-//                    hours += harvestHours.getTotalHours() ;
-//                }
-        return Validation.timeToStringTime(hours);
-    }
-
-    private String getTotalTransport(){
-        double d = 0.0;
-//        for (Hours hours : HARVEST_HOURS_LIVE_LIST){
-//            d += hours.getTransport().getTransportAmount();
-//        }
-        System.out.println(d);
-        return String.valueOf(d);
-    }
-
-    private String getTotalCredit(){
-        double d = 0.0;
-//        for (Hours hours : HARVEST_HOURS_LIVE_LIST){
-//            d += hours.getCredit().getCreditAmount();
-//        }
-        return String.valueOf(d);
-    }
+    
 }

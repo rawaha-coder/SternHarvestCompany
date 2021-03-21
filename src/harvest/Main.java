@@ -23,8 +23,36 @@ public class Main extends Application {
     //HarvestProductionDAO mHarvestProductionDAO = HarvestProductionDAO.getInstance();
     //HarvestIndividualDAO mHarvestIndividualDAO = HarvestIndividualDAO.getInstance();
     //PreferencesDAO mPreferencesDAO = PreferencesDAO.getInstance();
-    //ProductionDAO mProductionDAO = ProductionDAO.getInstance();
-    //HoursDAO mHoursDAO = HoursDAO.getInstance();
+    ProductionDAO mProductionDAO = ProductionDAO.getInstance();
+    HoursDAO mHoursDAO = HoursDAO.getInstance();
+
+    Thread mThread = new Thread(){
+      public void run(){
+          System.out.println("Thread Running");
+          try {
+              //mCreditDAO.createCreditTable();
+              //mEmployeeDAO.createEmployeeTable();
+              //mProductDAO.createProductTable();
+              //mProductDetailDAO.createProductDetailTable();
+              //mFarmDAO.createFarmTable();
+              //mSeasonDAO.createSeasonTable();
+              //mSupplierDAO.createSupplierTable();
+              //mSupplyDAO.createSupplyTable();
+              //mTransportDAO.createTransportTable();
+              //mHarvestDAO.createHarvestTable();
+              //mHarvestHoursDAO.createHarvestTable();
+              //mHarvestProductionDAO.createHarvestTable();
+              //mHarvestIndividualDAO.createHarvestTable();
+              //mPreferencesDAO.createPreferencesTable();
+              //mPreferencesDAO.initPreferencesTable();
+              mProductionDAO.createProductionTable();
+              mHoursDAO.createHoursTable();
+          }catch (Exception e){
+              e.printStackTrace();
+          }
+
+      }
+    };
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -32,23 +60,7 @@ public class Main extends Application {
         primaryStage.setTitle("Stern individual Company");
         primaryStage.setScene(new Scene(root, 1300, 700));
         primaryStage.show();
-        //mCreditDAO.createCreditTable();
-        //mEmployeeDAO.createEmployeeTable();
-        //mProductDAO.createProductTable();
-        //mProductDetailDAO.createProductDetailTable();
-        //mFarmDAO.createFarmTable();
-        //mSeasonDAO.createSeasonTable();
-        //mSupplierDAO.createSupplierTable();
-        //mSupplyDAO.createSupplyTable();
-        //mTransportDAO.createTransportTable();
-        //mHarvestDAO.createHarvestTable();
-        //mHarvestHoursDAO.createHarvestTable();
-        //mHarvestProductionDAO.createHarvestTable();
-        //mHarvestIndividualDAO.createHarvestTable();
-        //mPreferencesDAO.createPreferencesTable();
-        //mPreferencesDAO.initPreferencesTable();
-        //mProductionDAO.createProductionTable();
-        //mHoursDAO.createHoursTable();
+        //mThread.start();
     }
 
     public static void main(String[] args) {

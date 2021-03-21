@@ -17,12 +17,8 @@ public class ConstantDAO {
     public static final String COLUMN_HOURS_TRANSPORT_ID = "transport_id";
     public static final String COLUMN_HOURS_CREDIT_ID = "credit_id";
     public static final String COLUMN_HOURS_PRICE = "hour_price";
-    public static final String COLUMN_HOURS_SUPPLIER_ID = "supplier_id";
-    public static final String COLUMN_HOURS_FARM_ID = "farm_id";
-    public static final String COLUMN_HOURS_PRODUCT_ID = "product_id";
-    public static final String COLUMN_HOURS_PRODUCT_DETAIL_ID = "product_code";
     public static final String COLUMN_HOURS_REMARQUE = "remarque";
-
+    public static final String COLUMN_HOURS_PRODUCTION_ID = "production_id";
 
     //*************************************
     //Database table columns name for group work UI and model
@@ -54,18 +50,16 @@ public class ConstantDAO {
     //*************************************
     public static final String TABLE_PRODUCTION = "production";
     public static final String COLUMN_PRODUCTION_ID = "id";
+    public static final String COLUMN_PRODUCTION_TYPE = "production_type";
     public static final String COLUMN_PRODUCTION_DATE = "date";
     public static final String COLUMN_PRODUCTION_SUPPLIER_ID = "supplier_id";
-    public static final String COLUMN_PRODUCTION_SUPPLIER_NAME = "supplier_name";
     public static final String COLUMN_PRODUCTION_FARM_ID = "farm_id";
-    public static final String COLUMN_PRODUCTION_FARM_NAME = "farm_name";
     public static final String COLUMN_PRODUCTION_PRODUCT_ID = "product_id";
-    public static final String COLUMN_PRODUCTION_PRODUCT_NAME = "product_name";
-    public static final String COLUMN_PRODUCTION_PRODUCT_CODE = "product_code";
+    public static final String COLUMN_PRODUCTION_PRODUCT_DETAIL_ID = "product_detail_id";
     public static final String COLUMN_PRODUCTION_TOTAL_EMPLOYEES = "total_employees";
-    public static final String COLUMN_PRODUCTION_GOOD_QUANTITY = "good_quantity";
-    public static final String COLUMN_PRODUCTION_PRICE = "production_price";
-    public static final String COLUMN_PRODUCTION_COST = "production_cost";
+    public static final String COLUMN_PRODUCTION_TOTAL_QUANTITY = "total_quantity";
+    public static final String COLUMN_PRODUCTION_TOTAL_HOURS = "total_hours";
+    public static final String COLUMN_PRODUCTION_PRICE = "price";
 
     //*************************************
     //Database table columns name for employee UI and model

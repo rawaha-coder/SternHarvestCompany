@@ -228,37 +228,37 @@ public class AddGroupController implements Initializable {
 
     @FXML
     void applyButton() {
-        production.setProductionDate(Date.valueOf(fxHarvestDate.getValue()));
-        production.setSupplierID(mSupplierMap.get(fxSupplierList.getValue()).getSupplierId());
-        production.setSupplierName(mSupplierMap.get(fxSupplierList.getValue()).getSupplierName());
-        production.setFarmID(mFarmMap.get(fxFarmList.getValue()).getFarmId());
-        production.setFarmName(mFarmMap.get(fxFarmList.getValue()).getFarmName());
-        production.setProductID(mProductMap.get(fxProductList.getValue()).getProductId());
-        production.setProductName(mProductMap.get(fxProductList.getValue()).getProductName());
-        production.setProductCode(mProductDetailMap.get(fxProductCodeList.getValue()).getProductCode());
-        production.setProductionPrice(mProductDetailMap.get(fxProductCodeList.getValue()).getPriceCompany());
-        production.setTotalEmployee(HARVEST_GROUP_LIVE_LIST.size());
-        production.setGoodQuantity(Double.parseDouble(fxTotalGoodQuantity.getText()));
-        production.setProductionCost(Double.parseDouble(fxCompanyCharge.getText()));
-        int productionId = mProductionDAO.getProductionId(production);
-        if (productionId != -1){
-            production.setProductionID(productionId);
-            alert.saveItem("Production" , addHarvestEmployeeWork());
-        }
+//        production.setProductionDate(Date.valueOf(fxHarvestDate.getValue()));
+//        production.setSupplierID(mSupplierMap.get(fxSupplierList.getValue()).getSupplierId());
+//        production.setSupplierName(mSupplierMap.get(fxSupplierList.getValue()).getSupplierName());
+//        production.setFarmID(mFarmMap.get(fxFarmList.getValue()).getFarmId());
+//        production.setFarmName(mFarmMap.get(fxFarmList.getValue()).getFarmName());
+//        production.setProductID(mProductMap.get(fxProductList.getValue()).getProductId());
+//        production.setProductName(mProductMap.get(fxProductList.getValue()).getProductName());
+//        production.setProductCode(mProductDetailMap.get(fxProductCodeList.getValue()).getProductCode());
+//        production.setProductionPrice(mProductDetailMap.get(fxProductCodeList.getValue()).getPriceCompany());
+//        production.setTotalEmployee(HARVEST_GROUP_LIVE_LIST.size());
+//        production.setGoodQuantity(Double.parseDouble(fxTotalGoodQuantity.getText()));
+//        production.setProductionCost(Double.parseDouble(fxCompanyCharge.getText()));
+//        int productionId = mProductionDAO.getProductionId(production);
+//        if (productionId != -1){
+//            production.setProductionID(productionId);
+//            alert.saveItem("Production" , addHarvestEmployeeWork());
+//        }
     }
 
-    private boolean addHarvestEmployeeWork() {
-        boolean trackInsert = false;
-        if (production.getProductionID() > 0){
-            for (Harvest item : HARVEST_GROUP_LIVE_LIST){
-                    item.setHarvestDate(production.getProductionDate());
-                    item.setProductionID(production.getProductionID());
-                    trackInsert = mHarvestDAO.addHarvesters(item);
-                    if (!trackInsert) break;
-            }
-        }
-        return trackInsert;
-    }
+//    private boolean addHarvestEmployeeWork() {
+//        boolean trackInsert = false;
+//        if (production.getProductionID() > 0){
+//            for (Harvest item : HARVEST_GROUP_LIVE_LIST){
+//                    item.setHarvestDate(production.getProductionDate());
+//                    item.setProductionID(production.getProductionID());
+//                    trackInsert = mHarvestDAO.addHarvesters(item);
+//                    if (!trackInsert) break;
+//            }
+//        }
+//        return trackInsert;
+//    }
 
     @FXML
     void validateButton() {

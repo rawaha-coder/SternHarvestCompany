@@ -24,7 +24,7 @@ public class MainController{
     @FXML
     public void displayProduction() { displayCenterView("/harvest/ui/production/display_production.fxml"); }
     @FXML
-    public void displayHours() { /*displayCenterView("/harvest/ui/individual/display_hours.fxml");*/ }
+    public void displayHours() { displayCenterView("/harvest/res/layout/display_hours.fxml"); }
     @FXML
     public void displayGroup() { displayCenterView("/harvest/ui/group/display_group.fxml"); }
     @FXML

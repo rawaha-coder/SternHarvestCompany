@@ -60,18 +60,18 @@ public class AddHoursController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         mAddHoursPresenter = new AddHoursPresenter(this);
-        mAddHoursPresenter.updateHoursDataLive();
+        mAddHoursPresenter.updateAddHoursDataLive();
         mAddHoursPresenter.initList();
         initTable();
         onChangeTransportCell();
-        fxHarvester.setSelected(true);
-        fxTotalHours.setText("0.0");
-        fxTotalCredit.setText("0.0");
-        fxTotalEmployee.setText("0");
-        fxTotalTransport.setText("0.0");
-        fxHourPrice.setText("0.0");
+        initField();
         fxCreditColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         fxRemarqueColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        fxTotalCredit.setEditable(false);
+        fxTotalTransport.setEditable(false);
+        fxTotalEmployee.setEditable(false);
+        fxTotalHours.setEditable(false);
+        fxTotalPayment.setEditable(false);
     }
 
     public void initTable() {
@@ -89,18 +89,28 @@ public class AddHoursController implements Initializable {
         fxAddHarvestHoursTable.setItems(ADD_HOURS_LIVE_DATA);
     }
 
+    public  void initField(){
+        fxHarvester.setSelected(true);
+        fxTotalHours.setText("0.0");
+        fxTotalCredit.setText("0.0");
+        fxTotalEmployee.setText("0");
+        fxTotalTransport.setText("0.0");
+        fxHourPrice.setText("0.0");
+    }
+
     private void onChangeTransportCell() {
-        PreferencesDAO mPreferencesDAO = PreferencesDAO.getInstance();
         fxTransportColumn.setCellFactory(column -> new CheckBoxTableCell<>());
         fxTransportColumn.setCellValueFactory(cellData -> {
             Hours hours = cellData.getValue();
             hours.transportStatusProperty()
                     .addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
                         if (newValue) {
-                            if (mPreferencesDAO.getTransportPrice() == -1) {
+                            PreferencesDAO mPreferencesDAO = PreferencesDAO.getInstance();
+                            double transportPrice = mPreferencesDAO.getTransportPrice();
+                            if (transportPrice == -1) {
                                 newValue = false;
                             }
-                            hours.getTransport().setTransportAmount(mPreferencesDAO.getTransportPrice());
+                            hours.getTransport().setTransportAmount(transportPrice);
                             System.out.println(hours.getTransport().getTransportAmount());
                         } else {
                             hours.getTransport().setTransportAmount(0.0);
@@ -123,14 +133,14 @@ public class AddHoursController implements Initializable {
 
     @FXML
     void handleValidButton() {
-        if (checkInput()) {
+        if (checkValidButtonInput()) {
             alert.missingInfo("Harvest hours");
             return;
         }
         mAddHoursPresenter.validateAddHoursWork();
     }
 
-    private boolean checkInput() {
+    private boolean checkValidButtonInput() {
         return (fxHarvestDate.getValue() == null ||
                 fxSupplierList.getValue() == null ||
                 fxFarmList.getValue() == null ||
@@ -140,41 +150,24 @@ public class AddHoursController implements Initializable {
 
     @FXML
     public void handleApplyButton() {
-        if (fxTotalCredit.getText().isEmpty()
+        if (checkApplyButtonInput()) {
+            alert.missingInfo("Hours");
+            return;
+        }
+        mAddHoursPresenter.applyProductionToDatabase();
+    }
+
+    private boolean checkApplyButtonInput() {
+        return (fxTotalCredit.getText().isEmpty()
                 || fxTotalTransport.getText().isEmpty()
                 || fxTotalEmployee.getText().isEmpty()
                 || fxTotalHours.getText().isEmpty()
                 || fxTotalPayment.getText().isEmpty()
-        ) {
-            alert.missingInfo("Hours");
-            return;
-        }
-        alert.saveItem("Production" , mAddHoursPresenter.applyAddHoursWork());
+        ) || (Long.parseLong(fxTotalEmployee.getText()) <= 0 || (Long.parseLong(fxTotalHours.getText()) <= 0 ));
     }
 
     @FXML
-    void handleClearButton() {
-        mAddHoursPresenter.initList();
-        fxHarvestDate.getEditor().setText("");
-        fxStartMorningTime.setText("00:00:00");
-        fxEndMorningTime.setText("00:00:00");
-        fxStartNoonTime.setText("00:00:00");
-        fxEndNoonTime.setText("00:00:00");
-        fxEmployeeType.selectToggle(fxHarvester);
-        Time time = new Time(0);
-        for(Hours hours: ADD_HOURS_LIVE_DATA){
-            hours.setStartMorning(time);
-            hours.setEndMorning(time);
-            hours.setStartNoon(time);
-            hours.setEndNoon(time);
-            hours.setTotalMinutes(0);
-            hours.setHourPrice(0.0);
-            hours.setTransportStatus(false);
-            hours.setRemarque("");
-            hours.getCredit().setCreditAmount(0.0);
-            hours.getTransport().setTransportAmount(0.0);
-            hours.setPayment(0.0);
-        }
-        fxAddHarvestHoursTable.refresh();
+    public void handleClearButton() {
+        mAddHoursPresenter.clearField();
     }
 }
