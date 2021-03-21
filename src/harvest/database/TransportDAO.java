@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import static harvest.database.ConstantDAO.*;
-import static harvest.controller.DisplayCrdTrsController.TRANSPORT_LIST_LIVE_DATA;
+import static harvest.view.DisplayCrdTrsController.TRANSPORT_LIST_LIVE_DATA;
 
 public class TransportDAO extends DAO{
 

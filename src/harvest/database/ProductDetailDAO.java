@@ -1,6 +1,5 @@
 package harvest.database;
 
-import harvest.model.Employee;
 import harvest.model.Product;
 import harvest.model.ProductDetail;
 
@@ -10,7 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static harvest.controller.DisplayProductController.PRODUCT_DETAIL_LIVE_DATA;
+import static harvest.view.DisplayProductController.PRODUCT_DETAIL_LIVE_DATA;
 import static harvest.database.ConstantDAO.*;
 
 public class ProductDetailDAO extends DAO{

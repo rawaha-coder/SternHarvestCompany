@@ -22,11 +22,11 @@ public class MainController{
     ProgressBar pBar = new ProgressBar();
 
     @FXML
-    public void displayProduction() { displayCenterView("/harvest/ui/production/display_production.fxml"); }
+    public void displayProduction() { displayCenterView("/harvest/res/layout/display_production.fxml"); }
     @FXML
     public void displayHours() { displayCenterView("/harvest/res/layout/display_hours.fxml"); }
     @FXML
-    public void displayGroup() { displayCenterView("/harvest/ui/group/display_group.fxml"); }
+    public void displayGroup() { displayCenterView("/harvest/res/layout/display_group.fxml"); }
     @FXML
     public void displayFarmSeason(){ displayCenterView("/harvest/res/layout/display_farm_season.fxml"); }
     @FXML
@@ -50,9 +50,9 @@ public class MainController{
     }
 
     @FXML
-    void addGroupWork(){ loadAddWindow("/harvest/ui/group/add_group.fxml", "Add group work"); }
+    void addGroupWork(){ loadAddWindow("/harvest/res/layout/add_group.fxml", "Add group work"); }
     @FXML
-    void addIndividualWork(){ loadAddWindow("/harvest/ui/individual/add_individual.fxml", "Add Individual Work"); }
+    void addIndividualWork(){ loadAddWindow("/harvest/res/layout/add_individual.fxml", "Add Individual Work"); }
     @FXML
     void addWorkHours(){ loadAddWindow("/harvest/res/layout/add_hours.fxml", "Add work hours"); }
     @FXML
@@ -84,7 +84,7 @@ public class MainController{
     }
 
     public void handlePreferences() {
-        loadAddWindow("/harvest/ui/menu/preferences.fxml", "Preferences");
+        loadAddWindow("/harvest/res/layout/preferences.fxml", "Preferences");
     }
 
 

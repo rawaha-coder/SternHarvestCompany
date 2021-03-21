@@ -8,7 +8,7 @@ import java.sql.Time;
 public class Hours {
 
     public enum EmployeeCategory {
-        RECOLtEUR, CONTROLEUR, UNKNOWN
+        RECOLTEUR, CONTROLEUR, UNKNOWN
     };
 
     private final IntegerProperty hoursID = new SimpleIntegerProperty();
@@ -210,9 +210,9 @@ public class Hours {
     }
 
     public EmployeeCategory getEmployeeCategory() {
-        if (getEmployeeType() == 0) {
-            return EmployeeCategory.RECOLtEUR;
-        } else if (getEmployeeType() == 1) {
+        if (getEmployeeType() == 1) {
+            return EmployeeCategory.RECOLTEUR;
+        } else if (getEmployeeType() == 2) {
             return EmployeeCategory.CONTROLEUR;
         } else {
             return EmployeeCategory.UNKNOWN;

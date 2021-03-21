@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import static harvest.database.ConstantDAO.*;
-import static harvest.controller.DisplayCrdTrsController.CREDIT_LIST_LIVE_DATA;
+import static harvest.view.DisplayCrdTrsController.CREDIT_LIST_LIVE_DATA;
 
 public class CreditDAO extends DAO {
 

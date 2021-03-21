@@ -1,12 +1,13 @@
 package harvest.presenter;
 
-import harvest.controller.DisplayHoursController;
+import harvest.view.DisplayHoursController;
 import harvest.database.HoursDAO;
 import harvest.model.Hours;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class DisplayHoursPresenter {
@@ -20,12 +21,15 @@ public class DisplayHoursPresenter {
     Thread thread = new Thread(){
         public void run(){
             System.out.println("Thread Running");
-            mHoursDAO.updateLiveData(Date.valueOf(date));
+            updateDisplayHoursLiveData(Date.valueOf(date));
         }
     };
 
     public DisplayHoursPresenter(DisplayHoursController displayHoursController) {
         mDisplayHoursController = displayHoursController;
+        initList();
+        observeDatePicker();
+        thread.start();
     }
 
     public void initList(){
@@ -33,17 +37,25 @@ public class DisplayHoursPresenter {
         mDisplayHoursController.fxTotalWorkingHours.setText(getTotalHours());
         mDisplayHoursController.fxTotalTransport.setText(getTotalTransport());
         mDisplayHoursController.fxTotalCredit.setText(getTotalCredit());
-        observeDatePicker();
-        thread.start();
     }
 
     private void observeDatePicker(){
         mDisplayHoursController.fxDatePicker.valueProperty().addListener((ob, ov, nv) -> {
-            mHoursDAO.updateLiveData(Date.valueOf(nv));
+            updateDisplayHoursLiveData(Date.valueOf(nv));
             mDisplayHoursController.fxTotalWorkingHours.setText(getTotalHours());
             mDisplayHoursController.fxTotalTransport.setText(getTotalTransport());
             mDisplayHoursController.fxTotalCredit.setText(getTotalCredit());
         });
+    }
+
+    public void updateDisplayHoursLiveData(Date date) {
+        DISPLAY_HOURS_LIVE_DATA.clear();
+        try {
+            DISPLAY_HOURS_LIVE_DATA.setAll(mHoursDAO.getData(date));
+            System.out.println(" Update list size: " + DISPLAY_HOURS_LIVE_DATA.size());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private String getTotalHours(){

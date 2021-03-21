@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static harvest.database.ConstantDAO.*;
-import static harvest.controller.DisplayFarmSeasonController.SEASON_LIST_LIVE_DATA;
+import static harvest.view.DisplayFarmSeasonController.SEASON_LIST_LIVE_DATA;
 
 public class SeasonDAO extends DAO{
 

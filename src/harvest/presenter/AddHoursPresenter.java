@@ -1,7 +1,6 @@
 package harvest.presenter;
 
-import harvest.controller.AddHoursController;
-import harvest.database.CommonDAO;
+import harvest.view.AddHoursController;
 import harvest.database.HoursDAO;
 import harvest.database.PreferencesDAO;
 import harvest.database.ProductionDAO;
@@ -19,7 +18,6 @@ public class AddHoursPresenter {
 
     public static ObservableList<Hours> ADD_HOURS_LIVE_DATA = FXCollections.observableArrayList();
     public final HoursDAO mHoursDAO = HoursDAO.getInstance();
-    public final CommonDAO mCommonDAO = CommonDAO.getInstance();
     private final ProductionDAO mProductionDAO = ProductionDAO.getInstance();
     AddHoursController mAddHoursController;
     ListPresenter listPresenter = new ListPresenter();
@@ -94,7 +92,7 @@ public class AddHoursPresenter {
                 item.setHarvestDate(production.getProductionDate());
                 item.getProduction().getFarm().setFarmId(production.getFarm().getFarmId());
                 item.getProduction().setProductionID(production.getProductionID());
-                trackInsert = mCommonDAO.addHoursWork(item);
+                trackInsert = mHoursDAO.addHoursWork(item);
                 if (!trackInsert) break;
             }
         }

@@ -8,8 +8,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static harvest.controller.DisplayFarmSeasonController.FARM_LIST_LIVE_DATA;
-import static harvest.controller.DisplayFarmSeasonController.SEASON_LIST_LIVE_DATA;
+import static harvest.view.DisplayFarmSeasonController.FARM_LIST_LIVE_DATA;
+import static harvest.view.DisplayFarmSeasonController.SEASON_LIST_LIVE_DATA;
 import static harvest.database.ConstantDAO.*;
 
 public class FarmDAO extends DAO{

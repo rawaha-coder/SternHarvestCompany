@@ -14,16 +14,10 @@ module SternHarvestCompany {
     requires org.slf4j;
     requires org.apache.poi.ooxml;
 
-
     opens harvest.model;
-    opens harvest.ui.individual;
     opens harvest.util;
-    opens harvest.ui.menu;
-    opens harvest.ui.group;
-    opens harvest.ui.production;
     opens harvest.res.layout;
-    opens harvest.controller;
-
+    opens harvest.view;
 
     opens harvest;
 }

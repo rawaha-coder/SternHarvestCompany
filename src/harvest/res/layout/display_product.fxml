@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="700.0" prefWidth="1100.0" stylesheets="@../../sub_style.css"
             xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="harvest.controller.DisplayProductController">
+            fx:controller="harvest.view.DisplayProductController">
 
     <Label alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="14.0" prefHeight="30.0" prefWidth="900.0"
            text="TABLEAU DES PRODUITS" textAlignment="CENTER" styleClass="tableName"/>
