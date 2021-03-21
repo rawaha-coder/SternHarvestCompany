@@ -1,4 +1,4 @@
-package harvest.controller;
+package harvest.view;
 
 import harvest.database.CreditDAO;
 import harvest.database.TransportDAO;

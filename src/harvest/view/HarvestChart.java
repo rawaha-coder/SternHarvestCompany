@@ -1,4 +1,4 @@
-package harvest.ui.production;
+package harvest.view;
 
 import harvest.database.ProductionDAO;
 import javafx.fxml.FXML;

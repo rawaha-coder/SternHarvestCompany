@@ -1,4 +1,4 @@
-package harvest.ui.menu;
+package harvest.view;
 
 import harvest.database.PreferencesDAO;
 import harvest.util.AlertMaker;

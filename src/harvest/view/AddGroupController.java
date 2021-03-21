@@ -1,8 +1,9 @@
-package harvest.ui.individual;
+package harvest.view;
 
 import harvest.database.*;
 import harvest.model.*;
-import harvest.util.*;
+import harvest.util.AlertMaker;
+import harvest.util.Validation;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -13,22 +14,15 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
-import java.io.*;
 import java.net.URL;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.sql.Date;
 
-public class AddIndividualController implements Initializable {
+public class AddGroupController implements Initializable {
 
-    public static ObservableList<Harvest> HARVEST_INDIVIDUAL_LIVE_LIST = FXCollections.observableArrayList();
+    public static ObservableList<Harvest> HARVEST_GROUP_LIVE_LIST = FXCollections.observableArrayList();
 
     private Map<String, Supplier> mSupplierMap = new LinkedHashMap<>();
     private Map<String, Farm> mFarmMap = new LinkedHashMap<>();
@@ -47,14 +41,14 @@ public class AddIndividualController implements Initializable {
 
     Production production = new Production();
 
-    @FXML private AnchorPane fxAddIndividual;
     @FXML private DatePicker fxHarvestDate;
     @FXML private ChoiceBox<String> fxSupplierList;
     @FXML private ChoiceBox<String> fxFarmList;
     @FXML private ChoiceBox<String> fxProductList;
     @FXML private ChoiceBox<String> fxProductCodeList;
-    @FXML private Button fxClearButton;
-    @FXML private Button fxSaveButton;
+    @FXML private TextField fxAllQuantityByG;
+    @FXML private TextField fxBadQuantityByG;
+
     @FXML private TableView<Harvest> fxHarvestWorkTable;
     @FXML private TableColumn<Harvest, String> fxEmployeeNameColumn;
     @FXML private TableColumn<Harvest, Double> fxAllQuantityColumn;
@@ -73,7 +67,6 @@ public class AddIndividualController implements Initializable {
     @FXML private TextField fxTotalEmployee;
     @FXML private TextField fxTotalTransport;
     @FXML private Label fxCompanyCharge;
-    @FXML private Button fxApplyButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -90,7 +83,7 @@ public class AddIndividualController implements Initializable {
 
     //Initialization employee table Columns
     public void initTable(){
-        fxHarvestWorkTable.setItems(HARVEST_INDIVIDUAL_LIVE_LIST);
+        fxHarvestWorkTable.setItems(HARVEST_GROUP_LIVE_LIST);
         fxEmployeeNameColumn.setCellValueFactory(new PropertyValueFactory<>("employeeName"));
         fxAllQuantityColumn.setCellValueFactory(new PropertyValueFactory<>("allQuantity"));
         fxBadQuantityColumn.setCellValueFactory(new PropertyValueFactory<>("defectiveQuantity"));
@@ -103,9 +96,9 @@ public class AddIndividualController implements Initializable {
     }
 
     public void updateLiveData(){
-        HARVEST_INDIVIDUAL_LIVE_LIST.clear();
+        HARVEST_GROUP_LIVE_LIST.clear();
         try {
-            HARVEST_INDIVIDUAL_LIVE_LIST.setAll(mHarvestDAO.getHarvestData());
+            HARVEST_GROUP_LIVE_LIST.setAll(mHarvestDAO.getHarvestData());
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -224,97 +217,48 @@ public class AddIndividualController implements Initializable {
         });
     }
 
-    @FXML
-    void applyButton() {
-        production.setProductionDate(Date.valueOf(fxHarvestDate.getValue()));
-        production.setSupplierID(mSupplierMap.get(fxSupplierList.getValue()).getSupplierId());
-        production.setSupplierName(mSupplierMap.get(fxSupplierList.getValue()).getSupplierName());
-        production.setFarmID(mFarmMap.get(fxFarmList.getValue()).getFarmId());
-        production.setFarmName(mFarmMap.get(fxFarmList.getValue()).getFarmName());
-        production.setProductID(mProductMap.get(fxProductList.getValue()).getProductId());
-        production.setProductName(mProductMap.get(fxProductList.getValue()).getProductName());
-        production.setProductCode(mProductDetailMap.get(fxProductCodeList.getValue()).getProductCode());
-        production.setProductionPrice(mProductDetailMap.get(fxProductCodeList.getValue()).getPriceCompany());
-        production.setTotalEmployee(HARVEST_INDIVIDUAL_LIVE_LIST.size());
-        production.setGoodQuantity(Double.parseDouble(fxTotalGoodQuantity.getText()));
-        production.setProductionCost(Double.parseDouble(fxCompanyCharge.getText()));
-        int productionId = mProductionDAO.getProductionId(production);
-        if (productionId != -1){
-            production.setProductionID(productionId);
-            alert.saveItem("Production" , addHarvestEmployeeWork());
-        }
-        clearButton();
-    }
-
-    private boolean addHarvestEmployeeWork() {
-        boolean trackInsert = false;
-        if (production.getProductionID() > 0){
-            for (Harvest item : HARVEST_INDIVIDUAL_LIVE_LIST){
-                item.setHarvestDate(production.getProductionDate());
-                item.setProductionID(production.getProductionID());
-                trackInsert = mHarvestDAO.addHarvesters(item);
-                if (!trackInsert) break;
-            }
-        }
-        return trackInsert;
-    }
-
-    @FXML
-    void clearButton() {
+    @FXML void clearButton() {
         fxSupplierList.setItems(getSupplierList());
         fxFarmList.setItems(getFarmList());
         fxProductList.setItems(getProductList());
         fxProductCodeList.setItems(FXCollections.emptyObservableList());
         fxHarvestDate.getEditor().setText("");
-        fxTotalEmployee.setText("");
-        fxTotalAllQuantity.setText("");
-        fxTotalBadQuantity.setText("");
-        fxTotalGoodQuantity.setText("");
-        fxProductPriceCompany.setText("");
-        fxTotalTransport.setText("");
-        fxTotalCredit.setText("");
-        fxCompanyCharge.setText("");
+        fxAllQuantityByG.setText("");
     }
 
     @FXML
-    void handleExportToExcel() {
-        exportExcelFile();
+    void applyButton() {
+//        production.setProductionDate(Date.valueOf(fxHarvestDate.getValue()));
+//        production.setSupplierID(mSupplierMap.get(fxSupplierList.getValue()).getSupplierId());
+//        production.setSupplierName(mSupplierMap.get(fxSupplierList.getValue()).getSupplierName());
+//        production.setFarmID(mFarmMap.get(fxFarmList.getValue()).getFarmId());
+//        production.setFarmName(mFarmMap.get(fxFarmList.getValue()).getFarmName());
+//        production.setProductID(mProductMap.get(fxProductList.getValue()).getProductId());
+//        production.setProductName(mProductMap.get(fxProductList.getValue()).getProductName());
+//        production.setProductCode(mProductDetailMap.get(fxProductCodeList.getValue()).getProductCode());
+//        production.setProductionPrice(mProductDetailMap.get(fxProductCodeList.getValue()).getPriceCompany());
+//        production.setTotalEmployee(HARVEST_GROUP_LIVE_LIST.size());
+//        production.setGoodQuantity(Double.parseDouble(fxTotalGoodQuantity.getText()));
+//        production.setProductionCost(Double.parseDouble(fxCompanyCharge.getText()));
+//        int productionId = mProductionDAO.getProductionId(production);
+//        if (productionId != -1){
+//            production.setProductionID(productionId);
+//            alert.saveItem("Production" , addHarvestEmployeeWork());
+//        }
     }
 
-    private void exportExcelFile() {
-        Stage stage = (Stage) fxAddIndividual.getScene().getWindow();
-        FileChooser file = new FileChooser();
-        file.setTitle("Save File");
-        File sheetFile = file.showSaveDialog(stage);
-        EmployeeDAO employeeDAO = EmployeeDAO.getInstance();
-        List<Harvest> harvestList = null;
-        try {
-            harvestList = employeeDAO.getHarvesters();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        WriteExcelFile writeExcelFile = new WriteExcelFile();
-            //writeExcelFile.writeHarvest(harvestList, sheetFile.getPath());
-            writeExcelFile.writeHarvesters(harvestList, sheetFile.getPath());
-    }
-
-    @FXML
-    void handleImportFromExcel() {
-            importExcelFile();
-    }
-
-    private void importExcelFile()  {
-        HARVEST_INDIVIDUAL_LIVE_LIST.clear();
-        Stage stage = (Stage) fxAddIndividual.getScene().getWindow();
-        FileChooser file = new FileChooser();
-        file.setTitle("Open File");
-        File sheetFile = file.showOpenDialog(stage);
-        if (sheetFile != null){
-            ReadExcelFile reader = new ReadExcelFile ();
-            HARVEST_INDIVIDUAL_LIVE_LIST.setAll(reader.readHarvestFile(sheetFile));
-        }
-
-    }
+//    private boolean addHarvestEmployeeWork() {
+//        boolean trackInsert = false;
+//        if (production.getProductionID() > 0){
+//            for (Harvest item : HARVEST_GROUP_LIVE_LIST){
+//                    item.setHarvestDate(production.getProductionDate());
+//                    item.setProductionID(production.getProductionID());
+//                    trackInsert = mHarvestDAO.addHarvesters(item);
+//                    if (!trackInsert) break;
+//            }
+//        }
+//        return trackInsert;
+//    }
 
     @FXML
     void validateButton() {
@@ -326,29 +270,31 @@ public class AddIndividualController implements Initializable {
     }
 
     private void validateInput() {
+        double allQuantity = Double.parseDouble(fxAllQuantityByG.getText());
+        double badQuantity = Double.parseDouble(fxBadQuantityByG.getText());
+        double allQuantityEmp = allQuantity / HARVEST_GROUP_LIVE_LIST.size();
+        double badQuantityEmp = badQuantity / HARVEST_GROUP_LIVE_LIST.size();
         double priceCompany = mProductDetailMap.get(fxProductCodeList.getValue()).getPriceCompany();
         double penaltyEmployee = getPreferences().getPenaltyGeneral();
         double penaltyGeneral = getPreferences().getDefectiveGeneral();
-        double allQuantity = 0.0;
-        double badQuantity = 0.0;
         double totalTransport = 0.0;
         double totalCredit = 0.0;
-        for(Harvest harvest: HARVEST_INDIVIDUAL_LIVE_LIST){
-            harvest.setDefectiveQuantity(0.0);
+        for(Harvest harvest: HARVEST_GROUP_LIVE_LIST){
+            harvest.setAllQuantity(allQuantityEmp);
+            harvest.setDefectiveQuantity(badQuantityEmp);
             harvest.setPenaltyGeneral(penaltyEmployee);
             harvest.setDefectiveGeneral(penaltyGeneral);
-            harvest.setGoodQuantity(harvest.getAllQuantity() - harvest.getDefectiveQuantity());
+            harvest.setGoodQuantity(allQuantityEmp - badQuantityEmp);
             harvest.setProductPrice(mProductDetailMap.get(fxProductCodeList.getValue()).getPriceEmployee());
             harvest.setFarmID(mFarmMap.get(fxFarmList.getValue()).getFarmId());
             harvest.setFarmName(mFarmMap.get(fxFarmList.getValue()).getFarmName());
             harvest.setAmountPayable((harvest.getGoodQuantity() * harvest.getProductPrice()) - (harvest.getTransportAmount() + harvest.getCreditAmount()));
-            harvest.setHarvestType(2);
+            harvest.setHarvestType(1);
             totalTransport += harvest.getTransportAmount();
             totalCredit += harvest.getCreditAmount();
-            allQuantity += harvest.getAllQuantity();
-            badQuantity += harvest.getDefectiveQuantity();
+            System.out.println(harvest.getRemarque());
         }
-        fxTotalEmployee.setText(String.valueOf(HARVEST_INDIVIDUAL_LIVE_LIST.size()));
+        fxTotalEmployee.setText(String.valueOf(HARVEST_GROUP_LIVE_LIST.size()));
         fxTotalAllQuantity.setText(String.valueOf(allQuantity));
         fxTotalBadQuantity.setText(String.valueOf(badQuantity));
         fxTotalGoodQuantity.setText(String.valueOf(allQuantity - badQuantity));
@@ -360,10 +306,13 @@ public class AddIndividualController implements Initializable {
 
     private boolean checkInput(){
         return (fxHarvestDate.getValue() == null ||
-                fxSupplierList.getValue() == null ||
-                fxFarmList.getValue() == null ||
-                fxProductList.getValue() == null ||
-                fxProductCodeList.getValue() == null );
+                        fxSupplierList.getValue() == null ||
+                        fxFarmList.getValue() == null ||
+                        fxProductList.getValue() == null ||
+                        fxProductCodeList.getValue() == null ||
+                        !Validation.isDouble(fxAllQuantityByG.getText()) ||
+                        !Validation.isDouble(fxAllQuantityByG.getText())
+        );
     }
 
     private Preferences getPreferences(){
@@ -376,5 +325,4 @@ public class AddIndividualController implements Initializable {
         }
         return preferences;
     }
-
 }

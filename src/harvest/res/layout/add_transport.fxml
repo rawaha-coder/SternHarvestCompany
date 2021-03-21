@@ -11,7 +11,7 @@
 <AnchorPane fx:id="fxAddItemUI" prefHeight="600.0" prefWidth="400.0" stylesheets="@../../main_style.css"
             xmlns="http://javafx.com/javafx/11.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="harvest.controller.AddTransportController">
+            fx:controller="harvest.view.AddTransportController">
 
     <children>
       <Label layoutX="72.0" layoutY="43.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Date:" />

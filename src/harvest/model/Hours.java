@@ -7,6 +7,10 @@ import java.sql.Time;
 
 public class Hours {
 
+    public enum EmployeeCategory {
+        RECOLTEUR, CONTROLEUR, UNKNOWN
+    };
+
     private final IntegerProperty hoursID = new SimpleIntegerProperty();
     private final ObjectProperty<Date> harvestDate = new SimpleObjectProperty<>();
     private final ObjectProperty<Time> startMorning = new SimpleObjectProperty<>();
@@ -21,17 +25,13 @@ public class Hours {
     private final Employee employee = new Employee();
     private final Transport transport = new Transport();
     private final Credit credit = new Credit();
-    private final Supplier supplier = new Supplier();
-    private final Farm farm = new Farm();
-    private final Product product = new Product();
-    private final ProductDetail productDetail = new ProductDetail();
     private final SimpleStringProperty remarque = new SimpleStringProperty();
+    private final Production production = new  Production();
 
     public long getTotalMinutes() {
         totalMinutes.set(calculateTotalMinutes(
                 startMorning.getValue().getTime(), endMorning.getValue().getTime(),
                 startNoon.getValue().getTime(), endNoon.getValue().getTime()));
-
         return totalMinutes.get();
     }
 
@@ -160,6 +160,14 @@ public class Hours {
         return transport;
     }
 
+    public double getTransportAmount(){
+        return getTransport().getTransportAmount();
+    }
+
+    public String getTransportString(){
+        return String.valueOf(getTransport().getTransportAmount());
+    }
+
     public Credit getCredit() {
         return credit;
     }
@@ -170,22 +178,6 @@ public class Hours {
 
     public String getCreditString(){
         return String.valueOf(getCredit().getCreditAmount());
-    }
-
-    public Supplier getSupplier() {
-        return supplier;
-    }
-
-    public Farm getFarm() {
-        return farm;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public ProductDetail getProductDetail() {
-        return productDetail;
     }
 
     public double getPayment() {
@@ -215,5 +207,19 @@ public class Hours {
 
     public void setRemarque(String remarque) {
         this.remarque.set(remarque);
+    }
+
+    public EmployeeCategory getEmployeeCategory() {
+        if (getEmployeeType() == 1) {
+            return EmployeeCategory.RECOLTEUR;
+        } else if (getEmployeeType() == 2) {
+            return EmployeeCategory.CONTROLEUR;
+        } else {
+            return EmployeeCategory.UNKNOWN;
+        }
+    }
+
+    public Production getProduction() {
+        return production;
     }
 }

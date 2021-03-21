@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<AnchorPane fx:id="fxGetHarvestUI" prefHeight="700.0" prefWidth="800.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.ui.production.HarvestChart">
+<AnchorPane fx:id="fxGetHarvestUI" prefHeight="700.0" prefWidth="800.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.view.HarvestChart">
    <children>
       <AreaChart fx:id="fxHarvestChart" layoutX="53.0" layoutY="72.0" prefHeight="514.0" prefWidth="705.0" title="Harvest Chart">
         <xAxis>

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1100.0" stylesheets="@../../sub_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.controller.DisplayFarmSeasonController">
+<AnchorPane prefHeight="700.0" prefWidth="1100.0" stylesheets="@../../sub_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.view.DisplayFarmSeasonController">
 
     <Label alignment="CENTER" layoutX="25.0" layoutY="14.0" prefHeight="30.0" prefWidth="900.0"
            styleClass="tableName" stylesheets="@../../sub_style.css" text="TABLEAU DES CHAMPS" />

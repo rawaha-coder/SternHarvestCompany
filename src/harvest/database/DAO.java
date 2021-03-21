@@ -23,7 +23,7 @@ public class DAO {
         try {
             if (connection != null) {
                 connection.close();
-                System.out.println("\nCloses database connection.");
+                System.out.println("\nCloses database connection." + getClass().getName());
             }
         } catch (SQLException e) {
             e.printStackTrace();

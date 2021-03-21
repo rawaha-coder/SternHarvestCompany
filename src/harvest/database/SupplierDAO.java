@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static harvest.controller.DisplaySupplierController.*;
+import static harvest.view.DisplaySupplierController.*;
 import static harvest.database.ConstantDAO.*;
 
 public class SupplierDAO extends DAO{

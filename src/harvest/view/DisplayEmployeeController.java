@@ -1,4 +1,4 @@
-package harvest.controller;
+package harvest.view;
 
 import harvest.model.Employee;
 import harvest.util.AlertMaker;

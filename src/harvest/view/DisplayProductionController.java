@@ -1,4 +1,4 @@
-package harvest.ui.production;
+package harvest.view;
 
 import harvest.database.ProductionDAO;
 import harvest.model.Production;
@@ -98,7 +98,7 @@ public class DisplayProductionController implements Initializable {
             LocalDate toDate = fxDatePickerTo.getValue();
             final Stage stage = new Stage();
             try {
-                String location = "/harvest/ui/production/harvest_chart.fxml";
+                String location = "/harvest/res/layout/harvest_chart.fxml";
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(location));
                 Parent parent = loader.load();
                 HarvestChart controller = loader.getController();

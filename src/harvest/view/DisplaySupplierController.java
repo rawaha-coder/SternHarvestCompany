@@ -1,4 +1,4 @@
-package harvest.controller;
+package harvest.view;
 
 import harvest.database.SupplierDAO;
 import harvest.database.SupplyDAO;

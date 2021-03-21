@@ -1,4 +1,4 @@
-package harvest.ui.individual;
+package harvest.view;
 
 public class DisplayIndividualController {
 

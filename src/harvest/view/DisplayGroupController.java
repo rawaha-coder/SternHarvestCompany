@@ -1,4 +1,4 @@
-package harvest.ui.group;
+package harvest.view;
 
 import harvest.database.HarvestDAO;
 import harvest.database.PreferencesDAO;
