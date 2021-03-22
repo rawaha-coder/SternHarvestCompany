@@ -1,0 +1,82 @@
+* {
+    -fx-bg-color : #FFFFFF;
+	-fx-even-color : #D9E1F2;
+	-fx-add-color : #FFFFFF;
+	-fx-hover-color : #ADBBC2;
+	-fx-border-c : #4A4A4A;
+	-fx-linear-gradient-header-color: linear-gradient(to bottom, #1dbbdd44, #93f9b944);
+}
+
+/* TableView styling */
+.table-view {
+    -fx-background-color: black;
+    -fx-border-width:15px 55px 10px 25px;
+}
+
+.column-header {
+    -fx-background-color: #4472C4;
+}
+
+.table-view .column-header {
+    -fx-background-color: #4472C4;
+    -fx-border-color: -fx-border-c;
+    -fx-padding: 1px 1px 1px 1px;
+}
+
+/* Style of each column header in the tableView */
+.table-view .column-header-background{
+    -fx-background-color: #4472C4;
+    -fx-padding: 2px 2px 2px 2px;
+}
+
+.table-view .column-header-background .label{
+    -fx-background-color: #4472C4;
+    -fx-text-fill: black;
+    -fx-font-family: "Arial Narrow";
+    -fx-text-size: 1.0em;
+}
+
+.table-row-cell{
+    -fx-text-background-color: black;
+    -fx-text-size: 0.9em;
+    -fx-font-family: "Arial Narrow";
+    -fx-cell-size: 28px;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: orange;
+    -fx-text-background-color: orange;
+}
+
+.table-row-cell: odd{
+    -fx-background-color: -fx-add-color;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+}
+.table-row-cell: even{
+    -fx-background-color: -fx-even-color;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #3896FF;
+    -fx-text-background-color: black;
+}
+
+ /* Style of each table cell*/
+.table-view .table-cell{
+    -fx-padding: 5px 5px 5px 10px;
+    -fx-border-color: -fx-border-c;
+}
+
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color: white;
+    -fx-padding: 2px 2px 6px 0px;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #4472C4;
+    -fx-background-radius: 5em;
+}

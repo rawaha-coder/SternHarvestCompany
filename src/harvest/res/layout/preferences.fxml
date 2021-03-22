@@ -5,7 +5,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="500.0" prefWidth="400.0" stylesheets="@../../main_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.view.PreferencesController">
+<AnchorPane prefHeight="500.0" prefWidth="400.0" stylesheets="@../style/main_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.view.PreferencesController">
    <children>
       <Label alignment="CENTER_RIGHT" layoutX="29.0" layoutY="49.0" prefHeight="30.0" prefWidth="160.0" text="Penalty General:" textAlignment="RIGHT" />
       <TextField fx:id="fxPenaltyGeneral" layoutX="200.0" layoutY="49.0" prefHeight="30.0" prefWidth="160.0" />

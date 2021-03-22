@@ -1,7 +1,8 @@
-package harvest;
+package harvest.view;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ProgressBar;
@@ -12,8 +13,10 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class MainController{
+public class MainController implements Initializable {
 
     @FXML AnchorPane fxMainStage;
     @FXML private AnchorPane mainCenterPane;
@@ -22,7 +25,7 @@ public class MainController{
     ProgressBar pBar = new ProgressBar();
 
     @FXML
-    public void displayProduction() { displayCenterView("/harvest/res/layout/display_production.fxml"); }
+    public void displayProduction() { displayCenterView("/harvest/res/layout/hours_production.fxml"); }
     @FXML
     public void displayHours() { displayCenterView("/harvest/res/layout/display_hours.fxml"); }
     @FXML
@@ -85,6 +88,11 @@ public class MainController{
 
     public void handlePreferences() {
         loadAddWindow("/harvest/res/layout/preferences.fxml", "Preferences");
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
     }
 
 

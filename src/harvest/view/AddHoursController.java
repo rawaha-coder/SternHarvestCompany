@@ -51,7 +51,7 @@ public class AddHoursController implements Initializable {
     @FXML public TableColumn<Hours, Double> fxPaymentColumn;
     @FXML public TableColumn<Hours, String> fxRemarqueColumn;
 
-    @FXML public TextField fxTotalHours;
+    @FXML public TextField fxTotalMinutes;
     @FXML public TextField fxTotalCredit;
     @FXML public TextField fxTotalEmployee;
     @FXML public TextField fxTotalTransport;
@@ -70,7 +70,7 @@ public class AddHoursController implements Initializable {
         fxTotalCredit.setEditable(false);
         fxTotalTransport.setEditable(false);
         fxTotalEmployee.setEditable(false);
-        fxTotalHours.setEditable(false);
+        fxTotalMinutes.setEditable(false);
         fxTotalPayment.setEditable(false);
     }
 
@@ -91,7 +91,7 @@ public class AddHoursController implements Initializable {
 
     public  void initField(){
         fxHarvester.setSelected(true);
-        fxTotalHours.setText("0.0");
+        fxTotalMinutes.setText("0.0");
         fxTotalCredit.setText("0.0");
         fxTotalEmployee.setText("0");
         fxTotalTransport.setText("0.0");
@@ -161,9 +161,9 @@ public class AddHoursController implements Initializable {
         return (fxTotalCredit.getText().isEmpty()
                 || fxTotalTransport.getText().isEmpty()
                 || fxTotalEmployee.getText().isEmpty()
-                || fxTotalHours.getText().isEmpty()
+                || fxTotalMinutes.getText().isEmpty()
                 || fxTotalPayment.getText().isEmpty()
-        ) || (Long.parseLong(fxTotalEmployee.getText()) <= 0 || (Long.parseLong(fxTotalHours.getText()) <= 0 ));
+        ) || (Long.parseLong(fxTotalEmployee.getText()) <= 0 || (Long.parseLong(fxTotalMinutes.getText()) <= 0 ));
     }
 
     @FXML

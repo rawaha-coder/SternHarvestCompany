@@ -37,7 +37,6 @@ public class DisplayHoursController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initTable();
         mDisplayHoursPresenter = new DisplayHoursPresenter(this);
-        //mDisplayHoursPresenter.initList();
     }
 
     //Initialization employee table Columns

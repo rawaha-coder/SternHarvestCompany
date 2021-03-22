@@ -58,7 +58,7 @@ public class ConstantDAO {
     public static final String COLUMN_PRODUCTION_PRODUCT_DETAIL_ID = "product_detail_id";
     public static final String COLUMN_PRODUCTION_TOTAL_EMPLOYEES = "total_employees";
     public static final String COLUMN_PRODUCTION_TOTAL_QUANTITY = "total_quantity";
-    public static final String COLUMN_PRODUCTION_TOTAL_HOURS = "total_hours";
+    public static final String COLUMN_PRODUCTION_TOTAL_MINUTES = "total_hours";
     public static final String COLUMN_PRODUCTION_PRICE = "price";
 
     //*************************************

@@ -15,7 +15,7 @@
     <children>
         <BorderPane prefHeight="580.0" prefWidth="1100.0">
             <center>
-                <TableView fx:id="fxHarvestWorkTable" editable="true" layoutX="13.0" layoutY="134.0" prefHeight="400.0" prefWidth="1075.0" stylesheets="@../../sub_style.css">
+                <TableView fx:id="fxHarvestWorkTable" editable="true" layoutX="13.0" layoutY="134.0" prefHeight="400.0" prefWidth="1075.0" stylesheets="@../style/sub_style.css">
                     <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                     </columnResizePolicy>
@@ -106,7 +106,7 @@
         </BorderPane>
     </children>
     <stylesheets>
-        <URL value="@../../sub_style.css" />
-        <URL value="@../../sub_style.css" />
+        <URL value="@../style/sub_style.css" />
+        <URL value="@../style/sub_style.css" />
     </stylesheets>
 </AnchorPane>

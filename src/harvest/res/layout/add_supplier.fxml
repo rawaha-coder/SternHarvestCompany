@@ -7,7 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="fxAddItemUI" maxHeight="650.0" maxWidth="450.0" prefHeight="650.0" prefWidth="400.0" stylesheets="@../../main_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.view.AddSupplierController">
+<AnchorPane fx:id="fxAddItemUI" maxHeight="650.0" maxWidth="450.0" prefHeight="650.0" prefWidth="400.0" stylesheets="@../style/main_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.view.AddSupplierController">
 
     <children>
 
@@ -18,7 +18,7 @@
         <Label layoutX="75.0" layoutY="196.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Nom:" />
         <TextField fx:id="fxSupplierLastname" layoutX="75.0" layoutY="226.0" prefHeight="34.0" prefWidth="250.0" />
         <Label layoutX="77.0" layoutY="278.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Champ:" />
-        <ChoiceBox fx:id="fxChoiceFarm" layoutX="75.0" layoutY="308.0" prefHeight="34.0" prefWidth="250.0" stylesheets="@../../main_style.css" />
+        <ChoiceBox fx:id="fxChoiceFarm" layoutX="75.0" layoutY="308.0" prefHeight="34.0" prefWidth="250.0" stylesheets="@../style/main_style.css" />
         <Label layoutX="75.0" layoutY="363.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Produit:" />
         <ChoiceBox fx:id="fxChoiceProduct" layoutX="75.0" layoutY="393.0" prefHeight="34.0" prefWidth="250.0" />
         <Button layoutX="238.0" layoutY="460.0" mnemonicParsing="false" onAction="#handleClearButton" prefHeight="30.0" prefWidth="120.0" styleClass="clearButton" text="Vider" />

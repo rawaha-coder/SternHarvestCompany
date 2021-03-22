@@ -25,12 +25,39 @@ public class ProductionDAO extends DAO {
     }
 
     //*******************************
-    //Get all production data
+    //Search production Quantity data by date
     //*******************************
-    public ObservableList<Production> getData() throws Exception {
-        String select = "SELECT * FROM " + TABLE_PRODUCTION + " ORDER BY " + COLUMN_PRODUCTION_DATE + " DESC ;";
+    public ObservableList<Production> searchQuantityProductionData(Date fromDate, Date toDate) throws Exception {
+        String select = "SELECT * "
+                + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_ID + ", "
+                + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_DATE + ", "
+                + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_TOTAL_EMPLOYEES+ ", "
+                + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_TOTAL_QUANTITY + ", "
+                + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_PRICE + ", "
+                + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_ID + ", "
+                + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_NAME + ", "
+                + TABLE_FARM + "." + COLUMN_FARM_ID + ", "
+                + TABLE_FARM + "." + COLUMN_FARM_NAME + ", "
+                + TABLE_PRODUCT + "." + COLUMN_PRODUCT_ID + ", "
+                + TABLE_PRODUCT + "." + COLUMN_PRODUCT_NAME + ", "
+                + TABLE_PRODUCT_DETAIL + "." + COLUMN_PRODUCT_DETAIL_ID + ", "
+                + TABLE_PRODUCT_DETAIL + "." + COLUMN_PRODUCT_TYPE + ", "
+                + TABLE_PRODUCT_DETAIL + "." + COLUMN_PRODUCT_CODE + " "
+                + " FROM " + TABLE_PRODUCTION
+                + " LEFT JOIN " + TABLE_SUPPLIER + " "
+                + " ON " + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_ID + " = " + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_SUPPLIER_ID
+                + " LEFT JOIN " + TABLE_FARM + " "
+                + " ON " + TABLE_FARM + "." + COLUMN_FARM_ID + " = " + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_FARM_ID
+                + " LEFT JOIN " + TABLE_PRODUCT + " "
+                + " ON " + TABLE_PRODUCT + "." + COLUMN_PRODUCT_ID + " = " + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_PRODUCT_ID
+                + " LEFT JOIN " + TABLE_PRODUCT_DETAIL + " "
+                + " ON " + TABLE_PRODUCT_DETAIL + "." + COLUMN_PRODUCT_DETAIL_ID + " = " + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_PRODUCT_DETAIL_ID
+                + " WHERE " + COLUMN_PRODUCTION_DATE + " >= " + fromDate.getTime()
+                + " AND " + COLUMN_PRODUCTION_DATE + " <= " + toDate.getTime()
+                + " AND " + COLUMN_PRODUCTION_TYPE + " = 2 "
+                + " ORDER BY " + COLUMN_PRODUCTION_DATE + " DESC ;";
         try (Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(select)) {
-            return getProductionFromResultSet(resultSet);
+            return getQuantityProductionFromResultSet(resultSet);
         } catch (SQLException e) {
             System.out.println("SQL select operation has been failed: " + e);
             throw e;
@@ -39,28 +66,61 @@ public class ProductionDAO extends DAO {
         }
     }
 
-    //*******************************
-    //Get all production data by date
-    //*******************************
-    public ObservableList<Production> getDataByDate(Date date) throws Exception {
-        String select = "SELECT * FROM " + TABLE_PRODUCTION + " WHERE " + COLUMN_PRODUCTION_DATE + " = " + date.getTime() + " "
-                + " ORDER BY " + COLUMN_PRODUCTION_DATE + " DESC ;";
-        try (Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(select)) {
-            return getProductionFromResultSet(resultSet);
-        } catch (SQLException e) {
-            System.out.println("SQL select operation has been failed: " + e);
-            throw e;
-        } finally {
-            dbDisConnect();
+    //Help method to get data from resultSet
+    private ObservableList<Production> getQuantityProductionFromResultSet(ResultSet resultSet) throws SQLException {
+        ObservableList<Production> list = FXCollections.observableArrayList();
+        while (resultSet.next()) {
+            Production production = new Production();
+            production.setProductionID(resultSet.getInt(1));
+            production.setProductionDate(resultSet.getDate(2));
+            production.setTotalEmployee(resultSet.getInt(3));
+            production.setTotalQuantity(resultSet.getLong(4));
+            production.setPrice(resultSet.getDouble(5));
+            production.getSupplier().setSupplierId(resultSet.getInt(6));
+            production.getSupplier().setSupplierName(resultSet.getString(7));
+            production.getFarm().setFarmId(resultSet.getInt(8));
+            production.getFarm().setFarmName(resultSet.getString(9));
+            production.getProduct().setProductId(resultSet.getInt(10));
+            production.getProduct().setProductName(resultSet.getString(11));
+            production.getProductDetail().setProductDetailId(resultSet.getInt(12));
+            production.getProductDetail().setProductType(resultSet.getString(13));
+            production.getProductDetail().setProductCode(resultSet.getString(14));
+            list.add(production);
         }
+        return list;
     }
 
     //*******************************
     //Search production data by date
     //*******************************
-    public ObservableList<Production> searchDataByDate(Date fromDate, Date toDate) throws Exception {
-        String select = "SELECT * FROM " + TABLE_PRODUCTION + " WHERE " + COLUMN_PRODUCTION_DATE + " >= " + fromDate.getTime()
+    public ObservableList<Production> searchHoursProductionData(Date fromDate, Date toDate) throws Exception {
+        String select = "SELECT "
+                + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_ID + ", "
+                + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_DATE + ", "
+                + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_TOTAL_EMPLOYEES+ ", "
+                + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_TOTAL_MINUTES + ", "
+                + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_PRICE + ", "
+                + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_ID + ", "
+                + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_NAME + ", "
+                + TABLE_FARM + "." + COLUMN_FARM_ID + ", "
+                + TABLE_FARM + "." + COLUMN_FARM_NAME + ", "
+                + TABLE_PRODUCT + "." + COLUMN_PRODUCT_ID + ", "
+                + TABLE_PRODUCT + "." + COLUMN_PRODUCT_NAME + ", "
+                + TABLE_PRODUCT_DETAIL + "." + COLUMN_PRODUCT_DETAIL_ID + ", "
+                + TABLE_PRODUCT_DETAIL + "." + COLUMN_PRODUCT_TYPE + ", "
+                + TABLE_PRODUCT_DETAIL + "." + COLUMN_PRODUCT_CODE + " "
+                + " FROM " + TABLE_PRODUCTION
+                + " LEFT JOIN " + TABLE_SUPPLIER + " "
+                + " ON " + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_ID + " = " + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_SUPPLIER_ID
+                + " LEFT JOIN " + TABLE_FARM + " "
+                + " ON " + TABLE_FARM + "." + COLUMN_FARM_ID + " = " + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_FARM_ID
+                + " LEFT JOIN " + TABLE_PRODUCT + " "
+                + " ON " + TABLE_PRODUCT + "." + COLUMN_PRODUCT_ID + " = " + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_PRODUCT_ID
+                + " LEFT JOIN " + TABLE_PRODUCT_DETAIL + " "
+                + " ON " + TABLE_PRODUCT_DETAIL + "." + COLUMN_PRODUCT_DETAIL_ID + " = " + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_PRODUCT_DETAIL_ID
+                + " WHERE " + COLUMN_PRODUCTION_DATE + " >= " + fromDate.getTime()
                 + " AND " + COLUMN_PRODUCTION_DATE + " <= " + toDate.getTime()
+                + " AND " + COLUMN_PRODUCTION_TYPE + " = 1 "
                 + " ORDER BY " + COLUMN_PRODUCTION_DATE + " DESC ;";
         try (Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(select)) {
             return getProductionFromResultSet(resultSet);
@@ -77,19 +137,20 @@ public class ProductionDAO extends DAO {
         ObservableList<Production> list = FXCollections.observableArrayList();
         while (resultSet.next()) {
             Production production = new Production();
-//            production.setProductionID(resultSet.getInt(1));
-//            production.setProductionDate(resultSet.getDate(2));
-//            production.setSupplierID(resultSet.getInt(3));
-//            production.setSupplierName(resultSet.getString(4));
-//            production.setFarmID(resultSet.getInt(5));
-//            production.setFarmName(resultSet.getString(6));
-//            production.setProductID(resultSet.getInt(7));
-//            production.setProductName(resultSet.getString(8));
-//            production.setProductCode(resultSet.getString(9));
-//            production.setTotalEmployee(resultSet.getInt(10));
-//            production.setGoodQuantity(resultSet.getDouble(11));
-//            production.setProductionPrice(resultSet.getDouble(12));
-//            production.setProductionCost(resultSet.getDouble(13));
+            production.setProductionID(resultSet.getInt(1));
+            production.setProductionDate(resultSet.getDate(2));
+            production.setTotalEmployee(resultSet.getInt(3));
+            production.setTotalMinutes(resultSet.getLong(4));
+            production.setPrice(resultSet.getDouble(5));
+            production.getSupplier().setSupplierId(resultSet.getInt(6));
+            production.getSupplier().setSupplierName(resultSet.getString(7));
+            production.getFarm().setFarmId(resultSet.getInt(8));
+            production.getFarm().setFarmName(resultSet.getString(9));
+            production.getProduct().setProductId(resultSet.getInt(10));
+            production.getProduct().setProductName(resultSet.getString(11));
+            production.getProductDetail().setProductDetailId(resultSet.getInt(12));
+            production.getProductDetail().setProductType(resultSet.getString(13));
+            production.getProductDetail().setProductCode(resultSet.getString(14));
             list.add(production);
         }
         return list;
@@ -198,7 +259,7 @@ public class ProductionDAO extends DAO {
                 + COLUMN_PRODUCTION_PRODUCT_DETAIL_ID + ", "
                 + COLUMN_PRODUCTION_TOTAL_EMPLOYEES + ", "
                 + COLUMN_PRODUCTION_TOTAL_QUANTITY + ", "
-                + COLUMN_PRODUCTION_TOTAL_HOURS + ", "
+                + COLUMN_PRODUCTION_TOTAL_MINUTES + ", "
                 + COLUMN_PRODUCTION_PRICE + ") "
                 + " VALUES (?,?,?,?,?,?,?,?,?,?) ";
 
@@ -266,6 +327,54 @@ public class ProductionDAO extends DAO {
     }
 
     //*******************************
+    //Get all production data
+    //*******************************
+    public ObservableList<Production> getData() throws Exception {
+        String select = "SELECT * FROM " + TABLE_PRODUCTION + " ORDER BY " + COLUMN_PRODUCTION_DATE + " DESC ;";
+        try (Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(select)) {
+            return getQuantityProductionFromResultSet(resultSet);
+        } catch (SQLException e) {
+            System.out.println("SQL select operation has been failed: " + e);
+            throw e;
+        } finally {
+            dbDisConnect();
+        }
+    }
+
+    //*******************************
+    //Get all production data by date
+    //*******************************
+    public ObservableList<Production> getDataByDate(Date date) throws Exception {
+        String select = "SELECT * FROM " + TABLE_PRODUCTION + " WHERE " + COLUMN_PRODUCTION_DATE + " = " + date.getTime() + " "
+                + " ORDER BY " + COLUMN_PRODUCTION_DATE + " DESC ;";
+        try (Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(select)) {
+            return getQuantityProductionFromResultSet(resultSet);
+        } catch (SQLException e) {
+            System.out.println("SQL select operation has been failed: " + e);
+            throw e;
+        } finally {
+            dbDisConnect();
+        }
+    }
+
+    //*******************************
+    //Search production data by date
+    //*******************************
+    public ObservableList<Production> searchDataByDate(Date fromDate, Date toDate) throws Exception {
+        String select = "SELECT * FROM " + TABLE_PRODUCTION + " WHERE " + COLUMN_PRODUCTION_DATE + " >= " + fromDate.getTime()
+                + " AND " + COLUMN_PRODUCTION_DATE + " <= " + toDate.getTime()
+                + " ORDER BY " + COLUMN_PRODUCTION_DATE + " DESC ;";
+        try (Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(select)) {
+            return getQuantityProductionFromResultSet(resultSet);
+        } catch (SQLException e) {
+            System.out.println("SQL select operation has been failed: " + e);
+            throw e;
+        } finally {
+            dbDisConnect();
+        }
+    }
+
+    //*******************************
     //Create production table
     //*******************************
     public void createProductionTable() throws SQLException {
@@ -279,7 +388,7 @@ public class ProductionDAO extends DAO {
                 + COLUMN_PRODUCTION_PRODUCT_DETAIL_ID + " TEXT NOT NULL, "
                 + COLUMN_PRODUCTION_TOTAL_EMPLOYEES + " INTEGER, "
                 + COLUMN_PRODUCTION_TOTAL_QUANTITY + " REAL, "
-                + COLUMN_PRODUCTION_TOTAL_HOURS + " REAL, "
+                + COLUMN_PRODUCTION_TOTAL_MINUTES + " REAL, "
                 + COLUMN_PRODUCTION_PRICE + " REAL NOT NULL, "
                 + " FOREIGN KEY (" + COLUMN_PRODUCTION_SUPPLIER_ID + ") REFERENCES " + TABLE_SUPPLIER + " (" + COLUMN_SUPPLIER_ID + ")"
                 + " FOREIGN KEY (" + COLUMN_PRODUCTION_FARM_ID + ") REFERENCES " + TABLE_FARM + " (" + COLUMN_FARM_ID + ")"

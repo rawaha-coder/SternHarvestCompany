@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1100.0" stylesheets="@../../sub_style.css"
+<AnchorPane prefHeight="700.0" prefWidth="1100.0" stylesheets="@../style/sub_style.css"
             xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="harvest.view.DisplayProductController">
 
