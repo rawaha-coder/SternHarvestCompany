@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.control.ComboBox?>
 
-<AnchorPane fx:id="fxAddItemUI" maxHeight="680.0" maxWidth="480.0" prefHeight="600.0" prefWidth="400.0" stylesheets="@../../main_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.view.AddCreditController">
+<AnchorPane fx:id="fxAddItemUI" maxHeight="680.0" maxWidth="480.0" prefHeight="600.0" prefWidth="400.0" stylesheets="@../style/main_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.view.AddCreditController">
     <children>
         <Label layoutX="67.0" layoutY="48.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Date" />
         <DatePicker fx:id="fxCreditDate" editable="false" layoutX="67.0" layoutY="78.0" prefHeight="34.0" prefWidth="250.0" />

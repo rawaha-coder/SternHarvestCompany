@@ -12,7 +12,7 @@
 <?import javafx.scene.control.TextField?>
 <?import harvest.util.TimeTextField?>
 
-<AnchorPane fx:id="addHarvestHoursUI" prefHeight="700.0" prefWidth="1200.0" stylesheets="@../../main_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.view.AddHoursController">
+<AnchorPane fx:id="addHarvestHoursUI" prefHeight="700.0" prefWidth="1200.0" stylesheets="@../style/main_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.view.AddHoursController">
 
     <AnchorPane prefHeight="573.0" prefWidth="244.0">
 
@@ -68,7 +68,7 @@
         <children>
 
             <Label alignment="CENTER" layoutX="307.0" layoutY="20.0" prefHeight="30.0" prefWidth="100.0" text="Total Minutes" />
-            <TextField fx:id="fxTotalHours" layoutX="307.0" layoutY="50.0" prefHeight="30.0" prefWidth="100.0" />
+            <TextField fx:id="fxTotalMinutes" layoutX="307.0" layoutY="50.0" prefHeight="30.0" prefWidth="100.0" />
             <Label alignment="CENTER" layoutX="698.0" layoutY="20.0" prefHeight="30.0" prefWidth="100.0" text="Total Credit" />
             <TextField fx:id="fxTotalCredit" layoutX="698.0" layoutY="50.0" prefHeight="30.0" prefWidth="100.0" />
             <Label alignment="CENTER" layoutX="175.0" layoutY="20.0" prefHeight="30.0" prefWidth="100.0" text="Employees" />

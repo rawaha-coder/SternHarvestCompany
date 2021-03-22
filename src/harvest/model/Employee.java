@@ -54,6 +54,10 @@ public class Employee {
         return getEmployeeFirstName() + " " + getEmployeeLastName();
     }
 
+    public SimpleStringProperty employeeFullNameProperty() {
+        return new SimpleStringProperty(getEmployeeFullName()) ;
+    }
+
     public Date getEmployeeHireDate() {
         return employeeHireDate.get();
     }

@@ -38,13 +38,13 @@
     -fx-background-color: transparent;
     -fx-font-weight:bold;
     -fx-text-fill: white;
-    -fx-font-family: "Verdana";
+    -fx-font-family: "Arial Narrow";
     -fx-text-size: 1.0em;
 }
 
 .table-row-cell{
-    -fx-text-background-color: white;
-    -fx-text-size: 1.2em;
+    -fx-text-background-color: black;
+    -fx-text-size: 0.9em;
     -fx-font-family: "Arial Narrow";
     -fx-cell-size: 28px;
 }
@@ -55,12 +55,12 @@
 }
 
 .table-row-cell: odd{
-    -fx-background-color: -fx-first-menu-color;
+    -fx-background-color: #FFFFFF;
     -fx-background-insets: 0, 0 0 1 0;
     -fx-padding: 0.0em;
 }
 .table-row-cell: even{
-    -fx-background-color: -fx-second-menu-color;
+    -fx-background-color: #D9E1F2;
     -fx-background-insets: 0, 0 0 1 0;
     -fx-padding: 0.0em;
 }
@@ -89,4 +89,14 @@
 .chart-pie-label{
     -fx-pie-color: white;
     -fx-padding-bottom: 10px;
+}
+
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color: white;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #20484A;
+    -fx-background-radius: 5em;
 }

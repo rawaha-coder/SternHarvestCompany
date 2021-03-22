@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.control.ComboBox?>
 
-<AnchorPane fx:id="fxAddItemUI" prefHeight="600.0" prefWidth="400.0" stylesheets="@../../main_style.css"
+<AnchorPane fx:id="fxAddItemUI" prefHeight="600.0" prefWidth="400.0" stylesheets="@../style/main_style.css"
             xmlns="http://javafx.com/javafx/11.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="harvest.view.AddTransportController">

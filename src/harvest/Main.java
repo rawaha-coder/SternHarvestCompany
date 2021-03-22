@@ -56,7 +56,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("res/layout/main.fxml"));
         primaryStage.setTitle("Stern individual Company");
         primaryStage.setScene(new Scene(root, 1300, 700));
         primaryStage.show();

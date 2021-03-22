@@ -69,7 +69,7 @@ public class AddHoursPresenter {
         production.getProduct().setProductId(listPresenter.getProductMap().get(mAddHoursController.fxProductList.getValue()).getProductId());
         production.getProductDetail().setProductDetailId(listPresenter.getProductDetailMap().get(mAddHoursController.fxProductCodeList.getValue()).getProductDetailId());
         production.setTotalEmployee(Integer.parseInt(mAddHoursController.fxTotalEmployee.getText()));
-        production.setTotalMinutes(Long.parseLong(mAddHoursController.fxTotalHours.getText()));
+        production.setTotalMinutes(Long.parseLong(mAddHoursController.fxTotalMinutes.getText()));
         production.setPrice(Double.parseDouble(mAddHoursController.fxHourPrice.getText()));
         int productionId = mProductionDAO.addProductionAndGetId(production);
         if (productionId != -1){
@@ -121,7 +121,7 @@ public class AddHoursPresenter {
         }
 
         mAddHoursController.fxTotalEmployee.setText(String.valueOf(ADD_HOURS_LIVE_DATA.size()));
-        mAddHoursController.fxTotalHours.setText(String.valueOf(totalMinute));
+        mAddHoursController.fxTotalMinutes.setText(String.valueOf(totalMinute));
         mAddHoursController.fxHourPrice.setText(String.valueOf(price));
         mAddHoursController.fxTotalTransport.setText(String.valueOf(totalTransport));
         mAddHoursController.fxTotalCredit.setText(String.valueOf(totalCredit));
@@ -159,7 +159,7 @@ public class AddHoursPresenter {
             hours.setPayment(0.0);
         }
         mAddHoursController.fxTotalEmployee.setText("0");
-        mAddHoursController.fxTotalHours.setText("0");
+        mAddHoursController.fxTotalMinutes.setText("0");
         mAddHoursController.fxHourPrice.setText("0.0");
         mAddHoursController.fxTotalTransport.setText("0.0");
         mAddHoursController.fxTotalCredit.setText("0.0");

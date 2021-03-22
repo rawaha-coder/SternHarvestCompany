@@ -58,16 +58,32 @@ public class Production {
         return supplier;
     }
 
+    public String getSupplierName(){
+        return getSupplier().getSupplierName();
+    }
+
     public Farm getFarm() {
         return farm;
+    }
+
+    public String getFarmName(){
+        return getFarm().getFarmName();
     }
 
     public Product getProduct() {
         return product;
     }
 
+    public String getProductName(){
+        return getProduct().getProductName();
+    }
+
     public ProductDetail getProductDetail() {
         return productDetail;
+    }
+
+    public String getProductCode(){
+        return getProductDetail().getProductCode();
     }
 
     public int getTotalEmployee() {
@@ -116,5 +132,9 @@ public class Production {
 
     public void setPrice(double price) {
         this.price.set(price);
+    }
+
+    public Double getCost(){
+        return getTotalMinutes() * (getPrice() / 60);
     }
 }
