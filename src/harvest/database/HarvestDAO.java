@@ -9,8 +9,7 @@ import static harvest.database.ConstantDAO.*;
 
 public class HarvestDAO extends DAO {
     private static HarvestDAO sHarvestDAO = new HarvestDAO();
-    private HarvestDAO() {
-    }
+    private HarvestDAO() { }
     public static HarvestDAO getInstance() {
         if (sHarvestDAO == null) {
             sHarvestDAO = new HarvestDAO();

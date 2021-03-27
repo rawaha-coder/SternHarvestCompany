@@ -1,25 +1,18 @@
 package harvest.view;
 
 import harvest.model.Production;
-import harvest.presenter.HoursProductionPresenter;
+import harvest.presenter.DisplayHoursProductionPresenter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Enumeration;
 import java.util.ResourceBundle;
 
-public class HoursProduction implements Initializable {
+public class DisplayHoursProduction implements Initializable {
 
-    @FXML
-    public ImageView fxRefreshImage;
     @FXML
     public TableView<Production> fxHoursProductionTable;
     @FXML
@@ -51,37 +44,12 @@ public class HoursProduction implements Initializable {
     public DatePicker fxDatePickerTo;
     @FXML
     public Button fxSearch;
-    @FXML
-    public Button fxReLoadUI;
 
-    HoursProductionPresenter hoursProductionPresenter;
-
-
-    @FXML
-    void handleReloadUI(ActionEvent event) {
-        URL url = null;
-        ResourceBundle resourceBundle = new ResourceBundle() {
-            @Override
-            protected Object handleGetObject(String key) {
-                return null;
-            }
-
-            @Override
-            public Enumeration<String> getKeys() {
-                return null;
-            }
-        };
-        try {
-            url = new URL("");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        initialize(url, resourceBundle);
-    }
+    DisplayHoursProductionPresenter mDisplayHoursProductionPresenter;
 
     @FXML
     void handleSearchButton(ActionEvent event) {
-        hoursProductionPresenter.searchByDate();
+        mDisplayHoursProductionPresenter.searchByDate();
     }
 
     @FXML
@@ -89,15 +57,10 @@ public class HoursProduction implements Initializable {
         fxHoursProductionTable.refresh();
     }
 
-    @FXML
-    void handleRefreshTableButton(MouseEvent event) {
-
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initTable();
-        hoursProductionPresenter = new HoursProductionPresenter(this);
+        mDisplayHoursProductionPresenter = new DisplayHoursProductionPresenter(this);
     }
 
     private void initTable() {

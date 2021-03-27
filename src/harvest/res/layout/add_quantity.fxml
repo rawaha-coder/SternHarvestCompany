@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" stylesheets="@../style/main_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.view.AddQuantityController">
+    <children>
+        <BorderPane prefHeight="700.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <top>
+                <AnchorPane prefHeight="100.0" prefWidth="1200.0">
+                    <Label layoutX="14.0" layoutY="11.0" prefHeight="30.0" prefWidth="140.0" text="Date:" />
+                    <DatePicker fx:id="fxHarvestDate" layoutX="14.0" layoutY="40.0" prefHeight="30.0" prefWidth="140.0" />
+                    <Label layoutX="167.0" layoutY="11.0" prefHeight="30.0" prefWidth="180.0" text="Fournisseur :" />
+                    <ChoiceBox fx:id="fxSupplierList" layoutX="167.0" layoutY="40.0" prefHeight="30.0" prefWidth="180.0" />
+                    <Label layoutX="363.0" layoutY="14.0" prefHeight="30.0" prefWidth="180.0" text="Champ:" />
+                    <ChoiceBox fx:id="fxFarmList" layoutX="363.0" layoutY="40.0" prefHeight="30.0" prefWidth="180.0" />
+                    <Label layoutX="558.0" layoutY="11.0" prefHeight="30.0" prefWidth="140.0" text="Produit:" />
+                    <ChoiceBox fx:id="fxProductList" layoutX="558.0" layoutY="40.0" prefHeight="30.0" prefWidth="140.0" />
+                    <Label layoutX="711.0" layoutY="14.0" prefHeight="30.0" prefWidth="140.0" text="Code:" />
+                    <ChoiceBox fx:id="fxProductCodeList" layoutX="711.0" layoutY="40.0" prefHeight="30.0" prefWidth="140.0" />
+                    <Label layoutX="863.0" layoutY="14.0" prefHeight="30.0" prefWidth="100.0" text="Tous" />
+                    <TextField fx:id="fxInputAllQuantity" layoutX="863.0" layoutY="40.0" prefHeight="30.0" prefWidth="140.0" style="-fx-background-color: green;" />
+                    <Label layoutX="1021.0" layoutY="14.0" prefHeight="30.0" prefWidth="100.0" text="Pertes" />
+                    <TextField fx:id="fxInputBadQuantity" layoutX="1021.0" layoutY="40.0" prefHeight="30.0" prefWidth="140.0" style="-fx-background-color: red;" />
+                </AnchorPane>
+            </top>
+            <center>
+                <TableView fx:id="fxHarvestQuantityTable" editable="true" layoutX="13.0" layoutY="134.0" prefHeight="452.0" prefWidth="1200.0">
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                    </columnResizePolicy>
+                    <columns>
+                        <TableColumn fx:id="fxEmployeeColumn" maxWidth="200.0" minWidth="160.0" prefWidth="180.0" text="Employée" />
+                        <TableColumn fx:id="fxAllQuantityColumn" editable="true" maxWidth="120.0" minWidth="90.0" prefWidth="100.0" text="Tous" />
+                        <TableColumn fx:id="fxBadQuantityColumn" editable="true" maxWidth="120.0" minWidth="90.0" prefWidth="100.0" text="Pertes" />
+                        <TableColumn fx:id="fxGoodQuantityColumn" editable="true" maxWidth="120.0" minWidth="90.0" prefWidth="100.0" text="Rest" />
+                        <TableColumn fx:id="fxPriceColumn" editable="true" maxWidth="120.0" minWidth="90.0" prefWidth="100.0" text="Prix.E" />
+                        <TableColumn fx:id="fxTransportColumn" editable="true" maxWidth="100.0" minWidth="80.0" prefWidth="90.0" text="Transport" />
+                        <TableColumn fx:id="fxCreditColumn" onEditCommit="#onChangeCreditCell" editable="true" maxWidth="120.0" minWidth="90.0" prefWidth="100.0" text="Credit" />
+                        <TableColumn fx:id="fxPaymentColumn" editable="true" maxWidth="120.0" minWidth="90.0" prefWidth="100.0" text="Net" />
+                        <TableColumn fx:id="fxRemarqueColumn" onEditCommit="#onChangeRemarqueCell" editable="true" minWidth="140.0" prefWidth="220.0" text="Remarque" />
+                    </columns>
+                </TableView>
+            </center>
+            <bottom>
+                <AnchorPane prefHeight="100.0" prefWidth="1200.0">
+                    <Label alignment="CENTER" layoutX="20.0" layoutY="10.0" prefHeight="30.0" prefWidth="120.0" text="Total Employées" />
+                    <TextField fx:id="fxTotalEmployee" layoutX="20.0" layoutY="50.0" prefHeight="30.0" prefWidth="120.0">
+                        <padding>
+                            <Insets left="5.0" />
+                        </padding></TextField>
+                    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="160.0" layoutY="10.0" prefHeight="30.0" prefWidth="120.0" text="Total Quantités" />
+                    <TextField fx:id="fxTotalAllQuantity" layoutX="160.0" layoutY="50.0" prefHeight="30.0" prefWidth="120.0">
+                        <padding>
+                            <Insets left="5.0" />
+                        </padding></TextField>
+                    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="300.0" layoutY="10.0" prefHeight="30.0" prefWidth="120.0" text="Total Pertes" />
+                    <TextField fx:id="fxTotalBadQuantity" layoutX="300.0" layoutY="50.0" prefHeight="30.0" prefWidth="120.0">
+                        <padding>
+                            <Insets left="5.0" />
+                        </padding></TextField>
+                    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="440.0" layoutY="10.0" prefHeight="30.0" prefWidth="120.0" text="Total Rest" />
+                    <TextField fx:id="fxTotalGoodQuantity" layoutX="440.0" layoutY="50.0" prefHeight="30.0" prefWidth="120.0">
+                        <padding>
+                            <Insets left="5.0" />
+                        </padding></TextField>
+                    <Label alignment="CENTER" layoutX="580.0" layoutY="10.0" prefHeight="30.0" prefWidth="120.0" text="Prix.E" />
+                    <TextField fx:id="fxProductPriceEmployee" layoutX="580.0" layoutY="50.0" prefHeight="30.0" prefWidth="120.0">
+                        <padding>
+                            <Insets left="5.0" />
+                        </padding></TextField>
+                    <Label alignment="CENTER" layoutX="720.0" layoutY="10.0" prefHeight="30.0" prefWidth="120.0" text="Total Transport" />
+                    <TextField fx:id="fxTotalTransport" layoutX="720.0" layoutY="50.0" prefHeight="30.0" prefWidth="120.0">
+                        <padding>
+                            <Insets left="5.0" />
+                        </padding></TextField>
+                    <Label alignment="CENTER" layoutX="860.0" layoutY="10.0" prefHeight="30.0" prefWidth="120.0" text="Total Credit" />
+                    <TextField fx:id="fxTotalCredit" layoutX="860.0" layoutY="50.0" prefHeight="30.0" prefWidth="120.0">
+                        <padding>
+                            <Insets left="5.0" />
+                        </padding></TextField>
+               <Label alignment="CENTER" layoutX="1000.0" layoutY="10.0" prefHeight="30.0" prefWidth="120.0" text="Total Payment" />
+                    <Label fx:id="fxTotalPayment" layoutX="1000.0" layoutY="50.0" prefHeight="30.0" prefWidth="130.0" styleClass="labelHarvestTotal" text="0.0">
+                        <padding>
+                            <Insets left="5.0" />
+                        </padding>
+                    </Label>
+                </AnchorPane>
+            </bottom>
+         <right>
+            <AnchorPane prefHeight="200.0" prefWidth="140.0" BorderPane.alignment="CENTER">
+               <children>
+                   <RadioButton fx:id="fxHarvestByGroup" layoutX="20.0" layoutY="113.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Groupe" toggleGroup="$fxHarvestType">
+                       <toggleGroup>
+                           <ToggleGroup fx:id="fxHarvestType" />
+                       </toggleGroup>
+                   </RadioButton>
+                   <RadioButton fx:id="fxHarvestByIndividual" layoutX="18.0" layoutY="73.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="105.0" text="Individual" toggleGroup="$fxHarvestType" />
+
+                   <Button fx:id="fxClearButton" layoutX="40.0" layoutY="211.0" mnemonicParsing="false" onAction="#clearButton" prefHeight="20.0" prefWidth="60.0" style="-fx-background-color: #ACBAC1;" text="Vider" />
+                   <Button fx:id="fxImportButton" layoutX="22.0" layoutY="25.0" mnemonicParsing="false" onAction="#importButton" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: blue;" text="Import" />
+                   <Button fx:id="fxValidateButton" layoutX="20.0" layoutY="165.0" mnemonicParsing="false" onAction="#validateButton" prefHeight="30.0" prefWidth="100.0" text="Valider" />
+                   <Button fx:id="fxApplyButton" layoutX="20.0" layoutY="443.0" mnemonicParsing="false" onAction="#applyButton" prefHeight="30.0" prefWidth="100.0" text="Appliquer" />
+                  <Label alignment="CENTER" layoutX="20.0" layoutY="351.0" prefHeight="30.0" prefWidth="100.0" text="Charge" />
+                  <Label fx:id="fxCompanyCharge" layoutX="20.0" layoutY="393.0" prefHeight="30.0" prefWidth="100.0" styleClass="labelHarvestTotal" text="0.0">
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="20.0" layoutY="267.0" prefHeight="30.0" prefWidth="100.0" text="Prix.C" />
+                  <TextField fx:id="fxProductPriceCompany" layoutX="20.0" layoutY="310.0" prefHeight="30.0" prefWidth="100.0">
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                  </TextField>
+               </children>
+            </AnchorPane>
+         </right>
+        </BorderPane>
+    </children>
+</AnchorPane>

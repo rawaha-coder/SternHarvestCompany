@@ -93,7 +93,7 @@ public class ProductionDAO extends DAO {
     //*******************************
     //Search production data by date
     //*******************************
-    public ObservableList<Production> searchHoursProductionData(Date fromDate, Date toDate) throws Exception {
+    public ObservableList<Production> searchHoursProductionData(Date fromDate, Date toDate, int type) throws Exception {
         String select = "SELECT "
                 + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_ID + ", "
                 + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_DATE + ", "
@@ -120,7 +120,7 @@ public class ProductionDAO extends DAO {
                 + " ON " + TABLE_PRODUCT_DETAIL + "." + COLUMN_PRODUCT_DETAIL_ID + " = " + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_PRODUCT_DETAIL_ID
                 + " WHERE " + COLUMN_PRODUCTION_DATE + " >= " + fromDate.getTime()
                 + " AND " + COLUMN_PRODUCTION_DATE + " <= " + toDate.getTime()
-                + " AND " + COLUMN_PRODUCTION_TYPE + " = 1 "
+                + " AND " + COLUMN_PRODUCTION_TYPE + " = " + type
                 + " ORDER BY " + COLUMN_PRODUCTION_DATE + " DESC ;";
         try (Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(select)) {
             return getProductionFromResultSet(resultSet);

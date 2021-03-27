@@ -1,6 +1,7 @@
 package harvest.database;
 
 import harvest.model.Hours;
+import harvest.model.Production;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -23,6 +24,9 @@ public class HoursDAO extends DAO {
         return sHoursDAO;
     }
 
+    //*******************************
+    //Get Hours data
+    //*******************************
     public List<Hours> getData(Date date) throws SQLException {
         Statement statement;
         ResultSet resultSet;
@@ -120,7 +124,71 @@ public class HoursDAO extends DAO {
     }
 
     //*******************************
-    //Get all employees data
+    //Get Hours data by production id
+    //*******************************
+    public List<Hours> getHoursDataByProductionId(Production production) throws SQLException {
+        Statement statement;
+        ResultSet resultSet;
+        String select = "SELECT "
+                + TABLE_HOURS + "." + COLUMN_HOURS_ID + ", "
+                + TABLE_HOURS + "." + COLUMN_HOURS_DATE + ", "
+                + TABLE_HOURS + "." + COLUMN_HOURS_SM + ", "
+                + TABLE_HOURS + "." + COLUMN_HOURS_EM + ", "
+                + TABLE_HOURS + "." + COLUMN_HOURS_SN + ", "
+                + TABLE_HOURS + "." + COLUMN_HOURS_EN + ", "
+                + TABLE_HOURS + "." + COLUMN_HOURS_EMPLOYEE_TYPE  + ", "
+                + TABLE_HOURS + "." + COLUMN_HOURS_PRICE  + ", "
+                + TABLE_HOURS + "." + COLUMN_HARVEST_REMARQUE + ", "
+                + TABLE_EMPLOYEE + "." + COLUMN_EMPLOYEE_ID + ", "
+                + TABLE_EMPLOYEE + "." + COLUMN_EMPLOYEE_FIRST_NAME + ", "
+                + TABLE_EMPLOYEE + "." + COLUMN_EMPLOYEE_LAST_NAME + ", "
+                + TABLE_TRANSPORT + "." + COLUMN_TRANSPORT_ID + ", "
+                + TABLE_TRANSPORT + "." + COLUMN_TRANSPORT_AMOUNT + ", "
+                + TABLE_CREDIT + "." + COLUMN_CREDIT_ID + ", "
+                + TABLE_CREDIT + "." + COLUMN_CREDIT_AMOUNT + ", "
+                + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_ID + ", "
+                + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_ID + ", "
+                + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_NAME + ", "
+                + TABLE_FARM + "." + COLUMN_FARM_ID + ", "
+                + TABLE_FARM + "." + COLUMN_FARM_NAME + ", "
+                + TABLE_PRODUCT + "." + COLUMN_PRODUCT_ID + ", "
+                + TABLE_PRODUCT + "." + COLUMN_PRODUCT_NAME + ", "
+                + TABLE_PRODUCT_DETAIL + "." + COLUMN_PRODUCT_DETAIL_ID + ", "
+                + TABLE_PRODUCT_DETAIL + "." + COLUMN_PRODUCT_TYPE + ", "
+                + TABLE_PRODUCT_DETAIL + "." + COLUMN_PRODUCT_CODE + " "
+                + " FROM " + TABLE_HOURS + " "
+                + " LEFT JOIN " + TABLE_EMPLOYEE + " "
+                + " ON " + TABLE_EMPLOYEE + "." + COLUMN_EMPLOYEE_ID + " = " + TABLE_HOURS + "." + COLUMN_HOURS_EMPLOYEE_ID
+                + " LEFT JOIN " + TABLE_TRANSPORT + " "
+                + " ON " + TABLE_TRANSPORT + "." + COLUMN_TRANSPORT_ID + " = " + TABLE_HOURS + "." + COLUMN_HOURS_TRANSPORT_ID
+                + " LEFT JOIN " + TABLE_CREDIT + " "
+                + " ON " + TABLE_CREDIT + "." + COLUMN_CREDIT_ID + " = " + TABLE_HOURS + "." + COLUMN_HOURS_CREDIT_ID
+                + " LEFT JOIN " + TABLE_PRODUCTION + " "
+                + " ON " + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_ID + " = " + TABLE_HOURS + "." + COLUMN_HOURS_PRODUCTION_ID
+                + " LEFT JOIN " + TABLE_SUPPLIER + " "
+                + " ON " + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_ID + " = " + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_SUPPLIER_ID
+                + " LEFT JOIN " + TABLE_FARM + " "
+                + " ON " + TABLE_FARM + "." + COLUMN_FARM_ID + " = " + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_FARM_ID
+                + " LEFT JOIN " + TABLE_PRODUCT + " "
+                + " ON " + TABLE_PRODUCT + "." + COLUMN_PRODUCT_ID + " = " + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_PRODUCT_ID
+                + " LEFT JOIN " + TABLE_PRODUCT_DETAIL + " "
+                + " ON " + TABLE_PRODUCT_DETAIL + "." + COLUMN_PRODUCT_DETAIL_ID + " = " + TABLE_PRODUCTION + "." + COLUMN_PRODUCTION_PRODUCT_DETAIL_ID
+                + " WHERE " + TABLE_HOURS + "." + COLUMN_HOURS_PRODUCTION_ID + " = " + production.getProductionID() + " "
+                + " ORDER BY " + TABLE_HOURS + "." + COLUMN_HOURS_DATE + " DESC ;";
+        try {
+            statement = dbGetConnect().createStatement();
+            resultSet = statement.executeQuery(select);
+            return getHarvestHoursFromResultSet(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            dbDisConnect();
+        }
+    }
+
+    //*******************************
+    //Get Add Hours data
     //*******************************
     public List<Hours> getAddHoursData() throws Exception {
         List<Hours> hoursList = new ArrayList<>();
@@ -150,7 +218,9 @@ public class HoursDAO extends DAO {
         }
     }
 
-    //add list of harvesters
+    //*******************************
+    //add Harvest Hours
+    //*******************************
     public boolean addHoursWork(Hours hours) {
         Connection connection;
         PreparedStatement preparedStatement;

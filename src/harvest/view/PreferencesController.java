@@ -52,6 +52,8 @@ public class PreferencesController implements Initializable {
             alertMaker.missingInfo("Value");
             return;
         }
+        System.out.println(fxPenaltyGeneral.getText());
+        System.out.println(fxDefectiveGeneral.getText());
         alertMaker.updateItem("Value",
                 preferencesDAO.editData(
                         Double.valueOf(fxPenaltyGeneral.getText()),

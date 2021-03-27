@@ -54,10 +54,11 @@ public class PreferencesDAO extends DAO{
     public boolean editData(Double p, Double gp, Double hp, Double tp) {
         String updateStmt = "UPDATE " + TABLE_PREFERENCE + " SET "
                 + COLUMN_PREFERENCE_PENALTY_GENERAL + " =?, "
-                + COLUMN_PREFERENCE_DEFECTIVE_GENERAL + " =?, "
+                + COLUMN_PREFERENCE_DAMAGE_GENERAL + " =?, "
                 + COLUMN_PREFERENCE_HOUR_PRICE + " =?, "
                 + COLUMN_PREFERENCE_TRANSPORT_PRICE + " =? ";
         try(PreparedStatement preparedStatement = dbGetConnect().prepareStatement(updateStmt)) {
+            System.out.println(p);
             preparedStatement.setDouble(1,p);
             preparedStatement.setDouble(2, gp);
             preparedStatement.setDouble(3, hp);
@@ -99,42 +100,18 @@ public class PreferencesDAO extends DAO{
         return price;
     }
 
-     public void createPreferencesTable() throws SQLException {
-         try {
-             Statement statement = dbGetConnect().createStatement();
-             statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_PREFERENCE
-                     +"("+ COLUMN_PREFERENCE_PENALTY_GENERAL +" REAL NOT NULL, "
-                     + COLUMN_PREFERENCE_DEFECTIVE_GENERAL +" REAL NOT NULL, "
-                     + COLUMN_PREFERENCE_HOUR_PRICE +" REAL NOT NULL, "
-                     + COLUMN_PREFERENCE_TRANSPORT_PRICE +" REAL NOT NULL "
-                     + ")");
-         }catch (SQLException e){
-             e.printStackTrace();
-             throw e;
-         }
-     }
-
-     //init Preferences Table
-//     public void initPreferencesTable() {
-//         String initPreferences = "INSERT INTO " + TABLE_PREFERENCE + " ("
-//                 + COLUMN_PREFERENCE_PENALTY_GENERAL + ", "
-//                 + COLUMN_PREFERENCE_DEFECTIVE_GENERAL + ", "
-//                 + COLUMN_PREFERENCE_HOUR_PRICE + ", "
-//                 + COLUMN_PREFERENCE_TRANSPORT_PRICE + ") "
-//                 + "VALUES (?,?,?,?);";
-//
+//     public void createPreferencesTable() throws SQLException {
 //         try {
-//             PreparedStatement preparedStatement = dbGetConnect().prepareStatement(initPreferences);
-//             preparedStatement.setDouble(1, 0);
-//             preparedStatement.setDouble(2, 0);
-//             preparedStatement.setDouble(3, 0);
-//             preparedStatement.setDouble(4, 0);
-//             preparedStatement.execute();
-//         } catch (Exception e) {
+//             Statement statement = dbGetConnect().createStatement();
+//             statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_PREFERENCE
+//                     +"("+ COLUMN_PREFERENCE_PENALTY_GENERAL +" REAL DEFAULT 0, "
+//                     + COLUMN_PREFERENCE_DAMAGE_GENERAL +" REAL DEFAULT 0, "
+//                     + COLUMN_PREFERENCE_HOUR_PRICE +" REAL REAL DEFAULT 0, "
+//                     + COLUMN_PREFERENCE_TRANSPORT_PRICE +" REAL REAL DEFAULT 0 "
+//                     + ")");
+//         }catch (SQLException e){
 //             e.printStackTrace();
-//             System.out.print("Error occurred while INSERT Operation: " + e.getMessage());
-//         }finally {
-//             dbDisConnect();
+//             throw e;
 //         }
 //     }
 
@@ -166,5 +143,28 @@ public class PreferencesDAO extends DAO{
         }
     }
 
+    //init Preferences Table
+//     public void initPreferencesTable() {
+//         String initPreferences = "INSERT INTO " + TABLE_PREFERENCE + " ("
+//                 + COLUMN_PREFERENCE_PENALTY_GENERAL + ", "
+//                    + COLUMN_PREFERENCE_DAMAGE_GENERAL + ", "
+//                 + COLUMN_PREFERENCE_HOUR_PRICE + ", "
+//                 + COLUMN_PREFERENCE_TRANSPORT_PRICE + ") "
+//                 + "VALUES (?,?,?,?);";
+//
+//         try {
+//             PreparedStatement preparedStatement = dbGetConnect().prepareStatement(initPreferences);
+//             preparedStatement.setDouble(1, 0);
+//             preparedStatement.setDouble(2, 0);
+//             preparedStatement.setDouble(3, 0);
+//             preparedStatement.setDouble(4, 0);
+//             preparedStatement.execute();
+//         } catch (Exception e) {
+//             e.printStackTrace();
+//             System.out.print("Error occurred while INSERT Operation: " + e.getMessage());
+//         }finally {
+//             dbDisConnect();
+//         }
+//     }
 
 }
