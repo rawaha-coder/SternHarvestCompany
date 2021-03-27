@@ -21,6 +21,26 @@ public class ConstantDAO {
     public static final String COLUMN_HOURS_PRODUCTION_ID = "production_id";
 
     //*************************************
+    //Database table columns name for individual hours UI and model
+    //*************************************
+    public static final String TABLE_QUANTITY = "quantity";
+    public static final String COLUMN_QUANTITY_ID = "id";
+    public static final String COLUMN_QUANTITY_PRODUCTION_ID = "production_id";
+    public static final String COLUMN_QUANTITY_DATE = "date";
+    public static final String COLUMN_QUANTITY_ALL = "all_quantity";
+    public static final String COLUMN_QUANTITY_BAD = "bad_quantity";
+    public static final String COLUMN_QUANTITY_PG = "penalty_general";
+    public static final String COLUMN_QUANTITY_DG = "damage_general";
+    public static final String COLUMN_QUANTITY_GOOD = "good_quantity";
+    public static final String COLUMN_QUANTITY_HARVEST_TYPE = "harvest_type";
+    public static final String COLUMN_QUANTITY_EMPLOYEE_ID = "employee_id";
+    public static final String COLUMN_QUANTITY_TRANSPORT_ID = "transport_id";
+    public static final String COLUMN_QUANTITY_CREDIT_ID = "credit_id";
+    public static final String COLUMN_QUANTITY_PRICE = "price";
+    public static final String COLUMN_QUANTITY_REMARQUE = "remarque";
+
+
+    //*************************************
     //Database table columns name for group work UI and model
     //*************************************
     public static final String TABLE_HARVEST = "harvest";
@@ -157,7 +177,7 @@ public class ConstantDAO {
     //*************************************
     public static final String TABLE_PREFERENCE = "preferences";
     public static final String COLUMN_PREFERENCE_PENALTY_GENERAL = "penalty_general";
-    public static final String COLUMN_PREFERENCE_DEFECTIVE_GENERAL = "defective_general";
+    public static final String COLUMN_PREFERENCE_DAMAGE_GENERAL = "damage_general";
     public static final String COLUMN_PREFERENCE_HOUR_PRICE = "hour_price";
     public static final String COLUMN_PREFERENCE_TRANSPORT_PRICE = "transport_price";
 

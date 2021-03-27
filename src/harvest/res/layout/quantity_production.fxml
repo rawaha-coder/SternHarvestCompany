@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
 <AnchorPane prefHeight="540.0" prefWidth="1200.0"
             stylesheets="@../style/sub_style.css"
-            xmlns="http://javafx.com/javafx/11.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="harvest.view.DisplayHoursProduction">
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="harvest.view.DisplayQuantityProduction">
 
-    <Label alignment="CENTER" layoutX="25.0" layoutY="14.0" prefHeight="30.0" prefWidth="900.0" styleClass="tableName" text="TABLEAU DE PRODUCTION PAR HEURE" />
+    <Label alignment="CENTER" layoutX="25.0" layoutY="14.0" prefHeight="30.0" prefWidth="900.0" styleClass="tableName" text="TABLEAU DE PRODUCTION PAR QUANTITY" />
 
     <TableView fx:id="fxHoursProductionTable" editable="true" layoutX="25.0" layoutY="50.0" maxHeight="600.0" maxWidth="1144.0" prefHeight="400.0" prefWidth="1100.0">
         <columnResizePolicy>
@@ -28,7 +25,7 @@
             <TableColumn fx:id="fxProductName" maxWidth="140.0" minWidth="120.0" prefWidth="120.0" text="Produit" />
             <TableColumn fx:id="fxProductCode" maxWidth="100.0" minWidth="120.0" prefWidth="100.0" text="Code Produit" />
             <TableColumn fx:id="fxTotalEmployee" maxWidth="80.0" minWidth="60.0" text="N Employée" />
-            <TableColumn fx:id="fxTotalMinutes" maxWidth="100.0" minWidth="80.0" prefWidth="100.0" text="Durée(m)" />
+            <TableColumn fx:id="fxTotalMinutes" maxWidth="100.0" minWidth="80.0" prefWidth="100.0" text="Quantité" />
             <TableColumn fx:id="fxProductionPrice" maxWidth="80.0" minWidth="60.0" text="Prix" />
             <TableColumn fx:id="fxProductionCost" maxWidth="100.0" minWidth="60.0" prefWidth="100.0" text="Coût" />
         </columns>

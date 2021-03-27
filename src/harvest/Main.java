@@ -18,13 +18,10 @@ public class Main extends Application {
     //SupplierDAO mSupplierDAO = SupplierDAO.getInstance();
     //SupplyDAO mSupplyDAO = SupplyDAO.getInstance();
     //TransportDAO mTransportDAO = TransportDAO.getInstance();
-    //HarvestDAO mHarvestDAO = HarvestDAO.getInstance();
-    //HarvestHoursDAO mHarvestHoursDAO = HarvestHoursDAO.getInstance();
-    //HarvestProductionDAO mHarvestProductionDAO = HarvestProductionDAO.getInstance();
-    //HarvestIndividualDAO mHarvestIndividualDAO = HarvestIndividualDAO.getInstance();
     //PreferencesDAO mPreferencesDAO = PreferencesDAO.getInstance();
-    ProductionDAO mProductionDAO = ProductionDAO.getInstance();
-    HoursDAO mHoursDAO = HoursDAO.getInstance();
+    //ProductionDAO mProductionDAO = ProductionDAO.getInstance();
+    //HoursDAO mHoursDAO = HoursDAO.getInstance();
+    //QuantityDAO mQuantityDAO = QuantityDAO.getInstance();
 
     Thread mThread = new Thread(){
       public void run(){
@@ -39,14 +36,12 @@ public class Main extends Application {
               //mSupplierDAO.createSupplierTable();
               //mSupplyDAO.createSupplyTable();
               //mTransportDAO.createTransportTable();
-              //mHarvestDAO.createHarvestTable();
               //mHarvestHoursDAO.createHarvestTable();
-              //mHarvestProductionDAO.createHarvestTable();
-              //mHarvestIndividualDAO.createHarvestTable();
               //mPreferencesDAO.createPreferencesTable();
               //mPreferencesDAO.initPreferencesTable();
-              mProductionDAO.createProductionTable();
-              mHoursDAO.createHoursTable();
+              //mProductionDAO.createProductionTable();
+              //mHoursDAO.createHoursTable();
+              //mQuantityDAO.createQuantityTable();
           }catch (Exception e){
               e.printStackTrace();
           }

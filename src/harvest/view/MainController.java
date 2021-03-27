@@ -24,12 +24,12 @@ public class MainController implements Initializable {
     @FXML HBox fxProgressHBox;
     ProgressBar pBar = new ProgressBar();
 
+//    @FXML
+//    public void displayProduction() { displayCenterView("/harvest/res/layout/quantity_production.fxml"); }
     @FXML
-    public void displayProduction() { displayCenterView("/harvest/res/layout/hours_production.fxml"); }
+    public void displayHours() { displayCenterView("/harvest/res/layout/hours_production.fxml"); }
     @FXML
-    public void displayHours() { displayCenterView("/harvest/res/layout/display_hours.fxml"); }
-    @FXML
-    public void displayGroup() { displayCenterView("/harvest/res/layout/display_group.fxml"); }
+    public void displayQuantity() { displayCenterView("/harvest/res/layout/quantity_production.fxml"); }
     @FXML
     public void displayFarmSeason(){ displayCenterView("/harvest/res/layout/display_farm_season.fxml"); }
     @FXML
@@ -53,11 +53,11 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    void addGroupWork(){ loadAddWindow("/harvest/res/layout/add_group.fxml", "Add group work"); }
+    void addHarvestQuantity(){ loadAddWindow("/harvest/res/layout/add_quantity.fxml", "Add harvest quantity"); }
     @FXML
     void addIndividualWork(){ loadAddWindow("/harvest/res/layout/add_individual.fxml", "Add Individual Work"); }
     @FXML
-    void addWorkHours(){ loadAddWindow("/harvest/res/layout/add_hours.fxml", "Add work hours"); }
+    void addHarvestHours(){ loadAddWindow("/harvest/res/layout/add_hours.fxml", "Add harvest hours"); }
     @FXML
     void addFarmSeason(){ loadAddWindow("/harvest/res/layout/add_farm.fxml", "Add Champ"); }
     @FXML

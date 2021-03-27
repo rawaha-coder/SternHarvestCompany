@@ -137,4 +137,18 @@ public class Production {
     public Double getCost(){
         return getTotalMinutes() * (getPrice() / 60);
     }
+
+    public enum ProductionCategory {
+        HOUR, QUANTITY, UNKNOWN
+    };
+
+    public ProductionCategory  getProductionCategory () {
+        if (getProductionType() == 1) {
+            return ProductionCategory.HOUR;
+        } else if (getProductionType() == 2) {
+            return ProductionCategory.QUANTITY;
+        } else {
+            return ProductionCategory.UNKNOWN;
+        }
+    }
 }
