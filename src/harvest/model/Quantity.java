@@ -152,7 +152,7 @@ public class Quantity {
     public double getPayment() {
         double pay = 0;
         try{
-            pay = (getAllQuantity() - getBadQuantity() - getPenaltyGeneral() - getDamageGeneral())  * getProductPrice();
+            pay = ((getAllQuantity() - getBadQuantity() - getPenaltyGeneral() - getDamageGeneral())  * getProductPrice()) - getTransportAmount() - getCreditAmount();
         }catch (Exception e){
             e.printStackTrace();
         }

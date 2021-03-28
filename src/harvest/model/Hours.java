@@ -29,9 +29,13 @@ public class Hours {
     private final Production production = new  Production();
 
     public long getTotalMinutes() {
-        totalMinutes.set(calculateTotalMinutes(
-                startMorning.getValue().getTime(), endMorning.getValue().getTime(),
-                startNoon.getValue().getTime(), endNoon.getValue().getTime()));
+        long minutes = 0;
+        if (startMorning.getValue() != null && endMorning.getValue() != null && startNoon.getValue() != null && endNoon.getValue() != null ){
+            minutes = calculateTotalMinutes(
+                    startMorning.getValue().getTime(), endMorning.getValue().getTime(),
+                    startNoon.getValue().getTime(), endNoon.getValue().getTime());
+        }
+        totalMinutes.set(minutes);
         return totalMinutes.get();
     }
 
@@ -44,7 +48,12 @@ public class Hours {
         return totalMilliSeconds / (1000 * 60);
     }
 
+    public String getTotalMinutesString() {
+        return String.valueOf(getTotalMinutes());
+    }
+
     public LongProperty totalMinutesProperty() {
+        totalMinutes.get();
         return totalMinutes;
     }
 
@@ -190,6 +199,7 @@ public class Hours {
     }
 
     public SimpleDoubleProperty paymentProperty() {
+        getPayment();
         return payment;
     }
 

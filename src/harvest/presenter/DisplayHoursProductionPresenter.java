@@ -4,6 +4,7 @@ import harvest.database.HoursDAO;
 import harvest.database.ProductionDAO;
 import harvest.model.Hours;
 import harvest.model.Production;
+import harvest.model.Quantity;
 import harvest.view.DisplayHoursProduction;
 import javafx.beans.property.ObjectProperty;
 import javafx.collections.FXCollections;
@@ -103,26 +104,30 @@ public class DisplayHoursProductionPresenter {
 
         TableView<Hours> subTable = new TableView<>();
         subTable.getStylesheets().add(this.getClass().getResource("/harvest/res/style/subTableStyle.css").toExternalForm());
-        subTable.maxWidth(900);
+        subTable.maxWidth(1000);
         TableColumn<Hours, String> fxEmployee = new TableColumn<>("Employee");
         TableColumn<Hours, Time> fxStartMorning = new TableColumn<>("D.M");
         TableColumn<Hours, Time> fxEndMorning = new TableColumn<>("F.M");
         TableColumn<Hours, Time> fxStartNoon = new TableColumn<>("D.S");
         TableColumn<Hours, Time> fxEndNoon = new TableColumn<>("F.S");
-        TableColumn<Hours, Time> totalMinutes = new TableColumn<>("Minutes");
+        TableColumn<Hours, String> totalMinutes = new TableColumn<>("Minutes");
+        TableColumn<Hours, Double> fxPrice = new TableColumn<>("Price");
         TableColumn<Hours, String> fxTransport = new TableColumn<>("Transport");
         TableColumn<Hours, String> fxCredit = new TableColumn<>("Credit");
+        TableColumn<Hours, Double> fxPayment = new TableColumn<>("Payment");
         TableColumn<Hours, String> fxCategory = new TableColumn<>("Category");
         TableColumn<Hours, String> fxRemarque = new TableColumn<>("Remarque");
 
-        fxEmployee.setMinWidth(140);
+        fxEmployee.setMinWidth(180);
         fxStartMorning.setMinWidth(80);
         fxEndMorning.setMinWidth(80);
         fxStartNoon.setMinWidth(80);
         fxEndNoon.setMinWidth(80);
         totalMinutes.setMinWidth(80);
+        fxPrice.setMinWidth(80);
         fxTransport.setMinWidth(80);
         fxCredit.setMinWidth(80);
+        fxPayment.setMinWidth(80);
         fxCategory.setMinWidth(120);
         fxRemarque.setMinWidth(220);
 
@@ -131,15 +136,17 @@ public class DisplayHoursProductionPresenter {
         fxEndMorning.setCellValueFactory(new PropertyValueFactory<>("startMorning"));
         fxStartNoon.setCellValueFactory(new PropertyValueFactory<>("startNoon"));
         fxEndNoon.setCellValueFactory(new PropertyValueFactory<>("startNoon"));
-        totalMinutes.setCellValueFactory(new PropertyValueFactory<>("totalMinutes"));
+        totalMinutes.setCellValueFactory(new PropertyValueFactory<>("TotalMinutesString"));
+        fxPrice.setCellValueFactory(new PropertyValueFactory<>("hourPrice"));
         fxTransport.setCellValueFactory(new PropertyValueFactory<>("transportAmount"));
         fxCredit.setCellValueFactory(new PropertyValueFactory<>("creditAmount"));
+        fxPayment.setCellValueFactory(new PropertyValueFactory<>("payment"));
         fxCategory.setCellValueFactory(new PropertyValueFactory<>("employeeCategory"));
         fxRemarque.setCellValueFactory(new PropertyValueFactory<>("remarque"));
 
         subTable.getColumns().addAll(
                 fxEmployee, fxStartMorning, fxEndMorning, fxStartNoon, fxEndNoon,
-                totalMinutes, fxTransport, fxCredit, fxCategory, fxRemarque);
+                totalMinutes, fxPrice, fxTransport, fxCredit, fxPayment, fxCategory, fxRemarque);
 
         HoursDAO mHoursDAO = HoursDAO.getInstance();
         ObservableList<Hours> HOURS_WORK_LIVE = FXCollections.observableArrayList();
@@ -149,7 +156,7 @@ public class DisplayHoursProductionPresenter {
                     HOURS_WORK_LIVE.clear();
                     HOURS_WORK_LIVE.setAll(mHoursDAO.getHoursDataByProductionId(newItem));
                     subTable.setItems(HOURS_WORK_LIVE);
-                    subTable.setPrefHeight(75 + (HOURS_WORK_LIVE.size() * 30));
+                    subTable.setPrefHeight(100 + (HOURS_WORK_LIVE.size() * 30));
                     subTable.setStyle("-fx-border-color: #151819;");
                 } catch (Exception e) {
                     e.printStackTrace();

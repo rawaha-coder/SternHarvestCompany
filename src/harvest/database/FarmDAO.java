@@ -37,8 +37,8 @@ public class FarmDAO extends DAO{
             while (resultSet.next()) {
                 Farm farm = new Farm();
                 farm.setFarmId(resultSet.getInt(1));
-                farm.setFarmName(resultSet.getString(2));
-                farm.setFarmAddress(resultSet.getString(3));
+                farm.setFarmName(resultSet.getString(2).toUpperCase());
+                farm.setFarmAddress(resultSet.getString(3).toUpperCase());
                 list.add(farm);
             }
             return list;
@@ -62,8 +62,8 @@ public class FarmDAO extends DAO{
             while (resultSet.next()) {
                 Farm farm = new Farm();
                 farm.setFarmId(resultSet.getInt(1));
-                farm.setFarmName(resultSet.getString(2));
-                farm.setFarmAddress(resultSet.getString(3));
+                farm.setFarmName(resultSet.getString(2).toUpperCase());
+                farm.setFarmAddress(resultSet.getString(3).toUpperCase());
                 mFarmMap.put(farm.getFarmName(), farm);
             }
             return mFarmMap;
@@ -85,8 +85,8 @@ public class FarmDAO extends DAO{
                 + COLUMN_FARM_IS_EXIST + ") "
                 + "VALUES (?,?,?);";
         try(PreparedStatement preparedStatement = dbGetConnect().prepareStatement(sqlStmt)) {
-            preparedStatement.setString(1, farm.getFarmName());
-            preparedStatement.setString(2, farm.getFarmAddress());
+            preparedStatement.setString(1, farm.getFarmName().toUpperCase());
+            preparedStatement.setString(2, farm.getFarmAddress().toUpperCase());
             preparedStatement.setInt(3, 1);
             preparedStatement.execute();
             updateFarmListByFarm(farm);
@@ -106,8 +106,8 @@ public class FarmDAO extends DAO{
                 + COLUMN_FARM_ADDRESS + " =? "
                 + " WHERE " + COLUMN_FARM_ID+ " = " + farm.getFarmId() + " ;";
         try(PreparedStatement preparedStatement = dbGetConnect().prepareStatement(sqlStmt)) {
-            preparedStatement.setString(1, farm.getFarmName());
-            preparedStatement.setString(2, farm.getFarmAddress());
+            preparedStatement.setString(1, farm.getFarmName().toUpperCase());
+            preparedStatement.setString(2, farm.getFarmAddress().toUpperCase());
             preparedStatement.execute();
             updateFarmListByFarm(farm);
             return true;

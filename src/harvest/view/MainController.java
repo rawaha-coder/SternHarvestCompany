@@ -24,8 +24,6 @@ public class MainController implements Initializable {
     @FXML HBox fxProgressHBox;
     ProgressBar pBar = new ProgressBar();
 
-//    @FXML
-//    public void displayProduction() { displayCenterView("/harvest/res/layout/quantity_production.fxml"); }
     @FXML
     public void displayHours() { displayCenterView("/harvest/res/layout/hours_production.fxml"); }
     @FXML
@@ -54,8 +52,6 @@ public class MainController implements Initializable {
 
     @FXML
     void addHarvestQuantity(){ loadAddWindow("/harvest/res/layout/add_quantity.fxml", "Add harvest quantity"); }
-    @FXML
-    void addIndividualWork(){ loadAddWindow("/harvest/res/layout/add_individual.fxml", "Add Individual Work"); }
     @FXML
     void addHarvestHours(){ loadAddWindow("/harvest/res/layout/add_hours.fxml", "Add harvest hours"); }
     @FXML

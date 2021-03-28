@@ -51,6 +51,7 @@
     -fx-background-color: transparent;
     -fx-background-radius: 7 7 7 7;
     -fx-border-radius: 7 7 7 7;
+    -fx-border-color: white;
 }
 
 .topButton:hover{

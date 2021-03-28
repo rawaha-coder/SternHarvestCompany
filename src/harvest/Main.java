@@ -36,7 +36,6 @@ public class Main extends Application {
               //mSupplierDAO.createSupplierTable();
               //mSupplyDAO.createSupplyTable();
               //mTransportDAO.createTransportTable();
-              //mHarvestHoursDAO.createHarvestTable();
               //mPreferencesDAO.createPreferencesTable();
               //mPreferencesDAO.initPreferencesTable();
               //mProductionDAO.createProductionTable();

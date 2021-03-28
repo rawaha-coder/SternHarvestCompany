@@ -9,6 +9,7 @@ public class Employee {
     private final SimpleBooleanProperty employeeStatus = new SimpleBooleanProperty();
     private final SimpleStringProperty employeeFirstName = new SimpleStringProperty();
     private final SimpleStringProperty employeeLastName = new SimpleStringProperty();
+    private final SimpleStringProperty employeeFullName = new SimpleStringProperty();
     private final ObjectProperty<Date> employeeHireDate = new SimpleObjectProperty<>();
     private final ObjectProperty<Date> employeeFireDate = new SimpleObjectProperty<>();
     private final ObjectProperty<Date> employeePermissionDate = new SimpleObjectProperty<>();
@@ -51,11 +52,18 @@ public class Employee {
     }
 
     public String getEmployeeFullName() {
-        return getEmployeeFirstName() + " " + getEmployeeLastName();
+        if (employeeFullName.get() == null){
+            employeeFullName.set(getEmployeeFirstName() + " " + getEmployeeLastName());
+        }
+        return employeeFullName.get();
     }
 
     public SimpleStringProperty employeeFullNameProperty() {
         return new SimpleStringProperty(getEmployeeFullName()) ;
+    }
+
+    public void setEmployeeFullName(String employeeFullName) {
+        this.employeeFullName.set(employeeFullName);
     }
 
     public Date getEmployeeHireDate() {
