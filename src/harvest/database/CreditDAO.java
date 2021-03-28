@@ -51,8 +51,8 @@ public class CreditDAO extends DAO {
                     credit.setCreditDate(resultSet.getDate(2));
                     credit.setCreditAmount(resultSet.getDouble(3));
                     credit.getEmployee().setEmployeeId(resultSet.getInt(4));
-                    credit.getEmployee().setEmployeeFirstName(resultSet.getString(5));
-                    credit.getEmployee().setEmployeeLastName(resultSet.getString(6));
+                    credit.getEmployee().setEmployeeFirstName(resultSet.getString(5).toUpperCase());
+                    credit.getEmployee().setEmployeeLastName(resultSet.getString(6).toUpperCase());
                     list.add(credit);
                 }
             }

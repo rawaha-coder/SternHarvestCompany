@@ -40,6 +40,7 @@ public class DisplayCrdTrsController implements Initializable {
     @FXML private TableColumn<Credit, String> fxCreditDateColumn;
     @FXML private TableColumn<Credit, String> fxCreditEmployeeColumn;
     @FXML private TableColumn<Credit, Double> fxCreditAmountColumn;
+
     @FXML private TableView<Transport> fxTransportTable;
     @FXML private TableColumn<Transport, String> fxTransportDateColumn;
     @FXML private TableColumn<Transport, String> fxTransportEmployeeColumn;

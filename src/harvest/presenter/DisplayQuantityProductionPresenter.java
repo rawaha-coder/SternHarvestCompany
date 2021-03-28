@@ -101,7 +101,7 @@ public class DisplayQuantityProductionPresenter {
 
         TableView<Quantity> subTable = new TableView<>();
         subTable.getStylesheets().add(this.getClass().getResource("/harvest/res/style/subTableStyle.css").toExternalForm());
-        subTable.maxWidth(900);
+        subTable.maxWidth(1000);
         TableColumn<Quantity, String> fxEmployee = new TableColumn<>("Employee");
         TableColumn<Quantity, Double> fxAllQuantity = new TableColumn<>("All Quantity");
         TableColumn<Quantity, Double> fxBadQuantity = new TableColumn<>("Bad Quantity");
@@ -113,7 +113,7 @@ public class DisplayQuantityProductionPresenter {
         TableColumn<Quantity, String> fxCategory = new TableColumn<>("Category");
         TableColumn<Quantity, String> fxRemarque = new TableColumn<>("Remarque");
 
-        fxEmployee.setMinWidth(140);
+        fxEmployee.setMinWidth(180);
         fxAllQuantity.setMinWidth(80);
         fxBadQuantity.setMinWidth(80);
         fxGoodQuantity.setMinWidth(80);
@@ -137,7 +137,7 @@ public class DisplayQuantityProductionPresenter {
 
         subTable.getColumns().addAll(
                 fxEmployee, fxAllQuantity, fxBadQuantity, fxGoodQuantity, fxPrice,
-                fxPayment, fxTransport, fxCredit, fxCategory, fxRemarque);
+                fxTransport, fxCredit, fxPayment, fxCategory, fxRemarque);
 
         QuantityDAO mQuantityDAO = QuantityDAO.getInstance();
         ObservableList<Quantity> QUANTITY_WORK_LIVE = FXCollections.observableArrayList();
@@ -147,7 +147,7 @@ public class DisplayQuantityProductionPresenter {
                     QUANTITY_WORK_LIVE.clear();
                     QUANTITY_WORK_LIVE.setAll(mQuantityDAO.getQuantityDataByProductionId(newItem));
                     subTable.setItems(QUANTITY_WORK_LIVE);
-                    subTable.setPrefHeight(75 + (QUANTITY_WORK_LIVE.size() * 30));
+                    subTable.setPrefHeight(100 + (QUANTITY_WORK_LIVE.size() * 30));
                     subTable.setStyle("-fx-border-color: #151819;");
                 } catch (Exception e) {
                     e.printStackTrace();

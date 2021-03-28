@@ -1,7 +1,6 @@
 package harvest.database;
 
 import harvest.model.Employee;
-import harvest.model.Harvest;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
@@ -75,8 +74,8 @@ public class EmployeeDAO extends DAO{
                 Employee employee = new Employee();
                 employee.setEmployeeId(resultSet.getInt(1));
                 employee.setEmployeeStatus(resultSet.getBoolean(2));
-                employee.setEmployeeFirstName(resultSet.getString(3));
-                employee.setEmployeeLastName(resultSet.getString(4));
+                employee.setEmployeeFirstName(resultSet.getString(3).toUpperCase());
+                employee.setEmployeeLastName(resultSet.getString(4).toUpperCase());
                 employee.setEmployeeHireDate(resultSet.getDate(5));
                 employee.setEmployeeFireDate(resultSet.getDate(6));
                 employee.setEmployeePermissionDate(resultSet.getDate(7));
@@ -102,8 +101,8 @@ public class EmployeeDAO extends DAO{
                 Employee employee = new Employee();
                 employee.setEmployeeId(resultSet.getInt(1));
                 employee.setEmployeeStatus(resultSet.getBoolean(2));
-                employee.setEmployeeFirstName(resultSet.getString(3));
-                employee.setEmployeeLastName(resultSet.getString(4));
+                employee.setEmployeeFirstName(resultSet.getString(3).toUpperCase());
+                employee.setEmployeeLastName(resultSet.getString(4).toUpperCase());
                 employee.setEmployeeHireDate(resultSet.getDate(5));
                 employee.setEmployeeFireDate(resultSet.getDate(6));
                 employee.setEmployeePermissionDate(resultSet.getDate(7));
@@ -133,8 +132,8 @@ public class EmployeeDAO extends DAO{
                 + "VALUES (?,?,?,?,?,?,?);";
         try(PreparedStatement preparedStatement = dbGetConnect().prepareStatement(insertStmt)) {
             preparedStatement.setBoolean(1, employee.isEmployeeStatus());
-            preparedStatement.setString(2, employee.getEmployeeFirstName());
-            preparedStatement.setString(3, employee.getEmployeeLastName());
+            preparedStatement.setString(2, employee.getEmployeeFirstName().toUpperCase());
+            preparedStatement.setString(3, employee.getEmployeeLastName().toUpperCase());
             preparedStatement.setDate(4, employee.getEmployeeHireDate());
             preparedStatement.setDate(5, employee.getEmployeeFireDate());
             preparedStatement.setDate(6, employee.getEmployeePermissionDate());
@@ -164,8 +163,8 @@ public class EmployeeDAO extends DAO{
                 " WHERE " + COLUMN_EMPLOYEE_ID + " = " + employee.getEmployeeId() + " ;";
         try(PreparedStatement preparedStatement = dbGetConnect().prepareStatement(updateStmt)) {
             preparedStatement.setBoolean(1, employee.isEmployeeStatus());
-            preparedStatement.setString(2, employee.getEmployeeFirstName());
-            preparedStatement.setString(3, employee.getEmployeeLastName());
+            preparedStatement.setString(2, employee.getEmployeeFirstName().toUpperCase());
+            preparedStatement.setString(3, employee.getEmployeeLastName().toUpperCase());
             preparedStatement.setDate(4, employee.getEmployeeHireDate());
             preparedStatement.setDate(5, employee.getEmployeeFireDate());
             preparedStatement.setDate(6, employee.getEmployeePermissionDate());
@@ -230,36 +229,6 @@ public class EmployeeDAO extends DAO{
             EMPLOYEE_GRAPH_LIVE_DATA.setAll(employeeStatusGraph());
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    //*******************************
-    //Get selected employees Names and ID
-    //*******************************
-    public List<Harvest> getHarvesters() throws Exception {
-        List<Harvest> list = new ArrayList<>();
-        String sqlStmt = "SELECT "
-                + COLUMN_EMPLOYEE_ID + ", "
-                + COLUMN_EMPLOYEE_FIRST_NAME + ", "
-                + COLUMN_EMPLOYEE_LAST_NAME
-                + " FROM " + TABLE_EMPLOYEE
-                + " WHERE " + COLUMN_EMPLOYEE_STATUS + " = " + 1
-                + " AND " + COLUMN_EMPLOYEE_IS_EXIST + " = " + 1
-                + " ORDER BY " + COLUMN_EMPLOYEE_ID + " ASC;";
-
-        try(Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(sqlStmt)) {
-            while (resultSet.next()) {
-                Harvest harvest = new Harvest();
-                harvest.setEmployeeID(resultSet.getInt(1));
-                harvest.setEmployeeName(resultSet.getString(2) + " " + resultSet.getString(3));
-                list.add(harvest);
-            }
-            return list;
-        } catch (SQLException e) {
-            System.out.println("SQL select operation has been failed: " + e);
-            throw e;
-        }finally {
-            dbDisConnect();
         }
     }
 

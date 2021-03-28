@@ -7,6 +7,8 @@ import harvest.util.AlertMaker;
 import harvest.util.Validation;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,6 +16,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,6 +24,9 @@ import java.util.ResourceBundle;
 import static harvest.presenter.AddQuantityPresenter.ADD_QUANTITY_LIVE_DATA;
 
 public class AddQuantityController implements Initializable {
+
+    public static ObservableList<Quantity> HARVEST_INDIVIDUAL_LIVE_LIST = FXCollections.observableArrayList();
+
 
     //Add quantity UI Top input
     @FXML public DatePicker fxHarvestDate;
@@ -66,6 +72,7 @@ public class AddQuantityController implements Initializable {
 
 
     public final AlertMaker alert = new AlertMaker();
+    public AnchorPane fxAddQuantity;
     AddQuantityPresenter mAddQuantityPresenter;
 
     @Override
@@ -188,6 +195,7 @@ public class AddQuantityController implements Initializable {
 
     @FXML
     void importButton(ActionEvent event) {
+        mAddQuantityPresenter.importExcelFile();
 
     }
 
@@ -197,7 +205,17 @@ public class AddQuantityController implements Initializable {
             alert.missingInfo("Harvest hours");
             return;
         }
-        mAddQuantityPresenter.validateAddHarvestQuantity();
+        if (fxHarvestByIndividual.isSelected()){
+            System.out.println("Harvest by individual called");
+            mAddQuantityPresenter.validateIndividualQuantity();
+        }else{
+            System.out.println("Harvest by group called");
+            if (!Validation.isDouble(fxInputAllQuantity.getText()) || !Validation.isDouble(fxInputBadQuantity.getText())){
+                alert.missingInfo("Harvest hours");
+                return;
+            }
+            mAddQuantityPresenter.validateGroupQuantity();
+        }
     }
 
     private boolean checkValidButtonInput() {
@@ -205,9 +223,7 @@ public class AddQuantityController implements Initializable {
                 fxSupplierList.getValue() == null ||
                 fxFarmList.getValue() == null ||
                 fxProductList.getValue() == null ||
-                fxProductCodeList.getValue() == null ||
-                !Validation.isDouble(fxInputAllQuantity.getText()) ||
-                !Validation.isDouble(fxInputBadQuantity.getText())
+                fxProductCodeList.getValue() == null
         );
     }
 

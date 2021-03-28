@@ -5,11 +5,15 @@ import harvest.database.ProductionDAO;
 import harvest.database.QuantityDAO;
 import harvest.model.*;
 import harvest.util.AlertMaker;
+import harvest.util.ReadExcelFile;
 import harvest.view.AddQuantityController;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import java.io.File;
 import java.sql.Date;
 import java.sql.SQLException;
 
@@ -98,7 +102,7 @@ public class AddQuantityPresenter {
         return trackInsert;
     }
 
-    public void validateAddHarvestQuantity(){
+    public void validateGroupQuantity(){
         double allQuantity = Double.parseDouble(mAddQuantityController.fxInputAllQuantity.getText());
         double badQuantity = Double.parseDouble(mAddQuantityController.fxInputBadQuantity.getText());
         double allQuantityEmp = allQuantity / ADD_QUANTITY_LIVE_DATA.size();
@@ -137,11 +141,48 @@ public class AddQuantityPresenter {
         mAddQuantityController.fxCompanyCharge.setText(String.valueOf(priceCompany * totalGoodQuantity));
     }
 
+    public void validateIndividualQuantity(){
+        double priceCompany = listPresenter.getProductDetailMap().get(mAddQuantityController.fxProductCodeList.getValue()).getPriceCompany();
+        double priceEmployee = listPresenter.getProductDetailMap().get(mAddQuantityController.fxProductCodeList.getValue()).getPriceEmployee();
+        double penaltyEmployee = getPreferences().getPenaltyGeneral();
+        double penaltyGeneral = getPreferences().getDefectiveGeneral();
+        double totalAllQuantity = 0.0;
+        double totalBadQuantity = 0.0;
+        double totalGoodQuantity = 0.0;
+        double totalTransport = 0.0;
+        double totalCredit = 0.0;
+        double totalPayment = 0.0;
+
+        for(Quantity quantity: ADD_QUANTITY_LIVE_DATA){
+            quantity.setPenaltyGeneral(penaltyEmployee);
+            quantity.setDamageGeneral(penaltyGeneral);
+            quantity.setProductPrice(priceEmployee);
+            quantity.setHarvestType(getHarvestType());
+            totalAllQuantity += quantity.getAllQuantity();
+            totalBadQuantity += quantity.getBadQuantity();
+            totalGoodQuantity += quantity.getGoodQuantity();
+            totalTransport += quantity.getTransportAmount();
+            totalCredit += quantity.getCreditAmount();
+            totalPayment += quantity.getPayment();
+        }
+
+        mAddQuantityController.fxTotalEmployee.setText(String.valueOf(ADD_QUANTITY_LIVE_DATA.size()));
+        mAddQuantityController.fxTotalAllQuantity.setText(String.valueOf(totalAllQuantity));
+        mAddQuantityController.fxTotalBadQuantity.setText(String.valueOf(totalBadQuantity));
+        mAddQuantityController.fxTotalGoodQuantity.setText(String.valueOf(totalGoodQuantity));
+        mAddQuantityController.fxProductPriceEmployee.setText(String.valueOf(priceEmployee));
+        mAddQuantityController.fxTotalTransport.setText(String.valueOf(totalTransport));
+        mAddQuantityController.fxTotalCredit.setText(String.valueOf(totalCredit));
+        mAddQuantityController.fxTotalPayment.setText(String.valueOf(totalPayment));
+        mAddQuantityController.fxProductPriceCompany.setText(String.valueOf(priceCompany));
+        mAddQuantityController.fxCompanyCharge.setText(String.valueOf(priceCompany * totalGoodQuantity));
+    }
+
     private int getHarvestType() {
         if (mAddQuantityController.fxHarvestByIndividual.isSelected()) {
-            return 2;
-        } else {
             return 1;
+        } else {
+            return 2;
         }
     }
 
@@ -174,5 +215,17 @@ public class AddQuantityPresenter {
         }
         mAddQuantityController.initField();
         mAddQuantityController.fxHarvestQuantityTable.refresh();
+    }
+
+    public void importExcelFile() {
+        ADD_QUANTITY_LIVE_DATA.clear();
+        Stage stage = (Stage) mAddQuantityController.fxAddQuantity.getScene().getWindow();
+        FileChooser file = new FileChooser();
+        file.setTitle("Open File");
+        File sheetFile = file.showOpenDialog(stage);
+        if (sheetFile != null){
+            ReadExcelFile reader = new ReadExcelFile ();
+            ADD_QUANTITY_LIVE_DATA.setAll(reader.readHarvestFile(sheetFile));
+        }
     }
 }
