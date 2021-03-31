@@ -25,36 +25,37 @@ public class SupplyDAO extends DAO{
     }
 
     //*************************************************************
-    //Get all supply data
+    //Get all supply data by Supplier
     //*************************************************************
-//    public List<Supply> getData() throws Exception {
-//        String sqlStmt = "SELECT "
-//                + TABLE_SUPPLY + "." + COLUMN_SUPPLY_ID + ", "
-//                + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_ID + ", "
-//                + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_NAME + ", "
-//                + TABLE_FARM + "." + COLUMN_FARM_ID + ", "
-//                + TABLE_FARM + "." + COLUMN_FARM_NAME + ", "
-//                + TABLE_PRODUCT + "." + COLUMN_PRODUCT_ID + ", "
-//                + TABLE_PRODUCT + "." + COLUMN_PRODUCT_NAME + " "
-//                + " FROM " + TABLE_SUPPLY + " "
-//                + "LEFT JOIN " + TABLE_SUPPLIER + " "
-//                + " ON " + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_ID  + " = " + TABLE_SUPPLY + "." + COLUMN_SUPPLY_FRGN_KEY_SUPPLIER_ID + " "
-//                + "LEFT JOIN " + TABLE_FARM + " "
-//                + " ON " + TABLE_FARM + "." + COLUMN_FARM_ID  + " = " + TABLE_SUPPLY + "." + COLUMN_SUPPLY_FRGN_KEY_FARM_ID + " "
-//                + "LEFT JOIN " + TABLE_PRODUCT  + " "
-//                + " ON " + TABLE_PRODUCT + "." + COLUMN_PRODUCT_ID  + " = " + TABLE_SUPPLY + "." + COLUMN_SUPPLY_FRGN_KEY_PRODUCT_ID + " "
-//                + " ORDER BY " + COLUMN_SUPPLIER_NAME + " ASC;";
-//        try {
-//            Statement statement = dbGetConnect().createStatement();
-//            ResultSet resultSet = statement.executeQuery(sqlStmt);
-//            return getDataFromResultSet(resultSet);
-//        } catch (SQLException e) {
-//            System.out.println("SQL select operation has been failed: " + e);
-//            throw e;
-//        }finally {
-//            dbDisConnect();
-//        }
-//    }
+    public List<Supply> getSupplyDataBySupplier(Supplier supplier) throws Exception {
+        String sqlStmt = "SELECT "
+                + TABLE_SUPPLY + "." + COLUMN_SUPPLY_ID + ", "
+                + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_ID + ", "
+                + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_NAME + ", "
+                + TABLE_FARM + "." + COLUMN_FARM_ID + ", "
+                + TABLE_FARM + "." + COLUMN_FARM_NAME + ", "
+                + TABLE_PRODUCT + "." + COLUMN_PRODUCT_ID + ", "
+                + TABLE_PRODUCT + "." + COLUMN_PRODUCT_NAME + " "
+                + " FROM " + TABLE_SUPPLY + " "
+                + "LEFT JOIN " + TABLE_SUPPLIER + " "
+                + " ON " + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_ID  + " = " + TABLE_SUPPLY + "." + COLUMN_SUPPLY_FRGN_KEY_SUPPLIER_ID + " "
+                + "LEFT JOIN " + TABLE_FARM + " "
+                + " ON " + TABLE_FARM + "." + COLUMN_FARM_ID  + " = " + TABLE_SUPPLY + "." + COLUMN_SUPPLY_FRGN_KEY_FARM_ID + " "
+                + "LEFT JOIN " + TABLE_PRODUCT  + " "
+                + " ON " + TABLE_PRODUCT + "." + COLUMN_PRODUCT_ID  + " = " + TABLE_SUPPLY + "." + COLUMN_SUPPLY_FRGN_KEY_PRODUCT_ID + " "
+                + " WHERE " + TABLE_SUPPLY + "." + COLUMN_SUPPLY_FRGN_KEY_SUPPLIER_ID + " = " + supplier.getSupplierId() + " "
+                + " ORDER BY " + TABLE_FARM + "." + COLUMN_FARM_NAME + " ASC;";
+        try {
+            Statement statement = dbGetConnect().createStatement();
+            ResultSet resultSet = statement.executeQuery(sqlStmt);
+            return getDataFromResultSet(resultSet);
+        } catch (SQLException e) {
+            System.out.println("SQL select operation has been failed: " + e);
+            throw e;
+        }finally {
+            dbDisConnect();
+        }
+    }
 
     private List<Supply> getDataFromResultSet(ResultSet resultSet) throws SQLException {
         List<Supply> supplyList = new ArrayList<>();
@@ -170,38 +171,7 @@ public class SupplyDAO extends DAO{
         }
     }
 
-    //*************************************************************
-    //Get all supply data by Supplier
-    //*************************************************************
-    public List<Supply> getSupplyDataBySupplier(Supplier supplier) throws Exception {
-        String sqlStmt = "SELECT "
-                + TABLE_SUPPLY + "." + COLUMN_SUPPLY_ID + ", "
-                + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_ID + ", "
-                + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_NAME + ", "
-                + TABLE_FARM + "." + COLUMN_FARM_ID + ", "
-                + TABLE_FARM + "." + COLUMN_FARM_NAME + ", "
-                + TABLE_PRODUCT + "." + COLUMN_PRODUCT_ID + ", "
-                + TABLE_PRODUCT + "." + COLUMN_PRODUCT_NAME + " "
-                + " FROM " + TABLE_SUPPLY + " "
-                + "LEFT JOIN " + TABLE_SUPPLIER + " "
-                + " ON " + TABLE_SUPPLIER + "." + COLUMN_SUPPLIER_ID  + " = " + TABLE_SUPPLY + "." + COLUMN_SUPPLY_FRGN_KEY_SUPPLIER_ID + " "
-                + "LEFT JOIN " + TABLE_FARM + " "
-                + " ON " + TABLE_FARM + "." + COLUMN_FARM_ID  + " = " + TABLE_SUPPLY + "." + COLUMN_SUPPLY_FRGN_KEY_FARM_ID + " "
-                + "LEFT JOIN " + TABLE_PRODUCT  + " "
-                + " ON " + TABLE_PRODUCT + "." + COLUMN_PRODUCT_ID  + " = " + TABLE_SUPPLY + "." + COLUMN_SUPPLY_FRGN_KEY_PRODUCT_ID + " "
-                + " WHERE " + TABLE_SUPPLY + "." + COLUMN_SUPPLY_FRGN_KEY_SUPPLIER_ID + " = " + supplier.getSupplierId() + " "
-                + " ORDER BY " + TABLE_FARM + "." + COLUMN_FARM_NAME + " ASC;";
-        try {
-            Statement statement = dbGetConnect().createStatement();
-            ResultSet resultSet = statement.executeQuery(sqlStmt);
-            return getDataFromResultSet(resultSet);
-        } catch (SQLException e) {
-            System.out.println("SQL select operation has been failed: " + e);
-            throw e;
-        }finally {
-            dbDisConnect();
-        }
-    }
+
 
     ///    public void createSupplyTable() throws SQLException {
 //        try {

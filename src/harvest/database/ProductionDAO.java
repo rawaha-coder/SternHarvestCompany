@@ -1,6 +1,8 @@
 package harvest.database;
 
+import harvest.model.Hours;
 import harvest.model.Production;
+import harvest.model.Quantity;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
@@ -92,102 +94,12 @@ public class ProductionDAO extends DAO {
         return list;
     }
 
-
-
-
-
     //*******************************
     //Add production data
     //*******************************
-    public boolean addProduction(Production production) {
-        String insertProduction = "INSERT INTO " + TABLE_PRODUCTION + " ("
-                + COLUMN_PRODUCTION_DATE + ", "
-                + COLUMN_PRODUCTION_SUPPLIER_ID + ", "
-                + COLUMN_PRODUCTION_FARM_ID + ", "
-                + COLUMN_PRODUCTION_PRODUCT_ID + ", "
-                + COLUMN_PRODUCTION_PRODUCT_DETAIL_ID + ", "
-                + COLUMN_PRODUCTION_TOTAL_EMPLOYEES + ", "
-                + COLUMN_PRODUCTION_TOTAL_QUANTITY + ", "
-                + COLUMN_PRODUCTION_PRICE + ", "
-                //+ COLUMN_PRODUCTION_COST + ") "
-                + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
-        try (PreparedStatement preparedStatement = dbGetConnect().prepareStatement(insertProduction)) {
-//            preparedStatement.setDate(1, production.getProductionDate());
-//            preparedStatement.setInt(2, production.getSupplierID());
-//            preparedStatement.setString(3, production.getSupplierName());
-//            preparedStatement.setInt(4, production.getFarmID());
-//            preparedStatement.setString(5, production.getFarmName());
-//            preparedStatement.setInt(6, production.getProductID());
-//            preparedStatement.setString(7, production.getProductName());
-//            preparedStatement.setString(8, production.getProductCode());
-//            preparedStatement.setInt(9, production.getTotalEmployee());
-//            preparedStatement.setDouble(10, production.getGoodQuantity());
-//            preparedStatement.setDouble(11, production.getProductionPrice());
-//            preparedStatement.setDouble(12, production.getProductionCost());
-            preparedStatement.execute();
-            preparedStatement.close();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.print("Error occurred while INSERT Operation: " + e.getMessage());
-            return false;
-        } finally {
-            dbDisConnect();
-        }
-    }
-
-    //*******************************
-    //Update Production data
-    //*******************************
-//    public boolean updateProduction(Production production) {
-//        String updateStmt = "UPDATE " + TABLE_PRODUCTION + " SET "
-//                + COLUMN_PRODUCTION_DATE + " =?, "
-//                + COLUMN_PRODUCTION_SUPPLIER_ID + " =?, "
-//                + COLUMN_PRODUCTION_FARM_ID + " =?, "
-//                + COLUMN_PRODUCTION_PRODUCT_ID + " =?, "
-//                + COLUMN_PRODUCTION_PRODUCT_DETAIL_ID + " =?, "
-//                + COLUMN_PRODUCTION_TOTAL_EMPLOYEES + " =?, "
-//                + COLUMN_PRODUCTION_TOTAL_QUANTITY + " =?, "
-//                + COLUMN_PRODUCTION_PRICE + " =?, "
-//                + COLUMN_PRODUCTION_COST + " =? "
-//                + " WHERE " + COLUMN_PRODUCTION_ID + " = " + production.getProductionID() + " ;";
-//        try (PreparedStatement preparedStatement = dbGetConnect().prepareStatement(updateStmt)) {
-//            preparedStatement.execute();
-//            preparedStatement.close();
-//            return true;
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            System.out.print("Error occurred while INSERT Operation: " + e.getMessage());
-//            return false;
-//        } finally {
-//            dbDisConnect();
-//        }
-//    }
-
-    //Check if production id exist
-    public int isExists(Production production) {
-        int value = -1;
-        String stmt = "SELECT EXISTS (SELECT " + COLUMN_PRODUCTION_ID + " FROM " + TABLE_PRODUCTION + " WHERE  "
-//                + COLUMN_PRODUCTION_DATE + " = " + production.getProductionDate().getTime() + " AND "
-//                + COLUMN_PRODUCTION_SUPPLIER_ID + " = " + production.getSupplierID() + " AND "
-//                + COLUMN_PRODUCTION_FARM_ID + " = " + production.getFarmID() + " AND "
-//                + COLUMN_PRODUCTION_PRODUCT_ID + " = " + production.getProductID() + " AND "
-//                + COLUMN_PRODUCTION_PRODUCT_DETAIL_ID + " = " + production.getProductCode()
-                + " )";
-        try (Statement statement = dbGetConnect().createStatement()) {
-            ResultSet resultSet = statement.executeQuery(stmt);
-            value = resultSet.getInt(1);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            dbDisConnect();
-        }
-        return value;
-    }
-
     public int addProductionAndGetId(Production production) {
         int value = -1;
-        Connection connection;
+        Connection connection = null;
         PreparedStatement preparedStatement;
 
         String insertProduction = "INSERT INTO " + TABLE_PRODUCTION + " ("
@@ -232,7 +144,15 @@ public class ProductionDAO extends DAO {
 
             connection.commit();
         } catch (SQLException e) {
+            assert connection != null;
+            try {
+                connection.rollback();
+            }catch (SQLException ex){
+                ex.printStackTrace();
+                System.out.print("Error occurred while rollback Operation: " + ex.getMessage());
+            }
             e.printStackTrace();
+            System.out.print("Error occurred while INSERT Operation: " + e.getMessage());
         } finally {
             dbDisConnect();
         }
@@ -240,7 +160,7 @@ public class ProductionDAO extends DAO {
     }
 
     //*******************************
-    //Get selected employees as graphic
+    //Get production as graphic
     //*******************************
     public XYChart.Series<String, Number> harvestProductionGraph(Date fromDate, Date  toDate) throws SQLException {
         var data = new XYChart.Series<String, Number>();
@@ -264,78 +184,6 @@ public class ProductionDAO extends DAO {
         }finally {
             dbDisConnect();
         }
-    }
-
-    //*******************************
-    //Get all production data
-    //*******************************
-    public ObservableList<Production> getData() throws Exception {
-        String select = "SELECT * FROM " + TABLE_PRODUCTION + " ORDER BY " + COLUMN_PRODUCTION_DATE + " DESC ;";
-        try (Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(select)) {
-            return getQuantityProductionFromResultSet(resultSet);
-        } catch (SQLException e) {
-            System.out.println("SQL select operation has been failed: " + e);
-            throw e;
-        } finally {
-            dbDisConnect();
-        }
-    }
-
-    //*******************************
-    //Get all production data by date
-    //*******************************
-    public ObservableList<Production> getDataByDate(Date date) throws Exception {
-        String select = "SELECT * FROM " + TABLE_PRODUCTION + " WHERE " + COLUMN_PRODUCTION_DATE + " = " + date.getTime() + " "
-                + " ORDER BY " + COLUMN_PRODUCTION_DATE + " DESC ;";
-        try (Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(select)) {
-            return getQuantityProductionFromResultSet(resultSet);
-        } catch (SQLException e) {
-            System.out.println("SQL select operation has been failed: " + e);
-            throw e;
-        } finally {
-            dbDisConnect();
-        }
-    }
-
-    //*******************************
-    //Search production data by date
-    //*******************************
-    public ObservableList<Production> searchDataByDate(Date fromDate, Date toDate) throws Exception {
-        String select = "SELECT * FROM " + TABLE_PRODUCTION + " WHERE " + COLUMN_PRODUCTION_DATE + " >= " + fromDate.getTime()
-                + " AND " + COLUMN_PRODUCTION_DATE + " <= " + toDate.getTime()
-                + " ORDER BY " + COLUMN_PRODUCTION_DATE + " DESC ;";
-        try (Statement statement = dbGetConnect().createStatement(); ResultSet resultSet = statement.executeQuery(select)) {
-            return getQuantityProductionFromResultSet(resultSet);
-        } catch (SQLException e) {
-            System.out.println("SQL select operation has been failed: " + e);
-            throw e;
-        } finally {
-            dbDisConnect();
-        }
-    }
-
-    //Help method to get data from resultSet
-    private ObservableList<Production> getQuantityProductionFromResultSet(ResultSet resultSet) throws SQLException {
-        ObservableList<Production> list = FXCollections.observableArrayList();
-        while (resultSet.next()) {
-            Production production = new Production();
-            production.setProductionID(resultSet.getInt(1));
-            production.setProductionDate(resultSet.getDate(2));
-            production.setTotalEmployee(resultSet.getInt(3));
-            production.setTotalQuantity(resultSet.getLong(4));
-            production.setPrice(resultSet.getDouble(5));
-            production.getSupplier().setSupplierId(resultSet.getInt(6));
-            production.getSupplier().setSupplierName(resultSet.getString(7));
-            production.getFarm().setFarmId(resultSet.getInt(8));
-            production.getFarm().setFarmName(resultSet.getString(9));
-            production.getProduct().setProductId(resultSet.getInt(10));
-            production.getProduct().setProductName(resultSet.getString(11));
-            production.getProductDetail().setProductDetailId(resultSet.getInt(12));
-            production.getProductDetail().setProductType(resultSet.getString(13));
-            production.getProductDetail().setProductCode(resultSet.getString(14));
-            list.add(production);
-        }
-        return list;
     }
 
     //*******************************
@@ -364,6 +212,171 @@ public class ProductionDAO extends DAO {
         } catch (SQLException e) {
             e.printStackTrace();
             throw e;
+        }
+    }
+
+    //*******************************
+    //Update Production data
+    //*******************************
+    public boolean updateProductionData(Production production) {
+        String updateStmt = "UPDATE " + TABLE_PRODUCTION + " SET "
+                + COLUMN_PRODUCTION_TYPE + " =?, "
+                + COLUMN_PRODUCTION_DATE + " =?, "
+                + COLUMN_PRODUCTION_SUPPLIER_ID + " =?, "
+                + COLUMN_PRODUCTION_FARM_ID + " =?, "
+                + COLUMN_PRODUCTION_PRODUCT_ID + " =?, "
+                + COLUMN_PRODUCTION_PRODUCT_DETAIL_ID + " =?, "
+                + COLUMN_PRODUCTION_TOTAL_EMPLOYEES + " =?, "
+                + COLUMN_PRODUCTION_TOTAL_QUANTITY + " =?, "
+                + COLUMN_PRODUCTION_TOTAL_MINUTES + " =?, "
+                + COLUMN_PRODUCTION_PRICE + " =? "
+                + " WHERE " + COLUMN_PRODUCTION_ID + " = " + production.getProductionID() + " ;";
+        try(PreparedStatement preparedStatement = dbGetConnect().prepareStatement(updateStmt)) {
+            preparedStatement.setInt(1, production.getProductionType());
+            preparedStatement.setDate(2, production.getProductionDate());
+            preparedStatement.setInt(3, production.getSupplier().getSupplierId());
+            preparedStatement.setInt(4, production.getFarm().getFarmId());
+            preparedStatement.setInt(5, production.getProduct().getProductId());
+            preparedStatement.setInt(6, production.getProductDetail().getProductDetailId());
+            preparedStatement.setInt(7, production.getTotalEmployee());
+            preparedStatement.setDouble(8, production.getTotalQuantity());
+            preparedStatement.setLong(9, production.getTotalMinutes());
+            preparedStatement.setDouble(10, production.getPrice());
+            preparedStatement.execute();
+            preparedStatement.close();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error occurred while UPDATE Operation: " + e.getMessage());
+            return false;
+        }finally {
+            dbDisConnect();
+        }
+    }
+
+    //*******************************
+    //Delete Hours Production data
+    //*******************************
+    public boolean deleteHoursProductionData(Production production, Hours hours) {
+        Connection connection = null;
+        Statement statement = null;
+
+        String deleteTransport = "DELETE FROM " + TABLE_TRANSPORT
+                + " WHERE " + COLUMN_TRANSPORT_ID + " = " + hours.getTransport().getTransportId() +" ;";
+
+        String deleteCredit = "DELETE FROM " + TABLE_CREDIT
+                + " WHERE " + COLUMN_CREDIT_ID + " = " + hours.getCredit().getCreditId() +" ;";
+
+        String deleteHours = "DELETE FROM " + TABLE_HOURS
+                + " WHERE " + COLUMN_HOURS_PRODUCTION_ID + " = " + production.getProductionID() +" ;";
+
+        String deleteProduction = "DELETE FROM " + TABLE_PRODUCTION
+                + " WHERE " + COLUMN_PRODUCTION_ID + " = " + production.getProductionID() + " ;";
+
+        try {
+            connection = dbGetConnect();
+            connection.setAutoCommit(false);
+
+            statement = connection.createStatement();
+            statement.execute(deleteTransport);
+
+            statement = connection.createStatement();
+            statement.execute(deleteCredit);
+
+            statement = connection.createStatement();
+            statement.execute(deleteHours);
+
+            statement = connection.createStatement();
+            statement.execute(deleteProduction);
+
+            connection.commit();
+            return true;
+        } catch (SQLException ex1) {
+            assert connection != null;
+            try {
+                connection.rollback();
+            }catch (SQLException ex2){
+                ex2.printStackTrace();
+                System.out.print("Error occurred while rollback Operation: " + ex2.getMessage());
+            }
+            System.out.print("Error occurred while delete Operation: " + ex1.getMessage());
+            ex1.printStackTrace();
+            return false;
+        }finally {
+            if (statement != null){
+                try {
+                    statement.close();
+                }catch (SQLException e){/**/}
+            }
+            if (connection != null){
+                try {
+                    connection.close();
+                }catch (SQLException e){/**/}
+            }
+            dbDisConnect();
+        }
+    }
+
+    //*******************************
+    //Delete Hours Production data
+    //*******************************
+    public boolean deleteQuantityProductionData(Production production, Quantity quantity) {
+        Connection connection = null;
+        Statement statement = null;
+
+        String deleteTransport = "DELETE FROM " + TABLE_TRANSPORT
+                + " WHERE " + COLUMN_TRANSPORT_ID + " = " + quantity.getTransport().getTransportId() +" ;";
+
+        String deleteCredit = "DELETE FROM " + TABLE_CREDIT
+                + " WHERE " + COLUMN_CREDIT_ID + " = " + quantity.getCredit().getCreditId() +" ;";
+
+        String deleteQuantity = "DELETE FROM " + TABLE_QUANTITY
+                + " WHERE " + COLUMN_QUANTITY_PRODUCTION_ID + " = " + production.getProductionID() +" ;";
+
+        String deleteProduction = "DELETE FROM " + TABLE_PRODUCTION
+                + " WHERE " + COLUMN_PRODUCTION_ID + " = " + production.getProductionID() + " ;";
+
+        try {
+            connection = dbGetConnect();
+            connection.setAutoCommit(false);
+
+            statement = connection.createStatement();
+            statement.execute(deleteTransport);
+
+            statement = connection.createStatement();
+            statement.execute(deleteCredit);
+
+            statement = connection.createStatement();
+            statement.execute(deleteQuantity);
+
+            statement = connection.createStatement();
+            statement.execute(deleteProduction);
+
+            connection.commit();
+            return true;
+        } catch (SQLException ex1) {
+            assert connection != null;
+            try {
+                connection.rollback();
+            }catch (SQLException ex2){
+                ex2.printStackTrace();
+                System.out.print("Error occurred while rollback Operation: " + ex2.getMessage());
+            }
+            System.out.print("Error occurred while delete Operation: " + ex1.getMessage());
+            ex1.printStackTrace();
+            return false;
+        }finally {
+            if (statement != null){
+                try {
+                    statement.close();
+                }catch (SQLException e){/**/}
+            }
+            if (connection != null){
+                try {
+                    connection.close();
+                }catch (SQLException e){/**/}
+            }
+            dbDisConnect();
         }
     }
 }

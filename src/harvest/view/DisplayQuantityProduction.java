@@ -1,7 +1,6 @@
 package harvest.view;
 
 import harvest.model.Production;
-import harvest.presenter.DisplayHoursProductionPresenter;
 import harvest.presenter.DisplayQuantityProductionPresenter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,7 +14,7 @@ import java.util.ResourceBundle;
 public class DisplayQuantityProduction implements Initializable {
 
     @FXML
-    public TableView<Production> fxHoursProductionTable;
+    public TableView<Production> fxProductionTable;
     @FXML
     public TableColumn<Production, String> fxHarvestDate;
     @FXML
@@ -55,7 +54,7 @@ public class DisplayQuantityProduction implements Initializable {
 
     @FXML
     void handleHarvestChartButton(ActionEvent event) {
-        fxHoursProductionTable.refresh();
+        fxProductionTable.refresh();
     }
 
     @Override
@@ -74,5 +73,12 @@ public class DisplayQuantityProduction implements Initializable {
         fxTotalMinutes.setCellValueFactory(new PropertyValueFactory<>("totalQuantity"));
         fxProductionPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         fxProductionCost.setCellValueFactory(new PropertyValueFactory<>("cost"));
+    }
+
+    public void editProduction(ActionEvent actionEvent) {
+    }
+
+    public void deleteProduction(ActionEvent actionEvent) {
+        mDisplayQuantityProductionPresenter.deleteProduction();
     }
 }

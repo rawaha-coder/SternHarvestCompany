@@ -13,11 +13,13 @@
 .tableName {
     -fx-background-color: transparent;
     -fx-font-weight:bold;
-    -fx-text-fill: white;
-    -fx-font-family: "Verdana";
-    -fx-text-size: 1.1em;
+    -fx-text-fill: #4472C4;
+    -fx-font-family: "Times New Roman";
+    -fx-text-size: 1.2em;
 }
+
 /* TableView styling */
+
 .table-view {
     -fx-background-color: transparent;
 }

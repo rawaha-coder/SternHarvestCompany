@@ -1,14 +1,18 @@
 package harvest.presenter;
 
+import harvest.database.HoursDAO;
 import harvest.database.ProductionDAO;
 import harvest.database.QuantityDAO;
+import harvest.model.Hours;
 import harvest.model.Production;
 import harvest.model.Quantity;
+import harvest.util.AlertMaker;
 import harvest.view.DisplayQuantityProduction;
 import javafx.beans.property.ObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -16,11 +20,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Optional;
 
 public class DisplayQuantityProductionPresenter {
     public static ObservableList<Production> QUANTITY_PRODUCTION_LIVE_DATA = FXCollections.observableArrayList();
     ProductionDAO mProductionDAO = ProductionDAO.getInstance();
     DisplayQuantityProduction mDisplayQuantityProduction;
+    public final AlertMaker alert = new AlertMaker();
 
     Thread thread = new Thread(){
         public void run(){
@@ -31,7 +37,7 @@ public class DisplayQuantityProductionPresenter {
 
     public DisplayQuantityProductionPresenter(DisplayQuantityProduction displayQuantityProduction) {
         mDisplayQuantityProduction = displayQuantityProduction;
-        mDisplayQuantityProduction.fxHoursProductionTable.setItems(QUANTITY_PRODUCTION_LIVE_DATA);
+        mDisplayQuantityProduction.fxProductionTable.setItems(QUANTITY_PRODUCTION_LIVE_DATA);
         thread.start();
         nestedTable();
     }
@@ -62,7 +68,7 @@ public class DisplayQuantityProductionPresenter {
     }
 
     public void nestedTable(){
-        mDisplayQuantityProduction.fxHoursProductionTable.setRowFactory(tv -> new TableRow<Production>() {
+        mDisplayQuantityProduction.fxProductionTable.setRowFactory(tv -> new TableRow<Production>() {
             Node detailsPane ;
             {
                 selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
@@ -157,4 +163,35 @@ public class DisplayQuantityProductionPresenter {
 
         return subTable;
     }
+
+    public void deleteProduction() {
+        Production production = mDisplayQuantityProduction.fxProductionTable.getSelectionModel().getSelectedItem();
+        if (production == null) {
+            alert.missingInfo("Credit");
+            return;
+        }
+        QuantityDAO quantityDAO = QuantityDAO.getInstance();
+        ObservableList<Quantity> list = FXCollections.observableArrayList();
+        try {
+            list.setAll(quantityDAO.getQuantityDataByProductionId(production));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        AlertMaker alertDelete = new AlertMaker();
+        Optional<ButtonType> result = alertDelete.deleteConfirmation("Production");
+        assert result.isPresent();
+        if (result.get() == ButtonType.OK && result.get() != ButtonType.CLOSE) {
+            boolean trackInsert = false;
+            for (Quantity quantity : list){
+                trackInsert = mProductionDAO.deleteQuantityProductionData(production, quantity);
+                if (!trackInsert) break;
+            }
+            alert.deleteItem("Production", trackInsert);
+            searchByDate();
+        } else {
+            alert.cancelOperation("Delete");
+        }
+    }
+
 }

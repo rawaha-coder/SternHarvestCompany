@@ -229,7 +229,8 @@ public class SupplierDAO extends DAO{
         }
     }
 
-        /*public void createSupplierTable() throws SQLException{
+    /* *
+    public void createSupplierTable() throws SQLException{
         try {
             Statement statement = dbGetConnect().createStatement();
             statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_SUPPLIER + "("
@@ -242,29 +243,6 @@ public class SupplierDAO extends DAO{
             e.printStackTrace();
             throw e;
         }
-    }*/
-
-//    public boolean addData(Supplier supplier) {
-//        PreparedStatement preparedStatement;
-//        String insertStmt = "INSERT INTO " + TABLE_SUPPLIER + " ("
-//                + COLUMN_SUPPLIER_NAME + ", "
-//                + COLUMN_SUPPLIER_FIRSTNAME + ", "
-//                + COLUMN_SUPPLIER_LASTNAME + ") "
-//                + " VALUES (?,?,?);";
-//        try {
-//            preparedStatement = dbGetConnect().prepareStatement(insertStmt);
-//            preparedStatement.setString(1, supplier.getSupplierName());
-//            preparedStatement.setString(2, supplier.getSupplierFirstname());
-//            preparedStatement.setString(3, supplier.getSupplierLastname());
-//            preparedStatement.execute();
-//            updateLiveData();
-//            return true;
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            System.out.print("Error occurred while INSERT Operation: " + e.getMessage());
-//            return false;
-//        }finally {
-//            dbDisConnect();
-//        }
-//    }
+    }
+    */
 }

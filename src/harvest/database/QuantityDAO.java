@@ -27,7 +27,7 @@ public class QuantityDAO extends DAO{
     //add QUANTITYWork
     //*******************************
     public boolean addHarvestQuantity(Quantity quantity) {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement preparedStatement;
 
         String insertTransport = "INSERT INTO " + TABLE_TRANSPORT + " ("
@@ -118,6 +118,13 @@ public class QuantityDAO extends DAO{
             connection.commit();
             return true;
         } catch (Exception e) {
+            assert connection != null;
+            try {
+                connection.rollback();
+            }catch (SQLException ex){
+                ex.printStackTrace();
+                System.out.print("Error occurred while rollback Operation: " + ex.getMessage());
+            }
             e.printStackTrace();
             System.out.print("Error occurred while INSERT Operation: " + e.getMessage());
             return false;

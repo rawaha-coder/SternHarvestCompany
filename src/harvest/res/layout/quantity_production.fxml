@@ -7,11 +7,13 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
 <AnchorPane prefHeight="580.0" prefWidth="1200.0" stylesheets="@../style/sub_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.view.DisplayQuantityProduction">
 
-    <Label alignment="CENTER" layoutX="25.0" layoutY="11.0" prefHeight="30.0" prefWidth="340.0" styleClass="tableName" text="TABLEAU DE PRODUCTION PAR QUANTITY" />
+    <Label alignment="CENTER" layoutX="25.0" layoutY="11.0" prefHeight="30.0" prefWidth="340.0" styleClass="tableName" text="PRODUCTION PAR QUANTITY" />
 
-    <TableView fx:id="fxHoursProductionTable" editable="true" layoutX="25.0" layoutY="50.0" maxHeight="600.0" maxWidth="1144.0" prefHeight="520.0" prefWidth="1100.0">
+    <TableView fx:id="fxProductionTable" editable="true" layoutX="25.0" layoutY="50.0" maxHeight="600.0" maxWidth="1144.0" prefHeight="520.0" prefWidth="1100.0">
         <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
         </columnResizePolicy>
@@ -26,6 +28,14 @@
             <TableColumn fx:id="fxProductionPrice" maxWidth="80.0" minWidth="60.0" text="Prix" />
             <TableColumn fx:id="fxProductionCost" maxWidth="100.0" minWidth="60.0" prefWidth="100.0" text="Coût" />
         </columns>
+        <contextMenu>
+            <ContextMenu>
+                <items>
+                    <MenuItem mnemonicParsing="false" onAction="#editProduction" text="Edit" />
+                    <MenuItem mnemonicParsing="false" onAction="#deleteProduction" text="Delete" />
+                </items>
+            </ContextMenu>
+        </contextMenu>
     </TableView>
     <Label fx:id="fxFromDate" alignment="CENTER" contentDisplay="CENTER" layoutX="374.0" layoutY="12.0" prefHeight="30.0" prefWidth="60.0" text="From:" textAlignment="CENTER" />
     <DatePicker fx:id="fxDatePickerFrom" layoutX="434.0" layoutY="12.0" prefHeight="30.0" prefWidth="160.0" />

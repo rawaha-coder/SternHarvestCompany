@@ -3,6 +3,7 @@ package harvest.view;
 import harvest.database.*;
 import harvest.model.*;
 import harvest.presenter.AddHoursPresenter;
+import harvest.presenter.DisplayHoursProductionPresenter;
 import harvest.util.AlertMaker;
 import harvest.util.TimeTextField;
 import javafx.beans.value.ObservableValue;
@@ -12,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.sql.Time;
@@ -22,8 +24,8 @@ import static harvest.presenter.AddHoursPresenter.ADD_HOURS_LIVE_DATA;
 public class AddHoursController implements Initializable {
 
     public final AlertMaker alert = new AlertMaker();
+    public AnchorPane addHarvestHoursUI;
     AddHoursPresenter mAddHoursPresenter;
-
     @FXML public DatePicker fxHarvestDate;
     @FXML public ChoiceBox<String> fxSupplierList;
     @FXML public ChoiceBox<String> fxFarmList;
@@ -121,15 +123,7 @@ public class AddHoursController implements Initializable {
         });
     }
 
-    public void onChangeCreditCell(TableColumn.CellEditEvent cellEditEvent){
-        Hours hoursSelected = fxAddHarvestHoursTable.getSelectionModel().getSelectedItem();
-        hoursSelected.getCredit().setCreditAmount(Double.parseDouble(cellEditEvent.getNewValue().toString()));
-    }
 
-    public void onChangeRemarqueCell(TableColumn.CellEditEvent cellEditEvent){
-        Hours hoursSelected = fxAddHarvestHoursTable.getSelectionModel().getSelectedItem();
-        hoursSelected.setRemarque(cellEditEvent.getNewValue().toString());
-    }
 
     @FXML
     void handleValidButton() {
@@ -169,5 +163,35 @@ public class AddHoursController implements Initializable {
     @FXML
     public void handleClearButton() {
         mAddHoursPresenter.clearField();
+    }
+
+    public void inflateUI(Production production, DisplayHoursProductionPresenter displayHoursProductionPresenter) {
+        mAddHoursPresenter.updateProductionData(production, displayHoursProductionPresenter);
+    }
+
+    public int getEmployeeType() {
+        if (fxController.isSelected()) {
+            return 2;
+        } else {
+            return 1;
+        }
+    }
+
+    public void setEmployeeType(int i) {
+        if (i == 2) {
+            fxController.setSelected(true);
+        } else {
+            fxHarvester.setSelected(true);
+        }
+    }
+
+    public void onChangeCreditCell(TableColumn.CellEditEvent<Hours, String> cellEditEvent){
+        Hours hoursSelected = fxAddHarvestHoursTable.getSelectionModel().getSelectedItem();
+        hoursSelected.getCredit().setCreditAmount(Double.parseDouble(cellEditEvent.getNewValue()));
+    }
+
+    public void onChangeRemarqueCell(TableColumn.CellEditEvent<Hours, String> cellEditEvent){
+        Hours hoursSelected = fxAddHarvestHoursTable.getSelectionModel().getSelectedItem();
+        hoursSelected.setRemarque(cellEditEvent.getNewValue());
     }
 }
