@@ -102,22 +102,22 @@ public class HoursDAO extends DAO {
             hours.setHourPrice(resultSet.getDouble(8));
             hours.setRemarque(resultSet.getString(9));
             hours.getEmployee().setEmployeeId(resultSet.getInt(10));
-            hours.getEmployee().setEmployeeFirstName(resultSet.getString(11));
-            hours.getEmployee().setEmployeeLastName(resultSet.getString(12));
+            hours.getEmployee().setEmployeeFirstName(resultSet.getString(11).toUpperCase());
+            hours.getEmployee().setEmployeeLastName(resultSet.getString(12).toUpperCase());
             hours.getTransport().setTransportId(resultSet.getInt(13));
             hours.getTransport().setTransportAmount(resultSet.getDouble(14));
             hours.getCredit().setCreditId(resultSet.getInt(15));
             hours.getCredit().setCreditAmount(resultSet.getDouble(16));
             hours.getProduction().setProductionID(resultSet.getInt(17));
             hours.getProduction().getSupplier().setSupplierId(resultSet.getInt(18));
-            hours.getProduction().getSupplier().setSupplierName(resultSet.getString(19));
+            hours.getProduction().getSupplier().setSupplierName(resultSet.getString(19).toUpperCase());
             hours.getProduction().getFarm().setFarmId(resultSet.getInt(20));
-            hours.getProduction().getFarm().setFarmName(resultSet.getString(21));
+            hours.getProduction().getFarm().setFarmName(resultSet.getString(21).toUpperCase());
             hours.getProduction().getProduct().setProductId(resultSet.getInt(22));
-            hours.getProduction().getProduct().setProductName(resultSet.getString(23));
+            hours.getProduction().getProduct().setProductName(resultSet.getString(23).toUpperCase());
             hours.getProduction().getProductDetail().setProductDetailId(resultSet.getInt(24));
-            hours.getProduction().getProductDetail().setProductType(resultSet.getString(25));
-            hours.getProduction().getProductDetail().setProductCode(resultSet.getString(26));
+            hours.getProduction().getProductDetail().setProductType(resultSet.getString(25).toUpperCase());
+            hours.getProduction().getProductDetail().setProductCode(resultSet.getString(26).toUpperCase());
             list.add(hours);
         }
         return list;
@@ -222,7 +222,7 @@ public class HoursDAO extends DAO {
     //add Harvest Hours
     //*******************************
     public boolean addHoursWork(Hours hours) {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement preparedStatement;
 
         String insertTransport = "INSERT INTO " + TABLE_TRANSPORT + " ("
@@ -312,6 +312,13 @@ public class HoursDAO extends DAO {
             connection.commit();
             return true;
         } catch (Exception e) {
+            assert connection != null;
+            try {
+                connection.rollback();
+            }catch (SQLException ex){
+                ex.printStackTrace();
+                System.out.print("Error occurred while rollback Operation: " + ex.getMessage());
+            }
             e.printStackTrace();
             System.out.print("Error occurred while INSERT Operation: " + e.getMessage());
             return false;
@@ -320,6 +327,7 @@ public class HoursDAO extends DAO {
         }
     }
 
+    //Create Hours table
     public void createHoursTable() throws SQLException {
         String createStmt = "CREATE TABLE IF NOT EXISTS " + TABLE_HOURS + " ("
                 + COLUMN_HOURS_ID + " INTEGER PRIMARY KEY, "
@@ -348,6 +356,167 @@ public class HoursDAO extends DAO {
         }
     }
 
+
+    public boolean updateHoursWork(Hours hours) {
+        Connection connection = null;
+        PreparedStatement preparedStatement;
+
+        String updateTransport = "UPDATE " + TABLE_TRANSPORT + " SET "
+                + COLUMN_TRANSPORT_DATE + " =?, "
+                + COLUMN_TRANSPORT_AMOUNT + " =?, "
+                + COLUMN_TRANSPORT_EMPLOYEE_ID + " =?, "
+                + COLUMN_TRANSPORT_FARM_ID + " =? "
+                + " WHERE " + COLUMN_TRANSPORT_ID + " = " + hours.getTransport().getTransportId() + " ;";
+
+        String updateCredit = "UPDATE " + TABLE_CREDIT + " SET "
+                + COLUMN_CREDIT_DATE + " =?, "
+                + COLUMN_CREDIT_AMOUNT + " =?, "
+                + COLUMN_CREDIT_EMPLOYEE_ID + " =? "
+                + " WHERE " + COLUMN_CREDIT_ID + " = " + hours.getCredit().getCreditId() + " ;";
+
+        String insertTransport = "INSERT INTO " + TABLE_TRANSPORT + " ("
+                + COLUMN_TRANSPORT_DATE + ", " + COLUMN_TRANSPORT_AMOUNT + ", "
+                + COLUMN_TRANSPORT_EMPLOYEE_ID + ", " + COLUMN_TRANSPORT_FARM_ID + ") "
+                + " VALUES (?,?,?,?) ";
+
+        String insertCredit = "INSERT INTO " + TABLE_CREDIT + " ("
+                + COLUMN_CREDIT_DATE + ", " + COLUMN_CREDIT_AMOUNT + ", " + COLUMN_CREDIT_EMPLOYEE_ID + ") "
+                + "VALUES (?,?,?);";
+
+        String deleteTransport = "DELETE FROM " + TABLE_TRANSPORT
+                + " WHERE " + COLUMN_TRANSPORT_ID + " = " + hours.getTransport().getTransportId() + " ;";
+
+        String deleteCredit = "DELETE FROM " + TABLE_CREDIT
+                + " WHERE " + COLUMN_CREDIT_ID + " = " + hours.getCredit().getCreditId() + " ;";
+
+        String getTransportId = "SELECT MAX(id) FROM " + TABLE_TRANSPORT + " ;";
+
+        String getCreditId = "SELECT MAX(id) FROM " + TABLE_CREDIT + " ;";
+
+        String updateHarvestHours = "UPDATE " + TABLE_HOURS + " SET "
+                + COLUMN_HOURS_DATE + " =?, "
+                + COLUMN_HOURS_SM + " = " + " julianday('" + hours.getStartMorning() + "'), "
+                + COLUMN_HOURS_EM + " = " + " julianday('" + hours.getEndMorning() + "'), "
+                + COLUMN_HOURS_SN + " = " + " julianday('" + hours.getStartNoon() + "'), "
+                + COLUMN_HOURS_EN + " = " + " julianday('" + hours.getEndNoon() + "'), "
+                + COLUMN_HOURS_EMPLOYEE_TYPE + " =?, "
+                + COLUMN_HOURS_EMPLOYEE_ID + " =?, "
+                + COLUMN_HOURS_TRANSPORT_ID + " =?, "
+                + COLUMN_HOURS_CREDIT_ID + " =?, "
+                + COLUMN_HOURS_PRICE + " =?, "
+                + COLUMN_HOURS_REMARQUE + " =?, "
+                + COLUMN_HOURS_PRODUCTION_ID + " =? "
+                + " WHERE " + COLUMN_HOURS_ID + " = " + hours.getHoursID() + " ;";
+
+        try {
+            connection = dbGetConnect();
+            connection.setAutoCommit(false);
+
+            boolean toDeleteTransport = false;
+            boolean toDeleteCredit = false;
+            int transportId = 0;
+            int CreditId = 0;
+
+            if (hours.isTransportStatus() && hours.getTransport().getTransportId() != 0){
+                preparedStatement = dbGetConnect().prepareStatement(updateTransport);
+                preparedStatement.setDate(1, hours.getHarvestDate());
+                preparedStatement.setDouble(2, hours.getTransport().getTransportAmount());
+                preparedStatement.setInt(3, hours.getEmployee().getEmployeeId());
+                preparedStatement.setInt(4, hours.getProduction().getFarm().getFarmId());
+                preparedStatement.execute();
+                preparedStatement.close();
+            }else if (hours.isTransportStatus() && hours.getTransport().getTransportId() == 0){
+                preparedStatement = dbGetConnect().prepareStatement(insertTransport);
+                preparedStatement.setDate(1, hours.getHarvestDate());
+                preparedStatement.setDouble(2, hours.getTransport().getTransportAmount());
+                preparedStatement.setInt(3, hours.getEmployee().getEmployeeId());
+                preparedStatement.setInt(4, hours.getProduction().getFarm().getFarmId());
+                preparedStatement.execute();
+                preparedStatement.close();
+            }else {
+                toDeleteTransport = true;
+            }
+
+            System.out.println();
+            if (hours.getCreditAmount() > 0.0 && hours.getCredit().getCreditId() != 0){
+                System.out.println("!= 0 : " + hours.getCredit().getCreditId());
+                preparedStatement = dbGetConnect().prepareStatement(updateCredit);
+                preparedStatement.setDate(1, hours.getHarvestDate());
+                preparedStatement.setDouble(2, hours.getCreditAmount());
+                preparedStatement.setInt(3, hours.getEmployee().getEmployeeId());
+                preparedStatement.execute();
+                preparedStatement.close();
+            }else if (hours.getCreditAmount() > 0.0 && hours.getCredit().getCreditId() == 0){
+                System.out.println("== 0 : " + hours.getCredit().getCreditId());
+                preparedStatement = dbGetConnect().prepareStatement(insertCredit);
+                preparedStatement.setDate(1, hours.getHarvestDate());
+                preparedStatement.setDouble(2, hours.getCreditAmount());
+                preparedStatement.setInt(3, hours.getEmployee().getEmployeeId());
+                preparedStatement.execute();
+                preparedStatement.close();
+            }else {
+                toDeleteCredit = true;
+            }
+
+            if (toDeleteTransport){
+                Statement transportDeleteStmt = connection.createStatement();
+                transportDeleteStmt.execute(deleteTransport);
+                transportDeleteStmt.close();
+            }
+
+            if (toDeleteCredit){
+                Statement creditDeleteStmt = connection.createStatement();
+                creditDeleteStmt.execute(deleteCredit);
+                creditDeleteStmt.close();
+            }
+
+            if (hours.isTransportStatus() && hours.getTransport().getTransportId() != 0){
+                transportId = hours.getTransport().getTransportId();
+            }else if (hours.isTransportStatus() && hours.getTransport().getTransportId() == 0){
+                Statement transportStmt = connection.createStatement();
+                ResultSet resultSet1 = transportStmt.executeQuery(getTransportId);
+                transportId = resultSet1.getInt(1);
+                transportStmt.close();
+            }
+
+            if (hours.getCreditAmount() > 0.0 && hours.getCredit().getCreditId() != 0){
+                CreditId = hours.getCredit().getCreditId();
+            }else if (hours.getCreditAmount() > 0.0 && hours.getCredit().getCreditId() == 0){
+                Statement creditStmt = connection.createStatement();
+                ResultSet resultSet2 = creditStmt.executeQuery(getCreditId);
+                CreditId = resultSet2.getInt(1);
+                creditStmt.close();
+            }
+
+            preparedStatement = connection.prepareStatement(updateHarvestHours);
+            preparedStatement.setDate(1, hours.getHarvestDate());
+            preparedStatement.setInt(2, hours.getEmployeeType());
+            preparedStatement.setInt(3, hours.getEmployee().getEmployeeId());
+            preparedStatement.setInt(4, transportId);
+            preparedStatement.setInt(5, CreditId);
+            preparedStatement.setDouble(6, hours.getHourPrice());
+            preparedStatement.setString(7, hours.getRemarque());
+            preparedStatement.setInt(8, hours.getProduction().getProductionID());
+            preparedStatement.execute();
+            preparedStatement.close();
+
+            connection.commit();
+            return true;
+        } catch (Exception e) {
+            assert connection != null;
+            try {
+                connection.rollback();
+            }catch (SQLException ex){
+                ex.printStackTrace();
+                System.out.print("Error occurred while rollback Operation: " + ex.getMessage());
+            }
+            e.printStackTrace();
+            System.out.print("Error occurred while UPDATE Operation: " + e.getMessage());
+            return false;
+        } finally {
+            dbDisConnect();
+        }
+    }
 }
 
 

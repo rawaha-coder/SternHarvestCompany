@@ -128,7 +128,7 @@ public class ProductDAO extends DAO{
                 sqlException.printStackTrace();
                 System.out.print("Error occurred while rollback Operation: " + sqlException.getMessage());
             }
-            System.out.print("Error occurred while INSERT Operation: " + exception.getMessage());
+            System.out.print("Error occurred while DELETE Operation: " + exception.getMessage());
             return false;
         }finally {
             dbDisConnect();

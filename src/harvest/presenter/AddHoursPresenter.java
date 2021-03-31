@@ -7,9 +7,11 @@ import harvest.database.ProductionDAO;
 import harvest.model.Hours;
 import harvest.model.Production;
 import harvest.util.AlertMaker;
+import harvest.view.DisplayHoursProduction;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.stage.Stage;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -23,6 +25,8 @@ public class AddHoursPresenter {
     ListPresenter listPresenter = new ListPresenter();
     Production production = new Production();
     public final AlertMaker alert = new AlertMaker();
+    private boolean isEditStatus = false;
+    DisplayHoursProductionPresenter mDisplayHoursProductionPresenter;
 
     public AddHoursPresenter(AddHoursController addHoursController) {
         mAddHoursController = addHoursController;
@@ -36,16 +40,14 @@ public class AddHoursPresenter {
     }
 
     public void updateAddHoursDataLive() {
-        Thread thread = new Thread(){
-            public void run(){
-                ADD_HOURS_LIVE_DATA.clear();
-                try {
-                    ADD_HOURS_LIVE_DATA.setAll(mHoursDAO.getAddHoursData());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        Thread thread = new Thread(() -> {
+            ADD_HOURS_LIVE_DATA.clear();
+            try {
+                ADD_HOURS_LIVE_DATA.setAll(mHoursDAO.getAddHoursData());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        };
+        });
         thread.start();
     }
 
@@ -62,26 +64,18 @@ public class AddHoursPresenter {
     }
 
     public void applyProductionToDatabase() {
-        production.setProductionDate(Date.valueOf(mAddHoursController.fxHarvestDate.getValue()));
-        production.setProductionType(1);
-        production.getSupplier().setSupplierId(listPresenter.getSupplierMap().get(mAddHoursController.fxSupplierList.getValue()).getSupplierId());
-        production.getFarm().setFarmId(listPresenter.getFarmMap().get(mAddHoursController.fxFarmList.getValue()).getFarmId());
-        production.getProduct().setProductId(listPresenter.getProductMap().get(mAddHoursController.fxProductList.getValue()).getProductId());
-        production.getProductDetail().setProductDetailId(listPresenter.getProductDetailMap().get(mAddHoursController.fxProductCodeList.getValue()).getProductDetailId());
-        production.setTotalEmployee(Integer.parseInt(mAddHoursController.fxTotalEmployee.getText()));
-        production.setTotalMinutes(Long.parseLong(mAddHoursController.fxTotalMinutes.getText()));
-        production.setPrice(Double.parseDouble(mAddHoursController.fxHourPrice.getText()));
+        if (isEditStatus){ updateProductionDataInDatabase();
+        }else { addProductionDataToDatabase(); }
+    }
+
+    private void addProductionDataToDatabase() {
+        setProductionValueFromFields();
         int productionId = mProductionDAO.addProductionAndGetId(production);
         if (productionId != -1){
             production.setProductionID(productionId);
             boolean added = addHoursWorkToDatabase();
-            if (added){
-                mAddHoursController.handleClearButton();
-                alert.saveItem("Production" , added);
-            }else {
-                alert.saveItem("Production" , added);
-            }
-
+            if (added){ mAddHoursController.handleClearButton(); }
+            alert.saveItem("Production" , added);
         }
     }
 
@@ -99,20 +93,54 @@ public class AddHoursPresenter {
         return trackInsert;
     }
 
+    private void updateProductionDataInDatabase() {
+        setProductionValueFromFields();
+        if (mProductionDAO.updateProductionData(production)){
+            alert.saveItem("Production" , updateHoursWorkInDatabase());
+        }else {
+            alert.saveItem("Production" , false);
+        }
+        mDisplayHoursProductionPresenter.searchByDate();
+        isEditStatus = false;
+        Stage stage = (Stage) mAddHoursController.addHarvestHoursUI.getScene().getWindow();
+        stage.close();
+    }
+    private boolean updateHoursWorkInDatabase() {
+        boolean trackInsert = false;
+            for (Hours item : ADD_HOURS_LIVE_DATA){
+                item.setHarvestDate(production.getProductionDate());
+                item.getProduction().getFarm().setFarmId(production.getFarm().getFarmId());
+                item.getProduction().setProductionID(production.getProductionID());
+                trackInsert = mHoursDAO.updateHoursWork(item);
+                if (!trackInsert) break;
+            }
+        return trackInsert;
+    }
+
+    private void setProductionValueFromFields(){
+        production.setProductionDate(Date.valueOf(mAddHoursController.fxHarvestDate.getValue()));
+        production.setProductionType(1);
+        production.getSupplier().setSupplierId(listPresenter.getSupplierMap().get(mAddHoursController.fxSupplierList.getValue()).getSupplierId());
+        production.getFarm().setFarmId(listPresenter.getFarmMap().get(mAddHoursController.fxFarmList.getValue()).getFarmId());
+        production.getProduct().setProductId(listPresenter.getProductMap().get(mAddHoursController.fxProductList.getValue()).getProductId());
+        production.getProductDetail().setProductDetailId(listPresenter.getProductDetailMap().get(mAddHoursController.fxProductCodeList.getValue()).getProductDetailId());
+        production.setTotalEmployee(Integer.parseInt(mAddHoursController.fxTotalEmployee.getText()));
+        production.setTotalMinutes(Long.parseLong(mAddHoursController.fxTotalMinutes.getText()));
+        production.setPrice(Double.parseDouble(mAddHoursController.fxHourPrice.getText()));
+    }
+
+    //validate data before send them to database
     public void validateAddHoursWork(){
         PreferencesDAO preferencesDAO = PreferencesDAO.getInstance();
         double price = preferencesDAO.getHourPrice();
-        long totalMinute = 0;
-        double totalTransport = 0.0;
-        double totalCredit = 0.0;
-        double totalPayment = 0.0;
+        long totalMinute = 0; double totalTransport = 0.0; double totalCredit = 0.0; double totalPayment = 0.0;
 
         for(Hours hours: ADD_HOURS_LIVE_DATA){
             hours.setStartMorning(Time.valueOf(mAddHoursController.fxStartMorningTime.getText()));
             hours.setEndMorning(Time.valueOf(mAddHoursController.fxEndMorningTime.getText()));
             hours.setStartNoon(Time.valueOf(mAddHoursController.fxStartNoonTime.getText()));
             hours.setEndNoon(Time.valueOf(mAddHoursController.fxEndNoonTime.getText()));
-            hours.setEmployeeType(getEmployeeType());
+            hours.setEmployeeType(mAddHoursController.getEmployeeType());
             hours.setHourPrice(price);
             totalMinute += hours.getTotalMinutes();
             totalTransport += hours.getTransport().getTransportAmount();
@@ -128,12 +156,45 @@ public class AddHoursPresenter {
         mAddHoursController.fxTotalPayment.setText(String.valueOf(totalPayment));
     }
 
-    private int getEmployeeType() {
-        if (mAddHoursController.fxController.isSelected()) {
-            return 2;
-        } else {
-            return 1;
+    //initial value in addHours UI for editing hours production data
+    public void updateProductionData(Production production, DisplayHoursProductionPresenter displayHoursProductionPresenter) {
+        isEditStatus = true;
+        mDisplayHoursProductionPresenter = displayHoursProductionPresenter;
+        this.production.setProductionID(production.getProductionID());
+        mAddHoursController.fxHarvestDate.setValue(production.getProductionDate().toLocalDate());
+        mAddHoursController.fxSupplierList.getSelectionModel().select(production.getSupplierName());
+        mAddHoursController.fxFarmList.getSelectionModel().select(production.getFarmName().toUpperCase());
+        mAddHoursController.fxProductList.getSelectionModel().select(production.getProductName());
+        mAddHoursController.fxProductCodeList.getSelectionModel().select(production.getProductCode());
+
+        ADD_HOURS_LIVE_DATA.clear();
+        try {
+            ADD_HOURS_LIVE_DATA.setAll(mHoursDAO.getHoursDataByProductionId(production));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+        Hours firstEmployee = ADD_HOURS_LIVE_DATA.get(0);
+        Time timeSM = firstEmployee.getStartMorning(); Time timeEM = firstEmployee.getEndMorning();
+        Time timeSN = firstEmployee.getStartNoon(); Time timeEN = firstEmployee.getEndNoon();
+        mAddHoursController.fxStartMorningTime.setText(timeSM.toString());
+        mAddHoursController.fxEndMorningTime.setText(timeEM.toString());
+        mAddHoursController.fxStartNoonTime.setText(timeSN.toString());
+        mAddHoursController.fxEndNoonTime.setText(timeEN.toString());
+        mAddHoursController.setEmployeeType(firstEmployee.getEmployeeType());
+        for(Hours hours: ADD_HOURS_LIVE_DATA){
+            hours.setTransportStatus(hours.getTransportStatusByAmount());
+        }
+        initTotalField();
+    }
+
+    private void initTotalField(){
+        mAddHoursController.fxTotalEmployee.setText("0");
+        mAddHoursController.fxTotalMinutes.setText("0");
+        mAddHoursController.fxHourPrice.setText("0.0");
+        mAddHoursController.fxTotalTransport.setText("0.0");
+        mAddHoursController.fxTotalCredit.setText("0.0");
+        mAddHoursController.fxTotalPayment.setText("0.0");
     }
 
     public void clearField() {
@@ -158,12 +219,7 @@ public class AddHoursPresenter {
             hours.getTransport().setTransportAmount(0.0);
             hours.setPayment(0.0);
         }
-        mAddHoursController.fxTotalEmployee.setText("0");
-        mAddHoursController.fxTotalMinutes.setText("0");
-        mAddHoursController.fxHourPrice.setText("0.0");
-        mAddHoursController.fxTotalTransport.setText("0.0");
-        mAddHoursController.fxTotalCredit.setText("0.0");
-        mAddHoursController.fxTotalPayment.setText("0.0");
+        initTotalField();
         mAddHoursController.fxAddHarvestHoursTable.refresh();
     }
 }

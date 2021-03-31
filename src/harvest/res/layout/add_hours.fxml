@@ -51,11 +51,11 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
         </columnResizePolicy>
         <columns>
-            <TableColumn fx:id="fxEmployeeColumn" minWidth="150.0" prefWidth="180.0" text="EMPLOYEE" />
+            <TableColumn fx:id="fxEmployeeColumn"  minWidth="150.0" prefWidth="180.0" text="EMPLOYEE" />
             <TableColumn fx:id="fxStartMorningColumn" minWidth="70.0" text="D.M" />
-            <TableColumn fx:id="fxEndMorningColumn" minWidth="70.0" text="F.M" />
-            <TableColumn fx:id="fxStartNoonColumn" minWidth="70.0" text="D.S" />
-            <TableColumn fx:id="fxEndNoonColumn" minWidth="70.0" text="F.S" />
+            <TableColumn fx:id="fxEndMorningColumn"  minWidth="70.0" text="F.M" />
+            <TableColumn fx:id="fxStartNoonColumn"  minWidth="70.0" text="D.S" />
+            <TableColumn fx:id="fxEndNoonColumn"  minWidth="70.0" text="F.S" />
             <TableColumn fx:id="fxDurationColumn" minWidth="70.0" prefWidth="100.0" text="DUREE" />
             <TableColumn fx:id="fxPriceColumn" minWidth="70.0" prefWidth="100.0" text="PRIX" />
             <TableColumn fx:id="fxTransportColumn" minWidth="60.0" text="TRANS" />

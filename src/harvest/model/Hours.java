@@ -65,6 +65,10 @@ public class Hours {
         return transportStatus.get();
     }
 
+    public boolean getTransportStatusByAmount() {
+        return getTransportAmount() > 0;
+    }
+
     public SimpleBooleanProperty transportStatusProperty() {
         return transportStatus;
     }

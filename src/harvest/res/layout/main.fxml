@@ -32,8 +32,8 @@
                               </items>
                             </Menu>
                             <Menu mnemonicParsing="false" text="Add">
-                                <MenuItem mnemonicParsing="false" text="Add Harvest  Hours" />
-                                <MenuItem mnemonicParsing="false" text="Add Harvest Work" />
+                                <MenuItem mnemonicParsing="false" onAction="#addHarvestHours" text="Add Hours" />
+                                <MenuItem mnemonicParsing="false" onAction="#addHarvestQuantity" text="Add Quantity" />
                                 <MenuItem mnemonicParsing="false" onAction="#addFarmSeason" text="Add Farm /Season" />
                                 <MenuItem mnemonicParsing="false" onAction="#addCredit" text="Add Credit" />
                                 <MenuItem mnemonicParsing="false" onAction="#addTransport" text="Add Transport" />

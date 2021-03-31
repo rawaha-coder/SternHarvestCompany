@@ -1,13 +1,21 @@
 package harvest.view;
 
+import harvest.model.Credit;
 import harvest.model.Production;
 import harvest.presenter.DisplayHoursProductionPresenter;
+import harvest.util.AlertMaker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -73,5 +81,14 @@ public class DisplayHoursProduction implements Initializable {
         fxTotalMinutes.setCellValueFactory(new PropertyValueFactory<>("totalMinutes"));
         fxProductionPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         fxProductionCost.setCellValueFactory(new PropertyValueFactory<>("cost"));
+    }
+
+    public void editProduction(ActionEvent actionEvent) {
+        mDisplayHoursProductionPresenter.editProduction();
+    }
+
+    public void deleteProduction(ActionEvent actionEvent) {
+        mDisplayHoursProductionPresenter.deleteProduction();
+
     }
 }

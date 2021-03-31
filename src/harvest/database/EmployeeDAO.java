@@ -184,7 +184,10 @@ public class EmployeeDAO extends DAO{
     //UPDATE Employee status in database
     //*************************************
     public boolean updateEmployeeStatusById(int employeeId, boolean employeeStatus) {
-        String updateStmt = "UPDATE " + TABLE_EMPLOYEE + " SET " + COLUMN_EMPLOYEE_STATUS + " =?  WHERE " + COLUMN_EMPLOYEE_ID + " = " + employeeId + " ;";
+
+        String updateStmt = "UPDATE " + TABLE_EMPLOYEE + " SET " + COLUMN_EMPLOYEE_STATUS
+                + " =?  WHERE " + COLUMN_EMPLOYEE_ID + " = " + employeeId + " ;";
+
         try( PreparedStatement preparedStatement = dbGetConnect().prepareStatement(updateStmt)) {
             preparedStatement.setBoolean(1, employeeStatus);
             preparedStatement.execute();
@@ -203,8 +206,10 @@ public class EmployeeDAO extends DAO{
     //Delete Employee
     //*************************************************************
     public boolean deleteEmployeeById(Employee employee) {
+
         String fireEmployee = "UPDATE " + TABLE_EMPLOYEE + " SET " + COLUMN_EMPLOYEE_IS_EXIST + " = 0 "
                 + " WHERE " + COLUMN_EMPLOYEE_ID + " = "+ employee.getEmployeeId() +" ;";
+
         try {
             Statement statement = dbGetConnect().createStatement();
             statement.execute(fireEmployee);
