@@ -39,7 +39,7 @@ public class DisplayHoursProductionPresenter {
 
     public DisplayHoursProductionPresenter(DisplayHoursProduction displayHoursProduction) {
         mDisplayHoursProduction = displayHoursProduction;
-        mDisplayHoursProduction.fxHoursProductionTable.setItems(HOURS_PRODUCTION_LIVE_DATA);
+        mDisplayHoursProduction.fxProductionTable.setItems(HOURS_PRODUCTION_LIVE_DATA);
         initHoursProductionLiveData();
         nestedTable();
     }
@@ -74,7 +74,7 @@ public class DisplayHoursProductionPresenter {
     }
 
     public void nestedTable(){
-        mDisplayHoursProduction.fxHoursProductionTable.setRowFactory(tv -> new TableRow<>() {
+        mDisplayHoursProduction.fxProductionTable.setRowFactory(tv -> new TableRow<>() {
             Node detailsPane;
 
             {
@@ -179,9 +179,9 @@ public class DisplayHoursProductionPresenter {
     }
 
     public void editProduction() {
-        Production production = mDisplayHoursProduction.fxHoursProductionTable.getSelectionModel().getSelectedItem();
+        Production production = mDisplayHoursProduction.fxProductionTable.getSelectionModel().getSelectedItem();
         if (production == null) {
-            alert.missingInfo("Credit");
+            alert.missingInfo("Production");
             return;
         }
         try {
@@ -199,7 +199,7 @@ public class DisplayHoursProductionPresenter {
     }
 
     public void deleteProduction() {
-        Production production = mDisplayHoursProduction.fxHoursProductionTable.getSelectionModel().getSelectedItem();
+        Production production = mDisplayHoursProduction.fxProductionTable.getSelectionModel().getSelectedItem();
         if (production == null) {
             alert.missingInfo("Credit");
             return;

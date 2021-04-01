@@ -1,8 +1,10 @@
 package harvest.view;
 
 import harvest.database.PreferencesDAO;
+import harvest.model.Production;
 import harvest.model.Quantity;
 import harvest.presenter.AddQuantityPresenter;
+import harvest.presenter.DisplayQuantityProductionPresenter;
 import harvest.util.AlertMaker;
 import harvest.util.Validation;
 import javafx.beans.value.ChangeListener;
@@ -72,7 +74,7 @@ public class AddQuantityController implements Initializable {
 
 
     public final AlertMaker alert = new AlertMaker();
-    public AnchorPane fxAddQuantity;
+    public AnchorPane fxAddQuantityUI;
     AddQuantityPresenter mAddQuantityPresenter;
 
     @Override
@@ -171,7 +173,7 @@ public class AddQuantityController implements Initializable {
             alert.missingInfo("Hours");
             return;
         }
-        mAddQuantityPresenter.applyProductionToDatabase();
+        mAddQuantityPresenter.handleProductionData();
     }
 
     private boolean checkApplyButtonInput() {
@@ -227,4 +229,7 @@ public class AddQuantityController implements Initializable {
         );
     }
 
+    public void inflateUI(Production production, DisplayQuantityProductionPresenter displayQuantityProductionPresenter) {
+        mAddQuantityPresenter.updateProductionData(production, displayQuantityProductionPresenter);
+    }
 }

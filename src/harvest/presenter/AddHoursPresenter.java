@@ -7,7 +7,6 @@ import harvest.database.ProductionDAO;
 import harvest.model.Hours;
 import harvest.model.Production;
 import harvest.util.AlertMaker;
-import harvest.view.DisplayHoursProduction;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -63,7 +62,7 @@ public class AddHoursPresenter {
                 });
     }
 
-    public void applyProductionToDatabase() {
+    public void handleProductionData() {
         if (isEditStatus){ updateProductionDataInDatabase();
         }else { addProductionDataToDatabase(); }
     }
@@ -73,13 +72,13 @@ public class AddHoursPresenter {
         int productionId = mProductionDAO.addProductionAndGetId(production);
         if (productionId != -1){
             production.setProductionID(productionId);
-            boolean added = addHoursWorkToDatabase();
+            boolean added = addHarvestHoursToDatabase();
             if (added){ mAddHoursController.handleClearButton(); }
             alert.saveItem("Production" , added);
         }
     }
 
-    private boolean addHoursWorkToDatabase() {
+    private boolean addHarvestHoursToDatabase() {
         boolean trackInsert = false;
         if (production.getProductionID() > 0){
             for (Hours item : ADD_HOURS_LIVE_DATA){

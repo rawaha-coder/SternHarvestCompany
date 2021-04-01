@@ -24,11 +24,14 @@
                           <menus>
                             <Menu mnemonicParsing="false" text="File">
                               <items>
-                                <MenuItem mnemonicParsing="false" text="Save all" />
                                     <MenuItem fx:id="fxPreferences" mnemonicParsing="false" onAction="#handlePreferences" text="Preferences" />
-                                    <MenuItem mnemonicParsing="false" text="Import" />
-                                    <MenuItem mnemonicParsing="false" text="Export" />
-                                    <MenuItem mnemonicParsing="false" text="Close" />
+                                  <Menu mnemonicParsing="false" text="Rapport">
+                                    <items>
+                                      <MenuItem fx:id="fxCompanyRapport" mnemonicParsing="false" text="Company" />
+                                          <MenuItem fx:id="fxEmployeeRapport" mnemonicParsing="false" text="Employée" />
+                                    </items>
+                                  </Menu>
+                                    <MenuItem fx:id="fxExit" mnemonicParsing="false" text="Close" />
                               </items>
                             </Menu>
                             <Menu mnemonicParsing="false" text="Add">
@@ -40,11 +43,6 @@
                                 <MenuItem mnemonicParsing="false" onAction="#addEmployee" text="Add Employee" />
                                 <MenuItem mnemonicParsing="false" onAction="#addSupplier" text="Add Supplier" />
                                 <MenuItem mnemonicParsing="false" onAction="#addProduct" text="Add Product" />
-                            </Menu>
-                            <Menu mnemonicParsing="false" text="Help">
-                              <items>
-                                <MenuItem mnemonicParsing="false" text="About" />
-                              </items>
                             </Menu>
                           </menus>
                            <padding>

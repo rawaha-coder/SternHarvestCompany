@@ -21,7 +21,6 @@ public class CreditDAO extends DAO {
     public static CreditDAO getInstance() {
         if (sCreditDAO == null) {
             sCreditDAO = new CreditDAO();
-            return sCreditDAO;
         }
         return sCreditDAO;
     }

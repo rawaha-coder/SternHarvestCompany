@@ -1,0 +1,130 @@
+
+* {
+    -fx-bg-color : #151819;
+	-fx-first-menu-color : #2F2F2F;
+	-fx-second-menu-color : #474747;
+	-fx-button-text-active: #FFFFFF;
+	-fx-button-text-hover: #000000;
+	-fx-hover-color : #ADBBC2;
+	-fx-border-c : #4A4A4A;
+	-fx-clearButton-color : #ACBAC1;
+	-fx-sideButton-color : #f84005;
+	-fx-wit-color : white;
+	-fx-org-color : orange;
+	-fx-ylw-color : yellow;
+	-fx-grn-color : green;
+}
+
+.root {
+    -fx-background-color: -fx-bg-color ;
+     -fx-background-image: url('/harvest/res/image/background.jpg');
+}
+
+#add-text {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-wit-color;
+   -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );
+}
+
+/* label of textField */
+.label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-wit-color;
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+}
+
+.text-field{
+  -fx-fill: FIREBRICK;
+  -fx-font-weight: bold;
+  -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+}
+
+.text-field:focused{
+    -fx-background-color: -fx-wit-color;
+}
+
+
+.date-picker > .text-field {
+    -fx-background-color: -fx-clearButton-color;
+    -fx-background-insets: 0 0 0 0;
+    -fx-background-radius: 7 0 0 7;
+    -fx-border-radius: 7 0 0 7;
+    -fx-font-weight:bold;
+    -fx-font-size: 1.3em;
+}
+
+.date-picker:focused > .text-field,
+.date-picker > .text-field:focused {
+    -fx-background-color: -fx-wit-color;
+    -fx-background-insets: 0 0 0 0;
+    -fx-background-radius: 7 0 0 7;
+    -fx-border-radius: 7 0 0 7;
+}
+
+
+.date-picker-popup > .month-year-pane {
+       -fx-padding: 0.588883em 0.5em 0.666667em 0.5em;
+       -fx-background-color: #EBA12A;
+       -fx-background-insets: 0 0 0 0, 0 0 1 0;
+}
+
+.date-cell {
+       -fx-background-color: #E26435;
+       -fx-font-family: "Andalus";
+       -fx-font-size: 16.0;
+       -fx-text-fill: -fx-wit-color;
+}
+
+.date-cell:hover {
+       -fx-background-color: -fx-grn-color;
+       -fx-font-family: "Andalus";
+       -fx-font-size: 16.0;
+       -fx-text-fill: -fx-wit-color;
+}
+.date-cell:selected {
+       -fx-background-color: -fx-sideButton-color;
+       -fx-font-family: "Andalus";
+       -fx-font-size: 16.0;
+       -fx-text-fill: -fx-wit-color;
+}
+
+.choice-box {
+    -fx-background-color: -fx-clearButton-color;
+    -fx-background-insets: 0 0 0 0;
+    -fx-background-radius: 7 7 7 7;
+    -fx-border-radius: 7 7 7 7;
+    -fx-border-color: -fx-wit-color;
+    -fx-font-weight:bold;
+    -fx-font-size: 1.3em;
+}
+
+.combo-box {
+    -fx-background-color: -fx-clearButton-color;
+    -fx-background-insets: 0 0 0 0;
+    -fx-background-radius: 7 7 7 7;
+    -fx-border-radius: 7 7 7 7;
+    -fx-border-border: -fx-wit-color;
+    -fx-font-weight:bold;
+    -fx-font-size: 1.3em;
+}
+
+
+.button {
+    -fx-text-fill: white;
+    -fx-font-family: "Arial Narrow";
+    -fx-font-weight: bold;
+    -fx-background-color: linear-gradient(#61a2b1, #2A5058);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+
+.button:hover{
+    -fx-background-color: linear-gradient(#2A5058, #61a2b1);
+}
+
+.button:focused{
+    -fx-text-fill: red;
+    -fx-background-color: linear-gradient(#61a2b1, #2A5058);
+}
+

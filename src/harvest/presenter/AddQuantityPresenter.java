@@ -27,6 +27,8 @@ public class AddQuantityPresenter {
     ListPresenter listPresenter = new ListPresenter();
     Production production = new Production();
     public final AlertMaker alert = new AlertMaker();
+    DisplayQuantityProductionPresenter mDisplayQuantityProductionPresenter;
+    private boolean isEditStatus = false;
 
     public AddQuantityPresenter(AddQuantityController addHoursController) {
         mAddQuantityController = addHoursController;
@@ -40,16 +42,14 @@ public class AddQuantityPresenter {
     }
 
     public void updateAddQuantityDataLive() {
-        Thread thread = new Thread(){
-            public void run(){
-                ADD_QUANTITY_LIVE_DATA.clear();
-                try {
-                    ADD_QUANTITY_LIVE_DATA.setAll(mQuantityDAO.getAddQuantityData());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        Thread thread = new Thread(() -> {
+            ADD_QUANTITY_LIVE_DATA.clear();
+            try {
+                ADD_QUANTITY_LIVE_DATA.setAll(mQuantityDAO.getAddQuantityData());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        };
+        });
         thread.start();
     }
 
@@ -65,7 +65,63 @@ public class AddQuantityPresenter {
                 });
     }
 
-    public void applyProductionToDatabase() {
+    public void handleProductionData() {
+        if (isEditStatus){ updateProductionDataInDatabase();
+        }else { addProductionDataToDatabase(); }
+    }
+
+    private void addProductionDataToDatabase() {
+        setProductionValueFromFields();
+        int productionId = mProductionDAO.addProductionAndGetId(production);
+        if (productionId != -1){
+            production.setProductionID(productionId);
+            boolean added = addHarvestQuantityToDatabase();
+            if (added){ mAddQuantityController.clearButton(); }
+            alert.saveItem("Production" , added);
+        }
+    }
+
+    private boolean addHarvestQuantityToDatabase() {
+        boolean trackInsert = false;
+        if (production.getProductionID() > 0){
+            for (Quantity item : ADD_QUANTITY_LIVE_DATA){
+                item.setHarvestDate(production.getProductionDate());
+                item.getProduction().getFarm().setFarmId(production.getFarm().getFarmId());
+                item.getProduction().setProductionID(production.getProductionID());
+                trackInsert = mQuantityDAO.addHarvestQuantity(item);
+                if (!trackInsert) break;
+            }
+        }
+        return trackInsert;
+    }
+
+    private void updateProductionDataInDatabase() {
+        setProductionValueFromFields();
+        if (mProductionDAO.updateProductionData(production)){
+            alert.saveItem("Production" , updateHarvestQuantityInDatabase());
+            System.out.println("updateHarvestQuantityInDatabase() called");
+        }else {
+            alert.saveItem("Production" , false);
+            System.out.println("updateHarvestQuantityInDatabase() not called");
+        }
+        mDisplayQuantityProductionPresenter.searchByDate();
+        isEditStatus = false;
+        Stage stage = (Stage) mAddQuantityController.fxAddQuantityUI.getScene().getWindow();
+        stage.close();
+    }
+    private boolean updateHarvestQuantityInDatabase() {
+        boolean trackInsert = false;
+        for (Quantity item : ADD_QUANTITY_LIVE_DATA){
+            item.setHarvestDate(production.getProductionDate());
+            item.getProduction().getFarm().setFarmId(production.getFarm().getFarmId());
+            item.getProduction().setProductionID(production.getProductionID());
+            trackInsert = mQuantityDAO.updateHarvestQuantity(item);
+            if (!trackInsert) break;
+        }
+        return trackInsert;
+    }
+
+    private void setProductionValueFromFields(){
         production.setProductionDate(Date.valueOf(mAddQuantityController.fxHarvestDate.getValue()));
         production.setProductionType(2);
         production.getSupplier().setSupplierId(listPresenter.getSupplierMap().get(mAddQuantityController.fxSupplierList.getValue()).getSupplierId());
@@ -75,31 +131,6 @@ public class AddQuantityPresenter {
         production.setTotalEmployee(Integer.parseInt(mAddQuantityController.fxTotalEmployee.getText()));
         production.setTotalQuantity(Double.parseDouble(mAddQuantityController.fxTotalGoodQuantity.getText()));
         production.setPrice(Double.parseDouble(mAddQuantityController.fxProductPriceCompany.getText()));
-        int productionId = mProductionDAO.addProductionAndGetId(production);
-        if (productionId != -1){
-            production.setProductionID(productionId);
-            boolean added = addHoursWorkToDatabase();
-            if (added){
-                mAddQuantityController.clearButton();
-                alert.saveItem("Production" , added);
-            }else {
-                alert.saveItem("Production" , added);
-            }
-
-        }
-    }
-
-    private boolean addHoursWorkToDatabase() {
-        boolean trackInsert = false;
-        if (production.getProductionID() > 0){
-            for (Quantity item : ADD_QUANTITY_LIVE_DATA){
-                item.setHarvestDate(production.getProductionDate());
-                item.getProduction().setProductionID(production.getProductionID());
-                trackInsert = mQuantityDAO.addHarvestQuantity(item);
-                if (!trackInsert) break;
-            }
-        }
-        return trackInsert;
     }
 
     public void validateGroupQuantity(){
@@ -141,6 +172,7 @@ public class AddQuantityPresenter {
         mAddQuantityController.fxCompanyCharge.setText(String.valueOf(priceCompany * totalGoodQuantity));
     }
 
+    //validate data before send them to database
     public void validateIndividualQuantity(){
         double priceCompany = listPresenter.getProductDetailMap().get(mAddQuantityController.fxProductCodeList.getValue()).getPriceCompany();
         double priceEmployee = listPresenter.getProductDetailMap().get(mAddQuantityController.fxProductCodeList.getValue()).getPriceEmployee();
@@ -178,6 +210,38 @@ public class AddQuantityPresenter {
         mAddQuantityController.fxCompanyCharge.setText(String.valueOf(priceCompany * totalGoodQuantity));
     }
 
+    //initial value in addQuantity UI for editing quantity production data
+    public void updateProductionData(Production production, DisplayQuantityProductionPresenter displayQuantityProductionPresenter) {
+        isEditStatus = true;
+        mDisplayQuantityProductionPresenter = displayQuantityProductionPresenter;
+        this.production.setProductionID(production.getProductionID());
+        mAddQuantityController.fxHarvestDate.setValue(production.getProductionDate().toLocalDate());
+        mAddQuantityController.fxSupplierList.getSelectionModel().select(production.getSupplierName());
+        mAddQuantityController.fxFarmList.getSelectionModel().select(production.getFarmName().toUpperCase());
+        mAddQuantityController.fxProductList.getSelectionModel().select(production.getProductName());
+        mAddQuantityController.fxProductCodeList.getSelectionModel().select(production.getProductCode());
+
+        ADD_QUANTITY_LIVE_DATA.clear();
+        try {
+            ADD_QUANTITY_LIVE_DATA.setAll(mQuantityDAO.getQuantityDataByProductionId(production));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        double AllQuantity = 0;
+        double BadQuantity = 0;
+
+        for(Quantity quantity: ADD_QUANTITY_LIVE_DATA){
+            AllQuantity += quantity.getAllQuantity();
+            BadQuantity += quantity.getBadQuantity();
+            quantity.setTransportStatus(quantity.getTransportStatusByAmount());
+        }
+        mAddQuantityController.fxInputAllQuantity.setText(String.valueOf(AllQuantity));
+        mAddQuantityController.fxInputBadQuantity.setText(String.valueOf(BadQuantity));
+        mAddQuantityController.initField();
+
+    }
+
     private int getHarvestType() {
         if (mAddQuantityController.fxHarvestByIndividual.isSelected()) {
             return 1;
@@ -195,6 +259,18 @@ public class AddQuantityPresenter {
             sqlException.printStackTrace();
         }
         return preferences;
+    }
+
+    public void importExcelFile() {
+        ADD_QUANTITY_LIVE_DATA.clear();
+        Stage stage = (Stage) mAddQuantityController.fxAddQuantityUI.getScene().getWindow();
+        FileChooser file = new FileChooser();
+        file.setTitle("Open File");
+        File sheetFile = file.showOpenDialog(stage);
+        if (sheetFile != null){
+            ReadExcelFile reader = new ReadExcelFile ();
+            ADD_QUANTITY_LIVE_DATA.setAll(reader.readHarvestFile(sheetFile));
+        }
     }
 
     public void clearField() {
@@ -215,17 +291,5 @@ public class AddQuantityPresenter {
         }
         mAddQuantityController.initField();
         mAddQuantityController.fxHarvestQuantityTable.refresh();
-    }
-
-    public void importExcelFile() {
-        ADD_QUANTITY_LIVE_DATA.clear();
-        Stage stage = (Stage) mAddQuantityController.fxAddQuantity.getScene().getWindow();
-        FileChooser file = new FileChooser();
-        file.setTitle("Open File");
-        File sheetFile = file.showOpenDialog(stage);
-        if (sheetFile != null){
-            ReadExcelFile reader = new ReadExcelFile ();
-            ADD_QUANTITY_LIVE_DATA.setAll(reader.readHarvestFile(sheetFile));
-        }
     }
 }

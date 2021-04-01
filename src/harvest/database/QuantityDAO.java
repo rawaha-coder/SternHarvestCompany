@@ -133,9 +133,9 @@ public class QuantityDAO extends DAO{
         }
     }
 
-    //*******************************
-    //Get Add Quantity data
-    //*******************************
+    //***************************************
+    //Get employee data for Add Quantity UI
+    //**************************************
     public List<Quantity> getAddQuantityData() throws Exception {
         List<Quantity> QUANTITYList = new ArrayList<>();
         String sqlStmt = "SELECT "
@@ -164,6 +164,9 @@ public class QuantityDAO extends DAO{
         }
     }
 
+    //*****************************************
+    //Get Quantity data for displayQuantity UI
+    //*****************************************
     public List<Quantity> getQuantityDataByProductionId(Production production) throws SQLException {
         Statement statement;
         ResultSet resultSet;
@@ -262,6 +265,174 @@ public class QuantityDAO extends DAO{
         return list;
     }
 
+    //*******************************
+    //Update Harvest Quantity
+    //*******************************
+    public boolean updateHarvestQuantity(Quantity quantity) {
+        Connection connection = null;
+        PreparedStatement preparedStatement;
+
+        String updateTransport = "UPDATE " + TABLE_TRANSPORT + " SET "
+                + COLUMN_TRANSPORT_DATE + " =?, "
+                + COLUMN_TRANSPORT_AMOUNT + " =?, "
+                + COLUMN_TRANSPORT_EMPLOYEE_ID + " =?, "
+                + COLUMN_TRANSPORT_FARM_ID + " =? "
+                + " WHERE " + COLUMN_TRANSPORT_ID + " = " + quantity.getTransport().getTransportId() + " ;";
+
+        String updateCredit = "UPDATE " + TABLE_CREDIT + " SET "
+                + COLUMN_CREDIT_DATE + " =?, "
+                + COLUMN_CREDIT_AMOUNT + " =?, "
+                + COLUMN_CREDIT_EMPLOYEE_ID + " =? "
+                + " WHERE " + COLUMN_CREDIT_ID + " = " + quantity.getCredit().getCreditId() + " ;";
+
+        String insertTransport = "INSERT INTO " + TABLE_TRANSPORT + " ("
+                + COLUMN_TRANSPORT_DATE + ", " + COLUMN_TRANSPORT_AMOUNT + ", "
+                + COLUMN_TRANSPORT_EMPLOYEE_ID + ", " + COLUMN_TRANSPORT_FARM_ID + ") "
+                + " VALUES (?,?,?,?) ";
+
+        String insertCredit = "INSERT INTO " + TABLE_CREDIT + " ("
+                + COLUMN_CREDIT_DATE + ", " + COLUMN_CREDIT_AMOUNT + ", " + COLUMN_CREDIT_EMPLOYEE_ID + ") "
+                + "VALUES (?,?,?);";
+
+        String deleteTransport = "DELETE FROM " + TABLE_TRANSPORT
+                + " WHERE " + COLUMN_TRANSPORT_ID + " = " + quantity.getTransport().getTransportId() + " ;";
+
+        String deleteCredit = "DELETE FROM " + TABLE_CREDIT
+                + " WHERE " + COLUMN_CREDIT_ID + " = " + quantity.getCredit().getCreditId() + " ;";
+
+        String getTransportId = "SELECT MAX(id) FROM " + TABLE_TRANSPORT + " ;";
+
+        String getCreditId = "SELECT MAX(id) FROM " + TABLE_CREDIT + " ;";
+
+        String updateHarvestQuantity = "UPDATE " + TABLE_QUANTITY + " SET "
+                + COLUMN_QUANTITY_DATE + " =?, "
+                + COLUMN_QUANTITY_ALL + " = ?, "
+                + COLUMN_QUANTITY_BAD + " = ?, "
+                + COLUMN_QUANTITY_PG + " = ?, "
+                + COLUMN_QUANTITY_DG + " = ?, "
+                + COLUMN_QUANTITY_GOOD + " =?, "
+                + COLUMN_QUANTITY_HARVEST_TYPE + " =?, "
+                + COLUMN_QUANTITY_EMPLOYEE_ID + " =?, "
+                + COLUMN_QUANTITY_TRANSPORT_ID + " =?, "
+                + COLUMN_QUANTITY_CREDIT_ID + " =?, "
+                + COLUMN_QUANTITY_PRICE + " =?, "
+                + COLUMN_QUANTITY_REMARQUE + " =? "
+                + " WHERE " + COLUMN_QUANTITY_ID + " = " + quantity.getQuantityID() + " ;";
+
+        try {
+            connection = dbGetConnect();
+            connection.setAutoCommit(false);
+
+            boolean toDeleteTransport = false;
+            boolean toDeleteCredit = false;
+            int transportId = 0;
+            int CreditId = 0;
+
+            if (quantity.isTransportStatus() && quantity.getTransport().getTransportId() != 0){
+                preparedStatement = dbGetConnect().prepareStatement(updateTransport);
+                preparedStatement.setDate(1, quantity.getHarvestDate());
+                preparedStatement.setDouble(2, quantity.getTransport().getTransportAmount());
+                preparedStatement.setInt(3, quantity.getEmployee().getEmployeeId());
+                preparedStatement.setInt(4, quantity.getProduction().getFarm().getFarmId());
+                preparedStatement.execute();
+                preparedStatement.close();
+            }else if (quantity.isTransportStatus() && quantity.getTransport().getTransportId() == 0){
+                preparedStatement = dbGetConnect().prepareStatement(insertTransport);
+                preparedStatement.setDate(1, quantity.getHarvestDate());
+                preparedStatement.setDouble(2, quantity.getTransport().getTransportAmount());
+                preparedStatement.setInt(3, quantity.getEmployee().getEmployeeId());
+                preparedStatement.setInt(4, quantity.getProduction().getFarm().getFarmId());
+                preparedStatement.execute();
+                preparedStatement.close();
+            }else {
+                toDeleteTransport = true;
+            }
+
+            if (quantity.getCreditAmount() > 0.0 && quantity.getCredit().getCreditId() != 0){
+                System.out.println("!= 0 : " + quantity.getCredit().getCreditId());
+                preparedStatement = dbGetConnect().prepareStatement(updateCredit);
+                preparedStatement.setDate(1, quantity.getHarvestDate());
+                preparedStatement.setDouble(2, quantity.getCreditAmount());
+                preparedStatement.setInt(3, quantity.getEmployee().getEmployeeId());
+                preparedStatement.execute();
+                preparedStatement.close();
+            }else if (quantity.getCreditAmount() > 0.0 && quantity.getCredit().getCreditId() == 0){
+                System.out.println("== 0 : " + quantity.getCredit().getCreditId());
+                preparedStatement = dbGetConnect().prepareStatement(insertCredit);
+                preparedStatement.setDate(1, quantity.getHarvestDate());
+                preparedStatement.setDouble(2, quantity.getCreditAmount());
+                preparedStatement.setInt(3, quantity.getEmployee().getEmployeeId());
+                preparedStatement.execute();
+                preparedStatement.close();
+            }else {
+                toDeleteCredit = true;
+            }
+
+            if (toDeleteTransport){
+                Statement transportDeleteStmt = connection.createStatement();
+                transportDeleteStmt.execute(deleteTransport);
+                transportDeleteStmt.close();
+            }
+
+            if (toDeleteCredit){
+                Statement creditDeleteStmt = connection.createStatement();
+                creditDeleteStmt.execute(deleteCredit);
+                creditDeleteStmt.close();
+            }
+
+            if (quantity.isTransportStatus() && quantity.getTransport().getTransportId() != 0){
+                transportId = quantity.getTransport().getTransportId();
+            }else if (quantity.isTransportStatus() && quantity.getTransport().getTransportId() == 0){
+                Statement transportStmt = connection.createStatement();
+                ResultSet resultSet1 = transportStmt.executeQuery(getTransportId);
+                transportId = resultSet1.getInt(1);
+                transportStmt.close();
+            }
+
+            if (quantity.getCreditAmount() > 0.0 && quantity.getCredit().getCreditId() != 0){
+                CreditId = quantity.getCredit().getCreditId();
+            }else if (quantity.getCreditAmount() > 0.0 && quantity.getCredit().getCreditId() == 0){
+                Statement creditStmt = connection.createStatement();
+                ResultSet resultSet2 = creditStmt.executeQuery(getCreditId);
+                CreditId = resultSet2.getInt(1);
+                creditStmt.close();
+            }
+
+            preparedStatement = connection.prepareStatement(updateHarvestQuantity);
+            preparedStatement.setDate(1, quantity.getHarvestDate());
+            preparedStatement.setDouble(2, quantity.getAllQuantity());
+            preparedStatement.setDouble(3, quantity.getBadQuantity());
+            preparedStatement.setDouble(4, quantity.getPenaltyGeneral());
+            preparedStatement.setDouble(5, quantity.getDamageGeneral());
+            preparedStatement.setDouble(6, quantity.getGoodQuantity());
+            preparedStatement.setInt(7, quantity.getHarvestType());
+            preparedStatement.setInt(8, quantity.getEmployee().getEmployeeId());
+            preparedStatement.setInt(9, transportId);
+            preparedStatement.setInt(10, CreditId);
+            preparedStatement.setDouble(11, quantity.getProductPrice());
+            preparedStatement.setString(12, quantity.getRemarque());
+            preparedStatement.execute();
+            preparedStatement.close();
+
+            connection.commit();
+            return true;
+        } catch (Exception e) {
+            assert connection != null;
+            try {
+                connection.rollback();
+            }catch (SQLException ex){
+                ex.printStackTrace();
+                System.out.print("Error occurred while rollback Operation: " + ex.getMessage());
+            }
+            e.printStackTrace();
+            System.out.print("Error occurred while UPDATE Operation: " + e.getMessage());
+            return false;
+        } finally {
+            dbDisConnect();
+        }
+    }
+
+    //create Quantity Table
     public void createQuantityTable() throws SQLException {
         String createStmt = "CREATE TABLE IF NOT EXISTS " + TABLE_QUANTITY + " ("
                 + COLUMN_QUANTITY_ID + " INTEGER PRIMARY KEY, "
