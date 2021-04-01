@@ -85,15 +85,15 @@ public class AddProductController implements Initializable {
 
     @FXML void handleClearButton(){
         if (isEditProduct){
-            fxProductNameComboBox.valueProperty().set(null);
+            fxProductNameComboBox.getSelectionModel().clearSelection();
         }else if(isEditDetail){
-            fxProductTypeComboBox.valueProperty().set(null);
+            fxProductTypeComboBox.getSelectionModel().clearSelection();
             fxProductCode.setText("");
             fxProductPriceEmployee.setText("");
             fxProductPriceCompany.setText("");
         }else {
-            fxProductNameComboBox.valueProperty().set(null);
-            fxProductTypeComboBox.valueProperty().set(null);
+            fxProductNameComboBox.getSelectionModel().clearSelection();
+            fxProductTypeComboBox.getSelectionModel().clearSelection();
             fxProductCode.setText("");
             fxProductPriceEmployee.setText("");
             fxProductPriceCompany.setText("");

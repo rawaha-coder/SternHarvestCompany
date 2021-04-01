@@ -1,28 +1,20 @@
 package harvest.view;
 
-import harvest.model.Credit;
 import harvest.model.Production;
 import harvest.presenter.DisplayHoursProductionPresenter;
-import harvest.util.AlertMaker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class DisplayHoursProduction implements Initializable {
 
     @FXML
-    public TableView<Production> fxHoursProductionTable;
+    public TableView<Production> fxProductionTable;
     @FXML
     public TableColumn<Production, String> fxHarvestDate;
     @FXML
@@ -62,7 +54,7 @@ public class DisplayHoursProduction implements Initializable {
 
     @FXML
     void handleHarvestChartButton(ActionEvent event) {
-        fxHoursProductionTable.refresh();
+        fxProductionTable.refresh();
     }
 
     @Override
@@ -87,8 +79,5 @@ public class DisplayHoursProduction implements Initializable {
         mDisplayHoursProductionPresenter.editProduction();
     }
 
-    public void deleteProduction(ActionEvent actionEvent) {
-        mDisplayHoursProductionPresenter.deleteProduction();
-
-    }
+    public void deleteProduction(ActionEvent actionEvent) { mDisplayHoursProductionPresenter.deleteProduction(); }
 }

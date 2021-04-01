@@ -6,6 +6,8 @@ import java.sql.Date;
 
 public class Quantity {
 
+
+
     public enum HarvestCategory {
         GROUPE, INDIVIDUAL, UNKNOWN
     };
@@ -183,6 +185,10 @@ public class Quantity {
 
     public double getTransportAmount(){
         return getTransport().getTransportAmount();
+    }
+
+    public boolean getTransportStatusByAmount() {
+        return getTransportAmount() > 0;
     }
 
     public String getTransportString(){

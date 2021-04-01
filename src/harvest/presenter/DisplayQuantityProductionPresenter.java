@@ -7,17 +7,25 @@ import harvest.model.Hours;
 import harvest.model.Production;
 import harvest.model.Quantity;
 import harvest.util.AlertMaker;
+import harvest.view.AddHoursController;
+import harvest.view.AddQuantityController;
 import harvest.view.DisplayQuantityProduction;
 import javafx.beans.property.ObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -194,4 +202,24 @@ public class DisplayQuantityProductionPresenter {
         }
     }
 
+    public void editProduction() {
+        Production production = mDisplayQuantityProduction.fxProductionTable.getSelectionModel().getSelectedItem();
+        if (production == null) {
+            alert.missingInfo("Production");
+            return;
+        }
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/harvest/res/layout/add_quantity.fxml"));
+            Stage stage = new Stage(StageStyle.DECORATED);
+            Parent parent = loader.load();
+            AddQuantityController controller = loader.getController();
+            controller.inflateUI(production, this);
+            stage.setTitle("Edit Production");
+            stage.setScene(new Scene(parent));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

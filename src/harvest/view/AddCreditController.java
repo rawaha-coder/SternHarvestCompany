@@ -59,8 +59,9 @@ public class AddCreditController implements Initializable {
 
     @FXML
     void handleClearButton() {
-        fxCreditDate.getEditor().setText("");
+        fxCreditDate.setValue(LocalDate.now());
         getEmployeeName();
+        fxEmployeeList.getSelectionModel().clearSelection();
         fxCreditAmount.setText("");
     }
 

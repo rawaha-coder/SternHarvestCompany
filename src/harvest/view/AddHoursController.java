@@ -148,7 +148,7 @@ public class AddHoursController implements Initializable {
             alert.missingInfo("Hours");
             return;
         }
-        mAddHoursPresenter.applyProductionToDatabase();
+        mAddHoursPresenter.handleProductionData();
     }
 
     private boolean checkApplyButtonInput() {

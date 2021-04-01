@@ -7,46 +7,47 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="fxAddProductUI" maxHeight="640.0" maxWidth="400.0" minHeight="640.0" minWidth="400.0" prefHeight="640.0" prefWidth="400.0" stylesheets="@../style/main_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.view.AddProductController">
-   <Label layoutX="77.0" layoutY="28.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Produit:">
+<AnchorPane fx:id="fxAddProductUI" maxHeight="600.0" maxWidth="400.0" minHeight="500.0" minWidth="340.0" prefHeight="600.0" prefWidth="340.0" stylesheets="@../style/add_view_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.view.AddProductController">
+   <Label id="add-text" layoutX="113.0" layoutY="14.0" text="Produit" />
+   <Label layoutX="32.0" layoutY="58.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Produit:">
       <padding>
          <Insets left="10.0" />
       </padding>
    </Label>
-     <ComboBox fx:id="fxProductNameComboBox" editable="true" layoutX="77.0" layoutY="58.0" prefHeight="34.0" prefWidth="250.0" />
-   <Label layoutX="77.0" layoutY="112.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Type:">
+     <ComboBox fx:id="fxProductNameComboBox" editable="true" layoutX="39.0" layoutY="88.0" prefHeight="34.0" prefWidth="260.0" />
+   <Label layoutX="32.0" layoutY="132.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Type:">
       <padding>
          <Insets left="10.0" />
       </padding>
    </Label>
-     <ComboBox fx:id="fxProductTypeComboBox" editable="true" layoutX="77.0" layoutY="142.0" prefHeight="34.0" prefWidth="250.0" />
-   <Label layoutX="77.0" layoutY="205.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Code:">
+     <ComboBox fx:id="fxProductTypeComboBox" editable="true" layoutX="39.0" layoutY="162.0" prefHeight="34.0" prefWidth="260.0" />
+   <Label layoutX="32.0" layoutY="214.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Code:">
       <padding>
          <Insets left="10.0" />
       </padding>
    </Label>
-     <TextField fx:id="fxProductCode" layoutX="77.0" layoutY="235.0" prefColumnCount="0" prefHeight="34.0" prefWidth="250.0" />
-   <Label layoutX="77.0" layoutY="297.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Prix.E:">
+     <TextField fx:id="fxProductCode" layoutX="39.0" layoutY="244.0" prefColumnCount="0" prefHeight="34.0" prefWidth="260.0" />
+   <Label layoutX="32.0" layoutY="298.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Prix.E:">
       <padding>
          <Insets left="10.0" />
       </padding>
    </Label>
-     <TextField fx:id="fxProductPriceEmployee" layoutX="77.0" layoutY="327.0" prefHeight="34.0" prefWidth="250.0">
+     <TextField fx:id="fxProductPriceEmployee" layoutX="39.0" layoutY="328.0" prefHeight="34.0" prefWidth="260.0">
          <padding>
              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
      </TextField>
-   <Label layoutX="77.0" layoutY="383.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Prix.C:">
+   <Label layoutX="32.0" layoutY="378.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Prix.C:">
       <padding>
          <Insets left="10.0" />
       </padding>
    </Label>
-     <TextField fx:id="fxProductPriceCompany" layoutX="77.0" layoutY="413.0" prefHeight="34.0" prefWidth="250.0">
+     <TextField fx:id="fxProductPriceCompany" layoutX="39.0" layoutY="408.0" prefHeight="34.0" prefWidth="260.0">
          <padding>
              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
      </TextField>
-      <Button layoutX="215.0" layoutY="480.0" mnemonicParsing="false" onAction="#handleClearButton" prefHeight="20.0" prefWidth="140.0" styleClass="clearButton" text="Vider" />
-      <Button layoutX="29.0" layoutY="575.0" mnemonicParsing="false" onAction="#handleSaveButton" prefHeight="35.0" prefWidth="160.0" styleClass="sideButton" text="Save" />
-      <Button layoutX="217.0" layoutY="575.0" mnemonicParsing="false" onAction="#handleCancelButton" prefHeight="35.0" prefWidth="160.0" styleClass="sideButton" text="Cancel" />
+      <Button layoutX="196.0" layoutY="484.0" mnemonicParsing="false" onAction="#handleClearButton" prefHeight="25.0" prefWidth="90.0" styleClass="clearButton" text="Vider" />
+      <Button layoutX="35.0" layoutY="547.0" mnemonicParsing="false" onAction="#handleSaveButton" prefHeight="30.0" prefWidth="120.0" styleClass="sideButton" text="Save" />
+      <Button layoutX="181.0" layoutY="547.0" mnemonicParsing="false" onAction="#handleCancelButton" prefHeight="30.0" prefWidth="120.0" styleClass="sideButton" text="Cancel" />
 </AnchorPane>

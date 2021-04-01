@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.control.ComboBox?>
 
-<AnchorPane fx:id="fxAddItemUI" maxHeight="680.0" maxWidth="480.0" prefHeight="600.0" prefWidth="400.0" stylesheets="@../style/main_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.view.AddCreditController">
+<AnchorPane fx:id="fxAddItemUI" maxHeight="680.0" maxWidth="480.0" prefHeight="440.0" prefWidth="340.0" stylesheets="@../style/add_view_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harvest.view.AddCreditController">
     <children>
-        <Label layoutX="67.0" layoutY="48.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Date" />
-        <DatePicker fx:id="fxCreditDate" editable="false" layoutX="67.0" layoutY="78.0" prefHeight="34.0" prefWidth="250.0" />
-        <Label layoutX="67.0" layoutY="139.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Employee" />
-        <ComboBox fx:id="fxEmployeeList" layoutX="67.0" layoutY="169.0" prefHeight="34.0" prefWidth="250.0" />
-        <Label layoutX="67.0" layoutY="232.0" prefHeight="30.0" prefWidth="250.0" styleClass="addWindowsLabel" text="Montant" />
-        <TextField fx:id="fxCreditAmount" layoutX="67.0" layoutY="262.0" prefHeight="34.0" prefWidth="250.0" />
-        <Button layoutX="220.0" layoutY="363.0" mnemonicParsing="false" onAction="#handleClearButton" prefHeight="30.0" prefWidth="120.0" styleClass="clearButton" text="Vider" />
-        <Button layoutX="39.0" layoutY="501.0" mnemonicParsing="false" onAction="#handleSaveButton" prefHeight="40.0" prefWidth="140.0" styleClass="sideButton" text="Save" />
-        <Button layoutX="220.0" layoutY="501.0" mnemonicParsing="false" onAction="#handleCancelButton" prefHeight="40.0" prefWidth="140.0" styleClass="sideButton" text="Cancel" />
+      <Label id="add-text" layoutX="104.0" layoutY="14.0" text="Credit" />
+        <Label layoutX="39.0" layoutY="55.0" prefHeight="30.0" prefWidth="200.0" styleClass="addWindowsLabel" text="Date" />
+        <DatePicker fx:id="fxCreditDate" editable="false" layoutX="39.0" layoutY="85.0" prefHeight="34.0" prefWidth="260.0" />
+        <Label layoutX="39.0" layoutY="135.0" prefHeight="30.0" prefWidth="200.0" styleClass="addWindowsLabel" text="Employee" />
+        <ComboBox fx:id="fxEmployeeList" layoutX="39.0" layoutY="165.0" prefHeight="34.0" prefWidth="260.0" />
+        <Label layoutX="39.0" layoutY="210.0" prefHeight="30.0" prefWidth="200.0" styleClass="addWindowsLabel" text="Montant" />
+        <TextField fx:id="fxCreditAmount" layoutX="39.0" layoutY="240.0" prefHeight="34.0" prefWidth="260.0" />
+        <Button layoutX="209.0" layoutY="313.0" mnemonicParsing="false" onAction="#handleClearButton" prefHeight="25.0" prefWidth="90.0" styleClass="clearButton" text="Vider" />
+        <Button layoutX="30.0" layoutY="374.0" mnemonicParsing="false" onAction="#handleSaveButton" prefHeight="30.0" prefWidth="120.0" styleClass="sideButton" text="Save" />
+        <Button layoutX="190.0" layoutY="374.0" mnemonicParsing="false" onAction="#handleCancelButton" prefHeight="30.0" prefWidth="120.0" styleClass="sideButton" text="Cancel" />
     </children>
 </AnchorPane>

@@ -1,10 +1,14 @@
 package harvest.view;
 
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -18,6 +22,9 @@ import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
 
+    public MenuItem fxExit;
+    public MenuItem fxCompanyRapport;
+    public MenuItem fxEmployeeRapport;
     @FXML AnchorPane fxMainStage;
     @FXML private AnchorPane mainCenterPane;
     @FXML AnchorPane fxProgressPane;
@@ -88,9 +95,14 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        fxExit.setOnAction(actionEvent -> Platform.exit());
+        fxCompanyRapport.setOnAction(actionEvent -> {
+            //todo
+        });
+        fxEmployeeRapport.setOnAction(actionEvent -> {
+            //todo
+        });
     }
-
 
 //    private void showProgress(){
 //        pBar.setMinWidth(fxProgressHBox.getWidth());

@@ -76,6 +76,7 @@ public class DisplayQuantityProduction implements Initializable {
     }
 
     public void editProduction(ActionEvent actionEvent) {
+        mDisplayQuantityProductionPresenter.editProduction();
     }
 
     public void deleteProduction(ActionEvent actionEvent) {
